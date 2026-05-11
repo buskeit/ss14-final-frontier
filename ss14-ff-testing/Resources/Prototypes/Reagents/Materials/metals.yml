@@ -1,0 +1,89 @@
+- type: material
+  id: Steel
+  stackEntity: SheetSteel1
+  name: materials-steel
+  icon: { sprite: Objects/Materials/Sheets/metal.rsi, state: steel }
+  price: 0.15 # $15 for 1 unit
+
+- type: material
+  id: Gold
+  stackEntity: IngotGold1
+  name: materials-gold
+  unit: materials-unit-bar
+  icon: { sprite: Objects/Materials/ingots.rsi, state: gold }
+  color: "#FFD700"
+  price: 0.55 # $55 for 1 unit
+
+- type: material
+  id: Silver
+  stackEntity: IngotSilver1
+  name: materials-silver
+  unit: materials-unit-bar
+  icon: { sprite: Objects/Materials/ingots.rsi, state: silver }
+  color: "#C0C0C0"
+  price: 0.45 # $45 for 1 unit
+
+- type: material
+  id: Brass
+  stackEntity: SheetBrass1
+  name: materials-brass
+  icon: { sprite: Objects/Materials/Sheets/metal.rsi, state: brass }
+  color: "#b18b25"
+  price: 0.20 # $20 for 1 unit
+
+- type: material
+  id: Plasteel
+  stackEntity: SheetPlasteel1
+  name: materials-plasteel
+  icon: { sprite: Objects/Materials/Sheets/metal.rsi, state: plasteel }
+  color: "#696969" #Okay, this is epic
+  price: 0.65 # 1-1 mix of plasma and steel.
+
+- type: material
+  id: Titanium
+  stackEntity: SheetTitanium1
+  name: materials-titanium
+  icon: { sprite: Objects/Materials/Sheets/metal.rsi, state: plastitanium }
+  color: "#bfc8c8"
+  price: 0.55
+
+- type: material
+  id: Aluminium
+  stackEntity: SheetAluminium1
+  name: materials-aluminium
+  icon: { sprite: Objects/Materials/Sheets/metal.rsi, state: titanium }
+  color: "#cfd8e3"
+  price: 0.25
+
+- type: material
+  id: Copper
+  stackEntity: IngotCopper1
+  name: materials-copper
+  unit: materials-unit-bar
+  icon: { sprite: Objects/Materials/ingots.rsi, state: copper }
+  color: "#b87333"
+  price: 0.20
+
+- type: material
+  id: Tin
+  stackEntity: IngotTin1
+  name: materials-tin
+  icon: { sprite: Objects/Materials/ingots.rsi, state: alpha }
+  color: "#b0b8c6"
+  price: 0.10
+
+- type: material
+  id: Phoron
+  stackEntity: MaterialPhoron1
+  name: materials-phoron
+  icon: { sprite: Objects/Materials/Sheets/other.rsi, state: phoron }
+  color: "#c45a9e"
+  price: 1.2 # plasma+bananium+titanium alloy
+
+- type: material
+  id: Bronze
+  stackEntity: SheetBronze1
+  name: materials-bronze
+  icon: { sprite: Objects/Materials/Sheets/metal.rsi, state: bronze }
+  color: "#a57840"
+  price: 0.35

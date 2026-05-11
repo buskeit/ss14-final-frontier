@@ -1,0 +1,30 @@
+<DefaultWindow xmlns="https://spacestation14.io"
+               xmlns:customControls="clr-namespace:Content.Client.Administration.UI.CustomControls"
+            Title="Codex Edit">
+    <BoxContainer Orientation="Vertical" MinSize="400 400">
+        <BoxContainer Orientation="Horizontal">
+            <Label Text ="Title:"></Label>
+            <LineEdit Name="MainTitleLabel" PlaceHolder="Title Label" Access="Public" HorizontalExpand="True"/>
+        </BoxContainer>
+        <BoxContainer Orientation="Horizontal">
+            <Label Text ="Whitelisted Characters:"></Label>
+            <OptionButton Name="WhitelistedNames"/>
+            <Button Name="DeleteWhitelist" Text="Delete Name"/>
+        </BoxContainer>
+        <BoxContainer Orientation="Horizontal">
+            <LineEdit Name="WhitelistLabel" PlaceHolder="Title Label" Access="Public"  HorizontalExpand="True"/>
+            <Button Name="SaveWhitelist" Text="Add New Name"/>
+        </BoxContainer>
+        <BoxContainer Orientation="Horizontal">
+            <Button Name="Reveal" Text="Reveal To Everyone"/>
+        </BoxContainer>
+        
+        <customControls:HSeparator Margin="5 10 5 10"/>
+        <Label Text ="Description Markup:"></Label>
+        <PanelContainer StyleIdentifier="PaperEditBackground" VerticalExpand="True" HorizontalExpand="True">
+            <TextEdit Name="DescriptionLabel"  Access="Public" HorizontalExpand="True" VerticalExpand="True"/>
+        </PanelContainer>
+        <Button Name="DeleteButton" Text="Delete Entry"/>
+        <Button Name="SaveChanges" Text="Save Changes"/>
+    </BoxContainer>
+</DefaultWindow>

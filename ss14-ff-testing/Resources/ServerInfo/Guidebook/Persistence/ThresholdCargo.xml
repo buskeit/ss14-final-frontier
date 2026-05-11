@@ -1,0 +1,40 @@
+<Document>
+  # Threshold Cargo
+  This guide will explain the many special mechanics you must navigate when importing, exporting or working a cargo job in the Threshold.
+
+  ## Trade Stations
+  In the Threshold we rely on imports to provide the crucial goods that we cannot produce ourselves and we rely on exports to provide money for our local economy.
+  We can't rely on a single trade station to source all of our imports and exports but luckily there are many trade stations scattered around the Threshold.
+
+  ### Imports
+  Goods can be imported from any cargo request computer.
+  You dont need to be a Quartermaster to approve orders as anyone can spend their own hard earned money to approve orders at a cargo request computer.
+
+  The cargo request computer has an option to choose which trade station you are importing from.
+  Trade stations have very different inventories from one another and those inventories can be improved if the trade station levels up.
+  When a cargo order is approved it appears on the trade station that it was ordered from.
+
+  Some trade stations are very far away and may require a well equipped vessel to safely reach.
+  The closest trade station to where you first arrive is the Nanotrasen trade station.
+  Before you place an import order make sure the trade station you are buying from is reachable or else your goods may be stranded or stolen.
+
+  ### Exports
+  Goods can be sold at any trade station for cash or to direct deposit into a faction account.
+  Exporting without fufilling a cargo bounty occurs a heafty price penalty in the Threshold.
+
+  ### Bounties
+  Any individual or faction is free to pursue cargo bounties in the Threshold, provided they can get the goods to the trade station that offers the bounty.
+  There are a wide variety of bounties in the Threshold and different types of trade stations offer different types of bounties.
+  Bounties in the Threshold are spawned on a two and a half hour cycle. Make sure you will have enough time to complete a bounty before starting it.
+
+  A bounty [bold]must be brought to the trade station that offered it[/bold] to be completed.
+  The closest trade station to where you first arrive is the Nanotrasen trade station.
+
+  ### Trade Station Control
+  When a faction controls a trade station the trade station provides more bounties and starts to earn XP towards leveling up.
+  When bounties are completed a trade station gains XP and when bounties expire without being completed the trade station loses XP.
+  Factions may set an import and export tax on their trade station which is deposited directly into their account.
+  Factions earn a lot of passive income when they control a high level trade station.
+
+</Document>
+

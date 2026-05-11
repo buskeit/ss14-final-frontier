@@ -1,0 +1,79 @@
+<DefaultWindow xmlns="https://spacestation14.io"
+            MinSize="700 290" Access="Public">
+    <BoxContainer Orientation="Vertical">
+        <BoxContainer Orientation="Horizontal">
+            <Label Text="{Loc 'access-overrider-window-privileged-id'}" />
+            <Button Name="PrivilegedIdButton" Access="Public"/>
+            <Control HorizontalExpand="True"/>
+        </BoxContainer>
+
+        <Control Margin="0 10" HorizontalExpand="True"/>
+
+        <!-- Idle View -->
+        <BoxContainer Name="IdleViewContainer" Visible="False" Orientation="Vertical">
+
+            <Button Name="InitiateParkBtn" Disabled="True" Text="Initiate Bluespace Parking" Access="Public" />
+        </BoxContainer>
+        <!-- Parking / Unparking View -->
+        <BoxContainer Name="ParkingViewContainer" Visible="False" Orientation="Vertical">
+            <Button Name="CancelBtn" Text="Cancel" Access="Public" />
+
+            <ProgressBar Name="RoutineProgress"
+                HorizontalExpand="True"
+                MinValue="0"
+                MaxValue="1"
+                MinHeight = "25"
+                Page="0"
+                Margin="0 10 0 0"
+                Value="0.5">
+                <Label HorizontalExpand="True" Align="Center" Name="RoutineTimer" Margin="4 0" Text="00:00" />
+            </ProgressBar>
+        </BoxContainer>
+        <!-- Parked -->
+        <BoxContainer Name="ParkedViewContainer">
+            <Button Name="InitiateUnparkBtn" Text="Initiate Unpark" Access="Public" />
+            <Button Name="ToggleOwnership" Text="Clear Ownership?" ToggleMode="True"></Button>
+        </BoxContainer>
+
+        <Label Name="ErrorBox" Visible="False" Modulate="Red" Text =" " />
+
+        <Control VerticalExpand="True"/>
+        <BoxContainer Name="LiveGridDetails" Orientation="Vertical">
+            <BoxContainer Name="PersonalGridSizeViewer" Orientation="Horizontal">
+                <Label Text="Grid Size: " />
+                <Label Text="0" Name="GridTileCount"/>
+                <BoxContainer Name="MaxPersonalClaimTileCountContainer">
+                    <Label Text=" / "/>
+                    <Label Text="0" Name="MaxPersonalClaimTileCount"/>
+                </BoxContainer>
+            </BoxContainer>
+            <BoxContainer Orientation="Horizontal">
+                <Label Text="Grid Owner: " />
+                <Label Text="Dev" Name="GridOwnerLabel"/>
+                <Control HorizontalExpand="True"/>
+            </BoxContainer>
+            <BoxContainer Orientation="Horizontal">
+                <Label Text="Grid Name: " />
+                <Label Name="GridNameLabel" Text="Grid" />
+            </BoxContainer>
+        </BoxContainer>
+        <!-- Parked View -->
+        <BoxContainer Name="ParkedViewDetails" Visible="False" Orientation="Vertical">
+            <GridContainer HorizontalExpand="True" Columns="3">
+                <BoxContainer HorizontalExpand="True">
+                    <Label Text="Parked Coords.: "/>
+                    <Label Name="TargetCoordinates"/>
+                </BoxContainer>
+                <BoxContainer HorizontalExpand="True">
+                    <Label Name="TargetDistance" Align="Center"/>
+                    <Label Name="TargetDirection" Align="Center"/>
+                </BoxContainer>
+                <BoxContainer HorizontalExpand="True">
+                    <Label Text="Your Coords.: " Align="Right"/>
+                    <Label Name="MyCoordinates" Align="Right"/>
+                </BoxContainer>
+            </GridContainer>
+        </BoxContainer>
+
+    </BoxContainer>
+</DefaultWindow>

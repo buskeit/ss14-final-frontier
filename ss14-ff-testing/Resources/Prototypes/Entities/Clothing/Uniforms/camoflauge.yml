@@ -1,0 +1,101 @@
+#woodland camoflauge
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformJumpsuitBattleDressUniformWoodland
+  name: woodland battle dress uniform
+  description: A woodland patterm camoflauge military uniform.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Camoflauge/Woodland/bdu.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Camoflauge/Woodland/bdu.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformJumpsuitBattleDressUniformWoodlandShortSleeve
+  name: short sleeve woodland battle dress uniform
+  description: A woodland patterm camoflauge military uniform. This one has short sleeves.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Camoflauge/Woodland/bdushortsleeve.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Camoflauge/Woodland/bdushortsleeve.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformJumpsuitBattleDressUniformWoodlandTShirt
+  name: woodland battle dress uniform stripped
+  description: A woodland patterm camoflauge military uniform. This pair has a t-shirt instead of a jacket.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Camoflauge/Woodland/bdutshirt.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Camoflauge/Woodland/bdutshirt.rsi
+
+#desert camoflauge
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformJumpsuitBattleDressUniformDesert
+  name: desert battle dress uniform
+  description: A desert patterm camoflauge military uniform.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Camoflauge/Desert/bdu.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Camoflauge/Desert/bdu.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformJumpsuitBattleDressUniformDesertShortSleeve
+  name: short sleeve desert battle dress uniform
+  description: A desert patterm camoflauge military uniform. This one has short sleeves.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Camoflauge/Desert/bdushortsleeve.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Camoflauge/Desert/bdushortsleeve.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformJumpsuitBattleDressUniformDesertTShirt
+  name: desert battle dress uniform stripped
+  description: A desert patterm camoflauge military uniform. This pair has a t-shirt instead of a jacket.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Camoflauge/Desert/bdutshirt.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Camoflauge/Desert/bdutshirt.rsi
+
+#arctic camoflauge
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformJumpsuitBattleDressUniformArctic
+  name: arctic battle dress uniform
+  description: A arctic patterm camoflauge military uniform.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Camoflauge/Arctic/bdu.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Camoflauge/Arctic/bdu.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformJumpsuitBattleDressUniformArcticShortSleeve
+  name: short sleeve arctic battle dress uniform
+  description: A arctic patterm camoflauge military uniform. This one has short sleeves.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Camoflauge/Arctic/bdushortsleeve.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Camoflauge/Arctic/bdushortsleeve.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformJumpsuitBattleDressUniformArcticTShirt
+  name: arctic battle dress uniform stripped
+  description: A arctic patterm camoflauge military uniform. This pair has a t-shirt instead of a jacket.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Camoflauge/Arctic/bdutshirt.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Camoflauge/Arctic/bdutshirt.rsi

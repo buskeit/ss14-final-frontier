@@ -1,0 +1,86 @@
+- type: constructionGraph
+  id: SinkEmpty # SinkEmpty
+  start: start
+  graph:
+    - node: start
+      actions:
+        - !type:DestroyEntity {}
+      edges:
+        - to: sinkempty
+          completed:
+            - !type:SnapToGrid { }
+          steps:
+            - material: Steel
+              amount: 10
+              doAfter: 1
+    - node: sinkempty
+      entity: SinkEmpty
+      edges:
+        - to: start
+          completed:
+            - !type:SpawnPrototype
+              prototype: SheetSteel1
+              amount: 10
+            - !type:EmptyAllContainers {}
+            - !type:DestroyEntity {}
+          steps:
+            - tool: Welding
+              doAfter: 2
+
+- type: constructionGraph
+  id: SinkWide # SinkWide
+  start: start
+  graph:
+    - node: start
+      actions:
+        - !type:DestroyEntity {}
+      edges:
+        - to: sinkwide
+          completed:
+            - !type:SnapToGrid { }
+          steps:
+            - material: Steel
+              amount: 10
+              doAfter: 1
+    - node: sinkwide
+      entity: SinkWide
+      edges:
+        - to: start
+          completed:
+            - !type:SpawnPrototype
+              prototype: SheetSteel1
+              amount: 10
+            - !type:EmptyAllContainers {}
+            - !type:DestroyEntity {}
+          steps:
+            - tool: Welding
+              doAfter: 2
+
+- type: constructionGraph
+  id: SinkStemless # SinkStemless
+  start: start
+  graph:
+    - node: start
+      actions:
+        - !type:DestroyEntity {}
+      edges:
+        - to: sinkstemless
+          completed:
+            - !type:SnapToGrid { }
+          steps:
+            - material: Steel
+              amount: 10
+              doAfter: 1
+    - node: sinkstemless
+      entity: SinkStemless
+      edges:
+        - to: start
+          completed:
+            - !type:SpawnPrototype
+              prototype: SheetSteel1
+              amount: 10
+            - !type:EmptyAllContainers {}
+            - !type:DestroyEntity {}
+          steps:
+            - tool: Welding
+              doAfter: 2

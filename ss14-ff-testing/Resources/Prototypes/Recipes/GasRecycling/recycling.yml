@@ -1,0 +1,67 @@
+# Gas Recycling Recipes
+# These recipes define how gases can be recycled through a gas recycler.
+# Each recipe specifies:
+# - inputGas: The waste gas to be recycled
+# - outputGas: The useful gas produced
+# - conversionRatio: The ratio of input to output (1.0 = 1:1 conversion)
+# - minTemp: Minimum temperature (in K) required for recycling
+# - minPressure: Minimum pressure (in kPa) required for recycling
+# - scrubbedReagents: (Optional) Reagents that can be scrubbed from the gas into containers
+
+- type: gasRecyclingRecipe
+  id: RecycleCarbonDioxide
+  inputGas: CarbonDioxide
+  outputGas: Oxygen
+  conversionRatio: 1.0
+  minTemp: 673.15  # 400°C (CO2 decomposition)
+  minPressure: 2000  # 20 atmospheres
+  scrubbedReagents:
+    Carbon: 0.01  # 0.01 moles of Carbon per mole of CO2 when container is present
+
+- type: gasRecyclingRecipe
+  id: RecycleNitrousOxide
+  inputGas: NitrousOxide
+  outputGas: Nitrogen
+  conversionRatio: 1.0
+  minTemp: 523.15  # 250°C (N2O catalytic decomposition)
+  minPressure: 1500  # 15 atmospheres
+  scrubbedReagents:
+    Oxygen: 0.01  # 0.01 moles of Oxygen per mole of N2O when container is present
+
+- type: gasRecyclingRecipe
+  id: RecycleWaterVapor
+  inputGas: WaterVapor
+  outputGas: Hydrogen
+  conversionRatio: 1.0  # H2O -> H2 (1:1 molar conversion)
+  minTemp: 1000  # 727°C (water electrolysis)
+  minPressure: 2000  # 20 atmospheres
+  scrubbedReagents:
+    Water: 0.05  # 0.05 moles of water per mole of vapor scrubbed into container
+
+- type: gasRecyclingRecipe
+  id: RecycleMethane
+  inputGas: Methane
+  outputGas: Hydrogen
+  conversionRatio: 2.0  # CH4 -> 2 H2 (steam cracking simplification)
+  minTemp: 900  # 627°C (methane cracking)
+  minPressure: 1500  # 15 atmospheres
+
+- type: gasRecyclingRecipe
+  id: RecycleAmmonia
+  inputGas: Ammonia
+  outputGas: Nitrogen
+  conversionRatio: 0.5  # 2 NH3 -> N2 (decomposition)
+  minTemp: 800  # 527°C (ammonia decomposition)
+  minPressure: 1500  # 15 atmospheres
+  scrubbedReagents:
+    Hydrogen: 0.03  # Hydrogen byproduct captured into container
+
+- type: gasRecyclingRecipe
+  id: RecycleChlorineTrifluoride
+  inputGas: ChlorineTrifluoride
+  outputGas: Chlorine
+  conversionRatio: 0.5  # 2 ClF3 -> Cl2 (decomposition)
+  minTemp: 700  # 427°C (ClF3 decomposition)
+  minPressure: 1000  # 10 atmospheres
+  scrubbedReagents:
+    Fluorine: 0.02  # Fluorine byproduct captured into container

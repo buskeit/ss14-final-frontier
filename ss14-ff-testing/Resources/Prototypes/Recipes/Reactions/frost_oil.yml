@@ -1,0 +1,313 @@
+- type: reaction
+  id: SolidifyGold
+  impact: Low
+  quantized: true
+  reactants:
+    Gold:
+      amount: 10
+    FrostOil:
+      amount: 5
+  effects:
+  - !type:SpawnEntity
+    entity: IngotGold1
+
+- type: reaction
+  id: SolidifySilver
+  impact: Low
+  quantized: true
+  reactants:
+    Silver:
+      amount: 10
+    FrostOil:
+      amount: 5
+  effects:
+  - !type:SpawnEntity
+    entity: IngotSilver1
+
+- type: reaction
+  id: SolidifyCopper
+  impact: Low
+  quantized: true
+  reactants:
+    Copper:
+      amount: 10
+    FrostOil:
+      amount: 5
+  effects:
+  - !type:SpawnEntity
+    entity: IngotCopper1
+
+- type: reaction
+  id: SolidifyTin
+  impact: Low
+  quantized: true
+  reactants:
+    Tin:
+      amount: 10
+    FrostOil:
+      amount: 5
+  effects:
+  - !type:SpawnEntity
+    entity: IngotTin1
+
+- type: reaction
+  id: SolidifyPlasma
+  impact: Low
+  quantized: true
+  reactants:
+    Plasma:
+      amount: 10
+    Fresium:
+      amount: 5
+  effects:
+  - !type:SpawnEntity
+    entity: SheetPlasma1
+
+- type: reaction
+  id: SolidifySteel
+  impact: Low
+  quantized: true
+  reactants:
+    Iron:
+      amount: 9
+    Carbon:
+      amount: 1
+    FrostOil:
+      amount: 5
+  effects:
+  - !type:SpawnEntity
+    entity: SheetSteel1
+
+- type: reaction
+  id: SolidifyBrass
+  impact: Low
+  priority: 1
+  quantized: true
+  reactants:
+    Zinc:
+      amount: 3.3
+    Copper:
+      amount: 6.7
+    FrostOil:
+      amount: 5
+  effects:
+  - !type:SpawnEntity
+    entity: SheetBrass1
+
+- type: reaction
+  id: SolidifyBronze
+  impact: Low
+  priority: 1
+  quantized: true
+  reactants:
+    Copper:
+      amount: 6.7
+    Tin:
+      amount: 3.3
+    FrostOil:
+      amount: 5
+  effects:
+  - !type:SpawnEntity
+    entity: SheetBronze1
+
+- type: reaction
+  id: SolidifyPlasteel
+  impact: Low
+  priority: 1
+  quantized: true
+  reactants:
+    Plasma:
+      amount: 10
+    Iron:
+      amount: 9
+    Carbon:
+      amount: 1
+    Fresium:
+      amount: 5
+  effects:
+  - !type:SpawnEntity
+    entity: SheetPlasteel1
+
+- type: reaction
+  id: SolidifyTitanium
+  impact: Low
+  quantized: true
+  reactants:
+    Titanium:
+      amount: 10
+    Fresium:
+      amount: 5
+  effects:
+  - !type:SpawnEntity
+    entity: SheetTitanium1
+
+- type: reaction
+  id: SolidifyAluminium
+  impact: Low
+  quantized: true
+  reactants:
+    Aluminium:
+      amount: 10
+    FrostOil:
+      amount: 5
+  effects:
+  - !type:SpawnEntity
+    entity: SheetAluminium1
+
+- type: reaction
+  id: SolidifyGlass
+  impact: Low
+  quantized: true
+  reactants:
+    Silicon:
+      amount: 10
+    FrostOil:
+      amount: 5
+  effects:
+  - !type:SpawnEntity
+    entity: SheetGlass1
+
+- type: reaction
+  id: SolidifyPlasmaGlass
+  impact: Low
+  priority: 1
+  quantized: true
+  reactants:
+    Silicon:
+      amount: 10
+    Plasma:
+      amount: 10
+    Fresium:
+      amount: 5
+  effects:
+  - !type:SpawnEntity
+    entity: SheetPGlass1
+
+- type: reaction
+  id: SolidifyBananium
+  impact: Low
+  priority: 1
+  quantized: true
+  reactants:
+    Bananium:
+      amount: 10
+    Fresium:
+      amount: 5
+  effects:
+  - !type:SpawnEntity
+    entity: MaterialBananium1
+
+- type: reaction
+  id: SolidifyPhoron
+  impact: Low
+  priority: 3
+  quantized: true
+  reactants:
+    Plasma:
+      amount: 20
+    Bananium:
+      amount: 20
+    Titanium:
+      amount: 10
+    Fresium:
+      amount: 5
+  effects:
+  - !type:SpawnEntity
+    entity: MaterialPhoron1
+
+- type: reaction
+  id: SolidifyPhoronGlass
+  impact: Low
+  priority: 4
+  quantized: true
+  reactants:
+    Silicon:
+      amount: 10
+    Plasma:
+      amount: 10
+    Bananium:
+      amount: 10
+    Titanium:
+      amount: 5
+    Fresium:
+      amount: 5
+  effects:
+  - !type:SpawnEntity
+    entity: SheetPhoronGlass1
+
+- type: reaction
+  id: SolidifyUraniumGlass
+  impact: Low
+  priority: 1
+  quantized: true
+  reactants:
+    Silicon:
+      amount: 10
+    Uranium:
+      amount: 10
+    Fresium:
+      amount: 5
+  effects:
+  - !type:SpawnEntity
+    entity: SheetUGlass1
+
+- type: reaction
+  id: SolidifyClockworkGlass
+  impact: Low
+  priority: 3
+  quantized: true
+  reactants:
+    Silicon:
+      amount: 10
+    Zinc:
+      amount: 3.3
+    Copper:
+      amount: 6.7
+    FrostOil:
+      amount: 5
+  effects:
+  - !type:SpawnEntity
+    entity: SheetClockworkGlass1
+
+- type: reaction
+  id: SolidifyPaper
+  impact: Low
+  quantized: true
+  reactants:
+    Cellulose:
+      amount: 3
+    FrostOil:
+      amount: 5
+  effects:
+  - !type:SpawnEntity
+    entity: SheetPaper1
+
+- type: reaction
+  id: SolidifyUraniumSheet
+  impact: Low
+  quantized: true
+  reactants:
+    Uranium:
+      amount: 8
+    Radium:
+      amount: 2
+    Fresium:
+      amount: 5
+  effects:
+  - !type:SpawnEntity
+    entity: SheetUranium1
+
+- type: reaction
+  id: SolidifyMeatSheet
+  impact: Low
+  quantized: true
+  reactants:
+    Protein:
+      amount: 7
+    Fat:
+      amount: 3
+    FrostOil:
+      amount: 5
+  effects:
+  - !type:SpawnEntity
+    entity: MaterialSheetMeat1

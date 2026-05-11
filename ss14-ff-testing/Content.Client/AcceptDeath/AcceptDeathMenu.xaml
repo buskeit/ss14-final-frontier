@@ -1,0 +1,28 @@
+<DefaultWindow
+    xmlns="https://spacestation14.io"
+    xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
+    Title="Death Network"
+    MinSize="600 300"
+    SetSize="600 300">
+    <BoxContainer Orientation="Vertical" Access="Public" VerticalExpand="True">
+        <Label Text="Your conciousness remains trapped at the Threshold of death."></Label>
+        <Control MinHeight="20"/>
+        <BoxContainer Orientation="Horizontal">
+            <Label Text="Send SOS:"
+                StyleClasses="LabelKeyText" />
+            <Control HorizontalExpand="True"/>
+            <Button Name="SOSButton" Text="Available in 30:00" Access="Public"/>
+        </BoxContainer>
+        <Label Text="Broadcast a long-range radio message with your current coordinates."></Label>
+        <Control MinHeight="50"/>
+        <BoxContainer Orientation="Horizontal">
+            <Label Text="Accept Death:"
+              StyleClasses="LabelKeyText" />
+            <Control HorizontalExpand="True"/>
+            <Button Name="AcceptDeathButton" Text="Available in 30:00" Access="Public"/>
+        </BoxContainer>
+        <Label Text="Release your conciousness and let yourself truly die."></Label>
+        <Label Text="You will not be able to be revived if you do this."></Label>
+
+    </BoxContainer>
+</DefaultWindow>

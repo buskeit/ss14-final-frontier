@@ -1,0 +1,61 @@
+<PanelContainer xmlns="https://spacestation14.io"
+                HorizontalExpand="True"
+                Margin="0 0"
+                MinWidth="50">
+
+    <BoxContainer Name="PlugStateContainer"
+                  Orientation="Vertical"
+                  HorizontalExpand="True">
+
+        <GridContainer
+            HorizontalExpand="True"
+            Columns="3">
+
+            <BoxContainer Orientation="Vertical"
+                          HorizontalExpand="True">
+                <Label Text="Local Connection"
+                       Align="Right"
+                       StyleClasses="LabelSubText"
+                       Modulate="Gray"></Label>
+                <Label Name="NetworkState"
+                       Align="Right"></Label>
+            </BoxContainer>
+
+            <BoxContainer
+                Orientation="Vertical"
+                HorizontalExpand="True">
+                <Label Text="Node"
+                       StyleClasses="LabelSubText"
+                       Modulate="Gray"
+                       HorizontalExpand="True"
+                       Align="Center"></Label>
+                <BoxContainer Orientation="Horizontal" Align="Center" HorizontalExpand="False" HorizontalAlignment="Center">
+                    <PanelContainer Name="PlugIcon"></PanelContainer>
+                    <Label Name="PlugIdentifier"
+                        StyleClasses="highlight"
+                        HorizontalExpand="True"
+                        Align="Center"></Label>
+                </BoxContainer>
+                <Button MaxWidth="100"
+                        Name="BreakerButton"
+                        HorizontalExpand="True"
+                        ToggleMode="True"></Button>
+            </BoxContainer>
+
+            <BoxContainer Orientation="Vertical"
+                          HorizontalExpand="True">
+                <Label Text="Remote Plug Status"
+                       Align="Left"
+                       StyleClasses="LabelSubText"
+                       Modulate="Gray"></Label>
+                <Label Name="RemoteAvailability"
+                       Align="Left"></Label>
+            </BoxContainer>
+
+
+        </GridContainer>
+
+    </BoxContainer>
+
+
+</PanelContainer>

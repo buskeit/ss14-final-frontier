@@ -1,0 +1,27 @@
+<GridContainer xmlns="https://spacestation14.io"
+                HorizontalExpand="True"
+                Margin="0 0"
+                Columns="3">
+
+    <!-- Load -->
+    <Label Name="LocalLoad" Text="0" HorizontalExpand="True" Align="Right"></Label>
+    <BoxContainer Orientation="Vertical" Align="Center" HorizontalExpand="True" Margin="10 0">
+        <Label Text="Load" StyleClasses="LabelSubText" Align="Center"></Label>
+    </BoxContainer>
+    <Label Name="RemoteLoad" Text="0" HorizontalExpand="True" Align="Left"></Label>
+
+    <!-- Suppply -->
+    <Label Name="LocalSupply" Text="0" HorizontalExpand="True" Align="Right"></Label>
+    <BoxContainer Orientation="Vertical" Align="Center" HorizontalExpand="True" Margin="10 0">
+        <Label Text="Supply" StyleClasses="LabelSubText" Align="Center"></Label>
+    </BoxContainer>
+    <Label Name="RemoteSupply" Text="0" HorizontalExpand="True" Align="Left"></Label>
+
+    <!-- Max Suppply -->
+    <Label Name="LocalMaxSupply" Text="0" HorizontalExpand="True" Align="Right"></Label>
+    <BoxContainer Orientation="Vertical" Align="Center" HorizontalExpand="True" Margin="10 0">
+        <Label Text="Max Supply" StyleClasses="LabelSubText" Align="Center"></Label>
+    </BoxContainer>
+    <Label Name="RemoteMaxSupply" Text="0" HorizontalExpand="True" Align="Left"></Label>
+
+</GridContainer>
