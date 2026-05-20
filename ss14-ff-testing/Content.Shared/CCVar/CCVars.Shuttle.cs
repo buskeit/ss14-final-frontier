@@ -31,7 +31,7 @@ public sealed partial class CCVars
     ///     Whether the arrivals shuttle is enabled.
     /// </summary>
     public static readonly CVarDef<bool> ArrivalsShuttles =
-        CVarDef.Create("shuttle.arrivals", false, CVar.SERVERONLY);
+        CVarDef.Create("shuttle.arrivals", true, CVar.SERVERONLY);
 
     /// <summary>
     ///     The map to use for the arrivals station.
@@ -43,13 +43,13 @@ public sealed partial class CCVars
     ///     Cooldown between arrivals departures. This should be longer than the FTL time or it will double cycle.
     /// </summary>
     public static readonly CVarDef<float> ArrivalsCooldown =
-        CVarDef.Create("shuttle.arrivals_cooldown", 50f, CVar.SERVERONLY);
+        CVarDef.Create("shuttle.arrivals_cooldown", 600f, CVar.SERVERONLY);
 
     /// <summary>
     ///     Are players allowed to return on the arrivals shuttle.
     /// </summary>
     public static readonly CVarDef<bool> ArrivalsReturns =
-        CVarDef.Create("shuttle.arrivals_returns", false, CVar.SERVERONLY);
+        CVarDef.Create("shuttle.arrivals_returns", true, CVar.SERVERONLY);
 
     /// <summary>
     ///     Should all players who spawn at arrivals have godmode until they leave the map?
@@ -68,7 +68,7 @@ public sealed partial class CCVars
     ///     Whether to automatically spawn escape shuttles.
     /// </summary>
     public static readonly CVarDef<bool> GridFill =
-        CVarDef.Create("shuttle.grid_fill", false, CVar.SERVERONLY);
+        CVarDef.Create("shuttle.grid_fill", true, CVar.SERVERONLY);
 
     /// <summary>
     ///     Whether to automatically preloading grids by GridPreloaderSystem
@@ -86,13 +86,13 @@ public sealed partial class CCVars
     ///     How long a shuttle spends in FTL.
     /// </summary>
     public static readonly CVarDef<float> FTLTravelTime =
-        CVarDef.Create("shuttle.travel_time", 20f, CVar.SERVERONLY);
+        CVarDef.Create("shuttle.travel_time", 900f, CVar.SERVERONLY);
 
     /// <summary>
     ///     How long the final stage of FTL before arrival should be.
     /// </summary>
     public static readonly CVarDef<float> FTLArrivalTime =
-        CVarDef.Create("shuttle.arrival_time", 5f, CVar.SERVERONLY);
+        CVarDef.Create("shuttle.arrival_time", 180f, CVar.SERVERONLY);
 
     /// <summary>
     ///     How much time in seconds that needs to pass before a non-arrivals shuttle can FTL again.
@@ -105,7 +105,7 @@ public sealed partial class CCVars
     ///     If this is adjusted, ensure that shuttle.arrivals_cooldown is longer than this value.
     /// </summary>
     public static readonly CVarDef<float> ArrivalsFTLCooldown =
-        CVarDef.Create("shuttle.arrivals_ftl_cooldown", 10f, CVar.SERVERONLY);
+        CVarDef.Create("shuttle.arrivals_ftl_cooldown", 300f, CVar.SERVERONLY);
 
     /// <summary>
     ///     The maximum <see cref="PhysicsComponent.Mass"/> a grid can have before it becomes unable to FTL.
@@ -124,13 +124,13 @@ public sealed partial class CCVars
     ///     Is the emergency shuttle allowed to be early launched.
     /// </summary>
     public static readonly CVarDef<bool> EmergencyEarlyLaunchAllowed =
-        CVarDef.Create("shuttle.emergency_early_launch_allowed", false, CVar.SERVER | CVar.REPLICATED);
+        CVarDef.Create("shuttle.emergency_early_launch_allowed", true, CVar.SERVER | CVar.REPLICATED);
 
     /// <summary>
     ///     How long the emergency shuttle remains docked with the station, in seconds.
     /// </summary>
     public static readonly CVarDef<float> EmergencyShuttleDockTime =
-        CVarDef.Create("shuttle.emergency_dock_time", 180f, CVar.SERVERONLY);
+        CVarDef.Create("shuttle.emergency_dock_time", 320f, CVar.SERVERONLY);
 
     /// <summary>
     ///     If the emergency shuttle can't dock at a priority port, the dock time will be multiplied with this value.
@@ -155,19 +155,19 @@ public sealed partial class CCVars
     ///     Actual minimum travel time cannot be less than <see cref="ShuttleSystem.DefaultArrivalTime"/>
     /// </summary>
     public static readonly CVarDef<float> EmergencyShuttleMinTransitTime =
-        CVarDef.Create("shuttle.emergency_transit_time_min", 60f, CVar.SERVERONLY);
+        CVarDef.Create("shuttle.emergency_transit_time_min", 1800f, CVar.SERVERONLY);
 
     /// <summary>
     ///     The maximum time for the emergency shuttle to arrive at centcomm.
     /// </summary>
     public static readonly CVarDef<float> EmergencyShuttleMaxTransitTime =
-        CVarDef.Create("shuttle.emergency_transit_time_max", 180f, CVar.SERVERONLY);
+        CVarDef.Create("shuttle.emergency_transit_time_max", 3600f, CVar.SERVERONLY);
 
     /// <summary>
     ///     Whether the emergency shuttle is enabled or should the round just end.
     /// </summary>
     public static readonly CVarDef<bool> EmergencyShuttleEnabled =
-        CVarDef.Create("shuttle.emergency", false, CVar.SERVERONLY);
+        CVarDef.Create("shuttle.emergency", true, CVar.SERVERONLY);
 
     /// <summary>
     ///     The percentage of time passed from the initial call to when the shuttle can no longer be recalled.
@@ -188,7 +188,7 @@ public sealed partial class CCVars
     ///     the shuttle again.
     /// </summary>
     public static readonly CVarDef<int> EmergencyShuttleAutoCallExtensionTime =
-        CVarDef.Create("shuttle.auto_call_extension_time", 45, CVar.SERVERONLY);
+        CVarDef.Create("shuttle.auto_call_extension_time", 0, CVar.SERVERONLY);
 
     /// <summary>
     ///     Impulse multiplier for player interactions that move grids (other than shuttle thrusters, gyroscopes and grid collisons).

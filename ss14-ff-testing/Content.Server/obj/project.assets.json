@@ -28,43 +28,6 @@
           }
         }
       },
-      "JetBrains.FormatRipper/2.4.0": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard2.0/_._": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/JetBrains.FormatRipper.dll": {}
-        }
-      },
-      "JetBrains.HabitatDetector/1.4.5": {
-        "type": "package",
-        "dependencies": {
-          "JetBrains.FormatRipper": "2.4.0"
-        },
-        "compile": {
-          "lib/netstandard2.0/_._": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/JetBrains.HabitatDetector.dll": {}
-        }
-      },
-      "JetBrains.Profiler.Api/1.4.10": {
-        "type": "package",
-        "dependencies": {
-          "JetBrains.HabitatDetector": "1.4.5"
-        },
-        "compile": {
-          "lib/netstandard2.0/_._": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard2.0/JetBrains.Profiler.Api.dll": {
-            "related": ".xml"
-          }
-        }
-      },
       "libsodium/1.0.20.1": {
         "type": "package",
         "runtimeTargets": {
@@ -1523,7 +1486,7 @@
           "SQLitePCLRaw.provider.e_sqlite3": "3.0.2"
         },
         "compile": {
-          "lib/net8.0/SQLitePCLRaw.batteries_v2.dll": {}
+          "lib/net8.0/_._": {}
         },
         "runtime": {
           "lib/net8.0/SQLitePCLRaw.batteries_v2.dll": {}
@@ -1544,7 +1507,7 @@
           "SQLitePCLRaw.core": "3.0.2"
         },
         "compile": {
-          "lib/net8.0/SQLitePCLRaw.provider.e_sqlite3.dll": {}
+          "lib/net8.0/_._": {}
         },
         "runtime": {
           "lib/net8.0/SQLitePCLRaw.provider.e_sqlite3.dll": {}
@@ -1833,8 +1796,7 @@
         "dependencies": {
           "Content.Shared.Database": "1.0.0",
           "Microsoft.EntityFrameworkCore.Sqlite.Core": "10.0.0",
-          "Npgsql.EntityFrameworkCore.PostgreSQL": "10.0.0",
-          "SQLitePCLRaw.bundle_e_sqlite3": "3.0.2"
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "10.0.0"
         },
         "compile": {
           "bin/placeholder/Content.Server.Database.dll": {}
@@ -1900,7 +1862,6 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
-          "JetBrains.Profiler.Api": "1.4.10",
           "Microsoft.CodeAnalysis.CSharp.Features": "5.0.0",
           "Microsoft.CodeAnalysis.CSharp.Scripting": "5.0.0",
           "Microsoft.CodeAnalysis.CSharp.Workspaces": "5.0.0",
@@ -2048,56 +2009,6 @@
         "lib/portable40-net40+sl5+win8+wp8+wpa81/JetBrains.Annotations.dll",
         "lib/portable40-net40+sl5+win8+wp8+wpa81/JetBrains.Annotations.xml",
         "readme.md"
-      ]
-    },
-    "JetBrains.FormatRipper/2.4.0": {
-      "sha512": "k5eGab1DArJH0k94ZO9oxDxg8go1KvR1oPGPzyVvfplEHetgrc2hGZ6Cken8fVsdS/Xp3hMnHd9L5MXb7JJM4A==",
-      "type": "package",
-      "path": "jetbrains.formatripper/2.4.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "icon.png",
-        "jetbrains.formatripper.2.4.0.nupkg.sha512",
-        "jetbrains.formatripper.nuspec",
-        "lib/net20/JetBrains.FormatRipper.dll",
-        "lib/net35/JetBrains.FormatRipper.dll",
-        "lib/netstandard1.0/JetBrains.FormatRipper.dll",
-        "lib/netstandard2.0/JetBrains.FormatRipper.dll"
-      ]
-    },
-    "JetBrains.HabitatDetector/1.4.5": {
-      "sha512": "5kb1G32O8fmlS2QnJLycEnHbq9ukuDUHQll4mqOAPLEE1JEJcz12W6cTt1CMpQY3n/6R0jZAhmBvaJm2zixvow==",
-      "type": "package",
-      "path": "jetbrains.habitatdetector/1.4.5",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "icon.png",
-        "jetbrains.habitatdetector.1.4.5.nupkg.sha512",
-        "jetbrains.habitatdetector.nuspec",
-        "lib/net20/JetBrains.HabitatDetector.dll",
-        "lib/net35/JetBrains.HabitatDetector.dll",
-        "lib/netstandard1.3/JetBrains.HabitatDetector.dll",
-        "lib/netstandard2.0/JetBrains.HabitatDetector.dll"
-      ]
-    },
-    "JetBrains.Profiler.Api/1.4.10": {
-      "sha512": "XBynPGDiWB6uWoiVwkki3uUsXqc66lRC1YX8LWYWc579ioJSB5OzZ8KsRK2q+eawj3OxrkeCsgXlb6mwBkCebQ==",
-      "type": "package",
-      "path": "jetbrains.profiler.api/1.4.10",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "icon.png",
-        "jetbrains.profiler.api.1.4.10.nupkg.sha512",
-        "jetbrains.profiler.api.nuspec",
-        "lib/net20/JetBrains.Profiler.Api.dll",
-        "lib/net20/JetBrains.Profiler.Api.xml",
-        "lib/netstandard1.3/JetBrains.Profiler.Api.dll",
-        "lib/netstandard1.3/JetBrains.Profiler.Api.xml",
-        "lib/netstandard2.0/JetBrains.Profiler.Api.dll",
-        "lib/netstandard2.0/JetBrains.Profiler.Api.xml"
       ]
     },
     "libsodium/1.0.20.1": {
@@ -4926,15 +4837,15 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/Content.Server/Content.Server.csproj",
+      "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/Content.Server.csproj",
       "projectName": "Content.Server",
-      "projectPath": "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/Content.Server/Content.Server.csproj",
+      "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/Content.Server.csproj",
       "packagesPath": "/home/bbuske/.nuget/packages/",
-      "outputPath": "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/Content.Server/obj/",
+      "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/obj/",
       "projectStyle": "PackageReference",
       "centralPackageVersionsManagementEnabled": true,
       "configFilePaths": [
-        "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/nuget.config",
+        "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
         "/home/bbuske/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
@@ -4949,35 +4860,35 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "projectReferences": {
-            "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/Content.Packaging/Content.Packaging.csproj": {
-              "projectPath": "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/Content.Packaging/Content.Packaging.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Packaging/Content.Packaging.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Packaging/Content.Packaging.csproj"
             },
-            "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/Content.Server.Database/Content.Server.Database.csproj": {
-              "projectPath": "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/Content.Server.Database/Content.Server.Database.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server.Database/Content.Server.Database.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server.Database/Content.Server.Database.csproj"
             },
-            "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/Content.Shared.Database/Content.Shared.Database.csproj": {
-              "projectPath": "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/Content.Shared.Database/Content.Shared.Database.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/Content.Shared.Database.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/Content.Shared.Database.csproj"
             },
-            "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/Content.Shared/Content.Shared.csproj": {
-              "projectPath": "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/Content.Shared/Content.Shared.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared/Content.Shared.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared/Content.Shared.csproj"
             },
-            "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj": {
-              "projectPath": "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj"
             },
-            "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
-              "projectPath": "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
             },
-            "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/RobustToolbox/Robust.Packaging/Robust.Packaging.csproj": {
-              "projectPath": "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/RobustToolbox/Robust.Packaging/Robust.Packaging.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Packaging/Robust.Packaging.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Packaging/Robust.Packaging.csproj"
             },
-            "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/RobustToolbox/Robust.Server/Robust.Server.csproj": {
-              "projectPath": "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/RobustToolbox/Robust.Server/Robust.Server.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server/Robust.Server.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server/Robust.Server.csproj"
             },
-            "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
-              "projectPath": "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
             },
-            "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
-              "projectPath": "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
             }
           }
         }

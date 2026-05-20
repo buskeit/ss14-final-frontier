@@ -612,3 +612,40 @@
     state: Unknown
   jobName: job-name-unknown
   isCrewJob: false
+
+  # Final Frontier Custom
+  # Command
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconLeagueSecGen
+  icon:
+    sprite: *icon-rsi
+    state: LeagueSecGen
+  jobName: job-name-league-secretary-general
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconLeagueOfficial
+  icon:
+    sprite: *icon-rsi
+    state: LeagueOfficial
+  jobName: job-name-league-official
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconExecutiveOfficer
+  icon:
+    sprite: *icon-rsi
+    state: XO
+  jobName: job-name-executive-officer
+
+  # Civilian
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconCivilian
+  icon:
+    sprite: *icon-rsi
+    state: Civilian
+  jobName: job-name-civilian

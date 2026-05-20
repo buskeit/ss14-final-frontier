@@ -1,29 +1,29 @@
 - type: job
-  id: Passenger
-  name: job-name-passenger
-  description: job-description-passenger
-  playTimeTracker: JobPassenger
+  id: Civilian
+  name: job-name-civilian
+  description: job-description-civilian
+  playTimeTracker: JobCivilian
   startingGear: PassengerGear
-  icon: "JobIconPassenger"
+  icon: "JobIconCivilian"
   supervisors: job-supervisors-everyone
   access:
-  - Maintenance
+    - Maintenance
   special:
-  - !type:AddImplantSpecial
-    implants: [ JobNetworkImplant ]
+    - !type:AddImplantSpecial
+      implants: [JobNetworkImplant]
 
 - type: startingGear
-  id: PassengerGear
+  id: CivilianGear
   equipment:
     id: PassengerPDA
     ears: ClothingHeadsetGrey
   storage:
     back:
-    - BookThresholdHandbook
+      - BookThresholdHandbook
 
 - type: chameleonOutfit
-  id: PassengerChameleonOutfit
-  job: Passenger
+  id: CivilianChameleonOutfit
+  job: Civilian
   equipment:
     head: ClothingHeadHatWelding
     eyes: ClothingEyesGlassesCheapSunglasses

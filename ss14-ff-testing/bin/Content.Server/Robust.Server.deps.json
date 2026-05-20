@@ -9,7 +9,6 @@
       "Robust.Server/275.0.0": {
         "dependencies": {
           "JetBrains.Annotations": "2025.2.4",
-          "JetBrains.Profiler.Api": "1.4.10",
           "Microsoft.CodeAnalysis.CSharp.Features": "5.0.0",
           "Microsoft.CodeAnalysis.CSharp.Scripting": "5.0.0",
           "Microsoft.CodeAnalysis.CSharp.Workspaces": "5.0.0",
@@ -55,36 +54,6 @@
           "lib/netstandard2.0/JetBrains.Annotations.dll": {
             "assemblyVersion": "4242.42.42.42",
             "fileVersion": "2025.2.4.0"
-          }
-        }
-      },
-      "JetBrains.FormatRipper/2.4.0": {
-        "runtime": {
-          "lib/netstandard2.0/JetBrains.FormatRipper.dll": {
-            "assemblyVersion": "2.4.0.0",
-            "fileVersion": "2.4.0.0"
-          }
-        }
-      },
-      "JetBrains.HabitatDetector/1.4.5": {
-        "dependencies": {
-          "JetBrains.FormatRipper": "2.4.0"
-        },
-        "runtime": {
-          "lib/netstandard2.0/JetBrains.HabitatDetector.dll": {
-            "assemblyVersion": "1.4.5.0",
-            "fileVersion": "1.4.5.0"
-          }
-        }
-      },
-      "JetBrains.Profiler.Api/1.4.10": {
-        "dependencies": {
-          "JetBrains.HabitatDetector": "1.4.5"
-        },
-        "runtime": {
-          "lib/netstandard2.0/JetBrains.Profiler.Api.dll": {
-            "assemblyVersion": "1.4.10.0",
-            "fileVersion": "1.4.10.0"
           }
         }
       },
@@ -1470,27 +1439,6 @@
       "sha512": "sha512-TwbgxAkXxY+vNEhNVx/QXjJ4vqxmepOjsgRvvImQPbHkHMMb4W+ahL3laMsxXKtNT7iMy+E1B3xkqao2hf1n3A==",
       "path": "jetbrains.annotations/2025.2.4",
       "hashPath": "jetbrains.annotations.2025.2.4.nupkg.sha512"
-    },
-    "JetBrains.FormatRipper/2.4.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-k5eGab1DArJH0k94ZO9oxDxg8go1KvR1oPGPzyVvfplEHetgrc2hGZ6Cken8fVsdS/Xp3hMnHd9L5MXb7JJM4A==",
-      "path": "jetbrains.formatripper/2.4.0",
-      "hashPath": "jetbrains.formatripper.2.4.0.nupkg.sha512"
-    },
-    "JetBrains.HabitatDetector/1.4.5": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-5kb1G32O8fmlS2QnJLycEnHbq9ukuDUHQll4mqOAPLEE1JEJcz12W6cTt1CMpQY3n/6R0jZAhmBvaJm2zixvow==",
-      "path": "jetbrains.habitatdetector/1.4.5",
-      "hashPath": "jetbrains.habitatdetector.1.4.5.nupkg.sha512"
-    },
-    "JetBrains.Profiler.Api/1.4.10": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-XBynPGDiWB6uWoiVwkki3uUsXqc66lRC1YX8LWYWc579ioJSB5OzZ8KsRK2q+eawj3OxrkeCsgXlb6mwBkCebQ==",
-      "path": "jetbrains.profiler.api/1.4.10",
-      "hashPath": "jetbrains.profiler.api.1.4.10.nupkg.sha512"
     },
     "libsodium/1.0.20.1": {
       "type": "package",

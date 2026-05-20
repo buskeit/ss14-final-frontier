@@ -45,3 +45,7 @@ job-description-serviceworker = Learn the basics of bartending, cooking, and gro
 job-description-station-ai = Follow your laws, serve the crew.
 job-description-visitor = Enjoy your visit to the station.
 job-description-warden = Patrol the Security department, ensure that no one is stealing from the armory, and make sure that all prisoners are processed and let out when their time is up.
+job-description-executive-officer = Second in command and the right hand of the Captain. Run the station, keep operations going and everybody safe.
+job-description-league-official = An official representative of the Aurelian League. You hold a lot of power and also lots of responsibility.
+job-description-league-secretary-general = The highest official of the Aurelian League and in charge of the entire faction.
+job-description-civilian = A civilian with no direct affiliation to the League or a position within it. Make a living for yourself.

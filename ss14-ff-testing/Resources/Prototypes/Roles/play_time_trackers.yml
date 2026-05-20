@@ -20,10 +20,19 @@
   id: JobCaptain
 
 - type: playTimeTracker
+  id: JobExecutiveOfficer
+
+- type: playTimeTracker
   id: JobCargoTechnician
 
 - type: playTimeTracker
   id: JobCentralCommandOfficial
+
+- type: playTimeTracker
+  id: JobLeagueSecGen
+
+- type: playTimeTracker
+  id: JobLeagueOfficial
 
 - type: playTimeTracker
   id: JobChaplain
@@ -147,3 +156,6 @@
 
 - type: playTimeTracker
   id: JobWarden
+
+- type: playTimeTracker
+  id: JobCivilian

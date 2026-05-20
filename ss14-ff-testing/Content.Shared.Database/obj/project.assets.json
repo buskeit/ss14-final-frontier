@@ -13,15 +13,15 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/Content.Shared.Database/Content.Shared.Database.csproj",
+      "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/Content.Shared.Database.csproj",
       "projectName": "Content.Shared.Database",
-      "projectPath": "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/Content.Shared.Database/Content.Shared.Database.csproj",
+      "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/Content.Shared.Database.csproj",
       "packagesPath": "/home/bbuske/.nuget/packages/",
-      "outputPath": "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/Content.Shared.Database/obj/",
+      "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/obj/",
       "projectStyle": "PackageReference",
       "centralPackageVersionsManagementEnabled": true,
       "configFilePaths": [
-        "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/nuget.config",
+        "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
         "/home/bbuske/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
@@ -41,6 +41,9 @@
       "warningProperties": {
         "warnAsError": [
           "NU1605"
+        ],
+        "warnNotAsError": [
+          "NU1903"
         ]
       },
       "restoreAuditProperties": {

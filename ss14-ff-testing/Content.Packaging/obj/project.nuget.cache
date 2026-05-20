@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4MiHPmdzGBc=",
+  "dgSpecHash": "8c3p/nsgOxQ=",
   "success": true,
-  "projectFilePath": "/home/bbuske/Descargas/ss14-persistence/SS14-Persistence/Content.Packaging/Content.Packaging.csproj",
+  "projectFilePath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Packaging/Content.Packaging.csproj",
   "expectedPackageFiles": [
     "/home/bbuske/.nuget/packages/libsodium/1.0.20.1/libsodium.1.0.20.1.nupkg.sha512",
     "/home/bbuske/.nuget/packages/linguini.bundle/0.8.1/linguini.bundle.0.8.1.nupkg.sha512",

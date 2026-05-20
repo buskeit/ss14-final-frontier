@@ -53,6 +53,9 @@
             "name": "ChiefMedicalOfficer"
         },
         {
+            "name": "Civilian"
+        },
+        {
             "name": "Clown"
         },
         {
@@ -102,6 +105,12 @@
         },
         {
             "name": "Lawyer"
+        },
+        {
+            "name": "LeagueOfficial"
+        },
+        {
+            "name": "LeagueSecGen"
         },
         {
             "name": "Librarian"
@@ -234,6 +243,9 @@
         },
         {
             "name": "Wizard"
+        },
+        {
+            "name": "XO"
         },
         {
             "name": "Zookeeper"

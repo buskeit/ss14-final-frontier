@@ -48,6 +48,10 @@ job-name-station-ai = Station AI
 job-name-technical-assistant = Technical Assistant
 job-name-visitor = Visitor
 job-name-warden = Warden
+job-name-executive-officer = Executive Officer
+job-name-league-official = Aurelian League Official
+job-name-league-secretary-general = Aurelian League Secretary General
+job-name-civilian = Civilian
 
 # unused jobs
 # these are required for the agent ID job icon tooltips
