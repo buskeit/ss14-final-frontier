@@ -51,6 +51,19 @@
     state: stamp-cap
 
 - type: entity
+  name: Executive Officer's Rubber Stamp
+  parent: [RubberStampBase, BaseCommandContraband]
+  id: RubberStampXO
+  categories: [ DoNotMap ]
+  components:
+  - type: Stamp
+    stampedName: stamp-component-stamped-name-xo
+    stampedColor: "#3681bb"
+    stampState: "paper_stamp-cap"
+  - type: Sprite
+    state: stamp-xo
+
+- type: entity
   name: CentComm rubber stamp
   parent: RubberStampBase
   id: RubberStampCentcom

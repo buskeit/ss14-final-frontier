@@ -31,7 +31,7 @@
 - type: entity
   parent: IDCardStandard
   id: PassengerIDCard
-  name: passenger ID card
+  name: Passenger ID card
   components:
     - type: Sprite
       layers:
@@ -47,7 +47,7 @@
 - type: entity
   parent: [IDCardStandard, BaseGrandTheftContraband]
   id: CaptainIDCard
-  name: captain ID card
+  name: Commanding Officer ID card
   components:
     - type: Sprite
       layers:
@@ -75,7 +75,7 @@
 - type: entity
   parent: IDCardStandard
   id: HoPIDCard
-  name: head of personnel ID card
+  name: Head of personnel ID card
   components:
     - type: Sprite
       layers:
@@ -95,7 +95,7 @@
 - type: entity
   parent: IDCardStandard
   id: CEIDCard
-  name: chief engineer ID card
+  name: Chief Engineer ID Card
   components:
     - type: Sprite
       layers:
@@ -115,7 +115,7 @@
 - type: entity
   parent: IDCardStandard
   id: CMOIDCard
-  name: chief medical officer ID card
+  name: Chief Medical Officer ID Card
   components:
     - type: Sprite
       layers:
@@ -135,7 +135,7 @@
 - type: entity
   parent: IDCardStandard
   id: RDIDCard
-  name: research director ID card
+  name: Chief Science Officer ID Card
   components:
     - type: Sprite
       layers:
@@ -155,7 +155,7 @@
 - type: entity
   parent: IDCardStandard
   id: HoSIDCard
-  name: head of security ID card
+  name: Head of Security ID Card
   components:
     - type: Sprite
       layers:
@@ -175,7 +175,7 @@
 - type: entity
   parent: IDCardStandard
   id: QuartermasterIDCard
-  name: quartermaster ID card
+  name: Chief Logistics Officer ID Card
   components:
     - type: Sprite
       layers:
@@ -197,7 +197,7 @@
 - type: entity
   parent: IDCardStandard
   id: TechnicalAssistantIDCard
-  name: technical assistant ID card
+  name: Technical assistant ID Card
   components:
     - type: Sprite
       layers:
@@ -215,7 +215,7 @@
 - type: entity
   parent: IDCardStandard
   id: EngineeringIDCard
-  name: engineer ID card
+  name: Engineer ID Card
   components:
     - type: Sprite
       layers:
@@ -233,7 +233,7 @@
 - type: entity
   parent: IDCardStandard
   id: AtmosIDCard
-  name: atmospheric technician ID card
+  name: Atmospheric Technician ID Card
   components:
     - type: Sprite
       layers:
@@ -251,7 +251,7 @@
 - type: entity
   parent: EngineeringIDCard
   id: SeniorEngineerIDCard
-  name: senior engineer ID card
+  name: Senior engineer ID Card
   components:
     - type: Sprite
       layers:
@@ -269,7 +269,7 @@
 - type: entity
   parent: IDCardStandard
   id: MedicalInternIDCard
-  name: medical intern ID card
+  name: Medical Intern ID Card
   components:
     - type: Sprite
       layers:
@@ -287,7 +287,7 @@
 - type: entity
   parent: IDCardStandard
   id: MedicalIDCard
-  name: medical ID card
+  name: Medical Doctor ID Card
   components:
     - type: Sprite
       layers:
@@ -305,7 +305,7 @@
 - type: entity
   parent: IDCardStandard
   id: ParamedicIDCard
-  name: paramedic ID card
+  name: Paramedic ID Card
   components:
     - type: Sprite
       layers:
@@ -323,7 +323,7 @@
 - type: entity
   parent: IDCardStandard
   id: ChemistIDCard
-  name: chemist ID card
+  name: Pharmacist ID Card
   components:
     - type: Sprite
       layers:
@@ -341,7 +341,7 @@
 - type: entity
   parent: IDCardStandard
   id: PsychologistIDCard
-  name: psychologist ID card
+  name: Psychologist ID Card
   components:
     - type: Sprite
       layers:
@@ -359,7 +359,7 @@
 - type: entity
   parent: MedicalIDCard
   id: SeniorPhysicianIDCard
-  name: senior physician ID card
+  name: Senior physician ID Card
   components:
     - type: Sprite
       layers:
@@ -377,7 +377,7 @@
 - type: entity
   parent: IDCardStandard
   id: ResearchAssistantIDCard
-  name: research assistant ID card
+  name: Research Assistant ID Card
   components:
     - type: Sprite
       layers:
@@ -395,7 +395,7 @@
 - type: entity
   parent: IDCardStandard
   id: ResearchIDCard
-  name: research ID card
+  name: Scientist ID Card
   components:
     - type: Sprite
       layers:
@@ -413,7 +413,7 @@
 - type: entity
   parent: ResearchIDCard
   id: SeniorResearcherIDCard
-  name: senior researcher ID card
+  name: Senior Researcher ID Card
   components:
     - type: Sprite
       layers:
@@ -431,7 +431,7 @@
 - type: entity
   parent: IDCardStandard
   id: SecurityCadetIDCard
-  name: security cadet ID card
+  name: Security Cadet ID card
   components:
     - type: Sprite
       layers:
@@ -449,7 +449,7 @@
 - type: entity
   parent: IDCardStandard
   id: SecurityIDCard
-  name: security ID card
+  name: Security Officer ID Card
   components:
     - type: Sprite
       layers:
@@ -467,7 +467,7 @@
 - type: entity
   parent: IDCardStandard
   id: WardenIDCard
-  name: warden ID card
+  name: Warden ID Card
   components:
     - type: Sprite
       layers:
@@ -485,7 +485,7 @@
 - type: entity
   parent: IDCardStandard
   id: DetectiveIDCard
-  name: detective ID card
+  name: Detective ID Card
   components:
     - type: Sprite
       layers:
@@ -503,7 +503,7 @@
 - type: entity
   parent: IDCardStandard
   id: BrigmedicIDCard
-  name: brigmedic ID card
+  name: Brigmedic ID Card
   components:
     - type: Sprite
       layers:
@@ -519,7 +519,7 @@
 - type: entity
   parent: SecurityIDCard
   id: SeniorOfficerIDCard
-  name: senior officer ID card
+  name: Senior Officer ID Card
   components:
     - type: Sprite
       layers:
@@ -537,7 +537,7 @@
 - type: entity
   parent: IDCardStandard
   id: ServiceWorkerIDCard
-  name: service worker ID card
+  name: Service Worker ID Card
   components:
     - type: Sprite
       layers:
@@ -555,7 +555,7 @@
 - type: entity
   parent: IDCardStandard
   id: ClownIDCard
-  name: clown ID card
+  name: Clown ID Card
   components:
     - type: Sprite
       layers:
@@ -570,7 +570,7 @@
 - type: entity
   parent: IDCardStandard
   id: MimeIDCard
-  name: mime ID card
+  name: Mime ID Card
   components:
     - type: Sprite
       layers:
@@ -588,7 +588,7 @@
 - type: entity
   parent: IDCardStandard
   id: MusicianIDCard
-  name: musician ID card
+  name: Musician ID Card
   components:
     - type: Sprite
       layers:
@@ -606,7 +606,7 @@
 - type: entity
   parent: IDCardStandard
   id: ChaplainIDCard
-  name: chaplain ID card
+  name: Chaplain ID Card
   components:
     - type: Sprite
       layers:
@@ -624,7 +624,7 @@
 - type: entity
   parent: IDCardStandard
   id: JanitorIDCard
-  name: janitor ID card
+  name: Facilities Technician ID Card
   components:
     - type: Sprite
       layers:
@@ -642,7 +642,7 @@
 - type: entity
   parent: IDCardStandard
   id: BartenderIDCard
-  name: bartender ID card
+  name: Bartender ID Card
   components:
     - type: Sprite
       layers:
@@ -660,7 +660,7 @@
 - type: entity
   parent: IDCardStandard
   id: PunPunIDCard
-  name: pun pun ID card
+  name: Pun Pun ID Card
   components:
     - type: Sprite
       layers:
@@ -682,7 +682,7 @@
 - type: entity
   parent: IDCardStandard
   id: ChefIDCard
-  name: chef ID card
+  name: Chef ID Card
   components:
     - type: Sprite
       layers:
@@ -700,7 +700,7 @@
 - type: entity
   parent: IDCardStandard
   id: BotanistIDCard
-  name: botanist ID card
+  name: Botanist ID Card
   components:
     - type: Sprite
       layers:
@@ -718,7 +718,7 @@
 - type: entity
   parent: IDCardStandard
   id: LibrarianIDCard
-  name: librarian ID card
+  name: Librarian ID Card
   components:
     - type: Sprite
       layers:
@@ -736,7 +736,7 @@
 - type: entity
   parent: IDCardStandard
   id: LawyerIDCard
-  name: lawyer ID card
+  name: Lawyer ID Card
   components:
     - type: Sprite
       layers:
@@ -754,7 +754,7 @@
 - type: entity
   parent: IDCardStandard
   id: ReporterIDCard
-  name: reporter ID card
+  name: News Reporter ID Card
   components:
     - type: Sprite
       layers:
@@ -772,7 +772,7 @@
 - type: entity
   parent: IDCardStandard
   id: BoxerIDCard
-  name: boxer ID card
+  name: Boxer ID Card
   components:
     - type: Sprite
       layers:
@@ -788,7 +788,7 @@
 - type: entity
   parent: IDCardStandard
   id: ZookeeperIDCard
-  name: zookeeper ID card
+  name: Zookeeper ID Card
   components:
     - type: Sprite
       layers:
@@ -806,7 +806,7 @@
 - type: entity
   parent: IDCardStandard
   id: CargoIDCard
-  name: cargo ID card
+  name: Cargo Technician ID Card
   components:
     - type: Sprite
       layers:
@@ -824,7 +824,7 @@
 - type: entity
   parent: IDCardStandard
   id: SalvageIDCard
-  name: salvage ID card
+  name: Salvage Specialist ID Card
   components:
     - type: Sprite
       layers:
@@ -844,8 +844,8 @@
 - type: entity
   parent: IDCardStandard
   id: PrisonerIDCard
-  name: prisoner ID card
-  description: A generically printed ID card for scummy prisoners.
+  name: Prisoner ID Card
+  description: A generically printed ID card for prisoners.
   components:
     - type: Sprite
       layers:
@@ -881,7 +881,7 @@
 - type: entity
   parent: IDCardStandard
   id: CluwneIDCard
-  name: cluwne ID card
+  name: Cluwne ID Card
   suffix: Unremoveable
   components:
     - type: Sprite
@@ -902,7 +902,7 @@
 - type: entity
   parent: IDCardStandard
   id: VisitorIDCard
-  name: visitor ID card
+  name: Visitor ID Card
   components:
     - type: Sprite
       layers:
@@ -960,7 +960,7 @@
 - type: entity
   parent: [IDCardStandard, BaseSyndicateContraband]
   id: SyndicateIDCard
-  name: syndicate ID card
+  name: Syndicate ID Card
   components:
     - type: Sprite
       layers:
@@ -982,7 +982,7 @@
 - type: entity
   parent: [SyndicateIDCard, BaseSyndicateContraband]
   id: SyndiOperativeIDCard
-  name: syndicate operative ID card
+  name: Syndicate operative ID Card
   components:
     - type: Sprite
       layers:
@@ -999,7 +999,7 @@
 - type: entity
   parent: [SyndiOperativeIDCard, BaseSyndicateContraband]
   id: SyndiCorpsmanIDCard
-  name: syndicate corpsman ID card
+  name: Syndicate Corpsman ID Card
   components:
     - type: Sprite
       layers:
@@ -1015,7 +1015,7 @@
 - type: entity
   parent: [SyndiOperativeIDCard, BaseSyndicateContraband]
   id: SyndiCommanderIDCard
-  name: syndicate commander ID card
+  name: Syndicate Commander ID Card
   components:
     - type: Sprite
       layers:
@@ -1031,7 +1031,7 @@
 - type: entity
   parent: [IDCardStandard, BaseMajorContraband]
   id: PirateIDCard
-  name: pirate ID card
+  name: Pirate ID Card
   components:
     - type: Sprite
       layers:
@@ -1046,7 +1046,7 @@
 - type: entity
   parent: IDCardStandard
   id: XenoborgIDCard
-  name: xenoborg ID card
+  name: Xenoborg ID Card
   components:
     - type: Sprite
       layers:
@@ -1058,7 +1058,7 @@
 - type: entity
   parent: IDCardStandard
   id: WizardIDCard
-  name: wizard ID card
+  name: Qizard ID Card
   components:
     - type: Sprite
       layers:
@@ -1079,7 +1079,7 @@
 - type: entity
   parent: IDCardStandard
   id: CentcomIDCard
-  name: command officer ID card
+  name: Command Officer ID Card
   components:
     - type: Sprite
       layers:
@@ -1099,7 +1099,7 @@
 - type: entity
   parent: IDCardStandard
   id: ERTLeaderIDCard
-  name: ERT leader ID card
+  name: ERT Leader ID Card
   components:
     - type: Sprite
       layers:
@@ -1119,7 +1119,7 @@
 - type: entity
   parent: IDCardStandard
   id: ERTChaplainIDCard
-  name: ERT chaplain ID card
+  name: ERT Chaplain ID Card
   components:
     - type: Sprite
       layers:
@@ -1139,7 +1139,7 @@
 - type: entity
   parent: IDCardStandard
   id: ERTEngineerIDCard
-  name: ERT engineer ID card
+  name: ERT Engineer ID Card
   components:
     - type: Sprite
       layers:
@@ -1159,7 +1159,7 @@
 - type: entity
   parent: IDCardStandard
   id: ERTJanitorIDCard
-  name: ERT janitor ID card
+  name: ERT Janitor ID Card
   components:
     - type: Sprite
       layers:
@@ -1179,7 +1179,7 @@
 - type: entity
   parent: IDCardStandard
   id: ERTMedicIDCard
-  name: ERT medic ID card
+  name: ERT Medic ID Card
   components:
     - type: Sprite
       layers:
@@ -1199,7 +1199,7 @@
 - type: entity
   parent: IDCardStandard
   id: ERTSecurityIDCard
-  name: ERT security ID card
+  name: ERT Security ID Card
   components:
     - type: Sprite
       layers:
@@ -1219,7 +1219,7 @@
 - type: entity
   parent: IDCardStandard
   id: CentcomIDCardDeathsquad
-  name: death squad ID card
+  name: Death Squad ID Card
   components:
     - type: Sprite
       layers:
@@ -1237,7 +1237,7 @@
 - type: entity
   parent: IDCardStandard
   id: CBURNIDcard
-  name: CBURN ID card
+  name: CBURN ID Card
   suffix: CBURN
   components:
     - type: Sprite
@@ -1258,9 +1258,9 @@
 - type: entity
   parent: IDCardStandard
   id: UniversalIDCard
-  name: universal ID card
+  name: Universal ID card
   suffix: Admin
-  description: An ID card that gives you access beyond your wildest dreams.
+  description: An admin ID card with full access and privileges.
   components:
     - type: Sprite
       sprite: Objects/Misc/id_cards.rsi
@@ -1304,7 +1304,7 @@
 - type: entity
   parent: IDCardStandard
   id: LeagueSecGenIDCard
-  name: Aurelian Secretary General ID card
+  name: Aurelian Secretary General ID Card
   components:
     - type: Sprite
       layers:
@@ -1324,7 +1324,7 @@
 - type: entity
   parent: IDCardStandard
   id: LeagueIDCard
-  name: Aurelian Leage ID card
+  name: Aurelian Leage Official ID Card
   components:
     - type: Sprite
       layers:
@@ -1344,7 +1344,7 @@
 - type: entity
   parent: IDCardStandard
   id: AurelianLeagueERTLeaderIDCard
-  name: ERT leader ID card
+  name: League ERT Leader ID Card
   components:
     - type: Sprite
       layers:
@@ -1364,7 +1364,7 @@
 - type: entity
   parent: IDCardStandard
   id: AurelianLeagueERTEngineerIDCard
-  name: Aurelian League ERT Engineer ID card
+  name: League ERT Engineer ID Card
   components:
     - type: Sprite
       layers:
@@ -1384,7 +1384,7 @@
 - type: entity
   parent: IDCardStandard
   id: AurelianLeagueERTMedicIDCard
-  name: ERT Medic ID card
+  name: League ERT Medic ID Card
   components:
     - type: Sprite
       layers:
@@ -1404,7 +1404,7 @@
 - type: entity
   parent: IDCardStandard
   id: AurelianLeagueERTSecurityIDCard
-  name: Aurelian League ERT Security ID card
+  name: League ERT Security ID Card
   components:
     - type: Sprite
       layers:
@@ -1424,7 +1424,7 @@
 - type: entity
   parent: IDCardStandard
   id: AurelianLeagueIDCardDeathsquad
-  name: Death Squad ID card
+  name: League Death Squad ID Card
   components:
     - type: Sprite
       layers:
@@ -1444,7 +1444,7 @@
 - type: entity
   parent: IDCardStandard
   id: AurlelianLeagueCBURNIDcard
-  name: CBURN ID card
+  name: League CBURN ID Card
   suffix: CBURN
   components:
     - type: Sprite
@@ -1466,8 +1466,8 @@
 
 - type: entity
   parent: IDCardStandard
-  id: ExcutiveOfficerIDCard
-  name: Executive Officer ID card
+  id: ExecutiveOfficerIDCard
+  name: Executive Officer ID Card
   components:
     - type: Sprite
       layers:
@@ -1493,7 +1493,7 @@
 - type: entity
   parent: IDCardStandard
   id: CivilianIDCard
-  name: Civilian ID card
+  name: Civilian ID Card
   components:
     - type: Sprite
       layers:

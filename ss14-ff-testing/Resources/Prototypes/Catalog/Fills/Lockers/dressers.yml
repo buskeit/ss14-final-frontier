@@ -16,6 +16,23 @@
         - id: ClothingNeckCloakCap
 
 - type: entity
+  id: DresserExecutiveOfficerFilled
+  parent: Dresser
+  suffix: Filled, ExecutiveOfficer
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: ClothingHeadHardhatXO
+        - id: ClothingHeadHatXO
+        - id: ClothingUniformJumpsuitXOFormal
+        - id: ClothingUniformJumpskirtXOFormal
+        - id: ClothingHandsGlovesXO
+        - id: ClothingOuterWinterXO
+        - id: ClothingNeckCloakXO
+
+- type: entity
   id: DresserChiefEngineerFilled
   parent: Dresser
   suffix: Filled, Chief Engineer

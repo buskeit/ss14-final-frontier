@@ -209,3 +209,15 @@
   components:
   - type: ExplosionResistance
     damageCoefficient: 0
+
+# Custom
+## Command
+
+- type: entity
+  parent: [ClothingBackpackSatchel, BaseCommandContraband]
+  id: ClothingBackpackSatchelXO
+  name: Executive Officer's Satchel
+  description: An exclusive, darkblue satchel for command officers. This one bears the markings of an Executive Officer.
+  components:
+  - type: Sprite
+    sprite: Clothing/Back/Satchels/xo.rsi

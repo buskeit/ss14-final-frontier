@@ -3,6 +3,7 @@ using Content.Shared.Movement.Components;
 using Content.Shared.Movement.Systems;
 using Content.Shared.Nutrition.Components;
 using Content.Shared.Rejuvenate;
+using Content.Shared.Damage.Systems;
 using Content.Shared.StatusIcon;
 using JetBrains.Annotations;
 using Robust.Shared.Prototypes;
@@ -21,6 +22,7 @@ public sealed class ThirstSystem : EntitySystem
     [Dependency] private readonly AlertsSystem _alerts = default!;
     [Dependency] private readonly MovementSpeedModifierSystem _movement = default!;
     [Dependency] private readonly SharedJetpackSystem _jetpack = default!;
+    [Dependency] private readonly DamageableSystem _damageable = default!;
 
     private static readonly ProtoId<SatiationIconPrototype> ThirstIconOverhydratedId = "ThirstIconOverhydrated";
     private static readonly ProtoId<SatiationIconPrototype> ThirstIconThirstyId = "ThirstIconThirsty";
@@ -221,6 +223,14 @@ public sealed class ThirstSystem : EntitySystem
         }
     }
 
+    private bool ShouldPausePersistentSleepNutrition(EntityUid uid)
+    {
+        if (!TryComp<PersistentSleepNutritionComponent>(uid, out var persistentSleep))
+            return false;
+
+        return _timing.CurTime - persistentSleep.SleepStartedAt >= persistentSleep.PauseAfter;
+    }
+
     public override void Update(float frameTime)
     {
         base.Update(frameTime);
@@ -233,11 +243,24 @@ public sealed class ThirstSystem : EntitySystem
 
             thirst.NextUpdateTime += thirst.UpdateRate;
 
+            if (ShouldPausePersistentSleepNutrition(uid))
+                continue;
+
             ModifyThirst(uid, thirst, -thirst.ActualDecayRate);
+
             var calculatedThirstThreshold = GetThirstThreshold(thirst, thirst.CurrentThirst);
 
-            if (calculatedThirstThreshold == thirst.CurrentThirstThreshold)
-                continue;
+            if (calculatedThirstThreshold != thirst.CurrentThirstThreshold)
+            {
+                thirst.CurrentThirstThreshold = calculatedThirstThreshold;
+                UpdateEffects(uid, thirst);
+            }
+
+            if (thirst.CurrentThirstThreshold <= ThirstThreshold.Dead && thirst.DehydrationDamage is not null)
+            {
+                var damage = thirst.DehydrationDamage * frameTime;
+                _damageable.TryChangeDamage(uid, damage, true, false);
+            }
 
             thirst.CurrentThirstThreshold = calculatedThirstThreshold;
             UpdateEffects(uid, thirst);

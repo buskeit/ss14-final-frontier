@@ -7,10 +7,23 @@
   - CaptainJumpsuit
   - CaptainBackpack
   - CaptainOuterClothing
-  - Survival
-  - Trinkets
-  #- CaptainJobTrinkets
-  - GroupSpeciesBreathTool
+#  - Survival
+#  - Trinkets
+#  - CaptainJobTrinkets
+#  - GroupSpeciesBreathTool
+
+- type: roleLoadout
+  id: JobExecutiveOfficer
+  groups:
+  - ExecutiveOfficerHead
+  - ExecutiveOfficerNeck
+  - ExecutiveOfficerJumpsuit
+  - ExecutiveOfficerBackpack
+  - ExecutiveOfficerOuterClothing
+# - Survival
+# - Trinkets
+# - CaptainJobTrinkets
+# - GroupSpeciesBreathTool
 
 - type: roleLoadout
   id: JobHeadOfPersonnel
@@ -21,11 +34,11 @@
   - HoPJumpsuit
   - HoPBackpack
   - HoPOuterClothing
-  - Glasses
-  - Survival
-  - Trinkets
-  #- HoPJobTrinkets
-  - GroupSpeciesBreathTool
+#  - Glasses
+#  - Survival
+#  - Trinkets
+#  - HoPJobTrinkets
+#  - GroupSpeciesBreathTool
 
 # Silicons
 - type: roleLoadout
@@ -50,11 +63,11 @@
   - PassengerGloves
   - PassengerOuterClothing
   - PassengerShoes
-  - Glasses
+#  - Glasses
   - Survival
   - Trinkets
-  #- PassengerJobTrinkets
-  - GroupSpeciesBreathTool
+#  - PassengerJobTrinkets
+#  - GroupSpeciesBreathTool
   - BasicWallet
 
 - type: roleLoadout

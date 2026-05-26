@@ -326,3 +326,30 @@
   components:
   - type: AccessReader
     access: [["Xenoborg"]]
+
+# Custom
+## Command
+
+- type: entity
+  parent: DoorElectronics
+  id: DoorElectronicsExecutiveOfficer
+  suffix: Executive Officer, Locked
+  components:
+  - type: AccessReader
+    access: [["ExecutiveOfficer"]]
+
+- type: entity
+  parent: DoorElectronics
+  id: DoorElectronicsLeagueOfficial
+  suffix: League Official, Locked
+  components:
+  - type: AccessReader
+    access: [["LeagueOfficial"]]
+
+- type: entity
+  parent: DoorElectronics
+  id: DoorElectronicsLeagueSecGenOfficer
+  suffix: League Secretary General, Locked
+  components:
+  - type: AccessReader
+    access: [["SecretaryGeneral"]]

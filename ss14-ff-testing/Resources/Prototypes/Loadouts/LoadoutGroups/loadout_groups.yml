@@ -141,6 +141,47 @@
   - CaptainOuterClothing
   - CaptainWintercoat
 
+- type: loadoutGroup
+  id: ExecutiveOfficerHead
+  name: loadout-group-xo-head
+  minLimit: 1
+  loadouts:
+  - ExecutiveOfficerHat
+  - ExecutiveOfficerHardhat
+
+- type: loadoutGroup
+  id: ExecutiveOfficerJumpsuit
+  name: loadout-group-xo-jumpsuit
+  loadouts:
+  - ExecutiveOfficerJumpsuit
+  - ExecutiveOfficerJumpskirt
+  - ExecutiveOfficerFormalSuit
+  - ExecutiveOfficerFormalSkirt
+
+- type: loadoutGroup
+  id: ExecutiveOfficerNeck
+  name: loadout-group-xo-neck
+  minLimit: 1
+  loadouts:
+  - ExecutiveOfficerCloak
+  - ExecutiveOfficerCloakFormal
+  - ExecutiveOfficerMantle
+
+- type: loadoutGroup
+  id: ExecutiveOfficerBackpack
+  name: loadout-group-xo-backpack
+  loadouts:
+  - ExecutiveOfficerBackpack
+  - ExecutiveOfficerSatchel
+  - ExecutiveOfficerDuffel
+
+- type: loadoutGroup
+  id: ExecutiveOfficerOuterClothing
+  name: loadout-group-xo-outerclothing
+  loadouts:
+  - ExecutiveOfficerOuterClothing
+  - ExecutiveOfficerWintercoat
+
 #- type: loadoutGroup
 #  id: CaptainJobTrinkets
 #  name: loadout-group-jobtrinkets

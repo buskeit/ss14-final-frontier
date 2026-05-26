@@ -329,8 +329,8 @@
 - type: entity
   parent: [ClothingHeadBase, BaseCommandContraband]
   id: ClothingHeadHatCaptain
-  name: captain's hardhat
-  description: Feels good being the king.
+  name: Captain's Hardhat
+  description: a hardhat worn by command officers. This one bears markings of Captain.
   components:
   - type: Sprite
     sprite: Clothing/Head/Hats/captain.rsi
@@ -1230,8 +1230,8 @@
 - type: entity
   parent: ClothingHeadBase
   id: ClothingHeadHatCapcap
-  name: cap cap
-  description: A grand, stylish cap worn by the Captain. Shows the station who's in charge.
+  name: Captain's Officers Hat
+  description: A traditional officers hat, with the rank insignia of Captain.
   components:
   - type: Sprite
     sprite: Clothing/Head/Hats/capcap.rsi
@@ -1255,8 +1255,8 @@
 - type: entity
   parent: [ ClothingHeadBase, BaseCentcommContraband ]
   id: ClothingHeadHatCentcomcap
-  name: CentComm cap
-  description: An extravagant, stylish cap worn by CentComm officials. Shows the Captain who's in charge.
+  name: CentComm Officers Hat
+  description: An extravagant officer's hat, worn by CentComm officials.
   components:
   - type: Sprite
     sprite: Clothing/Head/Hats/comcap.rsi
@@ -1595,3 +1595,40 @@
     tags:
     - PetWearable
     - CorgiWearable
+
+# Custom
+## Command
+
+- type: entity
+  parent: ClothingHeadBase
+  id: ClothingHeadHatXO
+  name: Executive Officer's Officers Hat
+  description: A traditional officer's hat. This one bears the rank insignia of Executive Officer.
+  components:
+  - type: Sprite
+    sprite: Clothing/Head/Hats/xocap.rsi
+  - type: Clothing
+    sprite: Clothing/Head/Hats/xocap.rsi
+  - type: Item
+    sprite: Clothing/Head/Hats/xocap.rsi
+  - type: Tag
+    tags:
+    - ClothMade
+    - Recyclable
+    - WhitelistChameleon
+
+- type: entity
+  parent: [ClothingHeadBase, BaseCommandContraband]
+  id: ClothingHeadHardhatXO
+  name: Executive Officer's Hardhat
+  description: A hardhat with rank insignia of Executive Officer.
+  components:
+  - type: Sprite
+    sprite: Clothing/Head/Hats/xo.rsi
+  - type: Clothing
+    sprite: Clothing/Head/Hats/xo.rsi
+  - type: Tag
+    tags:
+    - ClothMade
+    - Recyclable
+    - WhitelistChameleon

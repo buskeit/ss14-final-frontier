@@ -107,8 +107,8 @@
 - type: entity
   parent: [ClothingNeckBase, BaseCommandContraband]
   id: ClothingNeckCloakCapFormal
-  name: captain's formal cloak
-  description: A lavish and decorated cloak for special occasions.
+  name: Captain's Formal Cloak
+  description: A formal cloak for special occassions, worn by senior command staff. This one bears the markings of a Captain.
   components:
   - type: Sprite
     sprite: Clothing/Neck/Cloaks/capcloakformal.rsi
@@ -289,3 +289,28 @@
   - type: Sprite
     sprite: Clothing/Neck/Cloaks/pan.rsi
 
+# Custom
+## Command
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckCloakXO
+  name: Executive Officer's Cloak
+  description: A standard issue dark blue cloak for senior command officers. This one bears the markings of Executive Officer.
+  components:
+  - type: Sprite
+    sprite: Clothing/Neck/Cloaks/xo.rsi
+  - type: StealTarget
+    stealGroup: HeadCloak
+
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckCloakXOFormal
+  name: Executive Officer's Formal Cloak
+  description: A formal cloak, worn by senior command staff, on special occassions. This one bears the markings of an Executive Officer.
+  components:
+  - type: Sprite
+    sprite: Clothing/Neck/Cloaks/xocloakformal.rsi
+  - type: StealTarget
+    stealGroup: HeadCloak

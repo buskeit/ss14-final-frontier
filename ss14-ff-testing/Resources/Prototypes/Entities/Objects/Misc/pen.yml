@@ -63,7 +63,7 @@
   name: luxury pen
   parent: Pen
   id: LuxuryPen
-  description: A fancy and expensive pen that you only deserve to own if you're qualified to handle vast amounts of paperwork.
+  description: A fancy and expensive pen for those, who handle vast amounts of paperwork.
   components:
   - type: Sprite
     state: luxury_pen
@@ -110,7 +110,7 @@
   name: CentComm pen
   parent: [BaseAdvancedPen, BaseCentcommContraband]
   id: PenCentcom
-  description: In an attempt to keep up with the "power" of the cybersun bureaucracy, NT made a replica of cyber pen, in their corporate style.
+  description: A luxurious green pen for central command officials.
   components:
   - type: Sprite
     state: pen_centcom
@@ -118,25 +118,34 @@
     heldPrefix: pen_centcom
 
 - type: entity
-  name: captain's fountain pen
+  name: Commanding Officer's Fountain Pen
   parent: PenEmbeddable
   id: PenCap
-  description: A luxurious fountain pen for the captain of the station.
+  description: A luxurious fountain pen for the Commanding Officer.
   components:
   - type: Sprite
     state: pen_cap
 
 - type: entity
-  name: HoP's fountain pen
+  name: Executive Officer's Fountain Pen
+  parent: PenEmbeddable
+  id: PenXO
+  description: A luxurious fountain pen for the Executive Officer.
+  components:
+  - type: Sprite
+    state: pen_xo
+
+- type: entity
+  name: Head of Personnel's Fountain Pen
   parent: PenEmbeddable
   id: PenHop
-  description: A luxurious fountain pen for the HoP of the station.
+  description: A luxurious fountain pen for the Head of Personnel.
   components:
   - type: Sprite
     state: pen_hop
 
 - type: entity
-  name: wizard's magical pen
+  name: Wizard's Magical Pen
   parent: [ PenEmbeddable, BaseMagicalContraband ]
   id: PenWiz
   description: A luxurious fountain pen. Seems to have a magical crystal eraser.

@@ -617,3 +617,19 @@
     stateBaseClosed: hop
     stateDoorOpen: hop_open
     stateDoorClosed: representative_door
+
+# Custom
+## Command
+
+- type: entity
+  id: LockerXO
+  parent: LockerBaseSecure
+  name: Executive Officer's Locker
+  components:
+  - type: Appearance
+  - type: EntityStorageVisuals
+    stateBaseClosed: xo
+    stateDoorOpen: xo_open
+    stateDoorClosed: xo_door
+  - type: AccessReader
+    access: [["ExecutiveOfficer"]]

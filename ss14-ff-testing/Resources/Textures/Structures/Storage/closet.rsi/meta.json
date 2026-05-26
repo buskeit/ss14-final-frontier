@@ -143,6 +143,15 @@
             "name": "cap_open"
         },
         {
+            "name": "xo"
+        },
+        {
+            "name": "xo_door"
+        },
+        {
+            "name": "xo_open"
+        },
+        {
             "name": "cardboard"
         },
         {

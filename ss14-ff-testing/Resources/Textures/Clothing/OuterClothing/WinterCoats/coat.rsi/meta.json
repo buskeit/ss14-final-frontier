@@ -522,6 +522,25 @@
 	{
       "name": "winterbits-tan-icon"
     },
+    {
+      "name": "XO-icon"
+    },
+    {
+      "name": "XO-equipped-OUTERCLOTHING",
+      "directions": 4
+    },
+    {
+      "name": "XO-equipped-OUTERCLOTHING-vox",
+      "directions": 4
+    },
+    {
+      "name": "XO-inhand-left",
+      "directions": 4
+    },
+    {
+      "name": "XO-inhand-right",
+      "directions": 4
+    },
 	{
       "name": "coatybits-equipped-OUTERCLOTHING",
       "directions": 4

@@ -1004,3 +1004,23 @@
     color: "#f4ffad"
     radius: 5
     energy: 2
+
+# Custom
+## Command
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: ClothingHeadHelmetHardsuitXO
+  name: captain's hardsuit helmet
+  description: Special hardsuit helmet, bearing the markings of an Executive Officer.
+  components:
+  - type: Sprite
+    sprite: Clothing/Head/Hardsuits/xospace.rsi
+  - type: Clothing
+    sprite: Clothing/Head/Hardsuits/xospace.rsi
+  - type: PressureProtection
+    highPressureMultiplier: 0.3
+    lowPressureMultiplier: 1000
+  - type: Tag
+    tags:
+    - WhitelistChameleon

@@ -762,3 +762,19 @@
     - id: ClothingMaskRaven
     - id: ClothingMaskRat
     - id: ClothingMaskJackal
+
+# Custom
+## Command
+
+- type: entity
+  parent: [ClothingMaskGasAtmos, BaseCommandContraband]
+  id: ClothingMaskGasXO
+  name: Executive Officer's Gas Mask
+  description: A blue command gas mask with markings of an executive officer.
+  components:
+  - type: Sprite
+    sprite: Clothing/Mask/gasxo.rsi
+  - type: Clothing
+    sprite: Clothing/Mask/gasxo.rsi
+  - type: BreathMask
+  - type: IngestionBlocker

@@ -1,0 +1,31 @@
+5 exception s System.Exception
+Exception in System.Collections.Generic.IReadOnlyList`1[Robust.Shared.GameObjects.EntityUid] LoadGameMap(Content.Shared.Maps.GameMapPrototype, Robust.Shared.Map.MapId ByRef, System.Nullable`1[Robust.Shared.EntitySerialization.DeserializationOptions], System.String, System.Nullable`1[System.Numerics.Vector2], System.Nullable`1[Robust.Shared.Maths.Angle]), at 05/25/2026 17:42:04:
+Message: Failed to load game map Box
+Catcher: GameTicker
+Stack trace:    at Content.Server.GameTicking.GameTicker.LoadGameMap(GameMapPrototype proto, MapId& mapId, Nullable`1 options, String stationName, Nullable`1 offset, Nullable`1 rot) in /home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/GameTicking/GameTicker.RoundFlow.cs:line 309
+   at Content.Server.GameTicking.GameTicker.LoadMaps() in /home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/GameTicking/GameTicker.RoundFlow.cs:line 225
+   at Content.Server.GameTicking.GameTicker.StartRound(Boolean force) in /home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/GameTicking/GameTicker.RoundFlow.cs:line 493
+Exception in System.Collections.Generic.IReadOnlyList`1[Robust.Shared.GameObjects.EntityUid] LoadGameMap(Content.Shared.Maps.GameMapPrototype, Robust.Shared.Map.MapId ByRef, System.Nullable`1[Robust.Shared.EntitySerialization.DeserializationOptions], System.String, System.Nullable`1[System.Numerics.Vector2], System.Nullable`1[Robust.Shared.Maths.Angle]), at 05/25/2026 17:42:12:
+Message: Failed to load game map Box
+Catcher: GameTicker
+Stack trace:    at Content.Server.GameTicking.GameTicker.LoadGameMap(GameMapPrototype proto, MapId& mapId, Nullable`1 options, String stationName, Nullable`1 offset, Nullable`1 rot) in /home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/GameTicking/GameTicker.RoundFlow.cs:line 309
+   at Content.Server.GameTicking.GameTicker.LoadMaps() in /home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/GameTicking/GameTicker.RoundFlow.cs:line 225
+   at Content.Server.GameTicking.GameTicker.StartRound(Boolean force) in /home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/GameTicking/GameTicker.RoundFlow.cs:line 493
+Exception in System.Collections.Generic.IReadOnlyList`1[Robust.Shared.GameObjects.EntityUid] LoadGameMap(Content.Shared.Maps.GameMapPrototype, Robust.Shared.Map.MapId ByRef, System.Nullable`1[Robust.Shared.EntitySerialization.DeserializationOptions], System.String, System.Nullable`1[System.Numerics.Vector2], System.Nullable`1[Robust.Shared.Maths.Angle]), at 05/25/2026 17:42:17:
+Message: Failed to load game map Box
+Catcher: GameTicker
+Stack trace:    at Content.Server.GameTicking.GameTicker.LoadGameMap(GameMapPrototype proto, MapId& mapId, Nullable`1 options, String stationName, Nullable`1 offset, Nullable`1 rot) in /home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/GameTicking/GameTicker.RoundFlow.cs:line 309
+   at Content.Server.GameTicking.GameTicker.LoadMaps() in /home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/GameTicking/GameTicker.RoundFlow.cs:line 225
+   at Content.Server.GameTicking.GameTicker.StartRound(Boolean force) in /home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/GameTicking/GameTicker.RoundFlow.cs:line 493
+Exception in System.Collections.Generic.IReadOnlyList`1[Robust.Shared.GameObjects.EntityUid] LoadGameMap(Content.Shared.Maps.GameMapPrototype, Robust.Shared.Map.MapId ByRef, System.Nullable`1[Robust.Shared.EntitySerialization.DeserializationOptions], System.String, System.Nullable`1[System.Numerics.Vector2], System.Nullable`1[Robust.Shared.Maths.Angle]), at 05/25/2026 17:42:23:
+Message: Failed to load game map Box
+Catcher: GameTicker
+Stack trace:    at Content.Server.GameTicking.GameTicker.LoadGameMap(GameMapPrototype proto, MapId& mapId, Nullable`1 options, String stationName, Nullable`1 offset, Nullable`1 rot) in /home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/GameTicking/GameTicker.RoundFlow.cs:line 309
+   at Content.Server.GameTicking.GameTicker.LoadMaps() in /home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/GameTicking/GameTicker.RoundFlow.cs:line 225
+   at Content.Server.GameTicking.GameTicker.StartRound(Boolean force) in /home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/GameTicking/GameTicker.RoundFlow.cs:line 493
+Exception in System.Collections.Generic.IReadOnlyList`1[Robust.Shared.GameObjects.EntityUid] LoadGameMap(Content.Shared.Maps.GameMapPrototype, Robust.Shared.Map.MapId ByRef, System.Nullable`1[Robust.Shared.EntitySerialization.DeserializationOptions], System.String, System.Nullable`1[System.Numerics.Vector2], System.Nullable`1[Robust.Shared.Maths.Angle]), at 05/25/2026 17:42:29:
+Message: Failed to load game map Box
+Catcher: GameTicker
+Stack trace:    at Content.Server.GameTicking.GameTicker.LoadGameMap(GameMapPrototype proto, MapId& mapId, Nullable`1 options, String stationName, Nullable`1 offset, Nullable`1 rot) in /home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/GameTicking/GameTicker.RoundFlow.cs:line 309
+   at Content.Server.GameTicking.GameTicker.LoadMaps() in /home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/GameTicking/GameTicker.RoundFlow.cs:line 225
+   at Content.Server.GameTicking.GameTicker.StartRound(Boolean force) in /home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/GameTicking/GameTicker.RoundFlow.cs:line 493

@@ -6,14 +6,10 @@
     - id: BoxFolderQmClipboard
     - id: BoxQMCircuitboards
     - id: BoxQMStamps
-    - id: CigPackGreen
-      prob: 0.50
     - id: ClothingHeadsetAltCargo
     - id: DoorRemoteCargo
     - id: AstroNavCartridge
     - id: ClothingHandsKnuckleDustersQM
-    - id: PlushieLizardJobQuartermaster
-      prob: 0.02
 
 #No Digiboard
 - type: entityTable
@@ -58,27 +54,19 @@
     children:
     - id: CaptainIDCard
     - id: CigarGoldCase
-      prob: 0.25
     - id: ClothingBeltSheathFilled
     - id: ClothingHeadsetAltCommand
     - id: ClothingOuterArmorCaptainCarapace
     - id: BoxCaptainCircuitboards
     - id: DoorRemoteCustom
     - id: MedalCase
-#    - id: NukeDisk # Persistence: no nuke, no disk
+    - id: NukeDisk
     - id: PinpointerNuclear
-    - id: PlushieNuke
-      prob: 0.1
     - id: RubberStampCaptain
     - id: SpaceCash1000
     - id: WeaponDisabler
     - id: ClothingEyesGlassesCommand
-    - id: OrganSkeletonPersonHead # A skull to accompany your skeleton crew
-      conditions:
-      - !type:PlayerCountCondition
-        max: 15
-    - id: PlushieLizardJobCaptain
-      prob: 0.02
+    - id: ClothingEyesHudCommand
 
 # No laser table + Laser table
 - type: entityTable
@@ -98,6 +86,7 @@
     - id: ClothingMaskGasCaptain
     - id: JetpackCaptainFilled
     - id: OxygenTankFilled
+    - id: NitrogenTankFilled
 
 # No laser locker, used when the antique laser is placed in the special display crate
 - type: entity
@@ -136,6 +125,59 @@
         - !type:NestedSelector
           tableId: FillCaptainHardsuit
 
+# Custom
+## Executive Officer
+- type: entityTable
+  id: LockerFillXO
+  table: !type:AllSelector
+    children:
+    - id: ExecutiveOfficerIDCard
+    - id: ClothingHeadsetAltCommand
+    - id: ClothingOuterArmorXOCarapace
+    - id: CigarCase
+    - id: DoorRemoteCustom
+    - id: PinpointerNuclear
+    - id: RubberStampXO
+    - id: SpaceCash1000
+    - id: WeaponDisabler
+    - id: ClothingEyesGlassesCommand
+    - id: ClothingEyesHudCommand
+
+# Hardsuit table, used for suit storage as well
+- type: entityTable
+  id: FillXOHardsuit
+  table: !type:AllSelector
+    children:
+    - id: ClothingOuterHardsuitXO
+    - id: ClothingMaskGasXO
+    - id: JetpackXOFilled
+    - id: OxygenTankFilled
+    - id: NitrogenTankFilled
+
+- type: entity
+  id: LockerXOFilled
+  suffix: Filled
+  parent: LockerXO
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:NestedSelector
+        tableId: LockerFillXO
+
+- type: entity
+  id: LockerXOFilledHardsuit
+  suffix: Filled, Hardsuit
+  parent: LockerXO
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:AllSelector
+        children:
+        - !type:NestedSelector
+          tableId: LockerFillXO
+        - !type:NestedSelector
+          tableId: FillXOHardsuit
+
 - type: entityTable
   id: LockerFillHeadOfPersonnel
   table: !type:AllSelector
@@ -148,20 +190,12 @@
     - id: BoxHoPStamps
     - id: BoxID
     - id: BoxPDA
-    - id: CigarGoldCase
-      prob: 0.25
-      # Fuck the HoP they don't deserve fucking cigars.
-      # Yes they do fuck you.
-    - id: ClothingBackpackIan
-      prob: 0.5
     - id: ClothingHeadsetCommand
     - id: ClothingNeckGoldmedal
     - id: DoorRemoteService
     - id: HoPIDCard
     - id: WeaponDisabler
     - id: ClothingEyesHudCommand
-    - id: PlushieLizardJobHeadofpersonnel
-      prob: 0.02
 
 - type: entity
   id: LockerHeadOfPersonnelFilled
@@ -180,8 +214,6 @@
     children:
     - id: AccessConfigurator
     - id: BoxEncryptionKeyEngineering
-    - id: CigarCase
-      prob: 0.15
     - id: ClothingBeltChiefEngineerFilled
     - id: ClothingEyesGlassesMeson
     - id: ClothingHandsGlovesColorYellow
@@ -192,8 +224,6 @@
     - id: RCDAmmo
     - id: RubberStampCE
     - id: MetalFoamGrenade
-    - id: PlushieLizardJobChiefengineer
-      prob: 0.02
 
 # Hardsuit table, used for suit storage as well
 - type: entityTable

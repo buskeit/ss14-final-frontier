@@ -58,7 +58,7 @@
 - type: entity
   parent: [ClothingUniformBase, BaseCommandContraband]
   id: ClothingUniformJumpsuitCaptain
-  name: captain's jumpsuit
+  name: Captain Jumpsuit
   description: It's a blue jumpsuit with some gold markings denoting the rank of "Captain".
   components:
   - type: Sprite
@@ -873,7 +873,7 @@
 - type: entity
   parent: [ClothingUniformBase, BaseCommandContraband]
   id: ClothingUniformJumpsuitCapFormal
-  name: captain's formal suit
+  name: Captain Formal Suit
   description: A suit for special occasions.
   components:
   - type: Sprite
@@ -1455,3 +1455,28 @@
     sprite: Clothing/Uniforms/Jumpsuit/familiar_garbs.rsi
   - type: Clothing
     sprite: Clothing/Uniforms/Jumpsuit/familiar_garbs.rsi
+
+# Custom
+## Command
+
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband]
+  id: ClothingUniformJumpsuitXO
+  name: Executive Officer Jumpsuit
+  description: It's a blue jumpsuit with silver markings denoting the rank of Executive Officer.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpsuit/xo.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpsuit/xo.rsi
+
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband]
+  id: ClothingUniformJumpsuitXOFormal
+  name: Executive Officer Formal Suit
+  description: A dress suit for special occasions.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpsuit/xoformal.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpsuit/xoformal.rsi

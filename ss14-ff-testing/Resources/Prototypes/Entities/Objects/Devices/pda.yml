@@ -1608,3 +1608,30 @@
   - type: Tag #  Ignore Chameleon tags
     tags:
     - DoorBumpOpener
+
+# Custom
+## Command
+
+- type: entity
+  parent: BasePDA
+  id: ExecutiveOfficerPDA
+  name: Executive Officer's PDA
+  description: A blue PDA for command staff. These ones are specifically for Executive Officers.
+  components:
+  - type: Pda
+    id: ExecutiveOfficerIDCard
+    penSlot:
+      startingItem: PenXO
+      priority: -1
+      whitelist:
+        tags:
+        - Write
+  - type: Appearance
+    appearanceDataInit:
+     enum.PdaVisuals.PdaType:
+       !type:String
+       pda-xo
+  - type: PdaBorderColor
+    borderColor: "#00557f"
+  - type: Icon
+    state: pda-xo

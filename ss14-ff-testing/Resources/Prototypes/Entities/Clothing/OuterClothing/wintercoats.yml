@@ -1225,3 +1225,29 @@
       - state: winterbits-equipped-OUTERCLOTHING
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHatHoodWinterColorYellow
+
+# Custom
+## Command
+
+- type: entity
+  parent: [ClothingOuterWinterCoatToggleable, BaseCommandContraband]
+  id: ClothingOuterWinterXO
+  name: Executive Officer's Winter Coat
+  components:
+  - type: Sprite
+    sprite: Clothing/OuterClothing/WinterCoats/coat.rsi
+    layers:
+    - state: XO-icon
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: XO-inhand-left
+      right:
+      - state: XO-inhand-right
+  - type: Clothing
+    sprite: Clothing/OuterClothing/WinterCoats/coat.rsi
+    clothingVisuals:
+      outerClothing:
+      - state: XO-equipped-OUTERCLOTHING
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHatHoodWinterCaptain

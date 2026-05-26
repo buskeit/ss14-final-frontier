@@ -121,8 +121,8 @@
 - type: entity
   parent: [ClothingOuterArmorBaseCarapace, BaseCommandContraband]
   id: ClothingOuterArmorCaptainCarapace
-  name: captain's carapace
-  description: An armored chestpiece that provides protection whilst still offering maximum mobility and flexibility. Issued only to the station's finest.
+  name: Commanding Officer's carapace
+  description: An armored chestpiece that provides protection whilst still offering maximum mobility and flexibility. This one bears the golden markings of a Commanding Officer.
   components:
   - type: Sprite
     sprite: Clothing/OuterClothing/Armor/captain_carapace.rsi
@@ -497,3 +497,20 @@
   - type: Construction
     graph: cardArmour
     node: cardarmour
+
+# Custom
+## Command
+
+- type: entity
+  parent: [ClothingOuterArmorBaseCarapace, BaseCommandContraband]
+  id: ClothingOuterArmorXOCarapace
+  name: Executive Officer's Carapace
+  description: An armored chestpiece that provides protection whilst still offering maximum mobility and flexibility. This one bears the silver markings of an Executive Officer.
+  components:
+  - type: Sprite
+    sprite: Clothing/OuterClothing/Armor/xo_carapace.rsi
+  - type: Clothing
+    sprite: Clothing/OuterClothing/Armor/xo_carapace.rsi
+  - type: Tag
+    tags:
+    - WhitelistChameleon

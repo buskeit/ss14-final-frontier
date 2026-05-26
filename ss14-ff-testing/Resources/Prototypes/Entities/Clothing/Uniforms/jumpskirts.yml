@@ -913,3 +913,28 @@
     tags:
     - ClownSuit
     - WhitelistChameleon
+
+# Custom
+## Command
+
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband]
+  id: ClothingUniformJumpskirtXO
+  name: Executive Officer Jumpskirt
+  description: It's a standard issue blue jumpsuit with silver markings denoting the rank of Executive Officer.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpskirt/xo.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpskirt/xo.rsi
+
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband]
+  id: ClothingUniformJumpskirtXOFormal
+  name: Executive Officer Formal Suit
+  description: A female dress suit for special occasions. The silver markings denote the rank of Executive Officer.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpskirt/xoformaldress.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpskirt/xoformaldress.rsi

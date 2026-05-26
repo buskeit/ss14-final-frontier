@@ -263,6 +263,14 @@ public sealed class HungerSystem : EntitySystem
             component.Thresholds[HungerThreshold.Overfed]);
     }
 
+    private bool ShouldPausePersistentSleepNutrition(EntityUid uid)
+    {
+        if (!TryComp<PersistentSleepNutritionComponent>(uid, out var persistentSleep))
+            return false;
+
+        return _timing.CurTime - persistentSleep.SleepStartedAt >= persistentSleep.PauseAfter;
+    }
+
     public override void Update(float frameTime)
     {
         base.Update(frameTime);
@@ -273,6 +281,12 @@ public sealed class HungerSystem : EntitySystem
             if (_timing.CurTime < hunger.NextThresholdUpdateTime)
                 continue;
             hunger.NextThresholdUpdateTime = _timing.CurTime + hunger.ThresholdUpdateRate;
+
+            if (ShouldPausePersistentSleepNutrition(uid))
+            {
+                SetAuthoritativeHungerValue((uid, hunger), GetHunger(hunger));
+                continue;
+            }
 
             UpdateCurrentThreshold(uid, hunger);
             DoContinuousHungerEffects(uid, hunger);

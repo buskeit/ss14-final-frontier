@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "XPvVQkeEaO4=",
+  "dgSpecHash": "4zlG8mOPB6M=",
   "success": true,
   "projectFilePath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/Content.Shared.Database.csproj",
   "expectedPackageFiles": [
-    "/home/bbuske/.nuget/packages/microsoft.aspnetcore.app.ref/10.0.4/microsoft.aspnetcore.app.ref.10.0.4.nupkg.sha512"
+    "/home/bbuske/.nuget/packages/microsoft.aspnetcore.app.ref/10.0.8/microsoft.aspnetcore.app.ref.10.0.8.nupkg.sha512"
   ],
   "logs": []
 }
