@@ -10,7 +10,6 @@ using Content.Shared.Database;
 using Content.Shared.DeltaV.CartridgeLoader.Cartridges;
 using Content.Shared.DeltaV.NanoChat;
 using Content.Shared.PDA;
-using Content.Shared.Radio.Components;
 using Robust.Server.GameObjects;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
@@ -386,9 +385,13 @@ public sealed class NanoChatCartridgeSystem : EntitySystem
         Entity<NanoChatCartridgeComponent> sender,
         uint recipientNumber)
     {
+        if (!TryComp<CartridgeComponent>(sender, out var senderCartridge) ||
+            senderCartridge.LoaderUid is not { } senderPda)
+            return (true, new List<Entity<NanoChatCardComponent>>());
+
         // First verify we can send from this device
         var channel = _prototype.Index(sender.Comp.RadioChannel);
-        var sendAttemptEvent = new RadioSendAttemptEvent(channel, sender);
+        var sendAttemptEvent = new RadioSendAttemptEvent(channel, senderPda);
         RaiseLocalEvent(ref sendAttemptEvent);
         if (sendAttemptEvent.Cancelled)
             return (true, new List<Entity<NanoChatCardComponent>>());
@@ -408,43 +411,37 @@ public sealed class NanoChatCartridgeSystem : EntitySystem
         if (foundRecipients.Count == 0)
             return (true, foundRecipients);
 
-        // Now check if any of these cards can receive
+        var senderStation = _station.GetOwningStation(senderPda);
+        if (senderStation == null)
+            return (true, new List<Entity<NanoChatCardComponent>>());
+
+        // Now check if any of these cards can receive.
+        // Validate against the PDAs currently containing the recipient cards.
         var deliverableRecipients = new List<Entity<NanoChatCardComponent>>();
         foreach (var recipient in foundRecipients)
         {
-            // Find any cartridges that have this card
-            var cartridgeQuery = EntityQueryEnumerator<NanoChatCartridgeComponent, ActiveRadioComponent>();
-            while (cartridgeQuery.MoveNext(out var receiverUid, out var receiverCart, out _))
-            {
-                if (receiverCart.Card != recipient.Owner)
-                    continue;
+            if (recipient.Comp.PdaUid is not { } recipientPda)
+                continue;
 
-                // Check if devices are on same station/map
-                var recipientStation = _station.GetOwningStation(receiverUid);
-                var senderStation = _station.GetOwningStation(sender);
+            var recipientStation = _station.GetOwningStation(recipientPda);
+            if (recipientStation == null)
+                continue;
 
-                // Both entities must be on a station
-                if (recipientStation == null || senderStation == null)
-                    continue;
+            // Must be on same map/station unless long range allowed.
+            if (!channel.LongRange && recipientStation != senderStation)
+                continue;
 
-                // Must be on same map/station unless long range allowed
-                if (!channel.LongRange && recipientStation != senderStation)
-                    continue;
+            // Non-long-range channels need active telecom servers on both sides.
+            if (!channel.LongRange && (!HasActiveServer(senderStation.Value) || !HasActiveServer(recipientStation.Value)))
+                continue;
 
-                // Needs telecomms
-                if (!HasActiveServer(senderStation.Value) || !HasActiveServer(recipientStation.Value))
-                    continue;
+            // Check if recipient can receive.
+            var receiveAttemptEv = new RadioReceiveAttemptEvent(channel, senderPda, recipientPda);
+            RaiseLocalEvent(ref receiveAttemptEv);
+            if (receiveAttemptEv.Cancelled)
+                continue;
 
-                // Check if recipient can receive
-                var receiveAttemptEv = new RadioReceiveAttemptEvent(channel, sender, receiverUid);
-                RaiseLocalEvent(ref receiveAttemptEv);
-                if (receiveAttemptEv.Cancelled)
-                    continue;
-
-                // Found valid cartridge that can receive
-                deliverableRecipients.Add(recipient);
-                break; // Only need one valid cartridge per card
-            }
+            deliverableRecipients.Add(recipient);
         }
 
         return (deliverableRecipients.Count == 0, deliverableRecipients);
