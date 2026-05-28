@@ -1,6 +1,6 @@
 - type: entity
   abstract: true
-  parent: BaseItem # Persistence: removed StorePresetUplink
+  parent: [BaseItem, StorePresetUplink]
   id: BasePDA
   name: PDA
   description: Personal Data Assistant.
@@ -71,7 +71,7 @@
     softness: 5
     autoRot: true
   - type: Ringer
-#  - type: RingerUplink
+  - type: RingerUplink
   - type: DeviceNetwork
     deviceNetId: Wireless
     receiveFrequencyId: PDA
@@ -639,8 +639,8 @@
 - type: entity
   parent: BasePDA
   id: CaptainPDA
-  name: captain PDA
-  description: Surprisingly no different from your PDA.
+  name: Commanding Officer's PDA
+  description: A PDA for the Commanding Officers, with additional applications installed.
   components:
   - type: Pda
     id: CaptainIDCard

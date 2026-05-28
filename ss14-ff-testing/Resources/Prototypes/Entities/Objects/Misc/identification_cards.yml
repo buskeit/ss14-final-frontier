@@ -25,6 +25,7 @@
         - WhitelistChameleonIdCard
     - type: StealTarget
       stealGroup: IDCard
+    - type: NanoChatCard #Final Frontier
 
 #IDs with layers
 
@@ -71,6 +72,8 @@
         - HighRiskItem
     - type: StealTarget
       stealGroup: CaptainIDCard
+    - type: NanoChatCard # Final Frontier
+      listNumber: false
 
 - type: entity
   parent: IDCardStandard
@@ -1095,6 +1098,8 @@
       heldPrefix: blue
     - type: PresetIdCard
       job: CentralCommandOfficial
+    - type: NanoChatCard # Final Frontier
+      listNumber: false
 
 - type: entity
   parent: IDCardStandard
@@ -1115,6 +1120,8 @@
       heldPrefix: gold
     - type: PresetIdCard
       job: ERTLeader
+    - type: NanoChatCard # Final Frontier
+      listNumber: false
 
 - type: entity
   parent: IDCardStandard
@@ -1135,6 +1142,8 @@
       heldPrefix: blue
     - type: PresetIdCard
       job: ERTChaplain
+    - type: NanoChatCard # Final Frontier
+      listNumber: false
 
 - type: entity
   parent: IDCardStandard
@@ -1155,6 +1164,8 @@
       heldPrefix: blue
     - type: PresetIdCard
       job: ERTEngineer
+    - type: NanoChatCard # Final Frontier
+      listNumber: false
 
 - type: entity
   parent: IDCardStandard
@@ -1175,6 +1186,8 @@
       heldPrefix: blue
     - type: PresetIdCard
       job: ERTJanitor
+    - type: NanoChatCard # Final Frontier
+      listNumber: false
 
 - type: entity
   parent: IDCardStandard
@@ -1195,6 +1208,8 @@
       heldPrefix: blue
     - type: PresetIdCard
       job: ERTMedical
+    - type: NanoChatCard # Final Frontier
+      listNumber: false
 
 - type: entity
   parent: IDCardStandard
@@ -1215,6 +1230,8 @@
       heldPrefix: blue
     - type: PresetIdCard
       job: ERTSecurity
+    - type: NanoChatCard # Final Frontier
+      listNumber: false
 
 - type: entity
   parent: IDCardStandard
@@ -1233,6 +1250,8 @@
           state: DeathSquad
     - type: PresetIdCard
       job: DeathSquad
+    - type: NanoChatCard # Final Frontier
+      listNumber: false
 
 - type: entity
   parent: IDCardStandard
@@ -1254,6 +1273,8 @@
       heldPrefix: blue
     - type: PresetIdCard
       job: CBURN
+    - type: NanoChatCard # Final Frontier
+      listNumber: false
 
 - type: entity
   parent: IDCardStandard
@@ -1290,6 +1311,8 @@
       tags:
         - DoorBumpOpener
     - type: AgentIDCard
+    - type: NanoChatCard # Final Frontier
+      listNumber: false
     - type: ActivatableUI
       key: enum.AgentIDCardUiKey.Key
       inHandsOnly: true
@@ -1320,6 +1343,8 @@
       heldPrefix: red
     - type: PresetIdCard
       job: LeagueSecretaryGeneral
+    - type: NanoChatCard # Final Frontier
+      listNumber: false
 
 - type: entity
   parent: IDCardStandard
@@ -1340,6 +1365,8 @@
       heldPrefix: red
     - type: PresetIdCard
       job: LeagueOfficial
+    - type: NanoChatCard # Final Frontier
+      listNumber: false
 
 - type: entity
   parent: IDCardStandard
@@ -1360,6 +1387,8 @@
       heldPrefix: gold
     - type: PresetIdCard
       job: ERTLeader
+    - type: NanoChatCard # Final Frontier
+      listNumber: false
 
 - type: entity
   parent: IDCardStandard
@@ -1380,6 +1409,8 @@
       heldPrefix: red
     - type: PresetIdCard
       job: ERTEngineer
+    - type: NanoChatCard # Final Frontier
+      listNumber: false
 
 - type: entity
   parent: IDCardStandard
@@ -1400,6 +1431,8 @@
       heldPrefix: red
     - type: PresetIdCard
       job: ERTMedical
+    - type: NanoChatCard # Final Frontier
+      listNumber: false
 
 - type: entity
   parent: IDCardStandard
@@ -1420,6 +1453,8 @@
       heldPrefix: red
     - type: PresetIdCard
       job: ERTSecurity
+    - type: NanoChatCard # Final Frontier
+      listNumber: false
 
 - type: entity
   parent: IDCardStandard
@@ -1440,6 +1475,8 @@
       heldPrefix: red
     - type: PresetIdCard
       job: DeathSquad
+    - type: NanoChatCard # Final Frontier
+      listNumber: false
 
 - type: entity
   parent: IDCardStandard
@@ -1461,6 +1498,8 @@
       heldPrefix: red
     - type: PresetIdCard
       job: CBURN
+    - type: NanoChatCard # Final Frontier
+      listNumber: false
 
 # Command
 
@@ -1487,6 +1526,8 @@
       tags:
         - DoorBumpOpener
         - HighRiskItem
+    - type: NanoChatCard # Final Frontier
+      listNumber: false
 
 # Other
 
@@ -1503,3 +1544,4 @@
           state: Civilian
     - type: PresetIdCard
       job: Civilian
+    - type: NanoChatCard # Final Frontier

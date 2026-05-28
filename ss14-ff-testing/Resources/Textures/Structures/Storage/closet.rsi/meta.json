@@ -614,58 +614,67 @@
             "name": "representative_door"
         },
         {
-            "name": "ce-SOL"
+            "name": "ce-AL"
         },
         {
-            "name": "ce-SOL_door"
+            "name": "ce-AL_door"
         },
         {
-            "name": "ce-SOL_open"
+            "name": "ce-AL_open"
         },
         {
-            "name": "cmo-SOL"
+            "name": "cmo-AL"
         },
         {
-            "name": "cmo-SOL_door"
+            "name": "cmo-AL_door"
         },
         {
-            "name": "cmo-SOL_open"
+            "name": "cmo-AL_open"
         },
         {
-            "name": "exec-SOL"
+            "name": "exec-AL"
         },
         {
-            "name": "exec-SOL_open"
+            "name": "exec-AL_open"
         },
         {
-            "name": "exec-SOL_door"
+            "name": "exec-AL_door"
         },
         {
-            "name": "hos-SOL"
+            "name": "official-AL"
         },
         {
-            "name": "hos-SOL_door"
+            "name": "official-AL_open"
         },
         {
-            "name": "hos-SOL_open"
+            "name": "official-AL_door"
         },
         {
-            "name": "qm-SOL"
+            "name": "hos-AL"
         },
         {
-            "name": "qm-SOL_door"
+            "name": "hos-AL_door"
         },
         {
-            "name": "qm-SOL_open"
+            "name": "hos-AL_open"
         },
         {
-            "name": "rd-SOL"
+            "name": "qm-AL"
         },
         {
-            "name": "rd-SOL_door"
+            "name": "qm-AL_door"
         },
         {
-            "name": "rd-SOL_open"
+            "name": "qm-AL_open"
+        },
+        {
+            "name": "rd-AL"
+        },
+        {
+            "name": "rd-AL_door"
+        },
+        {
+            "name": "rd-AL_open"
         }
     ]
 }
