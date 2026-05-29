@@ -75,15 +75,15 @@ public sealed class StockMarketSystem : EntitySystem
         if (companyIndex < 0 || companyIndex >= stockMarket.Companies.Count)
             return;
 
-        if (!TryComp<AccessReaderComponent>(ent, out var access))
-            return;
-
-        // Attempt to retrieve ID card from loader,
-        // play deny sound and exit if access is not allowed
-        if (!_idCard.TryGetIdCard(loader, out var idCard) || !_access.IsAllowed(idCard, ent.Owner, access))
+        if (TryComp<AccessReaderComponent>(ent, out var access))
         {
-            _audio.PlayEntity(stockMarket.DenySound, loader, user);
-            return;
+            // Attempt to retrieve ID card from loader,
+            // play deny sound and exit if access is not allowed
+            if (!_idCard.TryGetIdCard(loader, out var idCard) || !_access.IsAllowed(idCard, ent.Owner, access))
+            {
+                _audio.PlayEntity(stockMarket.DenySound, loader, user);
+                return;
+            }
         }
 
         try

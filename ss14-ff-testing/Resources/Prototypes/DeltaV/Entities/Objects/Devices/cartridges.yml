@@ -19,8 +19,6 @@
       sprite: DeltaV/Misc/program_icons.rsi
       state: stock_trading
   - type: BankClient
-  - type: AccessReader # This is so that we can restrict who can buy stocks
-    access: [["Orders"]]
 
 - type: entity
   parent: BasePDACartridge
