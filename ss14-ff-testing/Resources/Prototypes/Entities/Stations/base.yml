@@ -13,6 +13,7 @@
   abstract: true
   components:
     - type: StationBankAccount
+    - type: StationStockMarket
     - type: StationCargoOrderDatabase
       orders:
         Cargo: [ ]
