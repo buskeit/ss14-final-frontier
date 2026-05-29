@@ -32,46 +32,17 @@ public abstract class SharedSmartFridgeSystem : EntitySystem
         SubscribeLocalEvent<SmartFridgeComponent, InteractUsingEvent>(OnInteractUsing, after: [typeof(AnchorableSystem)]);
         SubscribeLocalEvent<SmartFridgeComponent, EntInsertedIntoContainerMessage>(OnItemInserted);
         SubscribeLocalEvent<SmartFridgeComponent, EntRemovedFromContainerMessage>(OnItemRemoved);
-        SubscribeLocalEvent<SmartFridgeComponent, ComponentInit>(OnCompInit);
         SubscribeLocalEvent<SmartFridgeComponent, AfterAutoHandleStateEvent>((ent, ref _) => UpdateUI(ent));
 
         SubscribeLocalEvent<SmartFridgeComponent, GetVerbsEvent<AlternativeVerb>>(OnGetAltVerb);
         SubscribeLocalEvent<SmartFridgeComponent, GetDumpableVerbEvent>(OnGetDumpableVerb);
         SubscribeLocalEvent<SmartFridgeComponent, DumpEvent>(OnDump);
-        SubscribeLocalEvent<BeforeSerializationEvent>(OnMapSave);
         Subs.BuiEvents<SmartFridgeComponent>(SmartFridgeUiKey.Key,
             sub =>
             {
                 sub.Event<SmartFridgeDispenseItemMessage>(OnDispenseItem);
                 sub.Event<SmartFridgeRemoveEntryMessage>(OnRemoveEntry);
             });
-    }
-
-    private void OnCompInit(Entity<SmartFridgeComponent> ent, ref ComponentInit args)
-    {
-        if (ent.Comp.ContainedEntriesCopy.Count > 0)
-        {
-            foreach (var kv in ent.Comp.ContainedEntriesCopy)
-            {
-                ent.Comp.ContainedEntries.Add(new SmartFridgeEntry(kv.Key), kv.Value);
-            }
-            Dirty(ent);
-        }
-
-    }
-    private void OnMapSave(BeforeSerializationEvent ev)
-    {
-        var query = EntityQueryEnumerator<SmartFridgeComponent>();
-        while (query.MoveNext(out var uid, out var comp))
-        {
-            comp.ContainedEntriesCopy = new();
-            foreach (var kv in comp.ContainedEntries)
-            {
-                comp.ContainedEntriesCopy.Add(kv.Key.Name, kv.Value);
-            }
-        }
-
-
     }
     private bool DoInsert(Entity<SmartFridgeComponent> ent, EntityUid user, IEnumerable<EntityUid> usedItems, bool playSound)
     {

@@ -59,12 +59,15 @@
   - type: RadiationCollector
     chargeModifier: 15000
     radiationReactiveGases:
+      # Persistent server gameplay balancing:
+      # Reactant breakdown rates reduced 100x so that a standard filled plasma tank
+      # lasts ~50 hours instead of ~30 minutes under typical singularity radiation.
       - reactantPrototype: Plasma
         powerGenerationEfficiency: 0.25
-        reactantBreakdownRate: 0.0000041667
+        reactantBreakdownRate: 0.000000041667
       - reactantPrototype: Tritium
         powerGenerationEfficiency: 0.50
-        reactantBreakdownRate: 0.0000020833
+        reactantBreakdownRate: 0.000000020833
   - type: RadiationReceiver
   - type: PowerSupplier
   - type: Anchorable
