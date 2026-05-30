@@ -24,7 +24,7 @@
   parent: BasePDACartridge
   id: NanoChatCartridge
   name: NanoChat Cartridge
-  description: A modern, yeat easy to use messenger service.
+  description: A modern, yet easy to use messenger service.
   components:
   - type: Sprite
     sprite: DeltaV/Objects/Devices/cartridge.rsi

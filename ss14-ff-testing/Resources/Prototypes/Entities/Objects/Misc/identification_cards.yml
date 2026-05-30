@@ -32,7 +32,7 @@
 - type: entity
   parent: IDCardStandard
   id: PassengerIDCard
-  name: Passenger ID card
+  name: Passenger ID Card
   components:
     - type: Sprite
       layers:
@@ -78,7 +78,7 @@
 - type: entity
   parent: IDCardStandard
   id: HoPIDCard
-  name: Head of personnel ID card
+  name: Head of Personnel ID Card
   components:
     - type: Sprite
       layers:
@@ -200,7 +200,7 @@
 - type: entity
   parent: IDCardStandard
   id: TechnicalAssistantIDCard
-  name: Technical assistant ID Card
+  name: Technical Assistant ID Card
   components:
     - type: Sprite
       layers:
@@ -434,7 +434,7 @@
 - type: entity
   parent: IDCardStandard
   id: SecurityCadetIDCard
-  name: Security Cadet ID card
+  name: Security Cadet ID Card
   components:
     - type: Sprite
       layers:
@@ -522,7 +522,7 @@
 - type: entity
   parent: SecurityIDCard
   id: SeniorOfficerIDCard
-  name: Senior Officer ID Card
+  name: Senior Security Officer ID Card
   components:
     - type: Sprite
       layers:

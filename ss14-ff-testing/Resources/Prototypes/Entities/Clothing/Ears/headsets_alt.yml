@@ -13,14 +13,14 @@
 - type: entity
   parent: ClothingHeadsetAlt
   id: ClothingHeadsetAltCargo
-  name: quartermaster's over-ear headset
+  name: Quartermaster's Over-Ear Headset
   components:
   - type: ContainerFill
     containers:
       key_slots:
       - EncryptionKeyCargo
       - EncryptionKeyCommand
-      - EncryptionKeyCommon
+#      - EncryptionKeyCommon
   - type: Sprite
     sprite: Clothing/Ears/Headsets/cargo.rsi
   - type: Clothing
@@ -29,7 +29,7 @@
 - type: entity
   parent: ClothingHeadsetAlt
   id: ClothingHeadsetAltCentCom
-  name: CentComm over-ear headset
+  name: CentComm Over-Ear Headset
   components:
   - type: ContainerFill
     containers:
@@ -44,7 +44,7 @@
 - type: entity
   parent: [ClothingHeadsetAlt, BaseCommandContraband]
   id: ClothingHeadsetAltCommand
-  name: command over-ear headset
+  name: Command Over-Ear Headset
   components:
   - type: ContainerFill
     containers:
@@ -58,14 +58,14 @@
 - type: entity
   parent: [ClothingHeadsetAlt, BaseCommandContraband]
   id: ClothingHeadsetAltEngineering
-  name: chief engineer's over-ear headset
+  name: Chief Engineer's Over-Ear Headset
   components:
   - type: ContainerFill
     containers:
       key_slots:
       - EncryptionKeyEngineering
       - EncryptionKeyCommand
-      - EncryptionKeyCommon
+#      - EncryptionKeyCommon
   - type: Sprite
     sprite: Clothing/Ears/Headsets/engineering.rsi
   - type: Clothing
@@ -74,14 +74,14 @@
 - type: entity
   parent: [ClothingHeadsetAlt, BaseCommandContraband]
   id: ClothingHeadsetAltMedical
-  name: chief medical officer's over-ear headset
+  name: Chief Medical Officer's Over-Ear Headset
   components:
   - type: ContainerFill
     containers:
       key_slots:
       - EncryptionKeyMedical
       - EncryptionKeyCommand
-      - EncryptionKeyCommon
+#      - EncryptionKeyCommon
   - type: Sprite
     sprite: Clothing/Ears/Headsets/medical.rsi
   - type: Clothing
@@ -92,14 +92,14 @@
 - type: entity
   parent: [ClothingHeadsetAlt, BaseCommandContraband]
   id: ClothingHeadsetAltSecurity
-  name: head of security's over-ear headset
+  name: Chief of Police's Over-Ear Headset
   components:
   - type: ContainerFill
     containers:
       key_slots:
       - EncryptionKeySecurity
       - EncryptionKeyCommand
-      - EncryptionKeyCommon
+#      - EncryptionKeyCommon
   - type: Sprite
     sprite: Clothing/Ears/Headsets/security.rsi
   - type: Clothing
@@ -108,14 +108,14 @@
 - type: entity
   parent: [ClothingHeadsetAlt, BaseCommandContraband]
   id: ClothingHeadsetAltScience
-  name: research director's over-ear headset
+  name: Research Director's Over-Ear Headset
   components:
   - type: ContainerFill
     containers:
       key_slots:
       - EncryptionKeyScience
       - EncryptionKeyCommand
-      - EncryptionKeyCommon
+#      - EncryptionKeyCommon
   - type: Sprite
     sprite: Clothing/Ears/Headsets/science.rsi
   - type: Clothing
@@ -124,7 +124,7 @@
 - type: entity
   parent: [ClothingHeadsetAlt, BaseSyndicateContraband]
   id: ClothingHeadsetAltSyndicate
-  name: blood-red over-ear headset
+  name: Blood-red Over-Ear Syndicate Headset
   description: An updated, modular syndicate intercom that fits over the head and takes encryption keys (there are 5 key slots.).
   components:
   - type: Headset
@@ -142,7 +142,7 @@
 - type: entity
   parent: ClothingHeadsetAlt
   id: ClothingHeadsetAltFreelancer
-  name: freelancer's over-ear headset
+  name: Freelancer's Over-Ear Headset
   components:
     - type: Headset
     - type: EncryptionKeyHolder
@@ -159,7 +159,7 @@
 - type: entity
   parent: [ClothingHeadsetAlt, BaseMagicalContraband]
   id: ClothingHeadsetAltWizard
-  name: wizard's over-ear headset
+  name: Wizard's Over-Ear Headset
   components:
     - type: Headset
     - type: EncryptionKeyHolder

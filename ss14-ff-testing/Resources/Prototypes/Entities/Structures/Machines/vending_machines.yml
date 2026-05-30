@@ -304,7 +304,7 @@
   parent: VendingMachine
   id: VendingMachineCart
   name: PTech
-  description: PTech vending! Providing a ROBUST selection of PDAs, cartridges, and anything else a dull paper pusher needs!
+  description: PTech offers a wide selection of PDAs, cartridges, equipment, stamps and papers for League Crew.
   components:
   - type: VendingMachine
     pack: PTechInventory
@@ -328,7 +328,7 @@
     energy: 2.0
     color: "#ffb0b0"
   - type: AccessReader
-    access: [["HeadOfPersonnel"]]
+    access: [["HeadOfPersonnel", "ExecutiveOfficer"]]
 
 - type: entity
   parent: VendingMachine
@@ -2309,3 +2309,34 @@
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
   - type: AccessReader
     access: [["Medical"]]
+
+# Custom 
+- type: entity
+  parent: VendingMachine
+  id: VendingMachineLeague
+  name: LeagueTech
+  description: LeagueTech provides a wide selection of PDAs, IDs, cartridges, and other equipment for League officials.
+  components:
+  - type: VendingMachine
+    pack: LeagueTechInventory
+    offState: off
+    brokenState: broken
+    normalState: normal-unshaded
+    ejectState: eject-unshaded
+    denyState: deny-unshaded
+  - type: Sprite
+    sprite: Structures/Machines/VendingMachines/leaguetech.rsi
+    layers:
+    - state: "off"
+      map: ["enum.VendingMachineVisualLayers.Base"]
+    - state: "off"
+      map: ["enum.VendingMachineVisualLayers.BaseUnshaded"]
+      shader: unshaded
+    - state: panel
+      map: ["enum.WiresVisualLayers.MaintenancePanel"]
+  - type: PointLight
+    radius: 1
+    energy: 2.0
+    color: "#ffb0b0"
+  - type: AccessReader
+    access: [["CentralCommand", "LeagueOfficial"]]

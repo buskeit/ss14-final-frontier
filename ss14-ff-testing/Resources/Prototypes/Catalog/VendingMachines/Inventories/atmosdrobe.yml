@@ -1,17 +1,17 @@
 - type: vendingMachineInventory
   id: AtmosDrobeInventory
   startingInventory:
-    ClothingBackpackDuffelAtmospherics: 2
-    ClothingBackpackSatchelAtmospherics: 2
-    ClothingBackpackAtmospherics: 2
-    ClothingUniformJumpsuitAtmos: 3
-    ClothingUniformJumpskirtAtmos: 3
-    ClothingUniformJumpsuitAtmosCasual: 3
-    ClothingShoesColorWhite: 3
-    ClothingHeadsetEngineering: 2
-    ClothingHeadHelmetFire: 2
-    ClothingOuterSuitFire: 2
-    ClothingOuterWinterAtmos: 2
-    ClothingNeckScarfStripedLightBlue: 3
-  contrabandInventory:
-    ToyFigurineAtmosTech: 1
+#    ClothingBackpackDuffelAtmospherics: 0
+#    ClothingBackpackSatchelAtmospherics: 0
+#    ClothingBackpackAtmospherics: 0
+#    ClothingUniformJumpsuitAtmos: 0
+#    ClothingUniformJumpskirtAtmos: 0
+#    ClothingUniformJumpsuitAtmosCasual: 0
+#    ClothingShoesColorWhite: 0
+#    ClothingHeadsetEngineering: 0
+    ClothingHeadHelmetFire: 4
+    ClothingOuterSuitFire: 4
+    ClothingOuterWinterAtmos: 4
+    ClothingNeckScarfStripedLightBlue: 4
+#  contrabandInventory:
+#    ToyFigurineAtmosTech: 0
