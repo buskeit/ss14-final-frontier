@@ -681,7 +681,7 @@ public sealed partial class ChatSystem : SharedChatSystem
                 continue;
 
             var isYelling = message == "screams!" || messageId == "chat-manager-entity-say-bold-wrap-message";
-            var inRangeButOccluded = !_examineSystem.InRangeUnOccluded(source, listener, VoiceRange);
+            var inRangeButOccluded = !data.Observer && !_examineSystem.InRangeUnOccluded(source, listener, VoiceRange);
             if (inRangeButOccluded && data.Range > (isYelling ? VoiceRange : 2))
                 continue;
 
