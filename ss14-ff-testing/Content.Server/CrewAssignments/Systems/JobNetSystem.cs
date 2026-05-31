@@ -55,6 +55,8 @@ public sealed partial class JobNetSystem : SharedJobNetSystem
                 }
             }
 
+            Dirty(component.Owner, component);
+
             EntityUid? player = null;
 #pragma warning disable RA0030 // Consider using the non-generic variant of this method
             if (TryComp<TransformComponent>(component.Owner, out var comp) && comp != null)
@@ -63,6 +65,9 @@ public sealed partial class JobNetSystem : SharedJobNetSystem
             }
 #pragma warning restore RA0030 // Consider using the non-generic variant of this method
             if (player == null) return;
+
+            UpdateUserInterface(player, component.Owner, component);
+
             _audio.PlayEntity(component.PaySuccessSound, player.Value, player.Value);
             if (TryComp<ActorComponent>(player, out var actor) && actor != null && actor.PlayerSession != null)
             {

@@ -166,6 +166,7 @@ public sealed partial class JobNetMenu : DefaultWindow
 
         PrecursorBalanceLabel.Text = state.Precursor.ToString();
 
+        PrecursorObjectives.RemoveAllChildren();
         foreach (var objective in state.Objectives)
         {
             _prototypeManager.Resolve(objective, out var proto);
