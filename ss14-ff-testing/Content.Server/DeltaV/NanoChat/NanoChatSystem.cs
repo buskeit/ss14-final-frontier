@@ -98,7 +98,9 @@ public sealed class NanoChatSystem : SharedNanoChatSystem
 
     private void ScrambleMessages(NanoChatCardComponent component)
     {
-        foreach (var (recipientNumber, messages) in component.Messages)
+        var messageMoves = new List<(uint From, uint To, List<NanoChatMessage> Messages)>();
+
+        foreach (var (recipientNumber, messages) in component.Messages.ToArray())
         {
             for (var i = 0; i < messages.Count; i++)
             {
@@ -118,12 +120,22 @@ public sealed class NanoChatSystem : SharedNanoChatSystem
                 if (newRecipient == recipientNumber)
                     continue;
 
-                if (!component.Messages.ContainsKey(newRecipient))
-                    component.Messages[newRecipient] = new List<NanoChatMessage>();
-
-                component.Messages[newRecipient].AddRange(messages);
-                component.Messages[recipientNumber].Clear();
+                messageMoves.Add((recipientNumber, newRecipient, messages.ToList()));
             }
+        }
+
+        foreach (var (from, to, messages) in messageMoves)
+        {
+            if (!component.Messages.TryGetValue(to, out var targetMessages))
+            {
+                targetMessages = new List<NanoChatMessage>();
+                component.Messages[to] = targetMessages;
+            }
+
+            targetMessages.AddRange(messages);
+
+            if (component.Messages.TryGetValue(from, out var sourceMessages))
+                sourceMessages.Clear();
         }
     }
 

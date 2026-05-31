@@ -125,6 +125,8 @@ nano-chat-delivery-failed = Failed to deliver
 nano-chat-look-up-no-server = No valid telecommunications server found
 nano-chat-look-up = Look up numbers
 nano-chat-list-number = List number
+nanochat-card-examine-no-number = This NanoChat card has no assigned number.
+nanochat-card-examine-number = NanoChat number: #{$number}
 
 # Create chat popup
 nano-chat-new-title = Add a new chat
@@ -153,3 +155,9 @@ stock-trading-buy-button = Buy
 stock-trading-sell-button = Sell
 stock-trading-amount-placeholder = Amount
 stock-trading-price-history = Price History
+stock-trading-company-nanotrasen = Nanotrasen
+stock-trading-company-cybersun = CyberSun Industries
+stock-trading-company-einstein-engines = Einstein Engines
+stock-trading-company-deforest = DeForest Biotech
+stock-trading-company-waffle = Waffle Corporation
+stock-trading-company-donk = Donk Co.

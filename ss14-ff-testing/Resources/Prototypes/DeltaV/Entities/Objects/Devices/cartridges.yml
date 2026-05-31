@@ -9,7 +9,7 @@
     state: cart-stock
   - type: Icon
     sprite: DeltaV/Objects/Devices/cartridge.rsi
-    state: cart-mail
+    state: cart-stock
   - type: UIFragment
     ui: !type:StockTradingUi
   - type: StockTradingCartridge

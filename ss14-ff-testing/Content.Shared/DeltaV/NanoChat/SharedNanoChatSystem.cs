@@ -279,6 +279,9 @@ public abstract class SharedNanoChatSystem : EntitySystem
 
         if (!card.Comp.Recipients.ContainsKey(recipientNumber))
         {
+            if (card.Comp.Recipients.Count >= card.Comp.MaxRecipients)
+                return false;
+
             // Only add if we have recipient info
             if (recipientInfo == null)
                 return false;

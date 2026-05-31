@@ -1,3 +1,5 @@
+using System.Linq;
+using System.Numerics;
 using Content.Server.Access.Systems;
 using Content.Server.Administration.Logs;
 using Content.Server.Cargo.Components;
@@ -66,6 +68,9 @@ public sealed class StockMarketSystem : EntitySystem
         var companyIndex = message.CompanyIndex;
         var amount = message.Amount;
         var loader = GetEntity(args.LoaderUid);
+
+        if (amount <= 0)
+            return;
 
         // Ensure station and stock market components are valid
         if (ent.Comp.Station is not {} station || !TryComp<StationStockMarketComponent>(station, out var stockMarket))
@@ -143,7 +148,15 @@ public sealed class StockMarketSystem : EntitySystem
             return false;
 
         var company = stockMarket.Companies[companyIndex];
-        var totalValue = (int)Math.Round(company.CurrentPrice * amount);
+        if (!float.IsFinite(company.CurrentPrice) || company.CurrentPrice <= 0f)
+            return false;
+
+        var stockAmount = Math.Abs(amount);
+        var totalPrice = Math.Ceiling(company.CurrentPrice * stockAmount);
+        if (totalPrice <= 0 || totalPrice > int.MaxValue)
+            return false;
+
+        var totalValue = (int) totalPrice;
 
         if (!stockMarket.StockOwnership.TryGetValue(companyIndex, out var currentOwned))
             currentOwned = 0;
@@ -151,7 +164,8 @@ public sealed class StockMarketSystem : EntitySystem
         if (amount > 0)
         {
             // Buying: see if we can afford it
-            if (bank.Accounts[bank.PrimaryAccount] < totalValue)
+            if (!_cargo.TryGetAccount((station, bank), bank.PrimaryAccount, out var balance) ||
+                balance < totalValue)
                 return false;
         }
         else
@@ -169,7 +183,7 @@ public sealed class StockMarketSystem : EntitySystem
             stockMarket.StockOwnership.Remove(companyIndex);
 
         // Update the bank account (take away for buying and give for selling)
-        _cargo.UpdateBankAccount(station, -totalValue, bank.PrimaryAccount);
+        _cargo.UpdateBankAccount((station, bank), amount > 0 ? -totalValue : totalValue, bank.PrimaryAccount);
 
         // Log the transaction
         var verb = amount > 0 ? "bought" : "sold";
@@ -185,6 +199,12 @@ public sealed class StockMarketSystem : EntitySystem
         for (var i = 0; i < stockMarket.Companies.Count; i++)
         {
             var company = stockMarket.Companies[i];
+            if (!float.IsFinite(company.BasePrice) || company.BasePrice <= 0f)
+                continue;
+
+            if (!float.IsFinite(company.CurrentPrice) || company.CurrentPrice <= 0f)
+                company.CurrentPrice = company.BasePrice;
+
             var changeType = DetermineMarketChange(stockMarket.MarketChanges);
             var multiplier = CalculatePriceMultiplier(changeType);
 
@@ -203,7 +223,9 @@ public sealed class StockMarketSystem : EntitySystem
             stockMarket.Companies[i] = company;
 
             // Calculate the percentage change
-            var percentChange = (company.CurrentPrice - oldPrice) / oldPrice * 100;
+            var percentChange = oldPrice <= 0f
+                ? 0f
+                : (company.CurrentPrice - oldPrice) / oldPrice * 100;
 
             // Raise the event
             UpdateStockMarket(station);
@@ -225,7 +247,7 @@ public sealed class StockMarketSystem : EntitySystem
         int companyIndex)
     {
         // Check if it exceeds the max price
-        if (newPrice > MaxPrice)
+        if (!float.IsFinite(newPrice) || newPrice <= 0f || newPrice > MaxPrice)
         {
             _sawmill.Error($"New price cannot be greater than {MaxPrice}.");
             return false;
@@ -235,6 +257,9 @@ public sealed class StockMarketSystem : EntitySystem
             return false;
 
         var company = stockMarket.Companies[companyIndex];
+        if (!float.IsFinite(company.BasePrice) || company.BasePrice <= 0f)
+            return false;
+
         UpdatePriceHistory(ref company);
 
         company.CurrentPrice = MathF.Max(newPrice, company.BasePrice * 0.1f);
@@ -253,6 +278,15 @@ public sealed class StockMarketSystem : EntitySystem
         float basePrice,
         string displayName)
     {
+        if (string.IsNullOrWhiteSpace(displayName) ||
+            !float.IsFinite(basePrice) ||
+            basePrice <= 0f ||
+            basePrice > MaxPrice ||
+            stockMarket.Companies.Any(company => string.Equals(company.LocalizedDisplayName, displayName, StringComparison.OrdinalIgnoreCase)))
+            return false;
+
+        displayName = displayName.Trim();
+
         // Create a new company struct with the specified parameters
         var company = new StockCompany
         {
@@ -277,6 +311,14 @@ public sealed class StockMarketSystem : EntitySystem
     public bool TryAddCompany(Entity<StationStockMarketComponent> station,
         StockCompany company)
     {
+        if (!float.IsFinite(company.BasePrice) ||
+            company.BasePrice <= 0f ||
+            !float.IsFinite(company.CurrentPrice) ||
+            company.CurrentPrice <= 0f ||
+            company.CurrentPrice > MaxPrice ||
+            station.Comp.Companies.Any(existing => string.Equals(existing.LocalizedDisplayName, company.LocalizedDisplayName, StringComparison.OrdinalIgnoreCase)))
+            return false;
+
         // Make sure it has a price history
         UpdatePriceHistory(ref company);
 
@@ -308,11 +350,17 @@ public sealed class StockMarketSystem : EntitySystem
 
     private MarketChange DetermineMarketChange(List<MarketChange> marketChanges)
     {
+        if (marketChanges.Count == 0)
+            return new MarketChange(1f, Vector2.Zero);
+
         var roll = _random.NextFloat();
         var cumulative = 0f;
 
         foreach (var change in marketChanges)
         {
+            if (!float.IsFinite(change.Chance) || change.Chance <= 0f)
+                continue;
+
             cumulative += change.Chance;
             if (roll <= cumulative)
                 return change;
@@ -324,7 +372,7 @@ public sealed class StockMarketSystem : EntitySystem
     private float CalculatePriceMultiplier(MarketChange change)
     {
         // Using Box-Muller transform for normal distribution
-        var u1 = _random.NextFloat();
+        var u1 = MathF.Max(_random.NextFloat(), float.Epsilon);
         var u2 = _random.NextFloat();
         var randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2);
 

@@ -1,6 +1,6 @@
 - type: entity
   abstract: true
-  parent: [BaseItem, StorePresetUplink]
+  parent: BaseItem # Persistence: removed StorePresetUplink
   id: BasePDA
   name: PDA
   description: Personal Data Assistant.
@@ -71,7 +71,7 @@
     softness: 5
     autoRot: true
   - type: Ringer
-  - type: RingerUplink
+  # Persistence: removed RingerUplink
   - type: DeviceNetwork
     deviceNetId: Wireless
     receiveFrequencyId: PDA

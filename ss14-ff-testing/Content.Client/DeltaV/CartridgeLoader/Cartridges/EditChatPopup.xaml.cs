@@ -97,7 +97,7 @@ public sealed partial class EditChatPopup : DefaultWindow
     public void SetNumberInput(string newNumber)
     {
         NumberInput.Text = newNumber.PadLeft(MaxNumberLength, '0');
-        _originalNumber = newNumber;
+        _originalNumber = NumberInput.Text;
     }
 
     public void SetNameInput(string newName)
