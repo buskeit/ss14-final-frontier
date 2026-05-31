@@ -104715,6 +104715,13 @@ entities:
     - type: Transform
       pos: 55.5,-39.5
       parent: 2
+- proto: SuitStorageXO
+  entities:
+  - uid: 20084
+    components:
+    - type: Transform
+      pos: 13.5,-60.5
+      parent: 2
 - proto: SurveillanceCameraCommand
   entities:
   - uid: 7593
