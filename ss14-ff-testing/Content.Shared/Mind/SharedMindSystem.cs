@@ -56,6 +56,7 @@ public abstract partial class SharedMindSystem : EntitySystem
 
         SubscribeLocalEvent<VisitingMindComponent, EntityTerminatingEvent>(OnVisitingTerminating);
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnReset);
+        SubscribeLocalEvent<MindComponent, ComponentInit>(OnMindInit);
         SubscribeLocalEvent<MindComponent, ComponentStartup>(OnMindStartup);
         SubscribeLocalEvent<MindComponent, EntityRenamedEvent>(OnRenamed);
 
@@ -68,9 +69,19 @@ public abstract partial class SharedMindSystem : EntitySystem
         WipeAllMinds();
     }
 
+    private void OnMindInit(EntityUid uid, MindComponent component, ComponentInit args)
+    {
+        EnsureMindRoleContainer(uid, component);
+    }
+
+    private Container EnsureMindRoleContainer(EntityUid uid, MindComponent component)
+    {
+        return component.MindRoleContainer ??= _container.EnsureContainer<Container>(uid, MindComponent.MindRoleContainerId);
+    }
+
     private void OnMindStartup(EntityUid uid, MindComponent component, ComponentStartup args)
     {
-        component.MindRoleContainer = _container.EnsureContainer<Container>(uid, MindComponent.MindRoleContainerId);
+        EnsureMindRoleContainer(uid, component);
 
         if (component.UserId == null)
             return;
