@@ -354,6 +354,7 @@
         type: WiresBoundUserInterface
   - type: ActivatableUI
     key: enum.MedicalRecordsConsoleKey.Key
+  - type: ActivatableUIRequiresAccess
   - type: Sprite
     layers:
     - map: ["computerLayerBody"]
@@ -390,6 +391,7 @@
         type: WiresBoundUserInterface
   - type: ActivatableUI
     key: enum.CriminalRecordsConsoleKey.Key
+  - type: ActivatableUIRequiresAccess
   - type: Sprite
     layers:
     - map: ["computerLayerBody"]

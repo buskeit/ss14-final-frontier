@@ -1,7 +1,7 @@
 <controls:FancyWindow xmlns="https://spacestation14.io"
                       xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
                       Title="{Loc 'criminal-records-console-window-title'}"
-                      MinSize="695 440">
+                      MinSize="750 550">
     <BoxContainer Orientation="Vertical">
         <BoxContainer Name="AllList"
                       Orientation="Vertical"
@@ -84,29 +84,59 @@
                                FontColorOverride="DarkGray" />
                         <Label Name="PersonDna" />
                     </BoxContainer>
-                    <PanelContainer StyleClasses="LowDivider"
-                                    Margin="0 5 0 5" />
-                    <BoxContainer Orientation="Horizontal"
-                                  Margin="0 5 0 5">
-                        <Label Name="StatusLabel"
-                               Text="{Loc 'criminal-records-console-status'}"
-                               FontColorOverride="DarkGray" />
-                        <Label Text=":"
-                               FontColorOverride="DarkGray" />
-                        <Label Name="PersonStatus"
-                               FontColorOverride="DarkGray" />
-                        <AnimatedTextureRect Name="PersonStatusTX"
-                                             Margin="8 0" />
-                        <OptionButton Name="StatusOptionButton"
-                                      MinWidth="130" />
-                        <!-- Populated in constructor -->
-                    </BoxContainer>
-                    <RichTextLabel Name="WantedReason"
-                                   Visible="False"
-                                   MaxWidth="425" />
-                    <Button Name="HistoryButton"
-                            Text="{Loc 'criminal-records-console-crime-history'}"
-                            Margin="0 5" />
+                    <!-- The Tabs container -->
+                    <TabContainer Name="RecordTabs" VerticalExpand="True" Margin="0 5 0 0">
+                        <!-- Tab 1: Status & History -->
+                        <BoxContainer Name="StatusTab" Orientation="Vertical" Margin="5" VerticalExpand="True">
+                            <BoxContainer Orientation="Horizontal"
+                                          Margin="0 5 0 5">
+                                <Label Name="StatusLabel"
+                                       Text="{Loc 'criminal-records-console-status'}"
+                                       FontColorOverride="DarkGray" />
+                                <Label Text=":"
+                                       FontColorOverride="DarkGray" />
+                                <Label Name="PersonStatus"
+                                       FontColorOverride="DarkGray" />
+                                <AnimatedTextureRect Name="PersonStatusTX"
+                                                     Margin="8 0" />
+                                <OptionButton Name="StatusOptionButton"
+                                              MinWidth="130" />
+                                <!-- Populated in constructor -->
+                            </BoxContainer>
+                            <RichTextLabel Name="WantedReason"
+                                           Visible="False"
+                                           MaxWidth="425"
+                                           VerticalExpand="True" />
+                            <Button Name="HistoryButton"
+                                    Text="{Loc 'criminal-records-console-crime-history'}"
+                                    Margin="0 5" />
+                        </BoxContainer>
+
+                        <!-- Tab 2: CrimeAssist Calculator -->
+                        <BoxContainer Name="CrimeAssistTab" Orientation="Vertical" Margin="5" VerticalExpand="True">
+                            <!-- Scroll container for checklist -->
+                            <ScrollContainer VerticalExpand="True" HorizontalExpand="True" MinSize="0 220">
+                                <BoxContainer Name="CrimesListContainer" Orientation="Vertical" Margin="0 0 10 0" />
+                            </ScrollContainer>
+
+                            <!-- Divider and Summary -->
+                            <PanelContainer StyleClasses="LowDivider" Margin="0 5 0 5" />
+                            <BoxContainer Orientation="Vertical" Margin="0 5">
+                                <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
+                                    <Label Text="Total Sentenced Time: " FontColorOverride="DarkGray" />
+                                    <Label Name="TotalBrigTimeLabel" Text="0 minutes" StyleClasses="LabelKeyText" />
+                                </BoxContainer>
+                                <BoxContainer Orientation="Horizontal" HorizontalExpand="True" Margin="0 2 0 5">
+                                    <Label Text="Total Accrued Fines: " FontColorOverride="DarkGray" />
+                                    <Label Name="TotalFinesLabel" Text="0 credits" StyleClasses="LabelKeyText" />
+                                </BoxContainer>
+                                <BoxContainer Orientation="Horizontal" Margin="0 5 0 0">
+                                    <CheckBox Name="PrintSlipCheck" Text="Print Sentencing Slip" Margin="0 0 10 0" Pressed="True" />
+                                    <Button Name="ApplySentencingButton" Text="Apply Sentencing" HorizontalExpand="True" />
+                                </BoxContainer>
+                            </BoxContainer>
+                        </BoxContainer>
+                    </TabContainer>
                 </BoxContainer>
             </BoxContainer>
             <BoxContainer Orientation="Horizontal"

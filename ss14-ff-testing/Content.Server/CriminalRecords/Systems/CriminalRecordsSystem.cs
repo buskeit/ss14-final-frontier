@@ -9,6 +9,8 @@ using Content.Shared.CriminalRecords;
 using Content.Shared.CriminalRecords.Systems;
 using Content.Shared.Security;
 using Content.Shared.StationRecords;
+using Content.Shared.CrewRecords.Components;
+using Content.Shared.CrewAssignments.Components;
 using System.Linq;
 
 namespace Content.Server.CriminalRecords.Systems;
@@ -167,17 +169,34 @@ public sealed class CriminalRecordsSystem : SharedCriminalRecordsSystem
         if (_station.GetOwningStation(ent) is not { } station)
             return;
 
-        var records = _records.GetRecordsOfType<CriminalRecord>(station)
-            .Where(cr => cr.Item2.Status is not SecurityStatus.None || cr.Item2.History.Count > 0)
-            .Select(cr =>
+        if (!TryComp<CrewRecordsComponent>(station, out var crewRecords) || crewRecords == null)
+            return;
+
+        TryComp<CrewAssignmentsComponent>(station, out var crewAssignments);
+
+        var records = new List<WantedRecord>();
+        foreach (var (name, record) in crewRecords.CrewRecords)
+        {
+            if (record.SecurityStatus == SecurityStatus.None && record.CrimeHistory.Count == 0)
+                continue;
+
+            var jobTitle = "*Unassigned*";
+            if (crewAssignments != null && crewAssignments.TryGetAssignment(record.AssignmentID, out var crewAssignment) && crewAssignment != null)
             {
-                var (i, r) = cr;
-                var key = new StationRecordKey(i, station);
-                // Hopefully it will work smoothly.....
-                _records.TryGetRecord(key, out GeneralStationRecord? generalRecord);
-                return new WantedRecord(generalRecord!, r.Status, r.Reason, r.InitiatorName, r.History);
-            });
-        var state = new WantedListUiState(records.ToList());
+                jobTitle = crewAssignment.Name;
+            }
+
+            var generalRecord = new GeneralStationRecord
+            {
+                Name = record.Name,
+                JobTitle = jobTitle,
+                JobIcon = "JobIconUnknown"
+            };
+
+            records.Add(new WantedRecord(generalRecord, record.SecurityStatus, record.WantedReason, null, record.CrimeHistory));
+        }
+
+        var state = new WantedListUiState(records);
 
         _cartridge.UpdateCartridgeUiState(loaderUid, state);
     }

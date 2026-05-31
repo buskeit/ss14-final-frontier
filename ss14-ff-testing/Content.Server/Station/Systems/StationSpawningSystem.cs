@@ -16,6 +16,7 @@ using Content.Shared.Preferences;
 using Content.Shared.Preferences.Loadouts;
 using Content.Shared.Roles;
 using Content.Shared.Station;
+using Content.Shared.Station.Components;
 using JetBrains.Annotations;
 using Robust.Shared.Configuration;
 using Robust.Shared.Map;
@@ -209,6 +210,12 @@ public sealed class StationSpawningSystem : SharedStationSpawningSystem
         {
             var data = Comp<StationJobsComponent>(station.Value);
             extendedAccess = data.ExtendedAccess;
+
+            if (TryComp<StationDataComponent>(station.Value, out var stationData))
+            {
+                card.stationID = stationData.UID;
+                Dirty(cardId, card);
+            }
         }
 
         _accessSystem.SetAccessToJob(cardId, jobPrototype, extendedAccess);

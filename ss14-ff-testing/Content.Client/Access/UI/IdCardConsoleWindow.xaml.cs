@@ -85,16 +85,15 @@ namespace Content.Client.Access.UI
 
             TargetIdLabel.Text = state.TargetIdName;
 
-            var interfaceEnabled =
-                state.IsPrivilegedIdPresent && state.IsPrivilegedIdAuthorized && state.TargetIdFullName != null && state.TargetIdFullName != "";
+            var selectedRecordName = state.CrewRecord?.Name ?? state.TargetIdFullName ?? string.Empty;
 
             FullNameLineEdit.Editable = state.IsPrivilegedIdAuthorized && state.IsTargetIdPresent;
             RegisterIdButton.Visible = state.IsTargetIdPresent && string.IsNullOrEmpty(state.TargetIdFullName) && state.CrewRecord != null && state.IsPrivilegedIdAuthorized;
 
-            if (state.TargetIdFullName != null && state.TargetIdFullName != "")
+            if (!string.IsNullOrEmpty(selectedRecordName))
             {
-                FullNameLineEdit.Text = state.TargetIdFullName;
-                SelectedAccountLabel.Text = state.TargetIdFullName;
+                FullNameLineEdit.Text = selectedRecordName;
+                SelectedAccountLabel.Text = selectedRecordName;
                 AccountDetails.Visible = true;
             }
             else
@@ -103,12 +102,12 @@ namespace Content.Client.Access.UI
                 AccountDetails.Visible = false;
             }
 
-            var fullNameDirty = _lastFullName != null && FullNameLineEdit.Text != state.TargetIdFullName;
+            var fullNameDirty = _lastFullName != null && FullNameLineEdit.Text != selectedRecordName;
 
             FullNameLabel.Modulate = (state.IsPrivilegedIdAuthorized && state.IsTargetIdPresent) ? Color.White : Color.Gray;
             if (!fullNameDirty)
             {
-                FullNameLineEdit.Text = state.TargetIdFullName ?? string.Empty;
+                FullNameLineEdit.Text = selectedRecordName;
             }
 
             FullNameSaveButton.Disabled = !fullNameDirty;
@@ -123,7 +122,7 @@ namespace Content.Client.Access.UI
                 AssignmentLabel.Text = "*Unassigned*";
                 SpendingLabel.Text = $"${state.SpentFunds}/0";
             }
-            _lastFullName = state.TargetIdFullName;
+            _lastFullName = selectedRecordName;
             AccessLevelControlContainer.RemoveAllChildren();
             if (state.AllAssignments != null)
             {

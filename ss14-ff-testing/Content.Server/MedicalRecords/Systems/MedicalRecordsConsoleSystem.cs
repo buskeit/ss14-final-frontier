@@ -12,6 +12,8 @@ namespace Content.Server.MedicalRecords.Systems;
 
 public sealed class MedicalRecordsConsoleSystem : EntitySystem
 {
+    private const int MaxRecordContentLength = 4096;
+
     [Dependency] private readonly UserInterfaceSystem _ui = default!;
     [Dependency] private readonly StationSystem _station = default!;
     [Dependency] private readonly AccessReaderSystem _accessReader = default!;
@@ -30,13 +32,16 @@ public sealed class MedicalRecordsConsoleSystem : EntitySystem
 
     private void OnBuiOpened(EntityUid uid, MedicalRecordsConsoleComponent component, BoundUIOpenedEvent args)
     {
-        UpdateUserInterface(uid, component);
+        UpdateUserInterface(uid, component, args.Actor);
     }
 
     private void OnSelectPatient(EntityUid uid, MedicalRecordsConsoleComponent component, SelectMedicalRecord args)
     {
+        if (args.Actor is not { Valid: true } player || !IsAuthorized(player, uid))
+            return;
+
         component.ActivePatient = args.PatientName;
-        UpdateUserInterface(uid, component);
+        UpdateUserInterface(uid, component, player);
     }
 
     private void OnSaveMedicalRecord(EntityUid uid, MedicalRecordsConsoleComponent component, SaveMedicalRecordMessage args)
@@ -59,16 +64,24 @@ public sealed class MedicalRecordsConsoleSystem : EntitySystem
         {
             if (crewRecords.TryGetRecord(component.ActivePatient, out var record) && record != null)
             {
-                record.MedicalRecord = args.Content;
+                record.MedicalRecord = args.Content.Length > MaxRecordContentLength
+                    ? args.Content[..MaxRecordContentLength]
+                    : args.Content;
                 Dirty(station.Value, crewRecords);
             }
         }
 
-        UpdateUserInterface(uid, component);
+        UpdateUserInterface(uid, component, player);
     }
 
-    private void UpdateUserInterface(EntityUid uid, MedicalRecordsConsoleComponent component)
+    private void UpdateUserInterface(EntityUid uid, MedicalRecordsConsoleComponent component, EntityUid? viewer = null)
     {
+        if (viewer is { Valid: true } player && !IsAuthorized(player, uid))
+        {
+            _ui.SetUiState(uid, MedicalRecordsConsoleKey.Key, new MedicalRecordsConsoleState(null, null, null, null));
+            return;
+        }
+
         var station = _station.GetOwningStation(uid);
         if (station == null || !TryComp<CrewRecordsComponent>(station, out var crewRecords))
         {
@@ -123,8 +136,7 @@ public sealed class MedicalRecordsConsoleSystem : EntitySystem
         // Require AccessReader allow or manual fallback to access tags
         if (TryComp<AccessReaderComponent>(console, out var reader))
         {
-            if (_accessReader.IsAllowed(player, console, reader))
-                return true;
+            return _accessReader.IsAllowed(player, console, reader);
         }
 
         var tags = _accessReader.FindAccessTags(player);

@@ -42,6 +42,7 @@ public sealed partial class CriminalRecordsConsoleWindow : FancyWindow
     public Action<CriminalRecord, bool, bool>? OnHistoryUpdated;
     public Action? OnHistoryClosed;
     public Action<SecurityStatus, string>? OnDialogConfirmed;
+    public Action<List<string>, bool>? OnSentencingApplied;
 
     public Action<SecurityStatus>? OnStatusFilterPressed;
     private uint _maxLength;
@@ -54,6 +55,8 @@ public sealed partial class CriminalRecordsConsoleWindow : FancyWindow
     private StationRecordFilterType _currentFilterType;
 
     private SecurityStatus _currentCrewListFilter;
+
+    private readonly List<(SpaceLawCrime Crime, CheckBox CheckBox)> _crimeCheckboxes = new();
 
     public CriminalRecordsConsoleWindow(EntityUid console, uint maxLength, IPlayerManager playerManager, IPrototypeManager prototypeManager, IRobustRandom robustRandom, AccessReaderSystem accessReader)
     {
@@ -73,6 +76,56 @@ public sealed partial class CriminalRecordsConsoleWindow : FancyWindow
         _currentCrewListFilter = SecurityStatus.None;
 
         OpenCentered();
+
+        RecordTabs.SetTabTitle(0, "Status & History");
+        RecordTabs.SetTabTitle(1, "CrimeAssist");
+
+        // Populate CrimeAssist checklist
+        string currentCategory = "";
+        foreach (var crime in SpaceLaw.Crimes)
+        {
+            if (currentCategory != crime.Category)
+            {
+                currentCategory = crime.Category;
+                // Add a category header
+                var header = new Label
+                {
+                    Text = $"{currentCategory} Crimes",
+                    StyleClasses = { "LabelSubTitle" },
+                    Margin = new Thickness(0, 8, 0, 4)
+                };
+                CrimesListContainer.AddChild(header);
+            }
+
+            var cb = new CheckBox
+            {
+                Text = $"{crime.Name} ({crime.BrigTime}m, {crime.Fine}cr)",
+                Margin = new Thickness(4, 2, 0, 2)
+            };
+            cb.OnPressed += _ => RecalculateTotals();
+            CrimesListContainer.AddChild(cb);
+            _crimeCheckboxes.Add((crime, cb));
+        }
+
+        ApplySentencingButton.OnPressed += _ =>
+        {
+            var selectedCrimes = _crimeCheckboxes
+                .Where(x => x.CheckBox.Pressed)
+                .Select(x => x.Crime.Name)
+                .ToList();
+
+            if (selectedCrimes.Count == 0)
+                return;
+
+            OnSentencingApplied?.Invoke(selectedCrimes, PrintSlipCheck.Pressed);
+
+            // Uncheck all crimes after applying sentencing
+            foreach (var (_, checkbox) in _crimeCheckboxes)
+            {
+                checkbox.Pressed = false;
+            }
+            RecalculateTotals();
+        };
 
         foreach (var item in Enum.GetValues<StationRecordFilterType>())
         {
@@ -172,7 +225,15 @@ public sealed partial class CriminalRecordsConsoleWindow : FancyWindow
             _currentCrewListFilter = state.FilterStatus;
         }
 
-        _selectedKey = state.SelectedKey;
+        if (state.SelectedKey != _selectedKey)
+        {
+            _selectedKey = state.SelectedKey;
+            foreach (var (_, cb) in _crimeCheckboxes)
+            {
+                cb.Pressed = false;
+            }
+            RecalculateTotals();
+        }
         FilterType.SelectId((int)_currentFilterType);
         CrewListFilter.SelectId((int)_currentCrewListFilter);
         NoRecords.Visible = state.RecordListing == null || state.RecordListing.Count == 0;
@@ -190,6 +251,12 @@ public sealed partial class CriminalRecordsConsoleWindow : FancyWindow
         // hide access-required editing parts when no access
         var editing = _access && selected;
         StatusOptionButton.Disabled = !editing;
+        ApplySentencingButton.Disabled = !editing || _crimeCheckboxes.All(x => !x.CheckBox.Pressed);
+        PrintSlipCheck.Disabled = !editing;
+        foreach (var (_, cb) in _crimeCheckboxes)
+        {
+            cb.Disabled = !editing;
+        }
 
         if (state is { CriminalRecord: not null, StationRecord: not null })
         {
@@ -202,6 +269,25 @@ public sealed partial class CriminalRecordsConsoleWindow : FancyWindow
             _selectedRecord = null;
             OnHistoryClosed?.Invoke();
         }
+    }
+
+    private void RecalculateTotals()
+    {
+        int totalBrig = 0;
+        int totalFine = 0;
+
+        foreach (var (crime, checkbox) in _crimeCheckboxes)
+        {
+            if (checkbox.Pressed)
+            {
+                totalBrig += crime.BrigTime;
+                totalFine += crime.Fine;
+            }
+        }
+
+        TotalBrigTimeLabel.Text = $"{totalBrig} minutes";
+        TotalFinesLabel.Text = $"{totalFine} credits";
+        ApplySentencingButton.Disabled = !_access || totalBrig == 0 && totalFine == 0;
     }
 
     private void PopulateRecordListing(Dictionary<uint, string>? listing)

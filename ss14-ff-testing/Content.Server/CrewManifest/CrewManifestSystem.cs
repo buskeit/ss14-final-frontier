@@ -71,8 +71,46 @@ public sealed class CrewManifestSystem : EntitySystem
     // wrt the amount of players readied up.
     private void AfterGeneralRecordCreated(AfterGeneralRecordCreatedEvent ev)
     {
+        EnsureCrewRecord(ev.Key.OriginStation, ev.Record);
         BuildCrewManifest(ev.Key.OriginStation);
         UpdateEuis(ev.Key.OriginStation);
+    }
+
+    private void EnsureCrewRecord(EntityUid station, GeneralStationRecord generalRecord)
+    {
+        if (!TryComp<CrewRecordsComponent>(station, out var crewRecords) || crewRecords == null)
+            return;
+        if (!TryComp<CrewAssignmentsComponent>(station, out var crewAssignments) || crewAssignments == null)
+            return;
+
+        if (crewRecords.TryEnsureRecord(generalRecord.Name, out var crewRecord, EntityManager) && crewRecord != null)
+        {
+            var matchedAssignmentId = 0;
+            foreach (var assignment in crewAssignments.CrewAssignments.Values)
+            {
+                if (string.Equals(assignment.Name, generalRecord.JobTitle, StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(assignment.Name, generalRecord.JobPrototype, StringComparison.OrdinalIgnoreCase))
+                {
+                    matchedAssignmentId = assignment.ID;
+                    break;
+                }
+            }
+
+            if (matchedAssignmentId == 0)
+            {
+                foreach (var assignment in crewAssignments.CrewAssignments.Values)
+                {
+                    if (string.Equals(assignment.Name, "Passenger", StringComparison.OrdinalIgnoreCase))
+                    {
+                        matchedAssignmentId = assignment.ID;
+                        break;
+                    }
+                }
+            }
+
+            crewRecord.AssignmentID = matchedAssignmentId;
+            Dirty(station, crewRecords);
+        }
     }
 
     private void OnRecordModified(RecordModifiedEvent ev)
