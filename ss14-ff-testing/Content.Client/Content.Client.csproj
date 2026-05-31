@@ -1,0 +1,96 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>..\bin\Content.Client\</OutputPath>
+    <OutputType Condition="'$(FullRelease)' != 'True'">Exe</OutputType>
+    <WarningsAsErrors>RA0032;nullable</WarningsAsErrors>
+  </PropertyGroup>
+  <Import Project="../MSBuild/Content.props" />
+  <ItemGroup>
+    <PackageReference Include="Nett" />
+    <PackageReference Include="JetBrains.Annotations" PrivateAssets="All" />
+    <PackageReference Include="SixLabors.ImageSharp" />
+    <PackageReference Include="Pidgin" />
+    <PackageReference Include="Robust.Shared.AuthLib" />
+  </ItemGroup>
+
+  <Import Project="..\RobustToolbox\Imports\Lidgren.props" />
+  <Import Project="..\RobustToolbox\Imports\Client.props" />
+  <Import Project="..\RobustToolbox\Imports\Shared.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\Content.Shared\Content.Shared.csproj" />
+  </ItemGroup>
+  <Import Project="..\RobustToolbox\MSBuild\Robust.Properties.targets" />
+  <Import Project="..\RobustToolbox\MSBuild\XamlIL.targets" />
+  <ItemGroup>
+    <AdditionalFiles Update="CrewAssignments\UI\PrecursorObjective.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AdditionalFiles>
+    <AdditionalFiles Update="GridControl\UI\StationTaggerWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AdditionalFiles>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="Radio\Ui\HeadsetMenuWindow.xaml.cs">
+      <DependentUpon>HeadsetMenuWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="GridControl\UI\GridControlConsoleWindow.xaml.cs">
+      <DependentUpon>GridControlConsoleWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="CrewAssignments\UI\JobNetMenu.xaml.cs">
+      <DependentUpon>JobNetMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="GridControl\UI\GridConfigWindow.xaml.cs">
+      <DependentUpon>GridConfigWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="GridControl\UISC\StationCreatorWindow.xaml.cs">
+      <DependentUpon>StationCreatorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Invoices\UI\InvoicePrinterConsoleWindow.xaml.cs">
+      <DependentUpon>InvoicePrinterConsoleWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Invoices\UI\InvoiceWindow.xaml.cs">
+      <DependentUpon>InvoiceWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="CrewAssignments\UI\WorldObjectiveEntryFragment.xaml.cs">
+      <DependentUpon>WorldObjectiveEntryFragment.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="CrewAssignments\AdminUI\AdminWorldObjectivesWindow.xaml.cs">
+      <DependentUpon>AdminWorldObjectivesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="CrewAssignments\UI\WorldObjectiveEdit.xaml.cs">
+      <DependentUpon>WorldObjectiveEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="CrewAssignments\AdminUI\CodexWindow.xaml.cs">
+      <DependentUpon>CodexWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="CrewAssignments\UI\CodexEditMenu.xaml.cs">
+      <DependentUpon>CodexEditMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="CrewAssignments\UI\CodexEntryMenu.xaml.cs">
+      <DependentUpon>CodexEntryMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="AcceptDeath\AcceptDeathMenu.xaml.cs">
+      <DependentUpon>AcceptDeathMenu.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Access\UI\IdPrinterConsoleWindow.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="CrewAssignments\UI\StationModificationMenu.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="_NF\Bank\UI\BankATMMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="_NF\Bank\UI\StationAdminConsoleMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="_NF\Bank\UI\WithdrawBankATMMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

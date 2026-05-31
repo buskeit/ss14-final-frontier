@@ -1,0 +1,10 @@
+C:\Users\zaxoo\Documents\ss14-final-frontier-clean\ss14-ff-testing\BuildChecker\bin\Debug\net4.7.2\BuildChecker.dll
+C:\Users\zaxoo\Documents\ss14-final-frontier-clean\ss14-ff-testing\BuildChecker\bin\Debug\net4.7.2\BuildChecker.pdb
+C:\Users\zaxoo\Documents\ss14-final-frontier-clean\ss14-ff-testing\BuildChecker\obj\Debug\net4.7.2\BuildChecker.csproj.AssemblyReference.cache
+C:\Users\zaxoo\Documents\ss14-final-frontier-clean\ss14-ff-testing\BuildChecker\obj\Debug\net4.7.2\BuildChecker.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\zaxoo\Documents\ss14-final-frontier-clean\ss14-ff-testing\BuildChecker\obj\Debug\net4.7.2\BuildChecker.AssemblyInfoInputs.cache
+C:\Users\zaxoo\Documents\ss14-final-frontier-clean\ss14-ff-testing\BuildChecker\obj\Debug\net4.7.2\BuildChecker.AssemblyInfo.cs
+C:\Users\zaxoo\Documents\ss14-final-frontier-clean\ss14-ff-testing\BuildChecker\obj\Debug\net4.7.2\BuildChecker.csproj.CoreCompileInputs.cache
+C:\Users\zaxoo\Documents\ss14-final-frontier-clean\ss14-ff-testing\BuildChecker\obj\Debug\net4.7.2\BuildChecker.sourcelink.json
+C:\Users\zaxoo\Documents\ss14-final-frontier-clean\ss14-ff-testing\BuildChecker\obj\Debug\net4.7.2\BuildChecker.dll
+C:\Users\zaxoo\Documents\ss14-final-frontier-clean\ss14-ff-testing\BuildChecker\obj\Debug\net4.7.2\BuildChecker.pdb

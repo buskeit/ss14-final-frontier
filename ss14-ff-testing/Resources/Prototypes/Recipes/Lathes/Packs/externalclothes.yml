@@ -1,0 +1,27 @@
+- type: latheRecipePack
+  id: Hardsuits
+  recipes:
+  - Spationautsuit
+  - EVAsuit
+  - EVAsuitHelmet
+  - Engineeringsuit
+  - Atmossuit
+  - Miningsuit
+  - Luxuryminingsuit
+  - Researchdirectorsuit
+  - Chiefengineersuit
+  - Captainsuit
+  - ClothingHandsGlovesCaptain
+
+- type: latheRecipePack
+  id: SecurityHardsuits
+  recipes:
+  - Securityhardsuit
+  - Brigmedichardsuit
+  - Wardensecurityhardsuit
+  - Headofsecurityhardsuit
+
+- type: latheRecipePack
+  id: MedicalHardsuits
+  recipes:
+  - Chiefmedicalsuit

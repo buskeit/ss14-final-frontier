@@ -1,0 +1,39 @@
+- type: cargoProduct
+  id: EnergySword
+  icon:
+    sprite: Objects/Weapons/Melee/e_sword.rsi
+    state: e_sword
+  product: EnergySword
+  cost: 15000
+  category: cargoproduct-category-name-syndicate
+  group: syndicatemarket3
+
+- type: cargoProduct
+  id: EnergyDagger
+  icon:
+    sprite: Objects/Weapons/Melee/e_dagger_loud.rsi
+    state: e_sword
+  product: EnergyDaggerBox
+  cost: 7500
+  category: cargoproduct-category-name-syndicate
+  group: syndicatemarket2
+
+- type: cargoProduct
+  id: DoubleEnergySword
+  icon:
+    sprite: Objects/Weapons/Melee/e_sword_double.rsi
+    state: e_sword_double
+  product: EnergySwordDouble
+  cost: 25000
+  category: cargoproduct-category-name-syndicate
+  group: syndicatemarket4
+
+- type: cargoProduct
+  id: EnergyShield
+  icon:
+    sprite: Objects/Weapons/Melee/e_shield.rsi
+    state: eshield-on
+  product: EnergyShield
+  cost: 10000
+  category: cargoproduct-category-name-syndicate
+  group: syndicatemarket

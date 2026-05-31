@@ -1,0 +1,74 @@
+# Jumpsuit
+- type: loadout
+  id: ExecutiveOfficerJumpsuit
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitXO
+
+- type: loadout
+  id: ExecutiveOfficerJumpskirt
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtXO
+
+- type: loadout
+  id: ExecutiveOfficerFormalSuit
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitXOFormal
+
+- type: loadout
+  id: ExecutiveOfficerFormalSkirt
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtXOFormal
+
+# Head
+- type: loadout
+  id: ExecutiveOfficerHardhat
+  equipment:
+    head: ClothingHeadHardhatXO
+
+- type: loadout
+  id: ExecutiveOfficerHat
+  equipment:
+    head: ClothingHeadHatXO
+
+# Neck
+- type: loadout
+  id: ExecutiveOfficerCloak
+  equipment:
+    neck: ClothingNeckCloakXO
+
+- type: loadout
+  id: ExecutiveOfficerCloakFormal
+  equipment:
+    neck: ClothingNeckCloakXOFormal
+
+- type: loadout
+  id: ExecutiveOfficerMantle
+  equipment:
+    neck: ClothingNeckMantleXO
+
+# Back
+- type: loadout
+  id: ExecutiveOfficerBackpack
+  equipment:
+    back: ClothingBackpackXO
+
+- type: loadout
+  id: ExecutiveOfficerSatchel
+  equipment:
+    back: ClothingBackpackSatchelXO
+
+- type: loadout
+  id: ExecutiveOfficerDuffel
+  equipment:
+    back: ClothingBackpackDuffelXO
+
+# Outer clothing
+- type: loadout
+  id: ExecutiveOfficerOuterClothing
+  equipment:
+    outerClothing: ClothingOuterArmorXOCarapace
+
+- type: loadout
+  id: ExecutiveOfficerWintercoat
+  equipment:
+    outerClothing: ClothingOuterWinterXO

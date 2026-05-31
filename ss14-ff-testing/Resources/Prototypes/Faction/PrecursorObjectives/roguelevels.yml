@@ -1,0 +1,27 @@
+- type: rogueLevel
+  id: RogueLevel1
+  name: Civillian
+  next: RogueLevel2
+
+- type: rogueLevel
+  id: RogueLevel2
+  name: Associate
+  next: RogueLevel3
+  cost: 500
+
+- type: rogueLevel
+  id: RogueLevel3
+  name: Soldier
+  next: RogueLevel4
+  cost: 2000
+
+- type: rogueLevel
+  id: RogueLevel4
+  name: Captain
+  next: RogueLevel5
+  cost: 10000
+
+- type: rogueLevel
+  id: RogueLevel5
+  name: Boss
+  cost: 50000

@@ -1,0 +1,8 @@
+- type: entity
+  name: League Official's fountain pen
+  parent: PenEmbeddable
+  id: PenExec
+  description: A luxurious fountain pen with a comfortable orange grip, given to official League Representatives.
+  components:
+  - type: Sprite
+    state: pen_exec

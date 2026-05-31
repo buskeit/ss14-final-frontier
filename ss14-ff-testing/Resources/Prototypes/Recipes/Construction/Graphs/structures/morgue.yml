@@ -1,0 +1,208 @@
+- type: constructionGraph
+  id: MorgueGraph
+  start: start
+  graph:
+    - node: start
+      edges:
+        - to: cables
+          completed:
+            - !type:SetAnchor
+              value: false
+          steps:
+            - material: Steel
+              amount: 5
+              doAfter: 2
+
+    - node: cables
+      entity: MorgueAssembly
+      edges:
+        - to: electronics
+          conditions:
+            - !type:EntityAnchored
+              anchored: true
+          completed:
+            - !type:SnapToGrid { }
+          steps:
+            - material: Cable
+              amount: 2
+              doAfter: 1
+        - to: start
+          completed:
+            - !type:SpawnPrototype
+              prototype: SheetSteel1
+              amount: 5
+            - !type:DeleteEntity {}
+          steps:
+            - tool: Welding
+              doAfter: 2
+
+    - node: electronics
+      entity: MorgueAssembly
+      edges:
+      - to: screwing
+        conditions:
+        - !type:EntityAnchored
+          anchored: true
+        steps:
+          - tag: MorgueElectronics
+            name: construction-graph-tag-morgue-electronics
+            doAfter: 1
+            icon:
+              sprite: "Objects/Misc/module.rsi"
+              state: "door_electronics"
+      - to: cables
+        completed:
+        - !type:GivePrototype
+          prototype: CableApcStack1
+          amount: 2
+        steps:
+          - tool: Cutting
+            doAfter: 2
+
+    - node: screwing
+      actions:
+        - !type:EmptyAllContainers
+      edges:
+        - to: morgue
+          conditions:
+          - !type:EntityAnchored
+            anchored: true
+          steps:
+            - tool: Screwing
+              doAfter: 2
+
+    - node: morgue
+      entity: Morgue
+      edges:
+         - to: electronics
+           completed:
+             - !type:SpawnPrototype
+               prototype: MorgueElectronics
+               amount: 1
+             - !type:EmptyAllContainers
+           steps:
+             - tool: Prying
+               doAfter: 2
+
+- type: constructionGraph
+  id: CrematoriumGraph
+  start: start
+  graph:
+    - node: start
+      edges:
+        - to: crematorelectronics
+          completed:
+            - !type:SetAnchor
+              value: false
+          steps:
+            - material: Plasteel
+              amount: 5
+              doAfter: 2
+
+    - node: crematorelectronics
+      entity: CrematoriumAssembly
+      edges:
+        - to: igniter
+          conditions:
+            - !type:EntityAnchored
+              anchored: true
+          completed:
+            - !type:SnapToGrid { }
+          steps:
+          - tag: CrematoriumElectronics
+            name: construction-graph-tag-crematorium-electronics
+            doAfter: 1
+            icon:
+              sprite: "Objects/Misc/module.rsi"
+              state: "door_electronics"
+        - to: start
+          completed:
+            - !type:SpawnPrototype
+              prototype: SheetPlasteel1
+              amount: 5
+            - !type:DeleteEntity {}
+          steps:
+            - tool: Welding
+              doAfter: 5
+
+    - node: igniter
+      entity: CrematoriumAssembly
+      edges:
+      - to: crematorcables
+        conditions:
+        - !type:EntityAnchored
+          anchored: true
+        steps:
+          - tag: Igniter
+            name: construction-graph-tag-igniter
+            doAfter: 1
+            icon:
+              sprite: "Objects/Devices/igniter.rsi"
+              state: "icon"
+      - to: crematorelectronics
+        completed:
+          - !type:SpawnPrototype
+            prototype: CrematoriumElectronics
+            amount: 1
+        steps:
+          - tool: Prying
+            doAfter: 2
+
+    - node: crematorcables
+      entity: CrematoriumAssembly
+      edges:
+      - to: crematorwelding
+        conditions:
+        - !type:EntityAnchored
+          anchored: true
+        steps:
+          - material: Cable
+            amount: 2
+            doAfter: 1
+      - to: igniter
+        completed:
+          - !type:SpawnPrototype
+            prototype: Igniter
+            amount: 1
+        steps:
+          - tool: Prying
+            doAfter: 2
+
+    - node: crematorwelding
+      entity: CrematoriumAssembly
+      edges:
+      - to: crematorscrewing
+        conditions:
+        - !type:EntityAnchored
+          anchored: true
+        steps:
+          - tool: Welding
+            doAfter: 3
+      - to: crematorcables
+        completed:
+        - !type:GivePrototype
+          prototype: CableApcStack1
+          amount: 2
+        steps:
+          - tool: Cutting
+            doAfter: 2
+
+    - node: crematorscrewing
+      edges:
+        - to: crematorium
+          conditions:
+          - !type:EntityAnchored
+            anchored: true
+          steps:
+            - tool: Screwing
+              doAfter: 2
+
+    - node: crematorium
+      entity: Crematorium
+      edges:
+         - to: crematorwelding
+           completed:
+             - !type:EmptyAllContainers
+           steps:
+             - tool: Screwing
+               doAfter: 2
