@@ -50,10 +50,7 @@ public sealed class NanoChatCartridgeSystem : EntitySystem
     // Reset current chat when PDA closes.
     private void OnPdaClosed(EntityUid uid, PdaComponent component, BoundUIClosedEvent args)
     {
-        if (!TryComp<CartridgeComponent>(uid, out var cartridge) ||
-            cartridge.LoaderUid is not { } pda ||
-            !TryComp<CartridgeLoaderComponent>(pda, out var loader) ||
-            !GetCardEntity(pda, out var card))
+        if (!GetCardEntity(uid, out var card))
             return;
 
         _nanoChat.SetCurrentChat(
@@ -175,13 +172,17 @@ public sealed class NanoChatCartridgeSystem : EntitySystem
         if (msg.RecipientNumber == null || msg.Content == null || msg.RecipientNumber == card.Comp.Number)
             return;
 
-        var name = msg.Content;
-        if (!string.IsNullOrWhiteSpace(name))
-        {
-            name = name.Trim();
-            if (name.Length > 32)
-                name = name[..32];
-        }
+        var recipients = _nanoChat.GetRecipients((card, card.Comp));
+        if (!recipients.ContainsKey(msg.RecipientNumber.Value) &&
+            recipients.Count >= card.Comp.MaxRecipients)
+            return;
+
+        var name = msg.Content.Trim();
+        if (string.IsNullOrWhiteSpace(name))
+            return;
+
+        if (name.Length > 32)
+            name = name[..32];
 
         var jobTitle = msg.RecipientJob;
         if (!string.IsNullOrWhiteSpace(jobTitle))
@@ -236,13 +237,12 @@ public sealed class NanoChatCartridgeSystem : EntitySystem
             _nanoChat.GetRecipient((card, card.Comp), msg.RecipientNumber.Value) is not {} recipient)
             return;
 
-        var name = msg.Content;
-        if (!string.IsNullOrWhiteSpace(name))
-        {
-            name = name.Trim();
-            if (name.Length > 32)
-                name = name[..32];
-        }
+        var name = msg.Content.Trim();
+        if (string.IsNullOrWhiteSpace(name))
+            return;
+
+        if (name.Length > 32)
+            name = name[..32];
 
         var jobTitle = msg.RecipientJob;
         if (!string.IsNullOrWhiteSpace(jobTitle))
@@ -320,13 +320,12 @@ public sealed class NanoChatCartridgeSystem : EntitySystem
         if (!EnsureRecipientExists(card, msg.RecipientNumber.Value))
             return;
 
-        var content = msg.Content;
-        if (!string.IsNullOrWhiteSpace(content))
-        {
-            content = content.Trim();
-            if (content.Length > NanoChatMessage.MaxContentLength)
-                content = content[..NanoChatMessage.MaxContentLength];
-        }
+        var content = msg.Content.Trim();
+        if (string.IsNullOrWhiteSpace(content))
+            return;
+
+        if (content.Length > NanoChatMessage.MaxContentLength)
+            content = content[..NanoChatMessage.MaxContentLength];
 
         // Create and store message for sender
         var message = new NanoChatMessage(

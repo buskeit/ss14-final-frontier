@@ -14,6 +14,25 @@
   components:
     - type: StationBankAccount
     - type: StationStockMarket
+      companies:
+        - displayName: stock-trading-company-nanotrasen
+          currentPrice: 1500
+          basePrice: 1500
+        - displayName: stock-trading-company-cybersun
+          currentPrice: 1200
+          basePrice: 1200
+        - displayName: stock-trading-company-einstein-engines
+          currentPrice: 900
+          basePrice: 900
+        - displayName: stock-trading-company-deforest
+          currentPrice: 800
+          basePrice: 800
+        - displayName: stock-trading-company-waffle
+          currentPrice: 500
+          basePrice: 500
+        - displayName: stock-trading-company-donk
+          currentPrice: 350
+          basePrice: 350
     - type: StationCargoOrderDatabase
       orders:
         Cargo: [ ]
