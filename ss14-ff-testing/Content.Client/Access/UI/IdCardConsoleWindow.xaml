@@ -31,6 +31,8 @@
                  StyleClasses="LabelKeyText"/>
                 <Control MinSize="8 0" />
                 <Label Name="SelectedAccountLabel" />
+                <Control MinSize="16 0" />
+                <Button Name="RegisterIdButton" Text="Register ID" Access="Public" Visible="False" />
             </BoxContainer>
             <TabContainer VerticalExpand="True" Name="MainTabs">
                 <BoxContainer Orientation="Vertical" Name="AccountDetails" VerticalExpand="True">

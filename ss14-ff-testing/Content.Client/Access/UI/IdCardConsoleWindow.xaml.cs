@@ -87,6 +87,10 @@ namespace Content.Client.Access.UI
 
             var interfaceEnabled =
                 state.IsPrivilegedIdPresent && state.IsPrivilegedIdAuthorized && state.TargetIdFullName != null && state.TargetIdFullName != "";
+
+            FullNameLineEdit.Editable = state.IsPrivilegedIdAuthorized && state.IsTargetIdPresent;
+            RegisterIdButton.Visible = state.IsTargetIdPresent && string.IsNullOrEmpty(state.TargetIdFullName) && state.CrewRecord != null && state.IsPrivilegedIdAuthorized;
+
             if (state.TargetIdFullName != null && state.TargetIdFullName != "")
             {
                 FullNameLineEdit.Text = state.TargetIdFullName;
@@ -101,7 +105,7 @@ namespace Content.Client.Access.UI
 
             var fullNameDirty = _lastFullName != null && FullNameLineEdit.Text != state.TargetIdFullName;
 
-            FullNameLabel.Modulate = interfaceEnabled ? Color.White : Color.Gray;
+            FullNameLabel.Modulate = (state.IsPrivilegedIdAuthorized && state.IsTargetIdPresent) ? Color.White : Color.Gray;
             if (!fullNameDirty)
             {
                 FullNameLineEdit.Text = state.TargetIdFullName ?? string.Empty;
@@ -161,24 +165,17 @@ namespace Content.Client.Access.UI
                 CriminalRecordLabel.SetMarkup(state.CrewRecord.CriminalRecord);
                 CriminalRecordTE.TextRope = new Rope.Leaf(state.CrewRecord.CriminalRecord);
             }
-            if (!state.IsOwner && state.PrivAssignment != null)
-            {
-                if (state.IsOwner || state.PrivAssignment.CanEditGeneralRecord)
-                {
-                    EditGeneralRecord.Visible = true;
-                }
-                else
-                {
-                    EditGeneralRecord.Visible = false;
-                    EditCriminalRecord.Visible = false;
-                    EditMedicalRecord.Visible = false;
-                }
-            }
-            else
-            {
-                EditGeneralRecord.Visible = false;
-                EditMedicalRecord.Visible = false;
-            }
+            // Can edit general record: if owner, or if priv assignment has CanEditGeneralRecord
+            var canEditGeneral = state.IsOwner || (state.PrivAssignment != null && state.PrivAssignment.CanEditGeneralRecord);
+            EditGeneralRecord.Visible = canEditGeneral;
+
+            // Criminal and Medical records tabs are only visible if the privileged ID has access
+            CriminalRecord.Visible = state.CanAccessCriminal;
+            MedicalRecord.Visible = state.CanAccessMedical;
+
+            // Edit tabs for criminal and medical should be visible if they have access to the tab AND can edit records
+            EditCriminalRecord.Visible = canEditGeneral && state.CanAccessCriminal;
+            EditMedicalRecord.Visible = canEditGeneral && state.CanAccessMedical;
         }
 
 

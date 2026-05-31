@@ -35,6 +35,8 @@
 - type: entity
   id: BaseStationRecords
   abstract: true
+  components:
+  - type: StationRecords
 
 - type: entity
   id: BaseStationArrivals

@@ -310,76 +310,63 @@ public sealed class AccessReaderSystem : EntitySystem
         else
         {
             var station = _station.GetOwningStation(target);
-            if (station == null) return true;
-            if (reader.AccessNames.Count < 1) return true;
-            var accesses = _station.GetValidAccesses(reader.AccessNames, station.Value);
-            if (accesses.Count < 1) return true;
-            string? actorName = null;
-            var accessSources = FindPotentialAccessItems(user);
-            foreach (var source in accessSources)
+            if (station != null && reader.AccessNames.Count >= 1)
             {
-                if (TryComp<IdCardComponent>(source, out var idComp))
+                var accesses = _station.GetValidAccesses(reader.AccessNames, station.Value);
+                if (accesses.Count >= 1)
                 {
-                    if (idComp.FullName != null && idComp.FullName.Length > 0)
-                        actorName = idComp.FullName;
-                }
-                else if (TryComp<PdaComponent>(source, out var pdaComp))
-                {
-                    if (pdaComp != null && pdaComp.ContainedId != null)
+                    string? actorName = null;
+                    var accessSources = FindPotentialAccessItems(user);
+                    foreach (var source in accessSources)
                     {
-                        if (TryComp<IdCardComponent>(pdaComp.ContainedId, out var idComp2))
+                        if (TryComp<IdCardComponent>(source, out var idComp))
                         {
-                            if (idComp2.FullName != null && idComp2.FullName.Length > 0)
-                                actorName = idComp2.FullName;
+                            if (idComp.FullName != null && idComp.FullName.Length > 0)
+                                actorName = idComp.FullName;
+                        }
+                        else if (TryComp<PdaComponent>(source, out var pdaComp))
+                        {
+                            if (pdaComp != null && pdaComp.ContainedId != null)
+                            {
+                                if (TryComp<IdCardComponent>(pdaComp.ContainedId, out var idComp2))
+                                {
+                                    if (idComp2.FullName != null && idComp2.FullName.Length > 0)
+                                        actorName = idComp2.FullName;
+                                }
+                            }
                         }
                     }
-                }
-            }
-            if (actorName != null)
-            {
-
-                if (TryComp(station, out StationDataComponent? sD))
-                {
-                    if (sD.Owners.Contains(actorName)) return true;
-                }
-
-                if (!TryComp(station, out CrewRecordsComponent? crewRecords))
-                {
-                    crewRecords = null;
-                    return false;
-                }
-                if (crewRecords == null) return true;
-                crewRecords.TryGetRecord(actorName, out var record);
-
-                if (!TryComp(station, out CrewAssignmentsComponent? stationData))
-                {
-                    return true;
-                }
-                if (!TryComp(station, out CrewAccessesComponent? crewAccesses))
-                {
-                    return true;
-                }
-                if (record == null)
-                {
-                    return false;
-                }
-                else
-                {
-                    if (stationData != null)
+                    if (actorName != null)
                     {
-                        if (!stationData.TryGetAssignment(record.AssignmentID, out var assignment) || assignment == null) return false;
-                        foreach (var access1 in accesses)
+                        if (TryComp(station, out StationDataComponent? sD))
                         {
-                            if (assignment.AccessIDs.Contains(access1))
+                            if (sD.Owners.Contains(actorName)) return true;
+                        }
+
+                        if (TryComp(station, out CrewRecordsComponent? crewRecords) && crewRecords != null)
+                        {
+                            crewRecords.TryGetRecord(actorName, out var record);
+                            if (record != null && TryComp(station, out CrewAssignmentsComponent? stationData) && stationData != null)
                             {
-                                return true;
+                                if (stationData.TryGetAssignment(record.AssignmentID, out var assignment) && assignment != null)
+                                {
+                                    foreach (var access1 in accesses)
+                                    {
+                                        if (assignment.AccessIDs.Contains(access1))
+                                        {
+                                            return true;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
                 }
-
-                return false;
             }
+
+            var tags = FindAccessTags(user);
+            FindStationRecordKeys(user, out var recordKeys);
+            return IsAllowed(tags, recordKeys, target, reader);
         }
         return false;
     }

@@ -326,6 +326,19 @@
       entity_storage: !type:NestedSelector
         tableId: FillSuitStorageWizard
 
+#Executive Officer's hardsuit
+- type: entity
+  id: SuitStorageXO
+  parent: SuitStorageBase
+  suffix: Executive Officer
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:NestedSelector
+        tableId: FillXOHardsuit
+  - type: AccessReader
+    access: [["ExecutiveOfficer"]]
+
 - type: entityTable
   id: FillSuitStorageWizard
   table: !type:AllSelector

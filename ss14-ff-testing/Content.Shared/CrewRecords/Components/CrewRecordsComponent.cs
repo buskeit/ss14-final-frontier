@@ -59,6 +59,12 @@ public partial class CrewRecord
     public string CriminalRecord = "";
     [DataField("_medicalRecord")]
     public string MedicalRecord = "";
+    [DataField("_securityStatus")]
+    public Content.Shared.Security.SecurityStatus SecurityStatus = Content.Shared.Security.SecurityStatus.None;
+    [DataField("_wantedReason")]
+    public string? WantedReason;
+    [DataField("_crimeHistory")]
+    public List<Content.Shared.CriminalRecords.CrimeHistory> CrimeHistory = new();
     public CrewRecord(string name)
     {
         Name = name;
