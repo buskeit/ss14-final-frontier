@@ -35,7 +35,7 @@
     - id: BoxCaptainCircuitboards
     - id: DoorRemoteCustom
     - id: MedalCase
-#    - id: NukeDisk # Persistence: no nuke, no disk 
+    - id: NukeDisk # Persistence: no nuke, no disk
     - id: PinpointerNuclear
     - id: RubberStampExecSOL
     - id: SpaceCash1000
