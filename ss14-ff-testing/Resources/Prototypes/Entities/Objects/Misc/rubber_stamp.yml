@@ -38,7 +38,7 @@
         maxDistance: 5
 
 - type: entity
-  name: captain's rubber stamp
+  name: Commanding Officer's rubber stamp
   parent: [RubberStampBase, BaseCommandContraband]
   id: RubberStampCaptain
   categories: [ DoNotMap ]
@@ -64,7 +64,7 @@
     state: stamp-xo
 
 - type: entity
-  name: CentComm rubber stamp
+  name: CentComm Rubber Stamp
   parent: RubberStampBase
   id: RubberStampCentcom
   categories: [ DoNotMap ]
@@ -77,7 +77,7 @@
     state: stamp-centcom
 
 - type: entity
-  name: chaplain's rubber stamp
+  name: Chaplain's Rubber Stamp
   parent: RubberStampBase
   id: RubberStampChaplain
   categories: [ DoNotMap ]
@@ -90,7 +90,7 @@
     state: stamp-chaplain
 
 - type: entity
-  name: lawyer's rubber stamp
+  name: Lawyer's Rubber Stamp
   parent: RubberStampBase
   id: RubberStampLawyer
   categories: [ DoNotMap ]
@@ -103,7 +103,7 @@
     state: stamp-lawyer
 
 - type: entity
-  name: clown's rubber stamp
+  name: Clown's Rubber Stamp
   parent: RubberStampBase
   id: RubberStampClown
   categories: [ DoNotMap ]
@@ -116,7 +116,7 @@
     state: stamp-clown
 
 - type: entity
-  name: chief engineer's rubber stamp
+  name: Chief Engineer's Rubber Stamp
   parent: [RubberStampBase, BaseCommandContraband]
   id: RubberStampCE
   categories: [ DoNotMap ]
@@ -129,7 +129,7 @@
     state: stamp-ce
 
 - type: entity
-  name: chief medical officer's rubber stamp
+  name: Chief Medical Officer's Rubber Stamp
   parent: [RubberStampBase, BaseCommandContraband]
   id: RubberStampCMO
   categories: [ DoNotMap ]
@@ -142,7 +142,7 @@
     state: stamp-cmo
 
 - type: entity
-  name: head of personnel's rubber stamp
+  name: Head of Personnel's Rubber Stamp
   parent: [RubberStampBase, BaseCommandContraband]
   id: RubberStampHop
   categories: [ DoNotMap ]
@@ -155,7 +155,7 @@
     state: stamp-hop
 
 - type: entity
-  name: head of security's rubber stamp
+  name: Head of Security's Rubber Stamp
   parent: [RubberStampBase, BaseCommandContraband]
   id: RubberStampHos
   categories: [ DoNotMap ]
@@ -168,7 +168,7 @@
     state: stamp-hos
 
 - type: entity
-  name: mime's rubber stamp
+  name: Mime's Rubber Stamp
   parent: RubberStampBase
   id: RubberStampMime
   categories: [ DoNotMap ]
@@ -182,7 +182,7 @@
     state: stamp-mime
 
 - type: entity
-  name: quartermaster's rubber stamp
+  name: Quartermaster's Rubber Stamp
   parent: [RubberStampBase, BaseCommandContraband]
   id: RubberStampQm
   categories: [ DoNotMap ]
@@ -195,7 +195,7 @@
     state: stamp-qm
 
 - type: entity
-  name: research director's rubber stamp
+  name: Research Director's Rubber Stamp
   parent: [RubberStampBase, BaseCommandContraband]
   id: RubberStampRd
   categories: [ DoNotMap ]
@@ -208,7 +208,7 @@
     state: stamp-rd
 
 - type: entity
-  name: trader's rubber stamp
+  name: Trader's Rubber Stamp
   parent: RubberStampBase
   id: RubberStampTrader
   components:
@@ -220,7 +220,7 @@
     state: stamp-trader
 
 - type: entity
-  name: syndicate rubber stamp
+  name: Syndicate Rubber Stamp
   parent: [RubberStampBase, BaseSyndicateContraband]
   id: RubberStampSyndicate
   categories: [ DoNotMap ]
@@ -235,7 +235,7 @@
     price: 200
 
 - type: entity
-  name: warden's rubber stamp
+  name: Warden's Rubber Stamp
   parent: [RubberStampBase, BaseSecurityContraband]
   id: RubberStampWarden
   categories: [ DoNotMap ]
@@ -272,7 +272,7 @@
     state: stamp-deny
 
 - type: entity
-  name: detective's rubber stamp
+  name: Detective's Rubber Stamp
   parent: [RubberStampBase, BaseSecurityContraband]
   id: RubberStampDetective
   categories: [ DoNotMap ]
@@ -285,10 +285,10 @@
     state: stamp-detective
 
 - type: entity
-  name: greytide's rubber stamp
+  name: Greytide's Rubber Stamp
   parent: RubberStampBase
   id: RubberStampGreytide
-  description: A rubber stamp for stamping important documents. The tide washes over you, just looking at it...
+  description: A rubber stamp for stamping important documents.
   components:
   - type: Stamp
     stampedName: stamp-component-stamped-name-greytide
@@ -298,7 +298,7 @@
     state: stamp-greytide
 
 - type: entity
-  name: psychologist's rubber stamp
+  name: Psychologist's Rubber Stamp
   parent: RubberStampBase
   id: RubberStampPsychologist
   categories: [ DoNotMap ]
@@ -312,7 +312,7 @@
     state: stamp-psychologist
 
 - type: entity
-  name: wizard's rubber stamp
+  name: Wizard's Rubber Stamp
   parent: [RubberStampBase, BaseMagicalContraband]
   id: RubberStampWizard
   description: A chaotic wizard stamp for serving unchaotic paperwork, how ironic.

@@ -2,10 +2,11 @@
   id: DonutInventory
   startingInventory:
     FoodDonutChocolate: 5
-    FoodDonutApple: 3
-    FoodDonutPink: 3
-    FoodDonutBungo: 3
-  contrabandInventory:
-    FoodBagel: 2
-    FoodBagelPoppy: 2
-    FoodDonutPoison: 1
+    FoodDonutApple: 5
+    FoodDonutPink: 5
+    FoodDonutBungo: 5
+    FoodBagel: 5
+#  contrabandInventory:
+#    FoodBagel: 5
+#    FoodBagelPoppy: 5
+#    FoodDonutPoison: 0

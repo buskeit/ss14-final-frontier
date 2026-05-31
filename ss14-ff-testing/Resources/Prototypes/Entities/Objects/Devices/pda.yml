@@ -175,19 +175,19 @@
 - type: entity
   parent: BasePDA
   id: PassengerPDA
-  name: passenger PDA
-  description: Why isn't it gray?
+  name: Civilian PDA
+  description: A basic PDA for use by civilians. It comes with no special features. 
   components:
   - type: Pda
-    id: PassengerIDCard
+    id: CivilianIDCard
   - type: PdaBorderColor
     borderColor: "#717059"
 
 - type: entity
   parent: BasePDA
   id: TechnicalAssistantPDA
-  name: technical assistant PDA
-  description: Why isn't it yellow?
+  name: Technical Assistant PDA
+  description: A PDA for the technical assistants, who work in Engineering.
   components:
   - type: Pda
     id: TechnicalAssistantIDCard
@@ -201,12 +201,19 @@
     accentVColor: "#949137"
   - type: Icon
     state: pda-interntech
+  - type: GuideHelp
+    guides:
+    - AME
+    - Power
+    - SingularityEngine
+    - TeslaEngine
+    - VoltageNetworks
 
 - type: entity
   parent: BaseMedicalPDA
   id: MedicalInternPDA
-  name: medical intern PDA
-  description: Why isn't it white?
+  name: Medical Intern PDA
+  description: A PDA for Medical Interns.
   components:
   - type: Pda
     id: MedicalInternIDCard
@@ -227,8 +234,8 @@
 - type: entity
   parent: BaseSecurityPDA
   id: SecurityCadetPDA
-  name: security cadet PDA
-  description: Why isn't it red?
+  name: Security Cadet PDA
+  description: A PDA for Security Cadets, it comes with some basic security applications installed.
   components:
   - type: Pda
     id: SecurityCadetIDCard
@@ -246,8 +253,8 @@
 - type: entity
   parent: BasePDA
   id: ResearchAssistantPDA
-  name: research assistant PDA
-  description: Why isn't it purple?
+  name: Research Assistant PDA
+  description: A PDA for Research Assistants.
   components:
   - type: Pda
     id: ResearchAssistantIDCard
@@ -265,8 +272,8 @@
 - type: entity
   parent: BasePDA
   id: ServiceWorkerPDA
-  name: service worker PDA
-  description: Why isn't it gray?
+  name: Service Worker PDA
+  description: A PDA for service workers. It comes with all basic applications installed.
   components:
   - type: Pda
     id: ServiceWorkerIDCard
@@ -284,8 +291,8 @@
 - type: entity
   parent: BasePDA
   id: ChefPDA
-  name: chef PDA
-  description: Covered in grease and flour.
+  name: Chef PDA
+  description: A basic PDA, configured for use by chefs. It comes with access to cookbooks and common recipes.
   components:
   - type: Pda
     id: ChefIDCard
@@ -302,8 +309,8 @@
 - type: entity
   parent: BasePDA
   id: BotanistPDA
-  name: botanist PDA
-  description: Has an earthy scent.
+  name: Botanist PDA
+  description: A conventional PDA, adapted for use by botanists. It has a green thumbprint on the back.
   components:
   - type: Pda
     id: BotanistIDCard
@@ -321,8 +328,8 @@
 - type: entity
   parent: BasePDA
   id: ClownPDA
-  name: clown PDA
-  description: Looks can be deceiving.
+  name: Clown PDA
+  description: A PDA used by clowns. It has a red nose on the back and with an orange crayon in the pen slot.
   components:
   - type: Pda
     id: ClownIDCard
@@ -381,8 +388,8 @@
 - type: entity
   parent: BasePDA
   id: MimePDA
-  name: mime PDA
-  description: Suprisingly not on mute.
+  name: Mime PDA
+  description: A PDA used by mimes. It has a striped pattern on the back and comes with some basic applications.
   components:
   - type: Pda
     id: MimeIDCard
@@ -431,7 +438,7 @@
   - type: Muted # for random sentience event
 
 - type: entity
-  name: chaplain PDA
+  name: Chaplain PDA
   parent: BasePDA
   id: ChaplainPDA
   description: God's chosen PDA.
@@ -460,10 +467,10 @@
     - DoorBumpOpener
 
 - type: entity
-  name: quartermaster PDA
+  name: Quartermaster PDA
   parent: BasePDA
   id: QuartermasterPDA
-  description: PDA for the guy that orders the guns.
+  description: A PDA for the Quartermaster. It has a bright orange cover and comes with all basic applications installed.
   components:
   - type: Pda
     id: QuartermasterIDCard
@@ -488,8 +495,8 @@
 - type: entity
   parent: BasePDA
   id: CargoPDA
-  name: cargo PDA
-  description: PDA for the guys that order the pizzas.
+  name: Cargo PDA
+  description: A PDA for cargo techs. It has a cargo net pattern on the back and is shipped by basic applications.
   components:
   - type: Pda
     id: CargoIDCard
@@ -506,8 +513,8 @@
 - type: entity
   parent: BasePDA
   id: SalvagePDA
-  name: salvage PDA
-  description: Smells like ash.
+  name: Salvage PDA
+  description: A PDA for salvage workers. It comes with addional applications preinstalled.
   components:
   - type: Pda
     id: SalvageIDCard
@@ -533,8 +540,8 @@
 - type: entity
   parent: BasePDA
   id: BartenderPDA
-  name: bartender PDA
-  description: Smells like beer.
+  name: Bartender PDA
+  description: A regular PDA for bartenders. It comes with basic applications and access to common drink recipes.
   components:
   - type: Pda
     id: BartenderIDCard
@@ -551,8 +558,8 @@
 - type: entity
   parent: BaseWidePDA
   id: LibrarianPDA
-  name: librarian PDA
-  description: Smells like books.
+  name: Librarian PDA
+  description: A PDA for librarians. It looks like a book and comes with all basic applications preinstalled.
   components:
   - type: Pda
     id: LibrarianIDCard
@@ -586,8 +593,8 @@
 - type: entity
   parent: BaseSecurityPDA
   id: LawyerPDA
-  name: lawyer PDA
-  description: For lawyers to poach dubious clients.
+  name: Lawyer PDA
+  description: A PDA for lawyers. It comes with some addional applications for spacelaw and other legal topics.
   components:
   - type: Pda
     id: LawyerIDCard
@@ -621,8 +628,8 @@
 - type: entity
   parent: BasePDA
   id: JanitorPDA
-  name: janitor PDA
-  description: Smells like bleach.
+  name: Janitor PDA
+  description: A purple PDA for janitors. It comes with basic applications and access to the Janitor's Manual.
   components:
   - type: Pda
     id: JanitorIDCard
@@ -659,12 +666,23 @@
     borderColor: "#7C5D00"
   - type: Icon
     state: pda-captain
+  - type: CartridgeLoader
+    preinstalled:
+      - CrewManifestCartridge
+      - NotekeeperCartridge
+      - NanoTaskCartridge
+      - NanoChatCartridge
+      - MedTekCartridge
+      - NewsReaderCartridge
+      - AstroNavCartridge    
+      - WantedListCartridge
+      - LogProbeCartridge
 
 - type: entity
   parent: BasePDA
   id: HoPPDA
-  name: head of personnel PDA
-  description: Looks like it's been chewed on.
+  name: Head of Personnel PDA
+  description: The PDA for the Head of Personnel. It comes with all basic applications installed. 
   components:
   - type: Pda
     id: HoPIDCard
@@ -688,8 +706,8 @@
 - type: entity
   parent: BasePDA
   id: CEPDA
-  name: chief engineer PDA
-  description: Looks like it's barely been used.
+  name: Chief Engineer PDA
+  description: A PDA for the Chief Engineer. It comes with basic applications and access to engineering schematics and manuals.
   components:
   - type: Pda
     id: CEIDCard
@@ -703,12 +721,27 @@
     accentHColor: "#447987"
   - type: Icon
     state: pda-ce
+  - type: GuideHelp
+    guides:
+    - AME
+    - Power
+    - SingularityEngine
+    - TeslaEngine
+    - VoltageNetworks
+  - type: CartridgeLoader
+    preinstalled:
+      - CrewManifestCartridge
+      - NotekeeperCartridge
+      - NanoTaskCartridge
+      - NanoChatCartridge
+      - NewsReaderCartridge
+      - AstroNavCartridge    
 
 - type: entity
   parent: BasePDA
   id: EngineerPDA
-  name: engineer PDA
-  description: Rugged and well-worn.
+  name: Engineer PDA
+  description: A PDA for engineers, with basic applications and access to engineering schematics and manuals.
   components:
   - type: Pda
     id: EngineeringIDCard
@@ -722,11 +755,18 @@
     accentVColor: "#A32D26"
   - type: Icon
     state: pda-engineer
+  - type: GuideHelp
+    guides:
+    - AME
+    - Power
+    - SingularityEngine
+    - TeslaEngine
+    - VoltageNetworks
 
 - type: entity
   parent: BaseMedicalPDA
   id: CMOPDA
-  name: chief medical officer PDA
+  name: Chief Medical Officer PDA
   description: Extraordinarily shiny and sterile.
   components:
   - type: Pda
@@ -742,6 +782,18 @@
     accentVColor: "#447987"
   - type: Icon
     state: pda-cmo
+  - type: GuideHelp
+    guides:
+    - MedicalDoctor  
+  - type: CartridgeLoader
+    preinstalled:
+      - CrewManifestCartridge
+      - NotekeeperCartridge
+      - NanoTaskCartridge
+      - NanoChatCartridge
+      - MedTekCartridge
+      - NewsReaderCartridge
+      - AstroNavCartridge    
 
 - type: entity
   parent: BaseMedicalPDA
@@ -794,7 +846,13 @@
     accentVColor: "#2a4b5b"
   - type: Icon
     state: pda-paramedic
-
+    preinstalled:
+      - CrewManifestCartridge
+      - NotekeeperCartridge
+      - NanoTaskCartridge
+      - MedTekCartridge
+      - NewsReaderCartridge
+      - AstroNavCartridge
 - type: entity
   parent: BaseMedicalPDA
   id: ChemistryPDA
@@ -833,6 +891,14 @@
     accentVColor: "#8900c9"
   - type: Icon
     state: pda-rd
+    preinstalled:
+      - CrewManifestCartridge
+      - NotekeeperCartridge
+      - NanoTaskCartridge
+      - NanoChatCartridge
+      - MedTekCartridge
+      - NewsReaderCartridge
+      - AstroNavCartridge   
 
 - type: entity
   parent: BasePDA
@@ -883,8 +949,8 @@
 - type: entity
   parent: BaseSecurityPDA
   id: WardenPDA
-  name: warden PDA
-  description: The OS appears to have been jailbroken.
+  name: Warden PDA
+  description: A PDA for the Warden. It comes with several additional security applications installed.
   components:
   - type: Pda
     id: WardenIDCard
@@ -902,8 +968,8 @@
 - type: entity
   parent: BaseSecurityPDA
   id: SecurityPDA
-  name: security PDA
-  description: Red to hide the stains of passenger blood.
+  name: Security PDA
+  description: A red PDA for security staff, with several additional applications installed.
   components:
   - type: Pda
     id: SecurityIDCard
@@ -945,6 +1011,7 @@
     preinstalled:
       - CrewManifestCartridge
       - NotekeeperCartridge
+      - NanoChatCartridge
       - NanoTaskCartridge
       - NewsReaderCartridge
       - MedTekCartridge
@@ -957,7 +1024,7 @@
   id: AdminPDA
   name: Admin PDA
   suffix: Admin
-  description: If you are not an admin please return this PDA to the nearest admin.
+  description: A PDA for admin-use only. If you are not an admin please return this PDA immediately, or you will be banned!
   components:
   - type: Pda
     id: UniversalIDCard
@@ -971,6 +1038,7 @@
     preinstalled:
       - CrewManifestCartridge
       - NotekeeperCartridge
+      - NanoChatCartridge
       - NanoTaskCartridge
       - NewsReaderCartridge
       - LogProbeCartridge
@@ -995,8 +1063,8 @@
 - type: entity
   parent: BasePDA
   id: MusicianPDA
-  name: musician PDA
-  description: It fills you with inspiration.
+  name: Musician PDA
+  description: A PDA for musicians. It has a musical note pattern on the back and comes with a notesheep library.
   components:
   - type: Pda
     id: MusicianIDCard
@@ -1029,8 +1097,8 @@
 - type: entity
   parent: BasePDA
   id: AtmosPDA
-  name: atmos PDA
-  description: Still smells like plasma.
+  name: Atmospherics PDA
+  description: A PDA for atmospheric technicians. It comes with technical guides and manuals.
   components:
   - type: Pda
     id: AtmosIDCard
@@ -1044,12 +1112,19 @@
     accentVColor: "#447987"
   - type: Icon
     state: pda-atmos
+  - type: GuideHelp
+    guides:
+    - AME
+    - Power
+    - SingularityEngine
+    - TeslaEngine
+    - VoltageNetworks
 
 - type: entity
   parent: BasePDA
   id: ClearPDA
-  name: clear PDA
-  description: 99 and 44/100ths percent pure plastic.
+  name: Clear PDA
+  description: A clear, neutral PDA, with no special features or applications, other than the basic ones.
   components:
   - type: Pda
     id: PassengerIDCard
@@ -1076,7 +1151,7 @@
 - type: entity
   parent: [ BasePDA, BaseSyndicateContraband ]
   id: SyndiPDA
-  name: syndicate PDA
+  name: Syndicate PDA
   description: Ok, time to be a productive member of- oh cool I'm a bad guy time to kill people!
   components:
   - type: Pda
@@ -1099,7 +1174,7 @@
 - type: entity
   parent: [ SyndiPDA, BaseSyndicateContraband ]
   id: SyndiOperativePDA
-  name: syndicate operative PDA
+  name: Syndicate Operative PDA
   description: Death to NT!
   components:
   - type: Pda
@@ -1115,7 +1190,7 @@
 - type: entity
   parent: [ SyndiOperativePDA, BaseSyndicateContraband ]
   id: SyndiCorpsmanPDA
-  name: syndicate corpsman PDA
+  name: Syndicate Corpsman PDA
   description: Commander... I need to cook!
   components:
   - type: Pda
@@ -1137,7 +1212,7 @@
 - type: entity
   parent: [ SyndiOperativePDA, BaseSyndicateContraband ]
   id: SyndiCommanderPDA
-  name: syndicate commander PDA
+  name: Syndicate Commander PDA
   description: So what are we, some kind of Nukie squad?
   components:
   - type: Pda
@@ -1155,7 +1230,7 @@
   id: ERTLeaderPDA
   name: ERT Leader PDA
   suffix: Leader
-  description: Red for firepower.
+  description: A special PDA for ERT Leaders, with additional applications installed.
   components:
   - type: Pda
     id: ERTLeaderIDCard
@@ -1175,6 +1250,7 @@
     preinstalled:
       - CrewManifestCartridge
       - NotekeeperCartridge
+      - NanoChatCartridge
       - NanoTaskCartridge
       - NewsReaderCartridge
       - MedTekCartridge
@@ -1187,7 +1263,7 @@
   id: ERTChaplainPDA
   name: ERT Chaplain PDA
   suffix: Chaplain
-  description: Red for firepower, it's blessed.
+  description: A special PDA for ERT Chaplains. There is nothing special about it.
   components:
   - type: Pda
     id: ERTChaplainIDCard
@@ -1197,17 +1273,24 @@
   id: ERTEngineerPDA
   name: ERT Engineer PDA
   suffix: Engineer
-  description: Red for firepower, it's well-worn.
+  description: A special PDA for ERT Engineers, with additional engineering guides installed.
   components:
   - type: Pda
     id: ERTEngineerIDCard
+  - type: GuideHelp
+    guides:
+    - AME
+    - Power
+    - SingularityEngine
+    - TeslaEngine
+    - VoltageNetworks
 
 - type: entity
   parent: ERTLeaderPDA
   id: ERTJanitorPDA
   name: ERT Janitor PDA
   suffix: Janitor
-  description: Red for firepower, it's squeaky clean.
+  description: A special PDA for ERT Janitors.
   components:
   - type: Pda
     id: ERTJanitorIDCard
@@ -1217,17 +1300,20 @@
   id: ERTMedicPDA
   name: ERT Medic PDA
   suffix: Medic
-  description: Red for firepower, it's shiny and sterile.
+  description: A special PDA for ERT Medics.
   components:
   - type: Pda
     id: ERTMedicIDCard
+  - type: GuideHelp
+    guides:
+    - MedicalDoctor
 
 - type: entity
   parent: ERTLeaderPDA
   id: ERTSecurityPDA
   name: ERT Security PDA
   suffix: Security
-  description: Red for firepower, it has tally marks etched on the side.
+  description: A speical PDA for ERT Security members.
   components:
   - type: Pda
     id: ERTSecurityIDCard
@@ -1236,7 +1322,7 @@
   parent: ERTLeaderPDA
   id: CBURNPDA
   name: CBURN PDA
-  description: Smells like rotten flesh.
+  description: A PDA for CBURN members.
   components:
   - type: Pda
     id: CBURNIDcard
@@ -1248,7 +1334,7 @@
 - type: entity
   parent: BasePDA
   id: PsychologistPDA
-  name: psychologist PDA
+  name: Psychologist PDA
   description: Looks immaculately cleaned.
   components:
   - type: Pda
@@ -1263,12 +1349,15 @@
     accentVColor: "#447987"
   - type: Icon
     state: pda-medical
+  - type: GuideHelp
+    guides:
+    - MedicalDoctor
 
 - type: entity
   parent: BasePDA
   id: ReporterPDA
-  name: reporter PDA
-  description: Smells like freshly printed press.
+  name: Reporter PDA
+  description: A PDA for reports, with preinstalled news readers and note-taking capabilities.
   components:
   - type: Pda
     id: ReporterIDCard
@@ -1291,8 +1380,8 @@
 - type: entity
   parent: BasePDA
   id: ZookeeperPDA
-  name: zookeeper PDA
-  description: Made with genuine synthetic leather. Crikey!
+  name: Zookeeper PDA
+  description: A PDA used by Zookeepers. There is nothing special about it. 
   components:
   - type: Pda
     id: ZookeeperIDCard
@@ -1309,8 +1398,8 @@
 - type: entity
   parent: BasePDA
   id: BoxerPDA
-  name: boxer PDA
-  description: Float like a butterfly, ringtone like a bee.
+  name: Boxer PDA
+  description: A PDA for boxeres. There is nothing special about it, other than its markings.
   components:
   - type: Pda
     id: BoxerIDCard
@@ -1328,8 +1417,8 @@
 - type: entity
   parent: BaseSecurityPDA
   id: DetectivePDA
-  name: detective PDA
-  description: Smells like rain... pouring down the rooftops...
+  name: Detective PDA
+  description: A special PDA for detectives, with several additional security applications installed.
   components:
   - type: Pda
     id: DetectiveIDCard
@@ -1354,8 +1443,8 @@
 - type: entity
   parent: BaseMedicalPDA
   id: BrigmedicPDA
-  name: brigmedic PDA
-  description: I wonder whose pulse is on the screen? I hope it doesn't stop...
+  name: Brigmedic PDA
+  description: A PDA for brigmedics. It comes with several medical applications and guides installed.
   components:
   - type: Pda
     id: BrigmedicIDCard
@@ -1370,6 +1459,9 @@
     accentVColor: "#d7d7d0"
   - type: Icon
     state: pda-brigmedic
+  - type: GuideHelp
+    guides:
+    - MedicalDoctor
   - type: CartridgeLoader
     preinstalled:
     - CrewManifestCartridge
@@ -1409,8 +1501,8 @@
 - type: entity
   parent: BasePDA
   id: SeniorEngineerPDA
-  name: senior engineer PDA
-  description: Seems to have been taken apart and put back together several times.
+  name: Senior Engineer PDA
+  description: A PDA for senior engineers. It comes with basic applications and access to engineering guides and schematics.
   components:
   - type: Pda
     id: SeniorEngineerIDCard
@@ -1424,12 +1516,19 @@
     accentVColor: "#CD6900"
   - type: Icon
     state: pda-seniorengineer
+  - type: GuideHelp
+    guides:
+    - AME
+    - Power
+    - SingularityEngine
+    - TeslaEngine
+    - VoltageNetworks
 
 - type: entity
   parent: BasePDA
   id: SeniorResearcherPDA
-  name: senior researcher PDA
-  description: Looks like it's been through years of chemical burns and explosions.
+  name: Senior Researcher PDA
+  description: A PDA for senior researchers. It comes with basic applications and access to research guides and manuals.
   components:
   - type: Pda
     id: SeniorResearcherIDCard
@@ -1448,8 +1547,8 @@
 - type: entity
   parent: BaseMedicalPDA
   id: SeniorPhysicianPDA
-  name: senior physician PDA
-  description: Smells faintly like iron and chemicals.
+  name: Senior Physician PDA
+  description: A PDA for senior physicians. It comes with several medical applications and guides installed.
   components:
   - type: Pda
     id: SeniorPhysicianIDCard
@@ -1464,12 +1563,15 @@
     accentVColor: "#B34200"
   - type: Icon
     state: pda-seniorphysician
+  - type: GuideHelp
+    guides:
+    - MedicalDoctor
 
 - type: entity
   parent: BaseSecurityPDA
   id: SeniorOfficerPDA
-  name: senior officer PDA
-  description: Beaten, battered and broken, but just barely useable.
+  name: Senior Police Officer PDA
+  description: A PDA for senior police officers. It comes with several security applications and guides installed.
   components:
   - type: Pda
     id: SeniorOfficerIDCard
@@ -1487,8 +1589,8 @@
 - type: entity
   parent: BasePDA
   id: SeniorCourierPDA
-  name: senior courier PDA
-  description: Smells like postage stamps and shuttle fuel.
+  name: Senior Courier PDA
+  description: A PDA for senior couriers. It comes with basic applications and access to courier guides and manuals.
   components:
   - type: Pda
     id: CargoIDCard
@@ -1506,7 +1608,7 @@
 - type: entity
   parent: [ BaseHighlyIllegalContraband, BasePDA ]
   id: NinjaPDA
-  name: ninja PDA
+  name: Ninja PDA
   description: You stealthy bastard, you!
   components:
   - type: Pda
@@ -1522,7 +1624,7 @@
 - type: entity
   parent: [ BaseMajorContraband, SyndiPDA ]
   id: PiratePDA
-  name: pirate PDA
+  name: Pirate PDA
   description: Yargh!
   components:
   - type: Pda
@@ -1538,7 +1640,7 @@
 - type: entity
   parent: [BasePDA, SelectableLock]
   id: ChameleonPDA
-  name: passenger PDA
+  name: Civilian PDA
   description: Why isn't it gray?
   suffix: Chameleon
   components:
@@ -1577,7 +1679,7 @@
 - type: entity
   parent: BaseWidePDA
   id: WizardPDA
-  name: wizard PDA
+  name: Wizard PDA
   description: You hear faint whispers coming from it.
   components:
   - type: Pda
@@ -1635,3 +1737,193 @@
     borderColor: "#00557f"
   - type: Icon
     state: pda-xo
+  - type: CartridgeLoader
+    preinstalled:
+      - CrewManifestCartridge
+      - NotekeeperCartridge
+      - NanoTaskCartridge
+      - NanoChatCartridge
+      - MedTekCartridge
+      - NewsReaderCartridge
+      - AstroNavCartridge    
+      - WantedListCartridge
+      - LogProbeCartridge
+
+- type: entity
+  parent: BaseMedicalPDA
+  id: CMOPDASOL
+  name: League Chief Medical Officer PDA
+  description: A special PDA for Chief Medical Officers of the Aurelian League. It comes with additional guides and software. 
+  components:
+  - type: Pda
+  - type: Appearance
+    appearanceDataInit:
+     enum.PdaVisuals.PdaType:
+       !type:String
+       pda-cmo-SOL
+  - type: PdaBorderColor
+    borderColor: "#d7d7d0"
+    accentHColor: "#447987"
+    accentVColor: "#447987"
+  - type: Icon
+    state: pda-cmo-SOL
+  - type: GuideHelp
+    guides:
+    - MedicalDoctor
+  - type: CartridgeLoader
+    preinstalled:
+    - CrewManifestCartridge
+    - NotekeeperCartridge
+    - NanoChatCartridge
+    - NanoTaskCartridge
+    - NewsReaderCartridge
+    - MedTekCartridge
+    - AstroNavCartridge
+
+- type: entity
+  parent: BasePDA
+  id: CEPDASOL
+  name: League Chief Engineer PDA
+  description: A PDA for Aurelian League Chief Engineers. It comes with additional software and access to technical manuals and schematics.
+  components:
+  - type: Pda
+  - type: Appearance
+    appearanceDataInit:
+     enum.PdaVisuals.PdaType:
+       !type:String
+       pda-ce-SOL
+  - type: PdaBorderColor
+    borderColor: "#949137"
+    accentHColor: "#447987"
+  - type: Icon
+    state: pda-ce-SOL
+  - type: GuideHelp
+    guides:
+    - AME
+    - Power
+    - SingularityEngine
+    - TeslaEngine
+    - VoltageNetworks
+  - type: CartridgeLoader
+    preinstalled:
+      - CrewManifestCartridge
+      - NotekeeperCartridge
+      - NanoTaskCartridge
+      - NanoChatCartridge
+      - NewsReaderCartridge
+      - AstroNavCartridge
+
+- type: entity
+  parent: BaseSecurityPDA
+  id: HoSPDASOL
+  name: League Chief of Police PDA
+  description: The PDA of the Chief of Police of the Aurelian League. It comes with additional software and access to guides and space law.
+  components:
+  - type: Pda
+  - type: Appearance
+    appearanceDataInit:
+     enum.PdaVisuals.PdaType:
+       !type:String
+       pda-hos-SOL
+  - type: PdaBorderColor
+    borderColor: "#A32D26"
+    accentHColor: "#447987"
+  - type: Icon
+    state: pda-hos-SOL
+  - type: CartridgeLoader
+    preinstalled:
+    - CrewManifestCartridge
+    - NotekeeperCartridge
+    - NanoChatCartridge
+    - NanoTaskCartridge
+    - NewsReaderCartridge
+    - WantedListCartridge
+    - LogProbeCartridge
+    - AstronavCartridge
+  
+- type: entity
+  parent: BasePDA
+  id: RnDPDASOL
+  name: League Research Director PDA
+  description: A PDA for the Research Director of the Aurelian League. It comes with some additional software and access to research guides and schematics.
+  components:
+  - type: Pda
+  - type: Appearance
+    appearanceDataInit:
+     enum.PdaVisuals.PdaType:
+       !type:String
+       pda-rd-SOL
+  - type: PdaBorderColor
+    borderColor: "#d7d7d0"
+    accentHColor: "#447987"
+    accentVColor: "#8900c9"
+  - type: Icon
+    state: pda-rd-SOL
+  - type: CartridgeLoader
+    preinstalled:
+    - CrewManifestCartridge
+    - NotekeeperCartridge
+    - NanoChatCartridge
+    - NanoTaskCartridge
+    - NewsReaderCartridge
+    - AstroNavCartridge
+
+- type: entity
+  name: League Quartermaster PDA
+  parent: BasePDA
+  id: QuartermasterPDASOL
+  description: A PDA for Quartermasters of the Aurelian League. It comes with the default apps and cargo handbooks.
+  components:
+  - type: Pda
+  - type: Appearance
+    appearanceDataInit:
+     enum.PdaVisuals.PdaType:
+       !type:String
+       pda-qm-SOL
+  - type: PdaBorderColor
+    borderColor: "#e39751"
+    accentVColor: "#a23e3e"
+  - type: Icon
+    state: pda-qm-SOL
+  - type: CartridgeLoader
+    preinstalled:
+    - CrewManifestCartridge
+    - NotekeeperCartridge
+    - NanoChatCartridge
+    - NanoTaskCartridge
+    - NewsReaderCartridge
+    - AstroNavCartridge
+
+- type: entity
+  parent: BasePDA
+  id: ExecutivePDASOL
+  name: League Official PDA
+  description: A special red PDA for Aurelian League Officials, such as the Secretary General.
+  components:
+  - type: Pda
+    penSlot:
+      startingItem: PenExec
+      priority: -1
+      whitelist:
+        tags:
+        - Write
+  - type: Appearance
+    appearanceDataInit:
+     enum.PdaVisuals.PdaType:
+       !type:String
+       pda-exec-SOL
+  - type: PdaBorderColor
+    borderColor: "#7C5D00"
+  - type: Icon
+    state: pda-exec-SOL
+  - type: CartridgeLoader
+    preinstalled:
+    - CrewManifestCartridge
+    - NotekeeperCartridge
+    - NanoChatCartridge
+    - NanoTaskCartridge
+    - NewsReaderCartridge
+    - WantedListCartridge
+    - LogProbeCartridge
+    - MedTekCartridge
+    - AstroNavCartridge

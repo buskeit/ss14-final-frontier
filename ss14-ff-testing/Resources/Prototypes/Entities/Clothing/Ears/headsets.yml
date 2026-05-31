@@ -2,7 +2,7 @@
   abstract: true
   parent: Clothing
   id: ClothingHeadset
-  name: headset
+  name: Headset
   description: An updated, modular intercom that fits over the head. Channel access is determined by the faction you target.
   components:
   - type: Headset
@@ -35,7 +35,7 @@
 - type: entity
   parent: ClothingHeadset
   id: ClothingHeadsetGrey
-  name: general headset
+  name: General Headset
   components:
   - type: Sprite
     sprite: Clothing/Ears/Headsets/base.rsi
@@ -43,14 +43,14 @@
 - type: entity
   parent: ClothingHeadset
   id: ClothingHeadsetCargo
-  name: cargo headset
+  name: Cargo Headset
   description: A headset used by supply employees.
   components:
   - type: ContainerFill
     containers:
       key_slots:
       - EncryptionKeyCargo
-      - EncryptionKeyCommon
+ #     - EncryptionKeyCommon
   - type: Sprite
     sprite: Clothing/Ears/Headsets/cargo.rsi
   - type: Clothing
@@ -59,8 +59,8 @@
 - type: entity
   parent: ClothingHeadsetCargo
   id: ClothingHeadsetMining
-  name: mining headset
-  description: Headset used by shaft miners.
+  name: Mining Headset
+  description: Headset used by shaft miners and salvage specialists.
   components:
   - type: Sprite
     sprite: Clothing/Ears/Headsets/mining.rsi
@@ -70,7 +70,7 @@
 - type: entity
   parent: [ClothingHeadsetCargo, BaseCommandContraband]
   id: ClothingHeadsetQM
-  name: qm headset
+  name: Quartermaster Headset
   description: A headset used by the quartermaster.
   components:
   - type: ContainerFill
@@ -78,12 +78,12 @@
       key_slots:
       - EncryptionKeyCargo
       - EncryptionKeyCommand
-      - EncryptionKeyCommon
+#      - EncryptionKeyCommon
 
 - type: entity
   parent: [ ClothingHeadset, BaseCentcommContraband ]
   id: ClothingHeadsetCentCom
-  name: CentComm headset
+  name: CentComm Headset
   description: A headset used by the upper echelons of Nanotrasen.
   components:
   - type: ContainerFill
@@ -99,8 +99,8 @@
 - type: entity
   parent: [ClothingHeadset, BaseCommandContraband]
   id: ClothingHeadsetCommand
-  name: command headset
-  description: A headset with a commanding channel.
+  name: Command Headset
+  description: A headset with access to command channels.
   components:
   - type: ContainerFill
     containers:
@@ -114,8 +114,8 @@
 - type: entity
   parent: ClothingHeadset
   id: ClothingHeadsetEngineering
-  name: engineering headset
-  description: A headset for engineers to chat while the station burns around them.
+  name: Engineering Headset
+  description: A headset for engineers to communicate with each other.
   components:
   - type: ContainerFill
     containers:
@@ -130,27 +130,27 @@
 - type: entity
   parent: [ClothingHeadsetEngineering, BaseCommandContraband]
   id: ClothingHeadsetCE
-  name: ce headset
-  description: A headset for the chief engineer to ignore all emergency calls on.
+  name: Chief Engineer Headset
+  description: A headset for the chief engineer with special command access.
   components:
   - type: ContainerFill
     containers:
       key_slots:
       - EncryptionKeyEngineering
       - EncryptionKeyCommand
-      - EncryptionKeyCommon
+#      - EncryptionKeyCommon
 
 - type: entity
   parent: ClothingHeadset
   id: ClothingHeadsetMedical
-  name: medical headset
-  description: A headset for the trained staff of the medbay.
+  name: Medical Headset
+  description: A headset for the trained medical staff.
   components:
   - type: ContainerFill
     containers:
       key_slots:
       - EncryptionKeyMedical
-      - EncryptionKeyCommon
+#      - EncryptionKeyCommon
   - type: Sprite
     sprite: Clothing/Ears/Headsets/medical.rsi
   - type: Clothing
@@ -159,7 +159,7 @@
 - type: entity
   parent: [ClothingHeadsetMedical, BaseCommandContraband]
   id: ClothingHeadsetCMO
-  name: cmo headset
+  name: Chief Medical Officer Headset
   description: A headset used by the CMO.
   components:
   - type: ContainerFill
@@ -167,19 +167,19 @@
       key_slots:
       - EncryptionKeyMedical
       - EncryptionKeyCommand
-      - EncryptionKeyCommon
+#      - EncryptionKeyCommon
 
 - type: entity
   parent: ClothingHeadset
   id: ClothingHeadsetScience
-  name: science headset
-  description: A sciency headset. Like usual.
+  name: Science Headset
+  description: A sciency headset. It has access to science channels.
   components:
   - type: ContainerFill
     containers:
       key_slots:
       - EncryptionKeyScience
-      - EncryptionKeyCommon
+#      - EncryptionKeyCommon
   - type: Sprite
     sprite: Clothing/Ears/Headsets/science.rsi
   - type: Clothing
@@ -188,14 +188,14 @@
 - type: entity
   parent: ClothingHeadsetScience
   id: ClothingHeadsetMedicalScience
-  name: medical research headset
-  description: A headset that is a result of the mating between medical and science.
+  name: Medical Research Headset
+  description: A headset that is a result of the mating between medical and science. It has access to both channels.
   components:
   - type: ContainerFill
     containers:
       key_slots:
       - EncryptionKeyMedicalScience
-      - EncryptionKeyCommon
+#      - EncryptionKeyCommon
   - type: Sprite
     sprite: Clothing/Ears/Headsets/medicalscience.rsi
   - type: Clothing
@@ -204,14 +204,15 @@
 - type: entity
   parent: ClothingHeadsetScience
   id: ClothingHeadsetRobotics
-  name: robotics headset
-  description: Made specifically for the roboticists, who cannot decide between departments.
+  name: Robotics Headset
+  description: Made specifically for the roboticists department, with access to science and robototics channels.
   components:
   - type: ContainerFill
     containers:
       key_slots:
+      - EncryptionKeyScience
       - EncryptionKeyRobo
-      - EncryptionKeyCommon
+#      - EncryptionKeyCommon
   - type: Sprite
     sprite: Clothing/Ears/Headsets/robotics.rsi
   - type: Clothing
@@ -220,27 +221,27 @@
 - type: entity
   parent: [ClothingHeadsetScience, BaseCommandContraband]
   id: ClothingHeadsetRD
-  name: rd headset
-  description: Lamarr used to love chewing on this...
+  name: Chief Science Officer Headset
+  description: A headset used by the Chief Science Officers. It has access to science and command channels.
   components:
   - type: ContainerFill
     containers:
       key_slots:
       - EncryptionKeyScience
       - EncryptionKeyCommand
-      - EncryptionKeyCommon
+#      - EncryptionKeyCommon
 
 - type: entity
   parent: [ClothingHeadset, BaseSecurityLawyerContraband]
   id: ClothingHeadsetSecurity
-  name: security headset
-  description: This is used by your elite security force.
+  name: Security Headset
+  description: This is a headset used by the police forces. It has basic encryption and access to security channels.
   components:
   - type: ContainerFill
     containers:
       key_slots:
       - EncryptionKeySecurity
-      - EncryptionKeyCommon
+#      - EncryptionKeyCommon
   - type: Sprite
     sprite: Clothing/Ears/Headsets/security.rsi
   - type: Clothing
@@ -249,15 +250,15 @@
 - type: entity
   parent: [ClothingHeadset, BaseSecurityContraband]
   id: ClothingHeadsetBrigmedic
-  name: brigmedic headset
-  description: A headset that helps to hear the death cries.
+  name: Brigmedic Headset
+  description: A headset for the brigmedic, with access to both security and medical channels.
   components:
   - type: ContainerFill
     containers:
       key_slots:
       - EncryptionKeyMedical
       - EncryptionKeySecurity
-      - EncryptionKeyCommon
+#      - EncryptionKeyCommon
   - type: Sprite
     sprite: Clothing/Ears/Headsets/brigmedic.rsi
   - type: Clothing
@@ -266,14 +267,14 @@
 - type: entity
   parent: ClothingHeadset
   id: ClothingHeadsetService
-  name: service headset
-  description: Headset used by the service staff, tasked with keeping the station full, happy and clean.
+  name: Service Headset
+  description: Headset used by the service staff, ensuring that the station is clean and its crew happy.
   components:
   - type: ContainerFill
     containers:
       key_slots:
       - EncryptionKeyService
-      - EncryptionKeyCommon
+#      - EncryptionKeyCommon
   - type: Sprite
     sprite: Clothing/Ears/Headsets/service.rsi
   - type: Clothing
@@ -282,8 +283,8 @@
 - type: entity
   parent: ClothingHeadset
   id: ClothingHeadsetFreelance
-  name: freelancer headset
-  description: This is used by a roaming group of freelancers.
+  name: Freelancer Headset
+  description: This is a headset used be freelancers and independants.It has access to the Freelancer Channel.
   components:
     - type: ContainerFill
       containers:
@@ -297,7 +298,7 @@
 - type: entity
   parent: [ClothingHeadset, BaseMagicalContraband]
   id: ClothingHeadsetWizard
-  name: wizard headset
+  name: Wizard Headset
   description: A headset used by the dreaded space wizards.
   components:
     - type: ContainerFill
@@ -312,7 +313,7 @@
 - type: entity
   parent: [ClothingHeadset, BaseMajorContraband]
   id: ClothingHeadsetNinja
-  name: green headset
+  name: Ninja Headset
   description: Who could refuse to wear this stylish black and green headset?
   components:
   - type: Sprite

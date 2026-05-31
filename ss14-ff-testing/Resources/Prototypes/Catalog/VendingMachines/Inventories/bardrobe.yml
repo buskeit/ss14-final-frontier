@@ -8,7 +8,7 @@
     ClothingHeadsetService: 2
     ClothingOuterApronBar: 2
     ClothingOuterWinterBar: 2
-    ClothingUniformJumpsuitJacketMonkey: 2
+#    ClothingUniformJumpsuitJacketMonkey: 0
     ClothingUniformJumpsuitBartender: 2
     ClothingUniformJumpskirtBartender: 2
     ClothingUniformJumpsuitBartenderPurple: 2
@@ -17,5 +17,5 @@
     ClothingOuterVest: 2
     ClothingBeltBandolier: 2
     ClothingEyesGlassesSunglasses: 2
-  contrabandInventory:
-    ToyFigurineBartender: 1
+#  contrabandInventory:
+#    ToyFigurineBartender: 1
