@@ -31,6 +31,8 @@ public sealed class IdCardSystem : SharedIdCardSystem
     [Dependency] private readonly CrewMetaRecordsSystem _crewMeta = default!;
     [Dependency] private readonly StationSystem _station = default!;
 
+    [Dependency] private readonly AccessSystem _access = default!;
+
     public override void Initialize()
     {
         base.Initialize();
@@ -62,6 +64,14 @@ public sealed class IdCardSystem : SharedIdCardSystem
         {
             RebuildJob(uid, id);
             UpdateEntityName(uid, id);
+        }
+        else
+        {
+            id.LocalizedJobTitle = "Off Duty";
+            if (TryComp<AccessComponent>(uid, out var access))
+            {
+                access.Tags.Clear();
+            }
         }
 
     }

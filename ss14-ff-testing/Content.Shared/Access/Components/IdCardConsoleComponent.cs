@@ -27,6 +27,11 @@ public sealed partial class IdCardConsoleComponent : Component
     public ItemSlot TargetIdSlot = new();
 
     [Serializable, NetSerializable]
+    public sealed class RegisterTargetIdMessage : BoundUserInterfaceMessage
+    {
+    }
+
+    [Serializable, NetSerializable]
     public sealed class WriteToTargetIdMessage : BoundUserInterfaceMessage
     {
         public readonly string FullName;
@@ -176,6 +181,8 @@ public sealed partial class IdCardConsoleComponent : Component
         public readonly bool IsOwner = false;
         public readonly int SpentFunds;
         public readonly CrewRecord? CrewRecord;
+        public readonly bool CanAccessCriminal;
+        public readonly bool CanAccessMedical;
 
         public IdCardConsoleBoundUserInterfaceState(bool isPrivilegedIdPresent,
             bool isPrivilegedIdAuthorized,
@@ -189,7 +196,9 @@ public sealed partial class IdCardConsoleComponent : Component
             Dictionary<int, CrewAssignment>? allAssignments,
             bool isOwner,
             int spentFunds,
-            CrewRecord? crewRecord)
+            CrewRecord? crewRecord,
+            bool canAccessCriminal,
+            bool canAccessMedical)
         {
             IsPrivilegedIdPresent = isPrivilegedIdPresent;
             IsPrivilegedIdAuthorized = isPrivilegedIdAuthorized;
@@ -204,7 +213,8 @@ public sealed partial class IdCardConsoleComponent : Component
             this.IsOwner = isOwner;
             SpentFunds = spentFunds;
             CrewRecord = crewRecord;
-
+            CanAccessCriminal = canAccessCriminal;
+            CanAccessMedical = canAccessMedical;
         }
     }
 

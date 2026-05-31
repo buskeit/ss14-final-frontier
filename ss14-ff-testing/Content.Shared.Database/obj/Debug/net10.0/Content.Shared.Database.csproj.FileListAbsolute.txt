@@ -22,3 +22,15 @@
 /home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/obj/Debug/net10.0/refint/Content.Shared.Database.dll
 /home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/obj/Debug/net10.0/Content.Shared.Database.pdb
 /home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/obj/Debug/net10.0/ref/Content.Shared.Database.dll
+C:\Users\zaxoo\Documents\ss14-final-frontier-clean\ss14-ff-testing\Content.Shared.Database\bin\Debug\net10.0\Content.Shared.Database.deps.json
+C:\Users\zaxoo\Documents\ss14-final-frontier-clean\ss14-ff-testing\Content.Shared.Database\bin\Debug\net10.0\Content.Shared.Database.dll
+C:\Users\zaxoo\Documents\ss14-final-frontier-clean\ss14-ff-testing\Content.Shared.Database\bin\Debug\net10.0\Content.Shared.Database.pdb
+C:\Users\zaxoo\Documents\ss14-final-frontier-clean\ss14-ff-testing\Content.Shared.Database\obj\Debug\net10.0\Content.Shared.Database.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\zaxoo\Documents\ss14-final-frontier-clean\ss14-ff-testing\Content.Shared.Database\obj\Debug\net10.0\Content.Shared.Database.AssemblyInfoInputs.cache
+C:\Users\zaxoo\Documents\ss14-final-frontier-clean\ss14-ff-testing\Content.Shared.Database\obj\Debug\net10.0\Content.Shared.Database.AssemblyInfo.cs
+C:\Users\zaxoo\Documents\ss14-final-frontier-clean\ss14-ff-testing\Content.Shared.Database\obj\Debug\net10.0\Content.Shared.Database.csproj.CoreCompileInputs.cache
+C:\Users\zaxoo\Documents\ss14-final-frontier-clean\ss14-ff-testing\Content.Shared.Database\obj\Debug\net10.0\Content.Shared.Database.sourcelink.json
+C:\Users\zaxoo\Documents\ss14-final-frontier-clean\ss14-ff-testing\Content.Shared.Database\obj\Debug\net10.0\Content.Shared.Database.dll
+C:\Users\zaxoo\Documents\ss14-final-frontier-clean\ss14-ff-testing\Content.Shared.Database\obj\Debug\net10.0\refint\Content.Shared.Database.dll
+C:\Users\zaxoo\Documents\ss14-final-frontier-clean\ss14-ff-testing\Content.Shared.Database\obj\Debug\net10.0\Content.Shared.Database.pdb
+C:\Users\zaxoo\Documents\ss14-final-frontier-clean\ss14-ff-testing\Content.Shared.Database\obj\Debug\net10.0\ref\Content.Shared.Database.dll

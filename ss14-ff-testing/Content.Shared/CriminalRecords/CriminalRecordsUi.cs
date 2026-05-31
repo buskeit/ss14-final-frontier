@@ -117,3 +117,20 @@ public sealed class CriminalRecordSetStatusFilter : BoundUserInterfaceMessage
     }
 }
 
+/// <summary>
+/// Used to apply sentencing from the CrimeAssist calculator.
+/// </summary>
+[Serializable, NetSerializable]
+public sealed class CriminalRecordApplySentencing : BoundUserInterfaceMessage
+{
+    public readonly List<string> Crimes;
+    public readonly bool PrintSlip;
+
+    public CriminalRecordApplySentencing(List<string> crimes, bool printSlip)
+    {
+        Crimes = crimes;
+        PrintSlip = printSlip;
+    }
+}
+
+

@@ -31,6 +31,8 @@
                  StyleClasses="LabelKeyText"/>
                 <Control MinSize="8 0" />
                 <Label Name="SelectedAccountLabel" />
+                <Control MinSize="16 0" />
+                <Button Name="RegisterIdButton" Text="Register ID" Access="Public" Visible="False" />
             </BoxContainer>
             <TabContainer VerticalExpand="True" Name="MainTabs">
                 <BoxContainer Orientation="Vertical" Name="AccountDetails" VerticalExpand="True">
@@ -63,7 +65,7 @@
                 </BoxContainer>
                 
                 <BoxContainer Orientation="Vertical" Name="GeneralRecord" VerticalExpand="True">
-                    <TabContainer VerticalExpand="True" Name="GeneralTabs">
+                    <TabContainer VerticalExpand="True" Name="GeneralTabs" Margin="0 35 0 0">
 
                         <BoxContainer Orientation="Vertical" Name="ViewGeneralRecord" VerticalExpand="True">
                             <Button Name="PrintGeneralRecordBtn" Access="Public" Text="Print Record"/>
@@ -91,7 +93,7 @@
                 </BoxContainer>
 
                 <BoxContainer Orientation="Vertical" Name="CriminalRecord" VerticalExpand="True">
-                    <TabContainer VerticalExpand="True" Name="CriminalTabs">
+                    <TabContainer VerticalExpand="True" Name="CriminalTabs" Margin="0 35 0 0">
 
                         <BoxContainer Orientation="Vertical" Name="ViewCriminalRecord" VerticalExpand="True">
                             <Button Name="PrintCriminalRecordBtn" Access="Public" Text="Print Record"/>
@@ -119,7 +121,7 @@
                 </BoxContainer>
                 
                 <BoxContainer Orientation="Vertical" Name="MedicalRecord" VerticalExpand="True">
-                    <TabContainer VerticalExpand="True" Name="MedicalTabs">
+                    <TabContainer VerticalExpand="True" Name="MedicalTabs" Margin="0 35 0 0">
 
                         <BoxContainer Orientation="Vertical" Name="ViewMedicalRecord" VerticalExpand="True">
                             <Button Name="PrintMedicalRecordBtn" Access="Public" Text="Print Record"/>

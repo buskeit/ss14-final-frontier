@@ -251,6 +251,93 @@ public sealed class AccessReaderSystem : EntitySystem
         return actorName;
     }
 
+    private bool TryGetIdCardFromAccessSource(
+        EntityUid source,
+        out EntityUid idUid,
+        [NotNullWhen(true)] out IdCardComponent? id,
+        out StationRecordKey? recordKey)
+    {
+        idUid = default;
+        recordKey = null;
+
+        if (TryComp(source, out id))
+        {
+            idUid = source;
+            if (TryComp<StationRecordKeyStorageComponent>(source, out var storage))
+                recordKey = storage.Key;
+
+            return true;
+        }
+
+        if (TryComp<PdaComponent>(source, out var pda) &&
+            pda.ContainedId is { Valid: true } containedId &&
+            TryComp(containedId, out id))
+        {
+            idUid = containedId;
+            if (TryComp<StationRecordKeyStorageComponent>(containedId, out var storage))
+                recordKey = storage.Key;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool TryResolveStationRecordAccess(
+        EntityUid station,
+        IdCardComponent id,
+        StationRecordKey? recordKey,
+        ICollection<string> accesses,
+        out bool allowed)
+    {
+        allowed = false;
+
+        if (string.IsNullOrWhiteSpace(id.FullName) || recordKey is not { } key)
+            return false;
+
+        if (key.OriginStation != station)
+            return false;
+
+        if (!_recordsSystem.TryGetRecord<GeneralStationRecord>(key, out var generalRecord) ||
+            generalRecord.Name != id.FullName)
+        {
+            // A station-bound ID whose record key no longer matches its displayed name
+            // is tampered or stale. Do not let its physical tags bypass record authority.
+            return true;
+        }
+
+        if (TryComp(station, out StationDataComponent? stationData) &&
+            stationData.Owners.Contains(id.FullName))
+        {
+            allowed = true;
+            return true;
+        }
+
+        if (!TryComp(station, out CrewRecordsComponent? crewRecords) ||
+            !crewRecords.TryGetRecord(id.FullName, out var record) ||
+            record == null)
+        {
+            return false;
+        }
+
+        if (!TryComp(station, out CrewAssignmentsComponent? crewAssignments) ||
+            !crewAssignments.TryGetAssignment(record.AssignmentID, out var assignment) ||
+            assignment == null)
+        {
+            return true;
+        }
+
+        foreach (var access in accesses)
+        {
+            if (!assignment.AccessIDs.Contains(access))
+                continue;
+
+            allowed = true;
+            return true;
+        }
+
+        return true;
+    }
 
     /// <summary>
     /// Searches the source for access tags
@@ -276,112 +363,79 @@ public sealed class AccessReaderSystem : EntitySystem
             return true;
         if (reader.PersonalAccessMode)
         {
-            if (reader.PersonalAccessNames.Count < 1) return true;
-            string? actorName = null;
+            if (reader.PersonalAccessNames.Count < 1)
+                return true;
+
+            var station = _station.GetOwningStation(target);
             var accessSources = FindPotentialAccessItems(user);
             foreach (var source in accessSources)
             {
-                if (TryComp<IdCardComponent>(source, out var idComp))
+                if (!TryGetIdCardFromAccessSource(source, out _, out var idComp, out var recordKey) ||
+                    string.IsNullOrWhiteSpace(idComp.FullName) ||
+                    !reader.PersonalAccessNames.Contains(idComp.FullName))
                 {
-                    if (idComp.FullName != null && idComp.FullName.Length > 0)
-                        actorName = idComp.FullName;
+                    continue;
                 }
-                else if (TryComp<PdaComponent>(source, out var pdaComp))
+
+                if (station != null && recordKey is { } key)
                 {
-                    if (pdaComp != null && pdaComp.ContainedId != null)
+                    if (key.OriginStation != station.Value ||
+                        !_recordsSystem.TryGetRecord<GeneralStationRecord>(key, out var generalRecord) ||
+                        generalRecord.Name != idComp.FullName)
                     {
-                        if (TryComp<IdCardComponent>(pdaComp.ContainedId, out var idComp2))
-                        {
-                            if (idComp2.FullName != null && idComp2.FullName.Length > 0)
-                                actorName = idComp2.FullName;
-                        }
+                        continue;
                     }
                 }
-            }
-            if (actorName != null)
-            {
-                if (!reader.PersonalAccessNames.Contains(actorName))
-                {
-                    return false;
-                }
+
                 return true;
             }
+
+            return false;
         }
         else
         {
             var station = _station.GetOwningStation(target);
-            if (station == null) return true;
-            if (reader.AccessNames.Count < 1) return true;
-            var accesses = _station.GetValidAccesses(reader.AccessNames, station.Value);
-            if (accesses.Count < 1) return true;
-            string? actorName = null;
-            var accessSources = FindPotentialAccessItems(user);
-            foreach (var source in accessSources)
+            if (station != null && reader.AccessNames.Count >= 1)
             {
-                if (TryComp<IdCardComponent>(source, out var idComp))
+                var accesses = _station.GetValidAccesses(reader.AccessNames, station.Value);
+                if (accesses.Count >= 1)
                 {
-                    if (idComp.FullName != null && idComp.FullName.Length > 0)
-                        actorName = idComp.FullName;
-                }
-                else if (TryComp<PdaComponent>(source, out var pdaComp))
-                {
-                    if (pdaComp != null && pdaComp.ContainedId != null)
+                    var accessSources = FindPotentialAccessItems(user);
+                    var ignoredFallbackItems = new HashSet<EntityUid>();
+
+                    foreach (var source in accessSources)
                     {
-                        if (TryComp<IdCardComponent>(pdaComp.ContainedId, out var idComp2))
+                        if (!TryGetIdCardFromAccessSource(source, out var idUid, out var idComp, out var recordKey))
+                            continue;
+
+                        if (!TryResolveStationRecordAccess(station.Value, idComp, recordKey, accesses, out var recordAllowed))
+                            continue;
+
+                        ignoredFallbackItems.Add(source);
+                        ignoredFallbackItems.Add(idUid);
+
+                        if (recordAllowed)
                         {
-                            if (idComp2.FullName != null && idComp2.FullName.Length > 0)
-                                actorName = idComp2.FullName;
+                            return true;
                         }
+                    }
+
+                    if (ignoredFallbackItems.Count > 0)
+                    {
+                        var fallbackItems = new HashSet<EntityUid>(accessSources);
+                        fallbackItems.ExceptWith(ignoredFallbackItems);
+
+                        var filteredTags = FindAccessTags(user, fallbackItems);
+                        FindStationRecordKeys(user, out var filteredRecordKeys, fallbackItems);
+                        return IsAllowed(filteredTags, filteredRecordKeys, target, reader);
                     }
                 }
             }
-            if (actorName != null)
-            {
 
-                if (TryComp(station, out StationDataComponent? sD))
-                {
-                    if (sD.Owners.Contains(actorName)) return true;
-                }
-
-                if (!TryComp(station, out CrewRecordsComponent? crewRecords))
-                {
-                    crewRecords = null;
-                    return false;
-                }
-                if (crewRecords == null) return true;
-                crewRecords.TryGetRecord(actorName, out var record);
-
-                if (!TryComp(station, out CrewAssignmentsComponent? stationData))
-                {
-                    return true;
-                }
-                if (!TryComp(station, out CrewAccessesComponent? crewAccesses))
-                {
-                    return true;
-                }
-                if (record == null)
-                {
-                    return false;
-                }
-                else
-                {
-                    if (stationData != null)
-                    {
-                        if (!stationData.TryGetAssignment(record.AssignmentID, out var assignment) || assignment == null) return false;
-                        foreach (var access1 in accesses)
-                        {
-                            if (assignment.AccessIDs.Contains(access1))
-                            {
-                                return true;
-                            }
-                        }
-                    }
-                }
-
-                return false;
-            }
+            var tags = FindAccessTags(user);
+            FindStationRecordKeys(user, out var recordKeys);
+            return IsAllowed(tags, recordKeys, target, reader);
         }
-        return false;
     }
 
     public bool CanSpend(EntityUid user, EntityUid target, AccessReaderComponent? reader = null, int toSpend = 0)

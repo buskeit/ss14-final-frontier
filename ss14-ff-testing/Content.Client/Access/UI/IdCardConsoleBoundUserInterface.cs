@@ -46,6 +46,7 @@ namespace Content.Client.Access.UI
             _window.CrewManifestButton.OnPressed += _ => SendMessage(new CrewManifestOpenUiMessage());
             _window.PrivilegedIdButton.OnPressed += _ => SendMessage(new ItemSlotButtonPressedEvent(PrivilegedIdCardSlotId));
             _window.TargetIdButton.OnPressed += _ => SendMessage(new ItemSlotButtonPressedEvent(TargetIdCardSlotId));
+            _window.RegisterIdButton.OnPressed += _ => RegisterTargetId();
             _window.OnClose += Close;
             _window.OpenCentered();
         }
@@ -64,6 +65,11 @@ namespace Content.Client.Access.UI
             base.UpdateState(state);
             var castState = (IdCardConsoleBoundUserInterfaceState)state;
             _window?.UpdateState(castState);
+        }
+
+        public void RegisterTargetId()
+        {
+            SendMessage(new RegisterTargetIdMessage());
         }
 
         public void SearchRecord(string newFullName)
