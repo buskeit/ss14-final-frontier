@@ -48,9 +48,9 @@
   components:
   - type: Appearance
   - type: EntityStorageVisuals
-    stateBaseClosed: cmo-SOL
-    stateDoorOpen: cmo-SOL_open
-    stateDoorClosed: cmo-SOL_door
+    stateBaseClosed: cmo-AL
+    stateDoorOpen: cmo-AL_open
+    stateDoorClosed: cmo-AL_door
   - type: AccessReader
     access: [ [ "ChiefMedicalOfficer" ] ]
 
