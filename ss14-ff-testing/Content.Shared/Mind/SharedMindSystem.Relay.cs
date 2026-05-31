@@ -23,8 +23,14 @@ public abstract partial class SharedMindSystem : EntitySystem
         {
             RaiseLocalEvent(mindId, ref ev);
 
-            foreach (var role in EnsureMindRoleContainer(mindId, mindComp).ContainedEntities)
-                RaiseLocalEvent(role, ref ev);
+            if (mindComp.MindRoleContainer != null)
+            {
+                foreach (var role in mindComp.MindRoleContainer.ContainedEntities)
+                {
+                    if (!TerminatingOrDeleted(role))
+                        RaiseLocalEvent(role, ref ev);
+                }
+            }
         }
     }
 
@@ -36,8 +42,14 @@ public abstract partial class SharedMindSystem : EntitySystem
         {
             RaiseLocalEvent(mindId, ref ev);
 
-            foreach (var role in EnsureMindRoleContainer(mindId, mindComp).ContainedEntities)
-                RaiseLocalEvent(role, ref ev);
+            if (mindComp.MindRoleContainer != null)
+            {
+                foreach (var role in mindComp.MindRoleContainer.ContainedEntities)
+                {
+                    if (!TerminatingOrDeleted(role))
+                        RaiseLocalEvent(role, ref ev);
+                }
+            }
         }
 
         args = ev.Args;

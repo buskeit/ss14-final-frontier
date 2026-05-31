@@ -165,6 +165,9 @@ public abstract partial class SharedBorgSystem
         if (!Resolve(borg, ref borg.Comp))
             return;
 
+        if (borg.Comp.ModuleContainer == null)
+            return;
+
         foreach (var moduleEnt in new List<EntityUid>(borg.Comp.ModuleContainer.ContainedEntities))
         {
             if (!_moduleQuery.TryGetComponent(moduleEnt, out var moduleComp))
@@ -180,6 +183,9 @@ public abstract partial class SharedBorgSystem
     public void DisableAllModules(Entity<BorgChassisComponent?> borg)
     {
         if (!Resolve(borg, ref borg.Comp))
+            return;
+
+        if (borg.Comp.ModuleContainer == null)
             return;
 
         foreach (var moduleEnt in new List<EntityUid>(borg.Comp.ModuleContainer.ContainedEntities))

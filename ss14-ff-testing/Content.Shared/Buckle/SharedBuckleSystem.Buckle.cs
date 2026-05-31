@@ -458,7 +458,8 @@ public abstract partial class SharedBuckleSystem
 
         if (buckleXform.ParentUid == strap.Owner &&
             !TerminatingOrDeleted(strap.Owner) &&
-            !TerminatingOrDeleted(oldBuckledXform.ParentUid))
+            !TerminatingOrDeleted(oldBuckledXform.ParentUid) &&
+            HasComp<TransformComponent>(oldBuckledXform.ParentUid))
         {
             _transform.PlaceNextTo((buckle, buckleXform), (strap.Owner, oldBuckledXform));
             buckleXform.ActivelyLerping = false;
