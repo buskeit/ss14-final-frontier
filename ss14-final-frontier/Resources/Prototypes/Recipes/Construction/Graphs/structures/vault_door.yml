@@ -1,0 +1,271 @@
+- type: constructionGraph
+  id: VaultDoor
+  start: start
+  graph:
+  - node: start
+    edges:
+    - to: assembly
+      completed:
+      - !type:SetAnchor
+        value: false
+      steps:
+      - material: Titanium
+        amount: 4
+        doAfter: 5
+
+  - node: assembly
+    entity: AirlockAssemblyHighSec
+    actions:
+    - !type:SnapToGrid {}
+    - !type:SetAnchor {}
+    edges:
+    - to: reinforce
+      conditions:
+      - !type:EntityAnchored {}
+      steps:
+      - material: Plasteel
+        amount: 2
+        doAfter: 2
+    - to: start
+      conditions:
+      - !type:EntityAnchored
+        anchored: false
+      completed:
+      - !type:SpawnPrototype
+        prototype: SheetTitanium1
+        amount: 4
+      - !type:DeleteEntity {}
+      steps:
+      - tool: Welding
+        doAfter: 8
+
+  - node: reinforce
+    entity: AirlockAssemblyHighSec
+    edges:
+    - to: wiring
+      conditions:
+      - !type:EntityAnchored {}
+      steps:
+      - tool: Screwing
+        doAfter: 2
+      - material: Plasteel
+        amount: 3
+        doAfter: 3
+    - to: assembly
+      completed:
+      - !type:SpawnPrototype
+        prototype: SheetPlasteel1
+        amount: 2
+      steps:
+      - tool: Welding
+        doAfter: 5
+      - tool: Prying
+        doAfter: 1
+
+  - node: wiring
+    entity: AirlockAssemblyHighSec
+    edges:
+    - to: electronics
+      conditions:
+      - !type:EntityAnchored {}
+      steps:
+      - material: Cable
+        amount: 5
+        doAfter: 3
+    - to: reinforce
+      completed:
+      - !type:SpawnPrototype
+        prototype: SheetPlasteel1
+        amount: 3
+      steps:
+      - tool: Prying
+        doAfter: 8
+      - tool: Welding
+        doAfter: 10
+      - tool: Prying
+        doAfter: 1
+
+  - node: electronics
+    entity: AirlockAssemblyHighSec
+    edges:
+    - to: vaultdoor
+      conditions:
+      - !type:EntityAnchored {}
+      steps:
+      - component: DoorElectronics
+        store: board
+        name: construction-graph-component-door-electronics-circuit-board
+        icon:
+          sprite: "Objects/Misc/module.rsi"
+          state: "door_electronics"
+        doAfter: 5
+      - tool: Welding
+        doAfter: 4
+      - tool: Screwing
+        doAfter: 3
+      - tool: Welding
+        doAfter: 5
+      - tool: Prying
+        doAfter: 1
+      - tool: Welding
+        doAfter: 10
+      - tool: Prying
+        doAfter: 1
+      - tool: Screwing
+        doAfter: 1
+    - to: wiring
+      completed:
+      - !type:SpawnPrototype
+        prototype: CableApcStack1
+        amount: 5
+      steps:
+      - tool: Cutting
+        doAfter: 2
+
+  - node: vaultdoor
+    entity: VaultDoor
+    doNotReplaceInheritingEntities: true
+    actions:
+    - !type:SetWiresPanelSecurity
+      wiresAccessible: true
+    edges:
+    - to: electronics
+      conditions:
+      - !type:EntityAnchored {}
+      - !type:DoorWelded {}
+      - !type:DoorBolted
+        value: false
+      - !type:WirePanel {}
+      - !type:AllWiresCut
+      completed:
+      - !type:EmptyAllContainers
+        pickup: true
+        emptyAtUser: true
+      steps:
+      - tool: Prying
+        doAfter: 5
+      - tool: Cutting
+        doAfter: 3
+      - tool: Prying
+        doAfter: 8
+
+    - to: highSecurityUnfinished
+      conditions:
+      - !type:WirePanel {}
+      steps:
+      - material: Titanium
+        amount: 2
+        doAfter: 4
+
+## High security level door: a layer of plasteel plating protects the internal wiring
+  - node: highSecurityUnfinished
+    actions:
+    - !type:SetWiresPanelSecurity
+      examine: wires-panel-component-on-examine-security-level8
+      wiresAccessible: false
+    edges:
+    - to: vaultdoor
+      completed:
+      - !type:GivePrototype
+        prototype: SheetTitanium1
+        amount: 2
+      conditions:
+      - !type:WirePanel {}
+      - !type:HasTag
+        tag: HighSecDoor
+      steps:
+      - tool: Prying
+        doAfter: 8
+
+    - to: highSecurity
+      conditions:
+      - !type:WirePanel {}
+      steps:
+      - tool: Welding
+        doAfter: 8
+
+  - node: highSecurity
+    actions:
+    - !type:SetWiresPanelSecurity
+      examine: wires-panel-component-on-examine-security-level9
+      wiresAccessible: false
+    edges:
+    - to: highSecurityUnfinished
+      conditions:
+      - !type:WirePanel {}
+      steps:
+      - tool: Welding
+        doAfter: 15
+
+    - to: maxSecurity
+      conditions:
+      - !type:WirePanel {}
+      steps:
+      - material: MetalRod
+        amount: 4
+        doAfter: 2
+
+## Max security level door: an electric grill is added
+  - node: maxSecurity
+    actions:
+    - !type:SetWiresPanelSecurity
+      examine: wires-panel-component-on-examine-security-level5
+      wiresAccessible: false
+    edges:
+    - to: highSecurity
+      completed:
+      - !type:AttemptElectrocute
+      - !type:GivePrototype
+        prototype: PartRodMetal1
+        amount: 4
+      conditions:
+      - !type:WirePanel {}
+      steps:
+      - tool: Cutting
+        doAfter: 1.5
+
+    - to: superMaxSecurityUnfinished
+      conditions:
+      - !type:WirePanel {}
+      steps:
+      - material: Titanium
+        amount: 2
+        doAfter: 6
+
+## Super max security level door: an additional layer of plasteel is added
+  - node: superMaxSecurityUnfinished
+    actions:
+    - !type:SetWiresPanelSecurity
+      examine: wires-panel-component-on-examine-security-level8
+      wiresAccessible: false
+    edges:
+    - to: maxSecurity
+      completed:
+      - !type:GivePrototype
+        prototype: SheetTitanium1
+        amount: 2
+      conditions:
+      - !type:WirePanel {}
+      steps:
+      - tool: Prying
+        doAfter: 8
+
+    - to: complete_vault_door
+      conditions:
+      - !type:WirePanel {}
+      steps:
+      - tool: Welding
+        doAfter: 10
+
+  - node: complete_vault_door
+    actions:
+    - !type:SetWiresPanelSecurity
+      examine: wires-panel-component-on-examine-security-level9
+      wiresAccessible: false
+    edges:
+    - to: superMaxSecurityUnfinished
+      conditions:
+      - !type:WirePanel {}
+      steps:
+      - tool: Welding
+        doAfter: 15

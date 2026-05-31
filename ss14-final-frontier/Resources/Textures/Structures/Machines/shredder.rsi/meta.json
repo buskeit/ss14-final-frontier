@@ -1,0 +1,23 @@
+{
+    "version": 2,
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "license": "CC0-1.0",
+    "copyright": "stinky",
+    "states": [
+        {
+            "name": "shredder-base"
+        },
+        {
+            "name": "shredder-powered"
+        },
+        {
+            "name": "shredder-ready"
+        },
+        {
+            "name": "shredder-processing"
+        }
+    ]
+}

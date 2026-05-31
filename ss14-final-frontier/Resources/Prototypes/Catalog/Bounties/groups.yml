@@ -1,0 +1,45 @@
+- type: cargoBountyGroup
+  id: StationBounty
+  name: Cargo
+
+- type: cargoBountyGroup
+  id: ServiceBounty
+  name: Service
+
+- type: cargoBountyGroup
+  id: ExplorationBounty
+  name: Exploration
+
+- type: cargoBountyGroup
+  id: HunterBounty
+  name: Hunting
+
+- type: cargoBountyGroup
+  id: EngineeringBounty
+  name: Engineering
+
+- type: cargoBountyGroup
+  id: ScienceBounty
+  name: Science
+
+- type: cargoBountyGroup
+  id: CrimeBounty
+  name: ???
+
+- type: cargoBountyGroup
+  id: GasBounty
+  name: Gasses
+
+- type: cargoBountyGroup
+  id: ReagentBounty
+  name: Reagents
+
+- type: cargoBountyGroup
+  id: SalvageJobTier1
+  name: Salvage
+- type: cargoBountyGroup
+  id: SalvageJobTier2
+  name: Salvage 2
+- type: cargoBountyGroup
+  id: SalvageJobTier3
+  name: Salvage 3

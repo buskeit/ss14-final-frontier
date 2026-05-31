@@ -1,0 +1,462 @@
+- type: latheRecipe
+  id: SheetSteel
+  result: SheetSteel1
+  completetime: 0
+  materials:
+    RawIron: 200
+    Coal: 40
+
+- type: latheRecipe
+  id: SheetSteel30
+  result: SheetSteel
+  completetime: 2
+  materials:
+    RawIron: 6000
+    Coal: 1200
+
+- type: latheRecipe
+  id: SheetGlass1
+  result: SheetGlass1
+  completetime: 0
+  materials:
+    RawQuartz: 200
+
+- type: latheRecipe
+  id: SheetGlass30
+  result: SheetGlass
+  completetime: 2
+  materials:
+    RawQuartz: 6000
+
+# This version is for the autolathe
+- type: latheRecipe
+  id: SheetRGlass
+  result: SheetRGlass1
+  applyMaterialDiscount: false # obvious dupe capabilities
+  completetime: 0
+  materials:
+    Glass: 200
+    Steel: 100
+
+# This version is for the ore processor
+- type: latheRecipe
+  id: SheetRGlassRaw
+  result: SheetRGlass1
+  completetime: 0
+  materials:
+    RawQuartz: 200
+    RawIron: 100
+    Coal: 30
+
+- type: latheRecipe
+  id: SheetRGlass30
+  result: SheetRGlass
+  completetime: 2
+  materials:
+    RawQuartz: 6000
+    RawIron: 3000
+    Coal: 1000
+
+- type: latheRecipe
+  id: SheetPGlass1
+  result: SheetPGlass1
+  completetime: 0
+  materials:
+    RawQuartz: 200
+    RawPlasma: 200
+
+- type: latheRecipe
+  id: SheetPGlass30
+  result: SheetPGlass
+  completetime: 2
+  materials:
+    RawQuartz: 6000
+    RawPlasma: 6000
+
+- type: latheRecipe
+  id: SheetRPGlass1
+  result: SheetRPGlass1
+  completetime: 0
+  materials:
+    RawQuartz: 200
+    RawPlasma: 200
+    RawIron: 100
+    Coal: 30
+
+- type: latheRecipe
+  id: SheetRPGlass30
+  result: SheetRPGlass
+  completetime: 2
+  materials:
+    RawQuartz: 6000
+    RawPlasma: 6000
+    RawIron: 3000
+    Coal: 1000
+
+# Reinforced plasma glass from plasma glass + steel (autolathe version)
+- type: latheRecipe
+  id: SheetRPGlassAlloy
+  result: SheetRPGlass1
+  applyMaterialDiscount: false
+  completetime: 0
+  materials:
+    PlasmaGlass: 200
+    Steel: 100
+
+- type: latheRecipe
+  id: SheetRPGlassAlloy30
+  result: SheetRPGlass
+  completetime: 2
+  materials:
+    PlasmaGlass: 6000
+    Steel: 3000
+
+# Phoron glass (alloy-infused glass)
+- type: latheRecipe
+  id: SheetPhoronGlass1
+  result: SheetPhoronGlass1
+  completetime: 0
+  materials:
+    RawQuartz: 200
+    RawPlasma: 200
+    RawBananium: 200
+    RawTitanium: 100
+
+- type: latheRecipe
+  id: SheetPhoronGlass30
+  result: SheetPhoronGlass
+  completetime: 2
+  materials:
+    RawQuartz: 6000
+    RawPlasma: 6000
+    RawBananium: 6000
+    RawTitanium: 3000
+
+# Reinforced phoron glass (with metal reinforcement)
+- type: latheRecipe
+  id: SheetRPhoronGlass1
+  result: SheetRPhoronGlass1
+  completetime: 0
+  materials:
+    RawQuartz: 200
+    RawPlasma: 200
+    RawBananium: 200
+    RawTitanium: 100
+    RawIron: 100
+    Coal: 30
+
+- type: latheRecipe
+  id: SheetRPhoronGlass30
+  result: SheetRPhoronGlass
+  completetime: 2
+  materials:
+    RawQuartz: 6000
+    RawPlasma: 6000
+    RawBananium: 6000
+    RawTitanium: 3000
+    RawIron: 3000
+    Coal: 1000
+
+# Reinforced phoron glass from phoron glass + steel (autolathe version)
+- type: latheRecipe
+  id: SheetRPhoronGlassAlloy
+  result: SheetRPhoronGlass1
+  applyMaterialDiscount: false
+  completetime: 0
+  materials:
+    PhoronGlass: 200
+    Steel: 100
+
+- type: latheRecipe
+  id: SheetRPhoronGlassAlloy30
+  result: SheetRPhoronGlass
+  completetime: 2
+  materials:
+    PhoronGlass: 6000
+    Steel: 3000
+
+- type: latheRecipe
+  id: SheetPlasma1
+  result: SheetPlasma1
+  completetime: 0
+  materials:
+    RawPlasma: 200
+
+- type: latheRecipe
+  id: SheetPlasma30
+  result: SheetPlasma
+  completetime: 2
+  materials:
+    RawPlasma: 6000
+
+- type: latheRecipe
+  id: SheetPlasteel1
+  result: SheetPlasteel1
+  completetime: 0
+  materials:
+    RawPlasma: 200
+    RawIron: 400 #Twice as durable as steel, Twice the material cost
+    Coal: 60
+
+- type: latheRecipe
+  id: SheetPlasteel30
+  result: SheetPlasteel
+  completetime: 5
+  materials:
+    RawPlasma: 6000
+    RawIron: 12000 #Twice as durable as steel, Twice the material cost
+    Coal: 2000
+
+- type: latheRecipe
+  id: SheetTitanium1
+  result: SheetTitanium1
+  completetime: 0
+  materials:
+    RawTitanium: 200
+
+- type: latheRecipe
+  id: SheetTitanium30
+  result: SheetTitanium
+  completetime: 2
+  materials:
+    RawTitanium: 6000
+
+- type: latheRecipe
+  id: SheetAluminium1
+  result: SheetAluminium1
+  completetime: 0
+  materials:
+    RawAluminum: 200
+
+- type: latheRecipe
+  id: SheetAluminium30
+  result: SheetAluminium
+  completetime: 2
+  materials:
+    RawAluminum: 6000
+
+- type: latheRecipe
+  id: IngotCopper1
+  result: IngotCopper1
+  completetime: 0
+  materials:
+    RawCopper: 200
+
+- type: latheRecipe
+  id: IngotCopper30
+  result: IngotCopper
+  completetime: 2
+  materials:
+    RawCopper: 6000
+
+- type: latheRecipe
+  id: IngotTin1
+  result: IngotTin1
+  completetime: 0
+  materials:
+    RawTin: 200
+
+- type: latheRecipe
+  id: IngotTin30
+  result: IngotTin
+  completetime: 2
+  materials:
+    RawTin: 6000
+
+- type: latheRecipe
+  id: SheetBronze
+  result: SheetBronze1
+  completetime: 1
+  materials:
+    RawCopper: 133
+    RawTin: 67
+
+- type: latheRecipe
+  id: SheetBronze30
+  result: SheetBronze
+  completetime: 2
+  materials:
+    RawCopper: 4000
+    RawTin: 2000
+
+- type: latheRecipe
+  id: SheetUranium30
+  result: SheetUranium
+  completetime: 2
+  materials:
+    RawUranium: 3000
+
+- type: latheRecipe
+  id: SheetUGlass1
+  result: SheetUGlass1
+  completetime: 0
+  materials:
+    RawUranium: 200
+    RawQuartz: 200
+
+- type: latheRecipe
+  id: SheetUGlass30
+  result: SheetUGlass
+  completetime: 2
+  materials:
+    RawUranium: 6000
+    RawQuartz: 6000
+
+- type: latheRecipe
+  id: SheetRUGlass1
+  result: SheetRUGlass1
+  completetime: 0
+  materials:
+    RawUranium: 200
+    RawQuartz: 200
+    RawIron: 100
+    Coal: 30
+
+- type: latheRecipe
+  id: SheetRUGlass30
+  result: SheetRUGlass
+  completetime: 2
+  materials:
+    RawUranium: 6000
+    RawQuartz: 6000
+    RawIron: 3000
+    Coal: 1000
+
+# Reinforced uranium glass from uranium glass + steel (autolathe version)
+- type: latheRecipe
+  id: SheetRUGlassAlloy
+  result: SheetRUGlass1
+  applyMaterialDiscount: false
+  completetime: 0
+  materials:
+    UraniumGlass: 200
+    Steel: 100
+
+- type: latheRecipe
+  id: SheetRUGlassAlloy30
+  result: SheetRUGlass
+  completetime: 2
+  materials:
+    UraniumGlass: 6000
+    Steel: 3000
+
+- type: latheRecipe
+  id: IngotGold30
+  result: IngotGold
+  completetime: 2
+  materials:
+    RawGold: 6000
+
+- type: latheRecipe
+  id: IngotSilver30
+  result: IngotSilver
+  completetime: 2
+  materials:
+    RawSilver: 6000
+
+- type: latheRecipe
+  id: MaterialBananium10
+  result: MaterialBananium
+  completetime: 2
+  materials:
+    RawBananium: 6000
+
+- type: latheRecipe
+  id: MaterialDiamond
+  result: MaterialDiamond1
+  completetime: 0
+  materials:
+    RawDiamond: 200
+
+- type: latheRecipe
+  id: SheetUranium1
+  result: SheetUranium1
+  completetime: 0
+  materials:
+    RawUranium: 200
+
+- type: latheRecipe
+  id: IngotGold1
+  result: IngotGold1
+  completetime: 0
+  materials:
+    RawGold: 200
+
+- type: latheRecipe
+  id: IngotSilver1
+  result: IngotSilver1
+  completetime: 0
+  materials:
+    RawSilver: 200
+
+- type: latheRecipe
+  id: SheetPlastic
+  result: SheetPlastic1
+  applyMaterialDiscount: false
+  completetime: 0
+  materials:
+    Plastic: 100
+
+- type: latheRecipe
+  id: MaterialBananium1
+  result: MaterialBananium1
+  completetime: 0
+  materials:
+    RawBananium: 200
+
+- type: latheRecipe
+  id: MaterialPhoron1
+  result: MaterialPhoron1
+  completetime: 0
+  materials:
+    RawPlasma: 400
+    RawBananium: 400
+    RawTitanium: 200
+
+- type: latheRecipe
+  id: MaterialPhoron10
+  result: MaterialPhoron10
+  completetime: 0
+  materials:
+    RawPlasma: 4000
+    RawBananium: 4000
+    RawTitanium: 2000
+
+- type: latheRecipe
+  id: MaterialPhoron30
+  result: MaterialPhoron
+  completetime: 2
+  materials:
+    RawPlasma: 12000
+    RawBananium: 12000
+    RawTitanium: 6000
+
+- type: latheRecipe
+  id: MaterialSheetMeat
+  result: MaterialSheetMeat1
+  completetime: 6.4
+  materials:
+    Meaterial: 200
+
+- type: latheRecipe
+  id: SheetPaper
+  result: SheetPaper1
+  completetime: 1
+  materials:
+    Wood: 50
+
+- type: latheRecipe
+  id: MaterialClothCotton
+  result: MaterialCloth1
+  completetime: 1
+  materials:
+    Cotton: 200 #my pyrocloth keeps catching on fire whenever I make it!
+
+- type: latheRecipe
+  id: MaterialDurathread
+  result: MaterialDurathread1
+  applyMaterialDiscount: false
+  completetime: 0
+  materials:
+    Cloth: 100
+    Plastic: 100

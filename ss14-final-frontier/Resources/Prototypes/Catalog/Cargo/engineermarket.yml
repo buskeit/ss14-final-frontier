@@ -1,0 +1,479 @@
+- type: cargoProduct
+  id: MaterialGlassETS
+  icon:
+    sprite: Objects/Materials/Sheets/glass.rsi
+    state: glass_3
+  product: CrateMaterialGlass
+  cost: 1250
+  category: cargoproduct-category-name-materials
+  group: engineermarket
+
+- type: cargoProduct
+  id: MaterialSteelETS
+  icon:
+    sprite: Objects/Materials/Sheets/metal.rsi
+    state: steel_3
+  product: CrateMaterialSteel
+  cost: 1250
+  category: cargoproduct-category-name-materials
+  group: engineermarket
+
+- type: cargoProduct
+  id: MaterialPlasticETS
+  icon:
+    sprite: Objects/Materials/Sheets/other.rsi
+    state: plastic_3
+  product: CrateMaterialPlastic
+  cost: 1500
+  category: cargoproduct-category-name-materials
+  group: engineermarket2
+
+- type: cargoProduct
+  id: MaterialBrassETS
+  icon:
+    sprite: Objects/Materials/Sheets/metal.rsi
+    state: brass_3
+  product: CrateMaterialBrass
+  cost: 2000
+  category: cargoproduct-category-name-materials
+  group: engineermarket2
+
+- type: cargoProduct
+  id: MaterialPlasteelETS
+  icon:
+    sprite: Objects/Materials/Sheets/metal.rsi
+    state: plasteel_3
+  product: CrateMaterialPlasteel
+  cost: 1750
+  category: cargoproduct-category-name-materials
+  group: engineermarket2
+
+- type: cargoProduct
+  id: MaterialGoldETS
+  icon:
+    sprite: Objects/Materials/ingots.rsi
+    state: gold_3
+  product: CrateMaterialGold
+  cost: 3500
+  category: cargoproduct-category-name-materials
+  group: engineermarket2
+
+- type: cargoProduct
+  id: MaterialSilverETS
+  icon:
+    sprite: Objects/Materials/ingots.rsi
+    state: silver_3
+  product: CrateMaterialSilver
+  cost: 3000
+  category: cargoproduct-category-name-materials
+  group: engineermarket2
+
+- type: cargoProduct
+  id: MaterialPlasmaETS
+  icon:
+    sprite: Objects/Materials/Sheets/other.rsi
+    state: plasma_3
+  product: CrateMaterialPlasma
+  cost: 4000
+  category: cargoproduct-category-name-materials
+  group: engineermarket2
+
+- type: cargoProduct
+  id: CardboardMaterialETS
+  icon:
+    sprite: Objects/Materials/materials.rsi
+    state: cardboard_3
+  product: CrateMaterialCardboard
+  cost: 330
+  category: cargoproduct-category-name-materials
+  group: engineermarket
+
+- type: cargoProduct
+  id: PaperMaterialETS
+  icon:
+    sprite: Objects/Materials/Sheets/other.rsi
+    state: paper_3
+  product: CrateMaterialPaper
+  cost: 185
+  category: cargoproduct-category-name-materials
+  group: engineermarket
+
+- type: cargoProduct
+  id: MaterialBasicETS
+  icon:
+    sprite: Objects/Materials/Sheets/other.rsi
+    state: generic_materials
+  product: CrateMaterialBasicResource
+  cost: 1500
+  category: cargoproduct-category-name-materials
+  group: engineermarket
+
+- type: cargoProduct
+  id: MaterialFuelTankETS
+  icon:
+    sprite: Structures/Storage/tanks.rsi
+    state: fueltank
+  product: WeldingFuelTankFull
+  cost: 7500
+  category: cargoproduct-category-name-materials
+  group: engineermarket
+
+- type: cargoProduct
+  id: MaterialWaterTankETS
+  icon:
+    sprite: Structures/Storage/tanks.rsi
+    state: watertank
+  product: WaterTankFull
+  cost: 1000
+  category: cargoproduct-category-name-materials
+  group: engineermarket
+
+- type: cargoProduct
+  id: AirGrenadeETS
+  icon:
+    sprite: Objects/Weapons/Grenades/airboom.rsi
+    state: icon
+  product: CrateAirGrenade
+  cost: 2000
+  category: cargoproduct-category-name-atmospherics
+  group: engineermarket
+
+- type: cargoProduct
+  id: EngineAmeJarETS
+  icon:
+    sprite: Objects/Power/AME/ame_jar.rsi
+    state: jar
+  product: CrateEngineeringAMEJar
+  cost: 1500
+  category: cargoproduct-category-name-engineering
+  group: engineermarket
+
+# - type: cargoProduct
+  # id: EngineSingularityGeneratorETS
+  # icon:
+   # sprite: Structures/Power/Generation/Singularity/generator.rsi
+   # state: icon
+  # product: CrateEngineeringSingularityGenerator
+  # cost: 4000
+  # category: cargoproduct-category-name-engineering
+  # group: market
+
+- type: cargoProduct
+  id: EngineSingularityContainmentETS
+  icon:
+    sprite: Structures/Power/Generation/Singularity/containment.rsi
+    state: icon
+  product: CrateEngineeringSingularityContainment
+  cost: 1000
+  category: cargoproduct-category-name-engineering
+  group: engineermarket
+
+#- type: cargoProduct
+#  id: EngineSingularityEmitterETS
+#  icon:
+#    sprite: Structures/Power/Generation/Singularity/emitter.rsi
+#    state: emitter2
+#  product: CrateEngineeringSingularityEmitter
+#  cost: 1500
+#  category: cargoproduct-category-name-engineering
+#  group: engineermarket
+
+- type: cargoProduct
+  id: EngineSingularityCollectorETS
+  icon:
+    sprite: Structures/Power/Generation/Singularity/collector.rsi
+    state: ca_on
+  product: CrateEngineeringSingularityCollector
+  cost: 1000
+  category: cargoproduct-category-name-engineering
+  group: engineermarket
+
+- type: cargoProduct
+  id: EngineParticleAcceleratorETS
+  icon:
+    sprite: Structures/Power/Generation/PA/control_box.rsi
+    state: completed
+  product: CrateEngineeringParticleAccelerator
+  cost: 2000
+  category: cargoproduct-category-name-engineering
+  group: engineermarket
+
+- type: cargoProduct
+  id: EngineSolarETS
+  icon:
+    sprite: Objects/Devices/flatpack.rsi
+    state: solar-assembly-part
+  product: CrateEngineeringSolar
+  cost: 1000
+  category: cargoproduct-category-name-engineering
+  group: engineermarket
+
+#- type: cargoProduct
+#  id: EngineTeslaGeneratorETS
+#  icon:
+#    sprite: Structures/Power/Generation/Tesla/generator.rsi
+#    state: icon
+#  product: CrateEngineeringTeslaGenerator
+#  cost: 7000
+#  category: cargoproduct-category-name-engineering
+#  group: engineermarket
+
+- type: cargoProduct
+  id: EngineTeslaCoilETS
+  icon:
+    sprite: Structures/Power/Generation/Tesla/coil.rsi
+    state: coil
+  product: CrateEngineeringTeslaCoil
+  cost: 2000
+  category: cargoproduct-category-name-engineering
+  group: engineermarket
+
+- type: cargoProduct
+  id: EngineTeslaGroundingRodETS
+  icon:
+    sprite: Structures/Power/Generation/Tesla/coil.rsi
+    state: grounding_rod
+  product: CrateEngineeringTeslaGroundingRod
+  cost: 2250
+  category: cargoproduct-category-name-engineering
+  group: engineermarket
+
+- type: cargoProduct
+  id: EngineTEGETS
+  icon:
+    sprite: Structures/Power/Generation/teg.rsi
+    state: teg
+  product: EngineTegFlatPacks
+  cost: 7500
+  category: cargoproduct-category-name-engineering
+  group: engineermarket2
+
+- type: cargoProduct
+  id: AtmosphericsAirETS
+  icon:
+    sprite: Structures/Storage/canister.rsi
+    state: grey
+  product: AirCanister
+  cost: 1250
+  category: cargoproduct-category-name-atmospherics
+  group: engineermarket
+
+- type: cargoProduct
+  id: AtmosphericsOxygenETS
+  icon:
+    sprite: Structures/Storage/canister.rsi
+    state: blue
+  product: OxygenCanister
+  cost: 1000
+  category: cargoproduct-category-name-atmospherics
+  group: engineermarket
+
+- type: cargoProduct
+  id: AtmosphericsLiquidOxygenETS
+  icon:
+    sprite: Structures/Storage/canister.rsi
+    state: blue
+  product: LiquidOxygenCanister
+  cost: 1500
+  category: cargoproduct-category-name-atmospherics
+  group: engineermarket
+
+- type: cargoProduct
+  id: AtmosphericsNitrogenETS
+  icon:
+    sprite: Structures/Storage/canister.rsi
+    state: red
+  product: NitrogenCanister
+  cost: 750
+  category: cargoproduct-category-name-atmospherics
+  group: engineermarket
+
+- type: cargoProduct
+  id: AtmosphericsLiquidNitrogenETS
+  icon:
+    sprite: Structures/Storage/canister.rsi
+    state: red
+  product: LiquidNitrogenCanister
+  cost: 1250
+  category: cargoproduct-category-name-atmospherics
+  group: engineermarket
+
+- type: cargoProduct
+  id: AtmosphericsCarbonDioxideETS
+  icon:
+    sprite: Structures/Storage/canister.rsi
+    state: black
+  product: CarbonDioxideCanister
+  cost: 600 # even though it's poisonous, it comes locked and only damages you slowly even with high amounts (tested)
+  category: cargoproduct-category-name-atmospherics
+  group: engineermarket
+
+- type: cargoProduct
+  id: AtmosphericsLiquidCarbonDioxideETS
+  icon:
+    sprite: Structures/Storage/canister.rsi
+    state: black
+  product: LiquidCarbonDioxideCanister
+  cost: 7000 # much less deadly than the plasma can (this has been tested) even though this is cold+poison
+  category: cargoproduct-category-name-atmospherics
+  group: engineermarket
+
+- type: cargoProduct
+  id: AtmosphericsStorageETS
+  icon:
+    sprite: Structures/Storage/canister.rsi
+    state: yellow
+  product: StorageCanister
+  cost: 350 # No gases in it so it's cheaper
+  category: cargoproduct-category-name-atmospherics
+  group: engineermarket
+
+- type: cargoProduct
+  id: AtmosphericsWaterVaporETS
+  icon:
+    sprite: Structures/Storage/canister.rsi
+    state: water_vapor
+  product: WaterVaporCanister
+  cost: 400
+  category: cargoproduct-category-name-atmospherics
+  group: engineermarket
+
+- type: cargoProduct
+  id: AtmosphericsPlasmaETS
+  icon:
+    sprite: Structures/Storage/canister.rsi
+    state: orange
+  product: PlasmaCanister
+  cost: 5000 # for reference, bagel's 3x1 roundstart plasma chamber contains ~16kmol for free, this is $4.2k for 2769 mol
+  category: cargoproduct-category-name-atmospherics
+  group: engineermarket2
+
+#- type: cargoProduct
+#  id: AtmosphericsTritiumETS
+#  icon:
+#    sprite: Structures/Storage/canister.rsi
+#    state: green
+#  product: TritiumCanister
+#  cost: 15000
+#  category: cargoproduct-category-name-atmospherics
+#  group: engineermarket4
+
+- type: cargoProduct
+  id: LockerAtmosphericsETS
+  icon:
+    sprite: Clothing/Head/Hardsuits/atmospherics.rsi
+    state: icon
+  product: LockerAtmosphericsFilledHardsuit
+  cost: 3000
+  category: cargoproduct-category-name-engineering
+  group: engineermarket
+
+- type: cargoProduct
+  id: ServiceLightsReplacementETS
+  icon:
+    sprite: Objects/Power/light_bulb.rsi
+    state: normal
+  product: CrateServiceReplacementLights
+  cost: 500
+  category: cargoproduct-category-name-service
+  group: engineermarket
+
+- type: cargoProduct
+  id: ServiceLightsColorfulETS
+  icon:
+    sprite: Objects/Power/light_bulb.rsi
+    state: normal
+  product: CrateServiceColorfulLights
+  cost: 700
+  category: cargoproduct-category-name-service
+  group: engineermarket
+
+- type: cargoProduct
+  id: FoodSoftdrinksETS
+  icon:
+    sprite: Objects/Consumable/Drinks/cola.rsi
+    state: icon
+  product: CrateFoodSoftdrinks
+  cost: 2250
+  category: cargoproduct-category-name-food
+  group: engineermarket
+
+- type: cargoProduct
+  id: FoodCookGetmoreETS
+  icon:
+    sprite: Objects/Consumable/Food/snacks.rsi
+    state: raisins
+  product: CrateFoodGetMore
+  cost: 1500
+  category: cargoproduct-category-name-food
+  group: engineermarket
+
+- type: cargoProduct
+  id: FoodHappyHonkMealsETS
+  icon:
+    sprite: Objects/Consumable/Food/burger.rsi
+    state: bigbite
+  product: CrateFoodHappyHonkBigBite
+  cost: 3500
+  category: cargoproduct-category-name-food
+  group: engineermarket
+
+- type: cargoProduct
+  id: AtmosFireAxeETS
+  icon:
+    sprite: Objects/Weapons/Melee/fireaxe.rsi
+    state: icon
+  product: FireAxe
+  cost: 2500
+  category: cargoproduct-category-name-atmospherics
+  group: engineermarket
+
+- type: cargoProduct
+  id: AtmosphericsHydrogenETS
+  icon:
+    sprite: Structures/Storage/canister.rsi
+    state: hydrogen
+  product: HydrogenCanister
+  cost: 1000
+  category: cargoproduct-category-name-atmospherics
+  group: engineermarket2
+
+- type: cargoProduct
+  id: AtmosphericsChlorineETS
+  icon:
+    sprite: Structures/Storage/canister.rsi
+    state: chlorine
+  product: ChlorineCanister
+  cost: 3000
+  category: cargoproduct-category-name-atmospherics
+  group: engineermarket3
+
+- type: cargoProduct
+  id: AtmosphericsFluorineETS
+  icon:
+    sprite: Structures/Storage/canister.rsi
+    state: fluorine
+  product: FluorineCanister
+  cost: 2250
+  category: cargoproduct-category-name-atmospherics
+  group: engineermarket3
+
+- type: cargoProduct
+  id: AtmosphericsMethaneETS
+  icon:
+    sprite: Structures/Storage/canister.rsi
+    state: methane
+  product: MethaneCanister
+  cost: 7000
+  category: cargoproduct-category-name-atmospherics
+  group: engineermarket3
+
+- type: cargoProduct
+  id: AtmosphericsClF3ETS
+  icon:
+    sprite: Structures/Storage/canister.rsi
+    state: clf3
+  product: ChlorineTrifluorideCanister
+  cost: 15000
+  category: cargoproduct-category-name-atmospherics
+  group: engineermarket4

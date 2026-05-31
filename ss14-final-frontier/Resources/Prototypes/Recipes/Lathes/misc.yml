@@ -1,0 +1,313 @@
+# Base Prototypes
+
+- type: latheRecipe
+  abstract: true
+  id: BaseLightRecipe
+  categories:
+  - Lights
+  completetime: 2
+  materials:
+    Steel: 50
+    Glass: 200
+
+- type: latheRecipe
+  abstract: true
+  id: BaseBibleRecipe
+  categories:
+  - Religion
+  completetime: 2
+  materials:
+    Paper: 500
+    Plastic: 100
+# Recipes
+
+## Lights
+
+- type: latheRecipe
+  parent: BaseLightRecipe
+  id: LightTube
+  result: LightTube
+
+- type: latheRecipe
+  parent: BaseLightRecipe
+  id: LedLightTube
+  result: LedLightTube
+
+- type: latheRecipe
+  parent: BaseLightRecipe
+  id: SodiumLightTube
+  result: SodiumLightTube
+
+- type: latheRecipe
+  parent: BaseLightRecipe
+  id: ExteriorLightTube
+  result: ExteriorLightTube
+
+- type: latheRecipe
+  parent: BaseLightRecipe
+  id: LightBulb
+  result: LightBulb
+
+- type: latheRecipe
+  parent: BaseLightRecipe
+  id: LedLightBulb
+  result: LedLightBulb
+
+- type: latheRecipe
+  parent: BaseLightRecipe
+  id: DimLightBulb
+  result: DimLightBulb
+
+- type: latheRecipe
+  parent: BaseLightRecipe
+  id: WarmLightBulb
+  result: WarmLightBulb
+
+- type: latheRecipe
+  parent: BaseLightRecipe
+  id: GlowstickRed
+  result: GlowstickRed
+  materials:
+    Plastic: 50
+
+- type: latheRecipe
+  parent: GlowstickRed
+  id: Flare
+  result: Flare
+
+- type: latheRecipe
+  parent: BaseLightRecipe
+  id: FlashlightLantern
+  result: EmptyFlashlightLantern
+  materials:
+    Steel: 100
+    Glass: 100
+    Plastic: 100
+
+- type: latheRecipe
+  parent: BaseToolRecipe
+  id: FireExtinguisher
+  result: FireExtinguisher
+  materials:
+    Steel: 200
+
+- type: latheRecipe
+  id: Matchbox
+  result: Matchbox
+  completetime: 1
+  materials:
+    Wood: 100
+
+- type: latheRecipe
+  id: SynthesizerInstrument
+  result: SynthesizerInstrument
+  completetime: 4
+  materials:
+    Steel: 300
+    Plastic: 300
+    Glass: 100
+  unlockUses: 4
+
+- type: latheRecipe
+  id: PushHorn
+  result: PushHorn
+  completetime: 5
+  materials:
+    Steel: 500
+    Plastic: 500
+    Plasma: 200
+  unlockUses: 3
+
+- type: latheRecipe
+  parent: BaseToolRecipe
+  id: NodeScanner
+  result: NodeScanner
+  materials:
+    Steel: 100
+    Plastic: 50
+  unlockUses: 4
+
+- type: latheRecipe
+  id: AirTank
+  result: AirTank
+  completetime: 4
+  materials:
+    Steel: 400
+
+- type: latheRecipe
+  id: DoubleEmergencyOxygenTank
+  result: DoubleEmergencyOxygenTank
+  completetime: 4
+  materials:
+    Steel: 250
+
+- type: latheRecipe
+  id: DoubleEmergencyNitrogenTank
+  result: DoubleEmergencyNitrogenTank
+  completetime: 4
+  materials:
+    Steel: 250
+
+- type: latheRecipe
+  id: ClothingShoesBootsMagSci
+  result: ClothingShoesBootsMagSci
+  completetime: 10
+  materials:
+    Steel: 1000
+    Plastic: 500
+  unlockUses: 4
+
+- type: latheRecipe
+  id: ClothingShoesBootsMoon
+  result: ClothingShoesBootsMoon
+  completetime: 2
+  materials:
+    Steel: 600
+  unlockUses: 4
+
+- type: latheRecipe
+  id: ClothingShoesBootsSpeed
+  result: ClothingShoesBootsSpeed
+  completetime: 2
+  materials:
+    Steel: 1500
+    Plastic: 1000
+    Silver: 500
+  unlockUses: 1
+
+- type: latheRecipe
+  id: ClothingShoesBootsJump
+  result: ClothingShoesBootsJump
+  completetime: 2
+  materials:
+    Steel: 1400
+    Plastic: 600
+    Silver: 200
+    Plasma: 200
+  unlockUses: 4
+
+- type: latheRecipe
+  id: ModularReceiver
+  result: ModularReceiver
+  completetime: 12
+  materials:
+    Steel: 750
+    Plastic: 100
+
+- type: latheRecipe
+  id: HandheldStationMap
+  result: HandheldStationMapEmpty
+  completetime: 2
+  materials:
+    Steel: 300
+    Plastic: 100
+
+- type: latheRecipe
+  id: BSPAnchorKey
+  result: BSPAnchorKey
+  completetime: 2
+  materials:
+    Steel: 300
+    Plastic: 100
+    Glass: 200
+
+- type: latheRecipe
+  id: ClothingHeadHatWelding
+  result: ClothingHeadHatWelding
+  completetime: 2
+  materials:
+    Steel: 400
+    Glass: 200
+
+- type: latheRecipe
+  id: ClothingHeadHatCone
+  result: ClothingHeadHatCone
+  completetime: 3
+  materials:
+    Plastic: 200
+
+- type: latheRecipe
+  id: ClothingOuterVestTank
+  result: ClothingOuterVestTank
+  completetime: 2
+  materials:
+    Cloth: 100
+    Steel: 50
+
+- type: latheRecipe
+  id: Ashtray
+  result: Ashtray
+  completetime: 1
+  materials:
+    Aluminium: 30
+
+- type: latheRecipe
+  id: TowelColorWhite
+  result: TowelColorWhite
+  completetime: 2
+  materials:
+    Cloth: 300
+
+- type: latheRecipe
+  parent: BaseLightRecipe
+  id: Floodlight
+  result: EmptyFloodlight
+  completetime: 2
+  materials:
+    Steel: 500
+    Glass: 300
+
+- type: latheRecipe
+  parent: BaseToolRecipe
+  id: BarberScissors
+  result: BarberScissors
+  materials:
+    Steel: 200
+
+- type: latheRecipe
+  id: CigaretteFilter
+  result: CigaretteFilter
+  completetime: 2
+  materials:
+    Paper: 20
+    Wood: 20
+
+# Bibles
+
+- type: latheRecipe
+  parent: BaseBibleRecipe
+  id: Bible
+  result: Bible
+
+- type: latheRecipe
+  parent: BaseBibleRecipe
+  id: BibleDruid
+  result: BibleDruid
+
+- type: latheRecipe
+  parent: BaseBibleRecipe
+  id: BibleCommunistManifesto
+  result: BibleCommunistManifesto
+
+- type: latheRecipe
+  parent: BaseBibleRecipe
+  id: BibleNarsie
+  result: BibleNarsie
+
+- type: latheRecipe
+  parent: BaseBibleRecipe
+  id: BibleNanoTrasen
+  result: BibleNanoTrasen
+
+- type: latheRecipe
+  parent: BaseBibleRecipe
+  id: BibleHonk
+  result: BibleHonk
+
+- type: latheRecipe
+  parent: BaseBibleRecipe
+  id: BibleRatvar
+  result: BibleRatvar
+  materials:
+    Brass: 550
+

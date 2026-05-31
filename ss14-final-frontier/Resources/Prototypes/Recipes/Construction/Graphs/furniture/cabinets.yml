@@ -1,0 +1,284 @@
+#Defibs
+- type: constructionGraph
+  id: DefibrillatorCabinetGraph
+  start: start
+  graph:
+  - node: start
+    edges:
+    - to: glass
+      steps:
+      - material: Steel
+        amount: 2
+        doAfter: 2.0
+
+  - node: glass
+    entity: DefibrillatorCabinetAssembly
+    edges:
+    - to: screwing
+      steps:
+      - material: Glass
+        amount: 1
+        doAfter: 2.0
+    - to: start
+      completed:
+      - !type:EmptyAllContainers
+      - !type:GivePrototype
+        prototype: SheetSteel1
+        amount: 2
+      - !type:DeleteEntity {}
+      steps:
+      - tool: Screwing
+        doAfter: 0.5
+
+  - node: screwing
+    entity: DefibrillatorCabinetAssembly
+    edges:
+      - to: defibrillator_cabinet
+        completed:
+          - !type:SnapToGrid { }
+        steps:
+          - tool: Screwing
+            doAfter: 2
+      - to: glass
+        completed:
+          - !type:EmptyAllContainers
+          - !type:GivePrototype
+            prototype: SheetGlass1
+            amount: 1
+        steps:
+          - tool: Prying
+            doAfter: 1
+
+  - node: defibrillator_cabinet
+    entity: DefibrillatorCabinetOpen
+    edges:
+    - to: screwing
+      completed:
+      - !type:EmptyAllContainers
+      steps:
+        - tool: Screwing
+          doAfter: 2
+# Extinguisher
+- type: constructionGraph
+  id: ExtinguisherCabinetGraph
+  start: start
+  graph:
+  - node: start
+    edges:
+    - to: glass
+      steps:
+      - material: Steel
+        amount: 2
+        doAfter: 2.0
+
+  - node: glass
+    entity: ExtinguisherCabinetAssembly
+    edges:
+    - to: screwing
+      steps:
+      - material: Glass
+        amount: 1
+        doAfter: 2.0
+    - to: start
+      completed:
+        - !type:EmptyAllContainers
+        - !type:GivePrototype
+          prototype: SheetSteel1
+          amount: 2
+        - !type:DeleteEntity {}
+      steps:
+      - tool: Screwing
+        doAfter: 0.5
+
+  - node: screwing
+    entity: ExtinguisherCabinetAssembly
+    edges:
+      - to: extinguisher_cabinet
+        completed:
+          - !type:EmptyAllContainers
+          - !type:SnapToGrid { }
+        steps:
+          - tool: Screwing
+            doAfter: 2
+      - to: glass
+        completed:
+          - !type:GivePrototype
+            prototype: SheetGlass1
+            amount: 1
+        steps:
+          - tool: Prying
+            doAfter: 1
+
+  - node: extinguisher_cabinet
+    entity: ExtinguisherCabinetOpen
+    edges:
+    - to: screwing
+      completed:
+        - !type:EmptyAllContainers
+      steps:
+        - tool: Screwing
+          doAfter: 2
+# Fireaxe
+- type: constructionGraph
+  id: FireAxeCabinetGraph
+  start: start
+  graph:
+  - node: start
+    edges:
+    - to: glass
+      completed:
+        - !type:EmptyAllContainers
+      steps:
+      - material: Plasteel
+        amount: 2
+        doAfter: 2.0
+
+  - node: glass
+    entity: FireAxeCabinetAssembly
+    edges:
+    - to: cable
+      steps:
+      - material: ReinforcedGlass
+        amount: 2
+        doAfter: 2.0
+    - to: start
+      completed:
+        - !type:EmptyAllContainers
+        - !type:GivePrototype
+          prototype: SheetPlasteel1
+          amount: 2
+        - !type:DeleteEntity {}
+      steps:
+      - tool: Screwing
+        doAfter: 0.5
+
+  - node: cable
+    entity: FireAxeCabinetAssembly
+    edges:
+    - to: screwing
+      steps:
+      - material: Cable
+        amount: 1
+        doAfter: 1
+    - to: glass
+      completed:
+        - !type:EmptyAllContainers
+        - !type:GivePrototype
+          prototype: SheetRGlass1
+          amount: 2
+      steps:
+        - tool: Prying
+          doAfter: 1
+
+  - node: screwing
+    entity: FireAxeCabinetAssembly
+    edges:
+      - to: fireaxe_cabinet
+        completed:
+          - !type:SnapToGrid { }
+        steps:
+          - tool: Screwing
+            doAfter: 2
+      - to: cable
+        completed:
+          - !type:EmptyAllContainers
+          - !type:GivePrototype
+            prototype: CableApcStack1
+            amount: 1
+        steps:
+          - tool: Cutting
+            doAfter: 1
+
+  - node: fireaxe_cabinet
+    entity: FireAxeCabinetOpen
+    edges:
+    - to: screwing
+      conditions:
+        - !type:Locked
+          locked: false
+      completed:
+        - !type:EmptyAllContainers
+      steps:
+        - tool: Screwing
+          doAfter: 2
+# Shotgun
+- type: constructionGraph
+  id: ShotGunCabinetGraph
+  start: start
+  graph:
+  - node: start
+    edges:
+    - to: glass
+      steps:
+      - material: Plasteel
+        amount: 2
+        doAfter: 2.0
+
+  - node: glass
+    entity: ShotGunCabinetAssembly
+    edges:
+    - to: cable
+      steps:
+      - material: ReinforcedGlass
+        amount: 2
+        doAfter: 2.0
+    - to: start
+      completed:
+        - !type:EmptyAllContainers
+        - !type:GivePrototype
+          prototype: SheetPlasteel1
+          amount: 2
+        - !type:DeleteEntity {}
+      steps:
+      - tool: Screwing
+        doAfter: 0.5
+
+  - node: cable
+    entity: ShotGunCabinetAssembly
+    edges:
+    - to: screwing
+      steps:
+      - material: Cable
+        amount: 1
+        doAfter: 1
+    - to: glass
+      completed:
+        - !type:EmptyAllContainers
+        - !type:GivePrototype
+          prototype: SheetRGlass1
+          amount: 2
+      steps:
+        - tool: Prying
+          doAfter: 1
+
+  - node: screwing
+    entity: ShotGunCabinetAssembly
+    edges:
+      - to: shotgun_cabinet
+        completed:
+          - !type:SnapToGrid { }
+        steps:
+          - tool: Screwing
+            doAfter: 2
+      - to: cable
+        completed:
+          - !type:EmptyAllContainers
+          - !type:GivePrototype
+            prototype: CableApcStack1
+            amount: 1
+        steps:
+          - tool: Cutting
+            doAfter: 0.5
+
+  - node: shotgun_cabinet
+    entity: ShotGunCabinetOpen
+    edges:
+    - to: screwing
+      conditions:
+        - !type:Locked
+          locked: false
+      completed:
+        - !type:EmptyAllContainers
+      steps:
+        - tool: Screwing
+          doAfter: 2

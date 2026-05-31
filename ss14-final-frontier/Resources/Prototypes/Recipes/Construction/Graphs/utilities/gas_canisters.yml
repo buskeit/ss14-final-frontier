@@ -1,0 +1,27 @@
+- type: constructionGraph
+  id: StorageCanisterGraph
+  start: start
+  graph:
+    - node: start
+      edges:
+        - to: canister
+          steps:
+            - material: Steel
+              amount: 15
+              doAfter: 1
+
+    - node: canister
+      entity: StorageCanister
+      edges:
+        - to: start
+          completed:
+            - !type:SpawnPrototype
+              prototype: SheetSteel1
+              amount: 15
+            - !type:DeleteEntity {}
+          conditions:
+            - !type:EntityAnchored
+              anchored: false
+          steps:
+            - tool: Welding
+              doAfter: 5

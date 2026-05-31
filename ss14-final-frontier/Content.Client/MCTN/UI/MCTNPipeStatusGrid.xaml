@@ -1,0 +1,43 @@
+<GridContainer xmlns="https://spacestation14.io"
+                HorizontalExpand="True"
+                Margin="0 0"
+                Columns="3">
+
+    <!-- Mix -->
+    <BoxContainer
+        Name="LocalMix"
+        Orientation="Vertical"
+        VerticalAlignment="Top" HorizontalAlignment="Right" HorizontalExpand="True"
+        StyleClasses="LabelSubText" Modulate="Cyan"></BoxContainer>
+    <BoxContainer Orientation="Vertical" Align="Center" HorizontalExpand="True" Margin="10 0">
+        <Label Text="Mix" StyleClasses="LabelSubText" Align="Center"></Label>
+    </BoxContainer>
+    <BoxContainer
+        Name="RemoteMix"
+        Orientation="Vertical"
+        VerticalAlignment="Top" HorizontalAlignment="Left" HorizontalExpand="True"
+        StyleClasses="LabelSubText" Modulate="Cyan"></BoxContainer>
+
+    <!-- Moles -->
+    <Label Name="LocalMoles" Text="0" HorizontalExpand="True" Align="Right"></Label>
+    <BoxContainer Orientation="Vertical" Align="Center" HorizontalExpand="True" Margin="10 0">
+        <Label Text="Total Moles" StyleClasses="LabelSubText" Align="Center"></Label>
+    </BoxContainer>
+    <Label Name="RemoteMoles" Text="0" HorizontalExpand="True" Align="Left"></Label>
+
+    <!-- Pressure -->
+    <Label Name="LocalPressure" Text="0" HorizontalExpand="True" Align="Right"></Label>
+    <BoxContainer Orientation="Vertical" Align="Center" HorizontalExpand="True" Margin="10 0">
+        <Label Text="Pressure" StyleClasses="LabelSubText" Align="Center"></Label>
+    </BoxContainer>
+    <Label Name="RemotePressure" Text="0" HorizontalExpand="True" Align="Left"></Label>
+
+    <!-- Pressure -->
+    <Label Name="LocalTemperature" Text="0" HorizontalExpand="True" Align="Right"></Label>
+    <BoxContainer Orientation="Vertical" Align="Center" HorizontalExpand="True" Margin="10 0">
+        <Label Text="Temperature" StyleClasses="LabelSubText" Align="Center"></Label>
+    </BoxContainer>
+    <Label Name="RemoteTemperature" Text="0" HorizontalExpand="True" Align="Left"></Label>
+
+
+</GridContainer>

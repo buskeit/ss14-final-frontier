@@ -1,0 +1,31 @@
+<controls:FancyWindow xmlns="https://spacestation14.io"
+                      xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+                      xmlns:ui="clr-namespace:Content.Client.MCTN.UI"
+                      Title="Multi-Channel Transfer Node Console"
+                      SetSize="648 648"
+                      MinSize="384 256">
+    <BoxContainer VerticalExpand="True" HorizontalExpand="True" Orientation="Vertical">
+
+        <!-- Available Connections (If not already connected) -->
+        <ScrollContainer
+            Name="AvailableConnectionsControl"
+            HScrollEnabled="False"
+            HorizontalExpand="True"
+            VerticalExpand="True">
+            <BoxContainer Name="AvailableConnectionsScroll" Orientation="Vertical"></BoxContainer>
+        </ScrollContainer>
+
+        <BoxContainer Name="CurrentConnectionControl" VerticalExpand="True" HorizontalExpand="True" Orientation="Vertical">
+            <BoxContainer HorizontalAlignment="Center">
+                <Button Name="DisconnectBtn" Text="Disconnect"></Button>
+            </BoxContainer>
+            <ScrollContainer
+                HScrollEnabled="False"
+                HorizontalExpand="True"
+                VerticalExpand="True">
+                <BoxContainer Name="AvailablePortsScroll" Orientation="Vertical" Margin="0 0 10 0"></BoxContainer>
+            </ScrollContainer>
+        </BoxContainer>
+
+    </BoxContainer>
+</controls:FancyWindow>

@@ -1,0 +1,101 @@
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckMantleCap
+  name: Captain's Mantle
+  description: A standard issue, darkblue mantle, worn by senior officers. This one bears the markings of Captain.
+  components:
+  - type: Sprite
+    sprite: Clothing/Neck/mantles/capmantle.rsi
+  - type: Clothing
+    sprite: Clothing/Neck/mantles/capmantle.rsi
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckMantleCE
+  name: Chief Engineer's Mantle
+  description: A comfortable mantle for Chief Engineers, markingth bearer as part of the command staff.
+  components:
+  - type: Sprite
+    sprite: Clothing/Neck/mantles/cemantle.rsi
+  - type: Clothing
+    sprite: Clothing/Neck/mantles/cemantle.rsi
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckMantleCMO
+  name: Chief Medical Officer's Mantle
+  description: A blue mantle for Chief Medical Officers, marking the bearer as part of the Command Staff.
+  components:
+  - type: Sprite
+    sprite: Clothing/Neck/mantles/cmomantle.rsi
+  - type: Clothing
+    sprite: Clothing/Neck/mantles/cmomantle.rsi
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckMantleHOP
+  name: Head of Personnel's Mantle
+  description: A comfortable mantle with markings showing it belongs to the Head of Personnel.
+  components:
+  - type: Sprite
+    sprite: Clothing/Neck/mantles/hopmantle.rsi
+  - type: Clothing
+    sprite: Clothing/Neck/mantles/hopmantle.rsi
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckMantleHOS
+  name: Head of Security's Mantle
+  description: A comfortable mantle with markings, showing it belongs to a Chief of Security.
+  components:
+  - type: Sprite
+    sprite: Clothing/Neck/mantles/hosmantle.rsi
+  - type: Clothing
+    sprite: Clothing/Neck/mantles/hosmantle.rsi
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckMantleRD
+  name: Research Director's Mantle
+  description: A comfortable mantle. This one has markings, showing it belongs to a Chief Science Officer.
+  components:
+  - type: Sprite
+    sprite: Clothing/Neck/mantles/rdmantle.rsi
+  - type: Clothing
+    sprite: Clothing/Neck/mantles/rdmantle.rsi
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckMantleQM
+  name: Quartermaster's Mantle
+  description: A rough but comfortable mantle with markings, showing it belongs to a Chief Logistics Officer.
+  components:
+  - type: Sprite
+    sprite: Clothing/Neck/mantles/qmmantle.rsi
+  - type: Clothing
+    sprite: Clothing/Neck/mantles/qmmantle.rsi
+
+- type: entity
+  parent: ClothingNeckBase
+  id: ClothingNeckMantle
+  name: Mantle
+  description: A soft mantle, made with the same synthetic animal furs of the iconic winter coat.
+  components:
+  - type: Sprite
+    sprite: Clothing/Neck/mantles/mantle.rsi
+  - type: Clothing
+    sprite: Clothing/Neck/mantles/mantle.rsi 
+
+# Custom
+## Command
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckMantleXO
+  name: Executive Officer's Mantle
+  description: A comfortable and chique mantle, issues to senior command staff. This one bears the rank insignia of Executive Officer.
+  components:
+  - type: Sprite
+    sprite: Clothing/Neck/mantles/xomantle.rsi
+  - type: Clothing
+    sprite: Clothing/Neck/mantles/xomantle.rsi

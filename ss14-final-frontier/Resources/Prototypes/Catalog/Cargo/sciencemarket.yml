@@ -1,0 +1,239 @@
+- type: cargoProduct
+  id: ChemistryPSTS
+  icon:
+    sprite: Structures/Storage/Crates/chemcrate_secure.rsi
+    state: icon
+  product: CrateChemistryP
+  cost: 1250
+  category: cargoproduct-category-name-medical
+  group: sciencemarket
+
+- type: cargoProduct
+  id: ChemistrySSTS
+  icon:
+    sprite: Structures/Storage/Crates/chemcrate_secure.rsi
+    state: icon
+  product: CrateChemistryS
+  cost: 1000
+  category: cargoproduct-category-name-medical
+  group: sciencemarket
+
+- type: cargoProduct
+  id: CrateChemistryDSTS
+  icon:
+    sprite: Structures/Storage/Crates/chemcrate_secure.rsi
+    state: icon
+  product: CrateChemistryD
+  cost: 1000
+  category: cargoproduct-category-name-medical
+  group: sciencemarket
+
+- type: cargoProduct
+  id: ArtifactContainerSTS
+  icon:
+    sprite: Structures/Storage/Crates/artifact.rsi
+    state: artifact_container_icon
+  product: CrateArtifactContainer
+  cost: 750
+  category: cargoproduct-category-name-science
+  group: sciencemarket
+
+- type: cargoProduct
+  id: HandheldArtifactContainerSTS
+  icon:
+    sprite: Objects/Storage/artifact_container.rsi
+    state: icon
+  product: HandheldArtifactContainer
+  cost: 750
+  category: cargoproduct-category-name-science
+  group: sciencemarket
+
+- type: cargoProduct
+  id: RandomArtifactSTS
+  icon:
+    sprite: Objects/Specific/Xenoarchaeology/xeno_artifacts.rsi
+    state: ano13
+  product: RandomArtifactSpawner
+  cost: 2500
+  category: cargoproduct-category-name-science
+  group: sciencemarket
+
+- type: cargoProduct
+  id: ScienceBiosuitSTS
+  icon:
+    sprite: Clothing/Head/Hoods/Bio/scientist.rsi
+    state: icon
+  product: CrateScienceBiosuit
+  cost: 2000
+  category: cargoproduct-category-name-science
+  group: sciencemarket
+
+- type: cargoProduct
+  id: CrewMonitoringSTS
+  icon:
+    sprite: Structures/Machines/server.rsi
+    state: server
+  product: CrateCrewMonitoring
+  cost: 4000
+  category: cargoproduct-category-name-science
+  group: sciencemarket
+
+#- type: cargoProduct
+#  id: StationAiCoreSTS
+#  icon:
+#    sprite: Mobs/Silicon/station_ai.rsi
+#    state: frame_4
+#  product: CrateStationAiCore
+#  cost: 10000
+#  category: cargoproduct-category-name-science
+#  group: market
+
+- type: cargoProduct
+  id: RDLockerSTS
+  icon:
+    sprite: Clothing/Head/Hardsuits/rd.rsi
+    state: icon
+  product: LockerResearchDirectorFilledHardsuitNoTP
+  cost: 10000
+  category: cargoproduct-category-name-science
+  group: sciencemarket2
+
+- type: cargoProduct
+  id: HydroponicsSeedsExoticSTS
+  icon:
+    sprite: Objects/Specific/Hydroponics/banana.rsi
+    state: seed
+  product: CrateHydroponicsSeedsExotic
+  cost: 4000
+  category: cargoproduct-category-name-hydroponics
+  group: sciencemarket2
+
+- type: cargoProduct
+  id: HydroponicsSeedsMedicinalSTS
+  icon:
+    sprite: Objects/Specific/Hydroponics/galaxythistle.rsi
+    state: seed
+  product: CrateHydroponicsSeedsMedicinal
+  cost: 2000
+  category: cargoproduct-category-name-hydroponics
+  group: sciencemarket2
+
+- type: cargoProduct
+  id: HydroponicsToolsSTS
+  icon:
+    sprite: Objects/Tools/Hydroponics/hoe.rsi
+    state: icon
+  product: CrateHydroponicsTools
+  cost: 1000
+  category: cargoproduct-category-name-hydroponics
+  group: sciencemarket
+
+- type: cargoProduct
+  id: HydroponicsSeedsSTS
+  icon:
+    sprite: Objects/Specific/Hydroponics/apple.rsi
+    state: seed
+  product: CrateHydroponicsSeeds
+  cost: 1750
+  category: cargoproduct-category-name-hydroponics
+  group: sciencemarket
+
+- type: cargoProduct
+  id: BulkPlantBGoneSTS
+  icon:
+    sprite: Objects/Specific/Chemistry/jug.rsi
+    state: jug
+  product: CratePlantBGone
+  cost: 2500
+  category: cargoproduct-category-name-hydroponics
+  group: sciencemarket
+
+- type: cargoProduct
+  id: HydroponicsTraySTS
+  icon:
+    sprite: Structures/Hydroponics/containers.rsi
+    state: hydrotray3
+  product: CrateHydroponicsTray
+  cost: 1500
+  category: cargoproduct-category-name-hydroponics
+  group: sciencemarket
+
+- type: cargoProduct
+  id: MedicalChemistrySuppliesSTS
+  icon:
+    sprite: Objects/Specific/Chemistry/beaker.rsi
+    state: beaker
+  product: CrateChemistrySupplies
+  cost: 750
+  category: cargoproduct-category-name-science
+  group: sciencemarket
+
+- type: cargoProduct
+  id: MedicalChemistryVialsSTS
+  icon:
+    sprite: Objects/Specific/Chemistry/vial.rsi
+    state: vial
+  product: CrateChemistryVials
+  cost: 1000
+  category: cargoproduct-category-name-science
+  group: sciencemarket
+
+- type: cargoProduct
+  id: EmergencyToxinKitSTS
+  icon:
+    sprite: Objects/Specific/Medical/firstaidkits.rsi
+    state: toxinkit
+  product: CrateEmergencyToxinKit
+  cost: 1500
+  category: cargoproduct-category-name-medical
+  group: sciencemarket
+
+- type: cargoProduct
+  id: EmergencyRadiationKitSTS
+  icon:
+    sprite: Objects/Specific/Medical/firstaidkits.rsi
+    state: radkit
+  product: CrateEmergencyRadiationKit
+  cost: 1500
+  category: cargoproduct-category-name-medical
+  group: sciencemarket2
+
+- type: cargoProduct
+  id: MedicalBodybagsSTS
+  icon:
+    sprite: Objects/Specific/Medical/Morgue/bodybags.rsi
+    state: bag_folded
+  product: CrateBodyBags
+  cost: 700
+  category: cargoproduct-category-name-medical
+  group: market
+
+- type: cargoProduct
+  id: MaterialWaterTankSTS
+  icon:
+    sprite: Structures/Storage/tanks.rsi
+    state: watertank
+  product: WaterTankFull
+  cost: 1500
+  category: cargoproduct-category-name-materials
+  group: sciencemarket
+
+- type: cargoProduct
+  id: FoodIceCreamSTS
+  icon:
+    sprite: Objects/Consumable/Food/frozen.rsi
+    state: sandwich
+  product: CrateFoodIceCream
+  cost: 4000
+  category: cargoproduct-category-name-food
+  group: sciencemarket
+
+- type: cargoProduct
+  id: FoodSnowconeSTS
+  icon:
+    sprite: Objects/Consumable/Food/frozen.rsi
+    state: cone
+  product: CrateFoodSnowcone
+  cost: 4000
+  category: cargoproduct-category-name-food
+  group: sciencemarket
