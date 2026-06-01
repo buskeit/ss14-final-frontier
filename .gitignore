@@ -5,6 +5,3 @@ ss14-ff-testing/server_config.toml
 # Local build artifacts
 **/bin/
 **/obj/
-
-# Local Codex attachments
-.codex-remote-attachments/
