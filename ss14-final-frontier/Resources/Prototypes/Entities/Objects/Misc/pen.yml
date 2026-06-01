@@ -40,6 +40,15 @@
         - ItemMask
         restitution: 0.3
         friction: 0.2
+  - type: SolutionContainerManager
+    solutions:
+      ink:
+        maxVol: 50
+        reagents:
+        - ReagentId: InkBlack
+          Quantity: 50
+  - type: PenInk
+    refillable: false
 
 - type: entity
   parent: Pen
@@ -69,6 +78,15 @@
     state: luxury_pen
   - type: Item
     heldPrefix: luxury_pen
+  - type: SolutionContainerManager
+    solutions:
+      ink:
+        maxVol: 100
+        reagents:
+        - ReagentId: InkBlack
+          Quantity: 100
+  - type: PenInk
+    refillable: false
 
 - type: entity
   id: BaseAdvancedPen
@@ -92,6 +110,15 @@
     - Screwing
     useSound:
       collection: Screwdriver
+  - type: SolutionContainerManager
+    solutions:
+      ink:
+        maxVol: 100
+        reagents:
+        - ReagentId: InkBlack
+          Quantity: 100
+  - type: PenInk
+    refillable: true
 
 - type: entity
   name: Cybersun Pen
@@ -125,6 +152,15 @@
   components:
   - type: Sprite
     state: pen_cap
+  - type: SolutionContainerManager
+    solutions:
+      ink:
+        maxVol: 100
+        reagents:
+        - ReagentId: InkBlack
+          Quantity: 100
+  - type: PenInk
+    refillable: true
 
 - type: entity
   name: Executive Officer's Fountain Pen
@@ -134,6 +170,15 @@
   components:
   - type: Sprite
     state: pen_xo
+  - type: SolutionContainerManager
+    solutions:
+      ink:
+        maxVol: 100
+        reagents:
+        - ReagentId: InkBlack
+          Quantity: 100
+  - type: PenInk
+    refillable: true
 
 - type: entity
   name: Head of Personnel's Fountain Pen
@@ -143,6 +188,15 @@
   components:
   - type: Sprite
     state: pen_hop
+  - type: SolutionContainerManager
+    solutions:
+      ink:
+        maxVol: 100
+        reagents:
+        - ReagentId: InkBlack
+          Quantity: 100
+  - type: PenInk
+    refillable: true
 
 - type: entity
   name: Wizard's Magical Pen
@@ -157,3 +211,33 @@
     - WriteIgnoreStamps
     - Write
     - Pen
+  - type: SolutionContainerManager
+    solutions:
+      ink:
+        maxVol: 100
+        reagents:
+        - ReagentId: InkBlack
+          Quantity: 100
+  - type: PenInk
+    refillable: true
+
+- type: entity
+  name: ink cartridge
+  parent: BaseItem
+  id: InkCartridge
+  description: A replacement cartridge filled with black ink, used to refill fountain and advanced pens.
+  components:
+  - type: Sprite
+    sprite: Objects/Specific/Chemistry/bottle.rsi
+    state: ink_bottle
+  - type: Item
+    sprite: Objects/Specific/Chemistry/bottle.rsi
+    size: Tiny
+  - type: SolutionContainerManager
+    solutions:
+      reagents:
+        maxVol: 50
+        reagents:
+        - ReagentId: InkBlack
+          Quantity: 50
+  - type: InkCartridge

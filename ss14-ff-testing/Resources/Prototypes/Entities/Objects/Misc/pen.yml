@@ -232,7 +232,6 @@
     state: ink_bottle
   - type: Item
     sprite: Objects/Specific/Chemistry/bottle.rsi
-    state: ink_bottle
     size: Tiny
   - type: SolutionContainerManager
     solutions:

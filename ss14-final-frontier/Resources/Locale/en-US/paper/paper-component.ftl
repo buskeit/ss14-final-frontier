@@ -26,4 +26,13 @@ paper-signature-sign-button = Sign
 paper-form-dialog-ok = OK
 paper-form-dialog-cancel = Cancel
 paper-signature-unknown = Unknown
+
+# Pen Ink
+pen-ink-empty = The {$pen} is out of ink!
+pen-ink-examine = It has [color=cyan]{$remaining}/{$max}[/color] ink remaining.
+pen-ink-refill-not-refillable = The {$pen} is not refillable!
+pen-ink-refill-already-full = The {$pen} is already full of ink!
+pen-ink-refill-cartridge-empty = The {$cartridge} is empty!
+pen-ink-refill-success = You refill the {$pen} using the {$cartridge}.
+
 # 

@@ -31,6 +31,9 @@ reagent-desc-sodium-polyacrylate = A super-absorbent polymer with assorted indus
 reagent-name-cellulose = cellulose fibers
 reagent-desc-cellulose = A crystaline polydextrose polymer, plants swear by this stuff.
 
+reagent-name-ink-black = black ink
+reagent-desc-ink-black = A dark, viscous ink used by pens.
+
 reagent-name-rororium = rororium
 reagent-desc-rororium = A strange substance which fills the cores of the hivelords that roam the mining asteroid. Thought to be the source of their regenerative powers.
 
