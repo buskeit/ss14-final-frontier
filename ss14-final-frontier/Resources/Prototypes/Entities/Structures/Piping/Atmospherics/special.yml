@@ -1,0 +1,93 @@
+# Devices which are not portable but don't link up to anything
+- type: entity
+  id: AtmosDeviceFanTiny
+  name: tiny fan
+  description: A tiny fan, releasing a thin gust of air.
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Transform
+    anchored: true
+  - type: Anchorable
+  - type: Pullable
+  - type: Physics
+    bodyType: Static
+  - type: ApcPowerReceiver
+    powerLoad: 500
+  - type: ExtensionCableReceiver
+  - type: LightningTarget
+    priority: 1
+  - type: Sprite
+    sprite: Structures/Piping/Atmospherics/tinyfan.rsi
+    layers:
+    - state: fan-off
+    - state: fan-on
+      map: ["enum.PowerDeviceVisualLayers.Powered"]
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.PowerDeviceVisuals.Powered:
+        enum.PowerDeviceVisualLayers.Powered:
+          True: {visible: true}
+          False: {visible: false}
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+            bounds: "-0.5,-0.5,0.5,0.5"
+  - type: Airtight
+    noAirWhenFullyAirBlocked: false
+    requiresPower: true
+  - type: Clickable
+  - type: Tag
+    tags:
+      - SpreaderIgnore
+
+- type: entity
+  id: AtmosDeviceFanDirectional
+  name: directional fan
+  description: A thin fan, stopping the movement of gases across it.
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Transform
+    anchored: true
+  - type: Anchorable
+  - type: Pullable
+  - type: Rotatable
+  - type: Physics
+    bodyType: Static
+  - type: ApcPowerReceiver
+    powerLoad: 500
+  - type: ExtensionCableReceiver
+  - type: LightningTarget
+    priority: 1
+  - type: Sprite
+    sprite: Structures/Piping/Atmospherics/directionalfan.rsi
+    layers:
+    - state: fan-off
+    - state: fan-on
+      map: ["enum.PowerDeviceVisualLayers.Powered"]
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.PowerDeviceVisuals.Powered:
+        enum.PowerDeviceVisualLayers.Powered:
+          True: {visible: true}
+          False: {visible: false}
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+            bounds: "-0.48,-0.48,0.48,-0.40"
+  - type: Airtight
+    noAirWhenFullyAirBlocked: false
+    airBlockedDirection:
+      - South
+    requiresPower: true
+  - type: Clickable
+  - type: Tag
+    tags:
+      - SpreaderIgnore

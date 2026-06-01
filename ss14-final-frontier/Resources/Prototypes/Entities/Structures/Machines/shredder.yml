@@ -1,0 +1,84 @@
+- type: entity
+  id: Shredder
+  parent: [BaseMachinePowered, SmallConstructibleMachine]
+  name: document shredder
+  description: A small shredder for all your bureaucracy needs.
+  components:
+  - type: Sprite
+    sprite: Structures/Machines/shredder.rsi
+    snapCardinals: true
+    layers:
+    - state: shredder-base
+    - state: shredder-powered
+      shader: unshaded
+      map: [ "enum.PowerDeviceVisualLayers.Powered" ]
+      visible: false
+#    - state: shredder-ready      # I couldn't figure out how to set a sprite based on the MaterialReclaimer's processing state
+#    - state: shredder-processing # I think it's going to need a new visualizer for the MaterialReclaimer. PowerDeviceVisuals.cs might help with this
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.PowerDeviceVisuals.Powered:
+        enum.PowerDeviceVisualLayers.Powered:
+          True: { visible: true }
+          False: { visible: false }
+  - type: Fixtures
+    fixtures:
+      collision:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.25,-0.25,0.25,0.25"
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer
+  - type: Machine
+    board: ShredderMachineCircuitboard
+  - type: ApcPowerReceiver
+    powerLoad: 250
+  - type: MaterialReclaimer
+    enabled: true
+    scaleProcessSpeed: true # takes time
+    minimumProcessDuration: 1
+    reclaimSolutions: false
+    reclaimMaterials: false # some items with Document tag are infinite: nanotask, paper, nanotask, maybe more
+    whitelist:
+      tags:
+      - Document
+    blacklist:
+      components:
+      - ForensicPad # Is applied to a Document but should not be shreddable
+      tags:
+      - CoordinatesDisk # Is applied to a Document that should not be shreddable
+    sound:
+      path: /Audio/Effects/saw.ogg  # This doesnt work for the client inserting items, I think it's in the C# & related to MaterialReclaimerSystem.OnInteractUsing() but I dunno
+      params:                       # The behavior is replicable with the standard recycler
+        volume: 1                   # Standard recycler eats entities that enter a collider (a fixture named brrt). This makes a noise as expected
+  - type: Destructible              # Can also click standard recycler with trash in-hand to insert, this also does not make a sound & is the interaction the shredder relies on
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 75
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Breakage" ]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+  - type: RequireProjectileTarget # not tall
+  - type: InteractionPopup
+    successChance: 0.05
+    interactSuccessString: petting-success-shredder
+    interactFailureString: petting-failure-shredder
+    interactSuccessSound:
+      path: /Audio/Items/drill_hit.ogg
+  - type: PointLight
+    enabled: false
+    castShadows: false
+    radius: 1.5
+    energy: 2.0
+    falloff: 10
+    color: "#d1a34d"
+  - type: LitOnPowered
+  - type: ItemToggle
+    onUse: false # What does this do in this context?

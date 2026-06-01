@@ -1,0 +1,19 @@
+- type: gameMap
+  id: Genesis
+  mapName: 'Genesis'
+  mapPath: /Maps/genesis.yml
+  minPlayers: 0
+  maxPlayers: 7
+  stations:
+    Genesis:
+      stationProto: StandardPersistStation
+      components:
+        - type: StationNameSetup
+          mapNameTemplate: '{0} Genesis-Station {1}'
+          nameGenerator:
+            !type:NanotrasenNameGenerator
+            prefixCreator: 'SL2'
+        - type: StationJobs
+          availableJobs: # 15 jobs total w/o latejoins, 19 jobs total w/ latejoins
+            #civilian (1+)
+            Passenger: [ -1, -1 ] #infinite, not counted

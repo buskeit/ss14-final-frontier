@@ -1,0 +1,162 @@
+- type: entity
+  parent: MarkerBase
+  id: TradeStationSpawnerMarker
+  name: Grid Spawner
+  suffix: Trade Station
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Shuttles/trading_outpost.yml
+    stationGrid: True
+    addComponents:
+      - type: TradeStation
+      - type: StationCargoBountyDatabase
+
+#- type: entity # Persistence: pleasing the linter - syndicate trade station not implemented yet
+#  parent: MarkerBase
+#  id: TradeStationSyndieSpawnerMarker
+#  name: Grid Spawner
+#  suffix: Syndie Trade Station
+#  components:
+#  - type: Sprite
+#    layers:
+#    - state: pink
+#    - sprite: Objects/Materials/Scrap/generic.rsi
+#      state: metal-1
+#  - type: GridSpawner
+#    gridPath: /Maps/Shuttles/trading_outpost.yml
+#    stationGrid: True
+#    addComponents:
+#      - type: ProtectedGrid
+#      - type: TradeStation
+#        levels:
+#          - ILevelSyndie1
+#          - ILevelSyndie2
+#          - ILevelSyndie3
+#          - ILevelSyndie4
+#        markets:
+#        - syndicatemarket
+#      - type: StationCargoBountyDatabase
+#        groups:
+#          CrimeBounty : 3
+#          ServiceBounty : 1
+#          ExplorationBounty : 1
+
+- type: entity
+  parent: MarkerBase
+  id: TradeStationScienceSpawnerMarker
+  name: Grid Spawner
+  suffix: Science Trade Station
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Shuttles/trading_outpost_science.yml
+    stationGrid: True
+    addComponents:
+      - type: TradeStation
+        levels:
+          - ILevelScience1
+          - ILevelScience2
+          - ILevelScience3
+          - ILevelScience4
+        markets:
+        - sciencemarket
+      - type: StationCargoBountyDatabase
+        groups:
+          ScienceBounty : 2
+          StationBounty : 1
+          ServiceBounty : 1
+
+- type: entity
+  parent: MarkerBase
+  id: TradeStationHunterSpawnerMarker
+  name: Grid Spawner
+  suffix: Hunter Trade Station
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Shuttles/trading_outpost_hunter.yml
+    stationGrid: True
+    addComponents:
+      - type: TradeStation
+        levels:
+          - ILevelHunter1
+          - ILevelHunter2
+          - ILevelHunter3
+          - ILevelHunter4
+        markets:
+        - huntermarket
+      - type: StationCargoBountyDatabase
+        groups:
+          HunterBounty : 3
+          StationBounty : 1
+          ScienceBounty : 1
+
+- type: entity
+  parent: MarkerBase
+  id: TradeStationEngineeringSpawnerMarker
+  name: Grid Spawner
+  suffix: Engineering Trade Station
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Shuttles/trading_outpost_engineering.yml
+    stationGrid: True
+    addComponents:
+      - type: TradeStation
+        levels:
+          - ILevelEngineer1
+          - ILevelEngineer2
+          - ILevelEngineer3
+          - ILevelEngineer4
+        markets:
+        - engineermarket
+      - type: StationCargoBountyDatabase
+        groups:
+          EngineeringBounty : 3
+          StationBounty : 2
+
+- type: entity
+  parent: MarkerBase
+  id: TradeStationExplorationSpawnerMarker
+  name: Grid Spawner
+  suffix: Exploration Trade Station
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Shuttles/trading_outpost_explore.yml
+    stationGrid: True
+    addComponents:
+      - type: TradeStation
+        levels:
+          - ILevelExploration1
+          - ILevelExploration2
+          - ILevelExploration3
+          - ILevelExploration4
+        markets:
+        - explorermarket
+      - type: StationCargoBountyDatabase
+        groups:
+          ExplorationBounty : 3
+          ScienceBounty : 1
+          ServiceBounty : 1

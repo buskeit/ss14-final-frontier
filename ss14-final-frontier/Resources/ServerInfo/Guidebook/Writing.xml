@@ -1,0 +1,40 @@
+<Document>
+# Writing
+
+Using a pen, you can write on paper or in books. Nanotrasen provides everyone with a spare pen in their PDA.
+
+## Formatting
+
+You can use the following sigils:
+
+- [color=tan]\[color=color\]\[\/color\][/color] — to change the color of the text
+- [color=tan]\[head=n\]\[\/head\][/color] — where [italic]n[/italic] is the heading level (1 – 3)
+- [color=tan]\[bullet\/\][/color] — to insert a bullet point (useful for lists)
+- [color=tan][bold]\[bold\]\[\/bold\][/bold][/color], [color=tan][italic]\[italic\]\[\/italic\][/italic][/color] — for emphasis
+
+You can combine [bold][italic]bold and italic[/italic][/bold] tags, or use the shortcut [color=tan][bolditalic]\[bolditalic\][/bolditalic][/color].
+
+Color supports either hexadecimal or most HTML color names. For example:
+
+- [color=#ff0000]\[color=#ff0000\]\[\/color\][/color]
+- [color=red]\[color=red\]\[\/color\][/color]
+
+## Forms & Signatures
+
+You can create interactive forms with fillable fields, signatures, and checkboxes:
+
+- [color=tan]\[form\][/color] — creates a fillable text field (click to fill)
+- [color=tan]\[signature\][/color] — creates a signature field (signs with your character's name)
+- [color=tan]\[check\][/color] — creates a checkbox (click to cycle ☐/✔/✖)
+
+These are useful for creating official documents, contracts, and paperwork that require multiple people to fill in or sign.
+
+[bold]Example contract:[/bold]
+[color=gray]Employee Name: \[form\]
+I agree to the terms: \[check\]
+Employee Signature: \[signature\]
+Manager Signature: \[signature\][/color]
+
+[italic]Note: Once a document is stamped or signed, the text becomes read-only and cannot be edited with a pen. However, form fields, signatures, and checkboxes can still be filled in.[/italic]
+
+</Document>

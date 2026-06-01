@@ -1,0 +1,129 @@
+- type: cargoProduct
+  id: EmergencyBurnKitHTS
+  icon:
+    sprite: Objects/Specific/Medical/firstaidkits.rsi
+    state: burnkit
+  product: CrateEmergencyBurnKit
+  cost: 1500
+  category: cargoproduct-category-name-medical
+  group: huntermarket
+
+- type: cargoProduct
+  id: EmergencyToxinKitHTS
+  icon:
+    sprite: Objects/Specific/Medical/firstaidkits.rsi
+    state: toxinkit
+  product: CrateEmergencyToxinKit
+  cost: 1000
+  category: cargoproduct-category-name-medical
+  group: huntermarket
+
+- type: cargoProduct
+  id: EmergencyO2KitHTS
+  icon:
+    sprite: Objects/Specific/Medical/firstaidkits.rsi
+    state: o2kit
+  product: CrateEmergencyO2Kit
+  cost: 1000
+  category: cargoproduct-category-name-medical
+  group: huntermarket
+
+- type: cargoProduct
+  id: EmergencyBruteKitHTS
+  icon:
+    sprite: Objects/Specific/Medical/firstaidkits.rsi
+    state: brutekit
+  product: CrateEmergencyBruteKit
+  cost: 1500
+  category: cargoproduct-category-name-medical
+  group: huntermarket
+
+- type: cargoProduct
+  id: EmergencyAdvancedKitHTS
+  icon:
+    sprite: Objects/Specific/Medical/firstaidkits.rsi
+    state: advkit
+  product: CrateEmergencyAdvancedKit
+  cost: 1750
+  category: cargoproduct-category-name-medical
+  group: huntermarket
+
+- type: cargoProduct
+  id: MedicalBodybagsHTS
+  icon:
+    sprite: Objects/Specific/Medical/Morgue/bodybags.rsi
+    state: bag_folded
+  product: CrateBodyBags
+  cost: 700
+  category: cargoproduct-category-name-medical
+  group: huntermarket
+
+- type: cargoProduct
+  id: FoodMREHTS
+  icon:
+    sprite: Objects/Consumable/Food/snacks.rsi
+    state: nutribrick
+  product: CrateFoodMRE
+  cost: 5000
+  category: cargoproduct-category-name-food
+  group: huntermarket
+
+- type: cargoProduct
+  id: ServiceSmokeablesHTS
+  icon:
+    sprite: Objects/Consumable/Smokeables/Cigarettes/Cartons/green.rsi
+    state: icon
+  product: CrateServiceSmokeables
+  cost: 2500
+  category: cargoproduct-category-name-service
+  group: huntermarket
+
+- type: cargoProduct
+  id: EnergyShieldHTS
+  icon:
+    sprite: Objects/Weapons/Melee/e_shield.rsi
+    state: eshield-on
+  product: EnergyShield
+  cost: 15000
+  category: cargoproduct-category-name-armory
+  group: huntermarket4
+
+- type: cargoProduct
+  id: GunSafeShotgunEnforcerHTS
+  icon:
+    sprite: Objects/Weapons/Guns/Shotguns/enforcer.rsi
+    state: icon
+  product: GunSafeShotgunEnforcer
+  cost: 10000
+  category: cargoproduct-category-name-armory
+  group: huntermarket4
+
+- type: cargoProduct
+  id: GunSafeShotgunKammererHTS
+  icon:
+    sprite: Objects/Weapons/Guns/Shotguns/pump.rsi
+    state: icon
+  product: GunSafeShotgunKammerer
+  cost: 7500
+  category: cargoproduct-category-name-armory
+  group: huntermarket3
+
+- type: cargoProduct
+  id: GunSafeSubMachineGunDrozdHTS
+  icon:
+    sprite: Objects/Weapons/Guns/SMGs/drozd.rsi
+    state: icon
+  product: GunSafeSubMachineGunDrozd
+  cost: 10000
+  category: cargoproduct-category-name-armory
+  group: huntermarket4
+
+- type: cargoProduct
+  id: MaterialWaterTankHTS
+  icon:
+    sprite: Structures/Storage/tanks.rsi
+    state: watertank
+  product: WaterTankFull
+  cost: 2500
+  category: cargoproduct-category-name-materials
+  group: huntermarket

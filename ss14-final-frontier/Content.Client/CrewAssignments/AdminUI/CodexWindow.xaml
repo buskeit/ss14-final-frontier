@@ -1,0 +1,16 @@
+<DefaultWindow xmlns="https://spacestation14.io"
+               Title="Codex Entries"
+               SetSize="650 600"
+               MinSize="650 600">
+    <BoxContainer Orientation="Vertical" VerticalExpand="True">
+        <ScrollContainer VerticalExpand="True" HorizontalExpand="True" HScrollEnabled="False">
+            <BoxContainer Orientation="Vertical" Access="Public">
+                <Button Name="CreateButton" Text="Create New Entry" Access="Public"></Button>
+                <BoxContainer Orientation="Vertical" Access="Public" Name="CodexContainer">
+
+                </BoxContainer>
+            </BoxContainer>
+
+        </ScrollContainer>
+    </BoxContainer>
+</DefaultWindow>

@@ -1,0 +1,26 @@
+- type: networkLevel
+  id: NetworkLevel1
+  name: New Arrival
+  cost: 0
+  tileLimit: 0
+  next: NetworkLevel2
+
+- type: networkLevel
+  id: NetworkLevel2
+  name: Stakeholder
+  cost: 5000
+  tileLimit: 1000
+  next: NetworkLevel3
+
+- type: networkLevel
+  id: NetworkLevel3
+  name: Big Shot
+  cost: 25000
+  tileLimit: 2500
+  next: NetworkLevel4
+
+- type: networkLevel
+  id: NetworkLevel4
+  name: Magnate
+  cost: 100000
+  tileLimit: 8000

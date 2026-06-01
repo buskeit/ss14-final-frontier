@@ -1,0 +1,38 @@
+# Base prototypes
+
+- type: latheRecipe
+  abstract: true
+  id: NFBaseJumpsuitRecipe
+  parent: BaseJumpsuitRecipe
+#  categories: # Persistence: pleasing the linter
+#  - ClothesNF
+  applyMaterialDiscount: false
+
+- type: latheRecipe
+  abstract: true
+  id: NFBaseBootRecipe # And gloves and wallets
+  parent: NFBaseJumpsuitRecipe
+  materials:
+    Cloth: 200
+    Durathread: 100
+
+# Wallets
+- type: latheRecipe
+  id: ClothingWalletLeatherBrown
+  parent: NFBaseBootRecipe
+  result: ClothingWalletLeatherBrown
+
+- type: latheRecipe
+  id: ClothingWalletLeatherBlack
+  parent: NFBaseBootRecipe
+  result: ClothingWalletLeatherBlack
+
+- type: latheRecipe
+  id: ClothingWalletLeatherMail
+  parent: NFBaseBootRecipe
+  result: ClothingWalletLeatherMail
+
+- type: latheRecipe
+  id: ClothingWalletLeatherPirate
+  parent: NFBaseBootRecipe
+  result: ClothingWalletLeatherPirate

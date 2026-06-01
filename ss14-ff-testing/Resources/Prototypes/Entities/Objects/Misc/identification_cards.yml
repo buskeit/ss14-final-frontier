@@ -1061,7 +1061,7 @@
 - type: entity
   parent: IDCardStandard
   id: WizardIDCard
-  name: Qizard ID Card
+  name: Wizard ID Card
   components:
     - type: Sprite
       layers:

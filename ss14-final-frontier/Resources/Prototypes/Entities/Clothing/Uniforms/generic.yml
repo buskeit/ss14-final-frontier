@@ -1,0 +1,231 @@
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformGenericTurtleNeckAndJeans
+  name: turtleneck and jeans
+  description: A brand new turtleneck and some jeans.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Generic/boatswain.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Generic/boatswain.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformGenericBusinessCasual
+  name: business casual
+  description: A nice pair of business casual apparel.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Generic/businesscasual.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Generic/businesscasual.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformGenericTunicAndJeans
+  name: tunic and jeans
+  description: A tunic and some jeans. A tunic? What? Is this the 1700s?
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Generic/clerk.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Generic/clerk.rsi
+
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformGenericOldManSweater
+  name: old man sweater
+  description: A very old sweater. Did you get your sense of style from your Grandpa? It shows...
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Generic/explorer.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Generic/explorer.rsi
+
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformGenericFudd
+  name: fudd clothes
+  description: A camo BDU jacket with a pair of jeans. You feel compelled to only purchase singleshot firearms and complain about technological progress.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Generic/fudd.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Generic/fudd.rsi
+
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformGenericShirtAndJeansBrown
+  name: shirt and jeans
+  description: A plain shirt and a pair of jeans. Okay Mr. Average.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Generic/jeans_brown.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Generic/jeans_brown.rsi
+
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformGenericShirtAndJeansGreen
+  name: shirt and jeans
+  description: A plain shirt and a pair of jeans. Okay Mr. Average.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Generic/jeans_green.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Generic/jeans_green.rsi
+
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformGenericShirtAndJeansRed
+  name: shirt and jeans
+  description: A plain shirt and a pair of jeans. Okay Mr. Average.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Generic/jeans_red.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Generic/jeans_red.rsi
+
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformGenericKilt
+  name: kilt
+  description: Fulfill your inner scot.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Generic/kilt.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Generic/kilt.rsi
+
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformGenericSweaterAndSlacks
+  name: sweater and slacks
+  description: "A quirky sweater with a nice pair of slacks. You've been off the booze for a while, huh?"
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Generic/sober.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Generic/sober.rsi
+
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformGenericCollaredShirtAndSlacksBlack
+  name: collared shirt and slacks
+  description: A pair of slacks with a well pressed collared shirt.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Generic/suitblack.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Generic/suitblack.rsi
+
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformGenericCollaredShirtAndSlacksBlackAlt
+  name: collared shirt and slacks
+  description: A pair of slacks with a well pressed collared shirt.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Generic/suitblackalt.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Generic/suitblackalt.rsi
+
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformGenericCollaredShirtAndSlacksBrown
+  name: collared shirt and slacks
+  description: A pair of slacks with a well pressed collared shirt.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Generic/suitbrown.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Generic/suitbrown.rsi
+
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformGenericCollaredShirtAndSlacksBrownAlt
+  name: collared shirt and slacks
+  description: A pair of slacks with a well pressed collared shirt.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Generic/suitbrownalt.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Generic/suitbrownalt.rsi
+
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformGenericCollaredShirtAndSlacksWhite
+  name: collared shirt and slacks
+  description: A pair of slacks with a well pressed collared shirt.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Generic/suitwhite.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Generic/suitwhite.rsi
+
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformGenericCollaredShirtAndSlacksWhiteAlt
+  name: collared shirt and slacks
+  description: A pair of slacks with a well pressed collared shirt.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Generic/suitwhitealt.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Generic/suitwhitealt.rsi
+
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformGenericTacticalTurtleNeck
+  name: tactical turtleneck
+  description: A tactical turtleneck. You feel so tacticool wearing it.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Generic/turtleneck.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Generic/turtleneck.rsi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

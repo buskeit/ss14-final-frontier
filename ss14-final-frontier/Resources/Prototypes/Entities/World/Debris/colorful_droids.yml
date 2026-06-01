@@ -1,0 +1,266 @@
+- type: spaceBiome
+  priority: 0 # This probably shouldn't get selected.
+  id: BaseBiome
+  noiseRanges:
+    BiomeBaseMask: # | 0.1,1 = Abundant | 0.35,1 = Common | 0.5,1 = Rare | 0.9,1 = Desolate |
+      - 0.4,1
+  debrisEntityTable: 'BaseSpaceMobTable'
+
+# Minimal mob table for all space biomes (except void) - Based on SalvageMagnetMobTable
+- type: entityTable
+  id: BaseSpaceMobTable
+  table: !type:GroupSelector
+    children:
+    - !type:GroupSelector # normal theats
+      weight: 70
+      children:
+      - id: MobCarpSalvage
+        weight: 2
+    - !type:GroupSelector # scary monsters
+      weight: 30
+      children:
+      - !type:AllSelector
+        children:
+        - id: MobSharkSalvage
+        - id: MobCarpSalvage
+          amount: 2
+
+- type: entityTable
+  id: DarkSpaceMobTable
+  table: !type:GroupSelector
+    children:
+    - !type:GroupSelector # normal theats
+      weight: 60
+      children:
+      - id: MobBasilisk
+        amount: 2
+        weight: 2
+    - !type:GroupSelector # scary monsters
+      weight: 20
+      children:
+      - !type:AllSelector
+        children:
+        - id: MobSharkSalvage
+        - id: MobBasilisk
+          amount: 3
+        - id: MobGoliath
+    - !type:GroupSelector # scary monsters
+      weight: 20
+      children:
+      - !type:AllSelector
+        children:
+        - id: MobHivelord
+          amount: 2
+        - id: MobGoliath
+        - id: MobSharkSalvage
+
+- type: entityTable
+  id: XenoMobTable
+  table: !type:GroupSelector
+    children:
+    - !type:GroupSelector # normal theats
+      weight: 60
+      children:
+      - id: MobXeno
+        amount: 2
+      - id: MobXenoDrone
+        weight: 2
+    - !type:GroupSelector # scary monsters
+      weight: 20
+      children:
+      - !type:AllSelector
+        children:
+        - id: MobXenoDrone
+          amount: 2
+        - id: MobXenoPraetorian
+        - id: MobXenoQueen
+        - id: MobXenoSpitter
+        - id: MobSmallPurpleSnake
+          amount: 2
+    - !type:GroupSelector # scary monsters
+      weight: 20
+      children:
+      - !type:AllSelector
+        children:
+        - id: MobXeno
+          amount: 2
+        - id: MobXenoRunner
+        - id: MobXenoPraetorian
+        - id: MobXenoRavager
+        - id: MobPurpleSnake
+
+- type: entityTable
+  id: CarpMobCreaturesTable
+  table: !type:GroupSelector
+    children:
+    - !type:GroupSelector # normal theats
+      weight: 60
+      children:
+      - id: MobCarpSalvage
+        amount: 3
+        weight: 2
+    - !type:GroupSelector # scary monsters
+      weight: 20
+      children:
+      - !type:AllSelector
+        children:
+        - id: MobCarpSalvage
+          amount: 4
+        - id: MobSharkSalvage
+          amount: 2
+        - id: MobCarpHolo
+    - !type:GroupSelector # scary monsters
+      weight: 20
+      children:
+      - !type:AllSelector
+        children:
+        - id: MobCarpMagic
+        - id: MobCarpHolo
+          amount: 2
+        - id: MobCarpRainbow
+        - id: MobCarpDragon
+
+- type: entityTable
+  id: BluespaceMobCreaturesTable
+  table: !type:GroupSelector
+    children:
+    - !type:GroupSelector # normal theats
+      weight: 60
+      children:
+      - id: MobBearSpace
+      - id: MobCobraSpace
+      - id: MobKangarooSpace
+      - id: MobSpiderSpace
+        weight: 2
+    - !type:GroupSelector # scary monsters
+      weight: 20
+      children:
+      - !type:AllSelector
+        children:
+        - id: MobBearSpace
+          amount: 3
+        - id: MobSpiderSpace
+          amount: 3
+    - !type:GroupSelector # scary monsters
+      weight: 20
+      children:
+      - !type:AllSelector
+        children:
+        - id: MobCobraSpace
+          amount: 3
+        - id: MobSpiderSpace
+          amount: 1
+        - id: MobKangarooSpace
+          amount: 2
+
+
+- type: entityTable
+  id: DebugImpossibleSpaceMobTable
+  table: !type:AllSelector
+    children:
+    - id: MobSharkSalvage
+      amount: 100
+
+- type: spaceBiome
+  parent: BaseBiome
+  id: IronZone
+  priority: 1
+  noiseRanges:
+    BiomeBase:
+      - 2,4
+
+  chunkComponents:
+    - type: DebrisFeaturePlacerController
+      densityNoiseChannel: Density
+    - type: SimpleDebrisSelector
+      debrisTable:
+        - id: IronrockDebrisSmall
+        - id: IronrockDebrisMedium
+        - id: IronrockDebrisLarge
+          prob: 0.6
+        - id: IronrockDebrisHuge
+          prob: 0.4
+    - type: NoiseRangeCarver
+      ranges:
+        - 0.4, 0.6
+      noiseChannel: Carver
+
+- type: spaceBiome
+  parent: BaseBiome
+  id: ChromiteZone
+  priority: 1
+  noiseRanges:
+    BiomeBase:
+      - 4,6
+
+  chunkComponents:
+    - type: DebrisFeaturePlacerController
+      densityNoiseChannel: Density
+    - type: SimpleDebrisSelector
+      debrisTable:
+        - id: ChromiteDebrisSmall
+        - id: ChromiteDebrisMedium
+          prob: 0.75
+        - id: ChromiteDebrisLarge
+          prob: 0.4
+        - id: ChromiteDebrisHuge
+          prob: 0.13
+
+    - type: NoiseRangeCarver
+      ranges:
+        - 0.4, 0.6
+      noiseChannel: Carver
+
+- type: spaceBiome
+  parent: BaseBiome
+  id: VolcanicZone
+  priority: 1
+  noiseRanges:
+    BiomeBase:
+      - 6,8
+
+    #Temperature:
+      #- 0.7,1
+  chunkComponents:
+    - type: DebrisFeaturePlacerController
+      densityNoiseChannel: Density
+    - type: SimpleDebrisSelector
+      debrisTable:
+        - id: BasaltDebrisSmall
+        - id: BasaltDebrisMedium
+          prob: 0.6
+        - id: BasaltDebrisLarge
+          prob: 0.3
+        - id: BasaltDebrisHuge
+          prob: 0.1
+
+    - type: NoiseRangeCarver
+      ranges:
+        - 0.4, 0.6
+      noiseChannel: Carver
+
+- type: spaceBiome
+  parent: BaseBiome
+  id: AndesiteZone
+  priority: 1
+  noiseRanges:
+    BiomeBase:
+      - 8,10
+
+  chunkComponents:
+    - type: DebrisFeaturePlacerController
+      densityNoiseChannel: Density
+    - type: SimpleDebrisSelector
+      debrisTable:
+        - id: AndesiteDebrisSmall
+        - id: AndesiteDebrisMedium
+          prob: 0.7
+        - id: AndesiteDebrisLarge
+          prob: 0.5
+        - id: AndesiteDebrisHuge
+          prob: 0.3
+
+    - type: NoiseRangeCarver
+      ranges:
+        - 0.4, 0.6
+      noiseChannel: Carver

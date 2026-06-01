@@ -1,0 +1,68 @@
+<Document>
+  # Faction Modification
+  This guide will explain how to manage your faction through the faction modification computer.
+
+  ## General
+  The first tab controls a variety of high-level settings for your faction.
+
+  ### Change Faction Name
+  Change the display name that your faction uses.
+
+  ### Current Faction Owners
+  Allows you to view and remove existing faction owners or add a new owner. Only faction owners can operate the faction modification computer. Only extremely trused characters should be made a faction owner. Faction owners have all-access and full control over the faction they own.
+
+  ### Create Access / Delete Access
+  Your faction can create and delete accesses which can be assigned to machines using an access configurator.
+
+  ### Import/Export/Sales Tax
+  Your faction can set tax rates which are collected from individuals and other factions. If your faction controls a trade station import tax is applied to any purchases made through the trade station and export tax is applied to any sale made through the trade station including bounty completion.
+  Sales tax is applied to invoices that are printed on a grid your faction controls.
+
+  ## Assignments
+  The assignments tab allows you to create assignments for your crew members to hold. Assignments are an important way of distributing accesses to members of your faction.
+
+  ### Select / Create / Delete Assignment
+  Assignments can be selected from the dropdown at the top of the menu and new assignments can be named and created using the button at the bottom of the menu.
+
+  ### Assignment Name
+  The display name of an assignment can be changed at any time.
+  
+  ### Wage
+  Members of your faction can clock in and will be paid this wage every twenty minutes they remain clocked in.
+
+  ### Command Level
+  Members of your faction will not be able to reassign themselves or anyone with an equal or higher command level than themselves.
+  For example, if a "Captain" assignment has a command level of 100 and a "HoP" assignment has a command level of 90 then someone holding the HoP assignment will not be able to reassign the Captain or any other HoP and will only be able to reassign those with an assignment that has command level 89 or lower.
+
+  ### Core Functions
+  Core functions control specific functions that the assignment holder may be able to perform.
+  
+  The "REASSIGN" core function allows those with the assignment to reassign those with a lower command level through the ID card computer.
+  
+  The "SPEND" core function allows those with the assignment to spend funds out of the faction account.
+  
+  The "CLAIM" core function allows those with the assignment to claim and unclaim grids for the faction.
+
+  ### Access
+  Accesses that your faction has can be toggled on and off for the assignment.
+
+  ## Radio
+  Headset radios can target your faction and will use the access their wearer has to determine what channels they can hear and transmit over.
+  In the radio menu you can determine which radio channels are available to your faction and what access they require.
+
+  ### Selected Channel
+  Choose which channel you are currently editing.
+
+  ### Channel Status
+  Whether or not this channel can be used when targeting your faction
+
+  ### Access
+  Which accesses must be held in order for a headset to recieve and broadcast on this channel. If no accesses are selected the channel will be available for everyone.
+
+
+  ## Upgrade
+  Here you can upgrade your faction to increase the tile limit. The tile limit is the maximum amount of tiles your faction can control.
+  
+  At faction level three your faction gains the ability to claim a trade station.
+  
+</Document>

@@ -1,0 +1,63 @@
+- type: entity
+  id: BaseMCTNode
+  abstract: true
+  components:
+    - type: ActivatableUI
+      key: enum.MCTNConsoleUiKey.Key
+    - type: UserInterface
+      interfaces:
+        enum.MCTNConsoleUiKey.Key:
+          type: MCTNBoundUserInterface
+    - type: NodeContainer
+      examinable: true
+      nodes:
+        powerHV:
+          !type:CableDeviceNode
+          nodeGroupID: HVPower
+        powerMV:
+          !type:CableDeviceNode
+          nodeGroupID: MVPower
+        powerLV:
+          !type:CableDeviceNode
+          nodeGroupID: Apc
+
+        pipe1:
+          !type:PortPipeNode
+          nodeGroupID: Pipe
+          rotationsEnabled: false
+          pipeDirection: All
+          pipeLayer: 0
+        pipe2:
+          !type:PortPipeNode
+          nodeGroupID: Pipe
+          rotationsEnabled: false
+          pipeDirection: All
+          pipeLayer: 1
+        pipe3:
+          !type:PortPipeNode
+          nodeGroupID: Pipe
+          rotationsEnabled: false
+          pipeDirection: All
+          pipeLayer: 2
+    - type: MCTN
+    - type: AccessReader
+
+- type: entity
+  id: MCTNTetherStub
+  save: false
+
+- type: entity
+  parent: [BaseMCTNode, BaseMachinePowered, ConstructibleMachine]
+  id: MCTNodeMachine
+  name: Multi-Channel Transfer Node
+  components:
+  - type: Machine
+    board: MCTNMachineCircuitboard
+  - type: CollideOnAnchor
+  - type: ApcPowerReceiver
+    powerLoad: 0
+    needsPower: false
+  - type: Sprite
+    sprite: Structures/Piping/Atmospherics/miners.rsi
+    state: miner
+    drawdepth: FloorObjects

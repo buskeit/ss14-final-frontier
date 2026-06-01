@@ -1,0 +1,16 @@
+- type: entity
+  id: GasGeneratorMachineCircuitboard
+  parent: BaseMachineCircuitboard
+  name: gas generator machine board
+  description: A circuit board for a gas generator.
+  components:
+    - type: Sprite
+      sprite: Objects/Misc/module.rsi
+      state: servo
+    - type: MachineBoard
+      prototype: GasGenerator
+      stackRequirements:
+        Manipulator: 2
+        MetalRod: 2
+        Cable: 5
+        Steel: 5

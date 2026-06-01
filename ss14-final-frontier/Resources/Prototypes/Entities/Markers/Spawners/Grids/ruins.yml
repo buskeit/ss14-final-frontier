@@ -1,0 +1,643 @@
+- type: entity
+  parent: MarkerBase
+  id: JokersRuinsSpawner
+  name: Ruins Spawner
+  suffix: Joker's Ruins
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Ruins/jokers_ruins.yml
+
+- type: entity
+  parent: MarkerBase
+  id: AtmosRuinSpawner
+  name: Ruins Spawner
+  suffix: Atmos Interchange
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Ruins/atmos_interchange.yml
+
+- type: entity
+  parent: MarkerBase
+  id: BiodomeSpawner
+  name: Ruins Spawner
+  suffix: Biodome Satellite
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Ruins/biodome_satellite.yml
+
+- type: entity
+  parent: MarkerBase
+  id: ChunkedTCommsSpawner
+  name: Ruins Spawner
+  suffix: Chunked TComms
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Ruins/chunked_tcomms.yml
+
+- type: entity
+  parent: MarkerBase
+  id: DerelictSpawner
+  name: Ruins Spawner
+  suffix: LARGE, Derelict
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Ruins/derelict.yml
+
+- type: entity
+  parent: MarkerBase
+  id: DisplacedTSciSpawner
+  name: Ruins Spawner
+  suffix: Displaced Telescience
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Ruins/displaced_telescience.yml
+
+- type: entity
+  parent: MarkerBase
+  id: EmptyFlagshipSpawner
+  name: Ruins Spawner
+  suffix: LARGE, Empty Flagship
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Ruins/empty_flagship.yml
+
+- type: entity
+  parent: MarkerBase
+  id: HydroOutpostSpawner
+  name: Ruins Spawner
+  suffix: Hydro Outpost
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Ruins/hydro_outpost.yml
+
+- type: entity
+  parent: MarkerBase
+  id: OldAISatSpawner
+  name: Ruins Spawner
+  suffix: Old AI Satellite
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Ruins/old_ai_sat.yml
+
+- type: entity
+  parent: MarkerBase
+  id: RiggedOutpostSpawner
+  name: Ruins Spawner
+  suffix: Rigged Outpost
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Ruins/rigged_outpost.yml
+
+- type: entity
+  parent: MarkerBase
+  id: RuinedPrisonShipSpawner
+  name: Ruins Spawner
+  suffix: Ruined Prison Ship
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Ruins/ruined_prison_ship.yml
+
+- type: entity
+  parent: MarkerBase
+  id: WhiteshipAncientSpawner
+  name: Ruins Spawner
+  suffix: Ancient Whiteship
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Ruins/whiteship_ancient.yml
+
+- type: entity
+  parent: MarkerBase
+  id: WhiteshipBluespaceSpawner
+  name: Ruins Spawner
+  suffix: Whiteship Bluespace
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Ruins/whiteship_bluespacejumper.yml
+
+- type: entity
+  parent: MarkerBase
+  id: WrecklaimerSpawner
+  name: Ruins Spawner
+  suffix: Wrecklaimer
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Ruins/wrecklaimer.yml
+
+- type: entity
+  parent: MarkerBase
+  id: CargoRuinSpawner
+  name: Ruins Spawner
+  suffix: Cargo
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/cargo-1.yml
+
+- type: entity
+  parent: MarkerBase
+  id: HaulingShuttleRuinSpawner
+  name: Ruins Spawner
+  suffix: Hauling Shuttle
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/hauling-shuttle.yml
+
+- type: entity
+  parent: MarkerBase
+  id: MeatballSpawner
+  name: Ruins Spawner
+  suffix: Meatball
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/meatball.yml
+
+- type: entity
+  parent: MarkerBase
+  id: Medium1Spawner
+  name: Ruins Spawner
+  suffix: Medium 1 (Sci)
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/medium-1.yml
+
+- type: entity
+  parent: MarkerBase
+  id: MediumCrashedShuttleSpawner
+  name: Ruins Spawner
+  suffix: Medium Crashed
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/medium-crashed-shuttle.yml
+
+- type: entity
+  parent: MarkerBase
+  id: MediumDockSpawner
+  name: Ruins Spawner
+  suffix: Medium Dock
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/medium-dock.yml
+
+- type: entity
+  parent: MarkerBase
+  id: EngineeringChunkSpawner
+  name: Ruins Spawner
+  suffix: Engineering Chunk
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/engineering-chunk.yml
+
+- type: entity
+  parent: MarkerBase
+  id: MediumLibrarySpawner
+  name: Ruins Spawner
+  suffix: Library
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/medium-library.yml
+
+- type: entity
+  parent: MarkerBase
+  id: MediumVetSpawner
+  name: Ruins Spawner
+  suffix: Pet Hospital
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/medium-pet-hospital.yml
+
+- type: entity
+  parent: MarkerBase
+  id: MediumPirateSpawner
+  name: Ruins Spawner
+  suffix: Pirate
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/medium-pirate.yml
+
+- type: entity
+  parent: MarkerBase
+  id: RuinedEShuttleSpawner
+  name: Ruins Spawner
+  suffix: E-Shuttle Ruins
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/medium-ruined-emergency-shuttle.yml
+
+- type: entity
+  parent: MarkerBase
+  id: SilentOrchestraSpawner
+  name: Ruins Spawner
+  suffix: Silent Orchestra
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/medium-silent-orchestra.yml
+
+- type: entity
+  parent: MarkerBase
+  id: MediumVaultSpawner
+  name: Ruins Spawner
+  suffix: Vault
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/medium-vault-1.yml
+
+- type: entity
+  parent: MarkerBase
+  id: OutpostArmSpawner
+  name: Ruins Spawner
+  suffix: Outpost Arm
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/outpost-arm.yml
+
+- type: entity
+  parent: MarkerBase
+  id: CargoSalvageRuinSpawner
+  name: Ruins Spawner
+  suffix: Cargo Salvage Ruin
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/ruin-cargo-salvage.yml
+
+- type: entity
+  parent: MarkerBase
+  id: SecurityChunkSpawner
+  name: Ruins Spawner
+  suffix: Security Chunk
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/security-chunk.yml
+
+- type: entity
+  parent: MarkerBase
+  id: Small1Spawner
+  name: Ruins Spawner
+  suffix: Small 1 (Hall)
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/small-1.yml
+
+- type: entity
+  parent: MarkerBase
+  id: Small2Spawner
+  name: Ruins Spawner
+  suffix: Small 2 (Casino)
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/small-2.yml
+
+- type: entity
+  parent: MarkerBase
+  id: Small3Spawner
+  name: Ruins Spawner
+  suffix: Small 3 (Maze)
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/small-3.yml
+
+- type: entity
+  parent: MarkerBase
+  id: Small4Spawner
+  name: Ruins Spawner
+  suffix: Small 4 (Kitchen)
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/small-4.yml
+
+- type: entity
+  parent: MarkerBase
+  id: SmallA1Spawner
+  name: Ruins Spawner
+  suffix: Small A1 (Camp)
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/small-a-1.yml
+
+- type: entity
+  parent: MarkerBase
+  id: AISurveySpawner
+  name: Ruins Spawner
+  suffix: AI Survey Drone
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/small-ai-survey-drone.yml
+
+- type: entity
+  parent: MarkerBase
+  id: ChapelSmallSpawner
+  name: Ruins Spawner
+  suffix: Chapel
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/small-chapel.yml
+
+- type: entity
+  parent: MarkerBase
+  id: ChefSmallSpawner
+  name: Ruins Spawner
+  suffix: Chef
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/small-chef.yml
+
+- type: entity
+  parent: MarkerBase
+  id: PartySmallSpawner
+  name: Ruins Spawner
+  suffix: Party
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/small-party.yml
+
+- type: entity
+  parent: MarkerBase
+  id: SmallShipSpawner
+  name: Ruins Spawner
+  suffix: Small Ship
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/small-ship-1.yml
+
+- type: entity
+  parent: MarkerBase
+  id: SmallSyndieSpawner
+  name: Ruins Spawner
+  suffix: Small Syndie Ship
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/small-syndicate.yml
+
+- type: entity
+  parent: MarkerBase
+  id: SmallTeslaSpawner
+  name: Ruins Spawner
+  suffix: Small Tesla
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/small-tesla.yml
+
+- type: entity
+  parent: MarkerBase
+  id: StationStationSpawner
+  name: Ruins Spawner
+  suffix: LARGE, Station Ruin
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/stationstation.yml
+
+- type: entity
+  parent: MarkerBase
+  id: TickColonySpawner
+  name: Ruins Spawner
+  suffix: Tick Colony
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/tick-colony.yml
+
+- type: entity
+  parent: MarkerBase
+  id: VeganMeatballSpawner
+  name: Ruins Spawner
+  suffix: Vegan Meatball
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/vegan-meatball.yml
+
+- type: entity
+  parent: MarkerBase
+  id: WHSalvageSpawner
+  name: Ruins Spawner
+  suffix: WH Salvage
+  components:
+  - type: Sprite
+    layers:
+    - state: pink
+    - sprite: Objects/Materials/Scrap/generic.rsi
+      state: metal-1
+  - type: GridSpawner
+    gridPath: /Maps/Salvage/wh-salvage.yml

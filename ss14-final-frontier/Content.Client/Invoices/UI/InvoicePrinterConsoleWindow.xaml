@@ -1,0 +1,56 @@
+<DefaultWindow xmlns="https://spacestation14.io"
+            MinSize="700 290" Access="Public">
+    <BoxContainer Orientation="Vertical">
+        <BoxContainer Orientation="Horizontal">
+            <Label Text="{Loc 'id-card-console-window-privileged-id'}" StyleClasses="LabelKeyText" />
+            <Button Name="PrivilegedIdButton" Access="Public"/>
+            <Control HorizontalExpand="True"/>
+            <Label Text="Account:" />
+            <Button Name="ChangeModeStation" Text="Faction" Access="Public" />
+            <Button Name="ChangeModePersonal" Text="Personal" Access="Public" />
+        </BoxContainer>
+        <BoxContainer Orientation="Horizontal">
+            <Label Text="Target Account:" StyleClasses="LabelKeyText" />
+            <Control MinWidth="5"/>
+            <Label Name="TargetAccountLabel" Text="Station Name" />
+            <Control HorizontalExpand="True"/>
+            <OptionButton Name="PossibleStations" Access="Public"/>
+        </BoxContainer>
+        <BoxContainer Orientation="Horizontal" Name="TaxDetails">
+            <Label Text="Taxing Account:" />
+            <Control MinWidth="5"/>
+            <Label Name="TaxingAccountLabel" Text="Station Name" />
+            <Control HorizontalExpand="True"/>
+            <Label Name="TaxRateLabel" Text="Sales Tax: 0%" />
+        </BoxContainer>
+        <BoxContainer Orientation="Horizontal">
+            <Label Text="Invoice Mode:" StyleClasses="LabelKeyText" />
+            <Control MinWidth="5"/>
+            <Label Name="InvoiceModeLabel" />
+            <Control HorizontalExpand="True"/>
+            <Button Name="ChangeModeInvoice" Text="Invoice" Access="Public" />
+            <Button Name="ChangeModePayslip" Text="Payslip" Access="Public" />
+        </BoxContainer>
+        <BoxContainer Orientation="Horizontal">
+            <Label Text="Title:" StyleClasses="LabelKeyText" />
+            <Control MinWidth="5"/>
+            <LineEdit Name="InvoiceTitleLE"
+                PlaceHolder="Enter Title Here"
+                Access="Public"
+                HorizontalExpand="True" />
+        </BoxContainer>
+        <Label Text="Reason: " StyleClasses="LabelKeyText" />
+        <BoxContainer Orientation="Horizontal" MinHeight ="150" VerticalExpand="True">
+            <PanelContainer StyleIdentifier="PaperEditBackground" VerticalExpand="True" HorizontalExpand="True">
+                <TextEdit Name="ReasonLineEdit"  Access="Public" HorizontalExpand="True" VerticalExpand="True"/>
+            </PanelContainer>
+        </BoxContainer>
+        <BoxContainer Orientation="Horizontal">
+            <Label Text="Cost:    $" StyleClasses="LabelKeyText" />
+            <SpinBox Name="CostSpinBox" Value="0" MinWidth="150"/>
+        </BoxContainer>
+        <BoxContainer Orientation="Horizontal">
+            <Button Name="PrintButton" Access="Public" Text="Print Invoice"/>
+        </BoxContainer>
+    </BoxContainer>
+</DefaultWindow>

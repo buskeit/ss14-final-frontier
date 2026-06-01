@@ -1,0 +1,23 @@
+<Document>
+  # Faction Creation
+  This guide will explain how to start your own faction from scratch!
+
+  ## Faction Genesis Device
+  To begin with you need to obtain a faction genesis device. These are found in a crate called the "faction starter crate" sold through cargo imports in the Nanotrasen trade station.
+  <Box>
+    <GuideEntityEmbed Entity="StationGenesisDevice" Caption="Faction Genesis Device"/>
+  </Box>
+
+  Once you have a faction genesis device you can use it to create the faction. The ID inserted into the faction genesis device will determine who the first faction owner will be. Faction owners always have all access to the faction.
+  The faction starter crate also contains other machines you will need to setup the new faction including a grid configurator, a faction tagger and the faction modification computer.
+
+  <Box>
+    <GuideEntityEmbed Entity="GridConfigurator" Caption="Grid Configurator"/>
+    <GuideEntityEmbed Entity="StationTagger" Caption="Faction Tagger"/>
+  </Box>
+  
+  If you are starting the faction on an unclaimed grid you can use the grid configurator to claim the grid for your faction. Any machines built on a grid that your faction controls will default to being under the control of your faction.
+  If you are using a grid that is under someone elses control you can use the faction tagger to tag machines as being under the control of your faction. Deploy the faction modification computer somewhere and tag it to your faction if necessary.
+
+  The faction is now created and can be managed through the faction modification computer.
+</Document>

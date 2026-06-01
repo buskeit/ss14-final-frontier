@@ -1,0 +1,35 @@
+<BoxContainer xmlns="https://spacestation14.io"
+              xmlns:customControls="clr-namespace:Content.Client.Administration.UI.CustomControls"
+              Margin="10 10 10 10"
+              HorizontalExpand="True"
+              Visible="True">
+    <PanelContainer StyleClasses="BackgroundPanel" HorizontalExpand="True">
+        <BoxContainer Orientation="Vertical">
+            <BoxContainer Orientation="Horizontal">
+                <BoxContainer Orientation="Vertical" HorizontalExpand="True">
+                    <Label Text ="Title:"></Label>
+                    <LineEdit Name="TitleLabel" PlaceHolder="Title Label" Access="Public"/>
+                    <RichTextLabel Name="CompletedLabel"/>
+                </BoxContainer>
+                <Control MinWidth="10"/>
+            </BoxContainer>
+            <customControls:HSeparator Margin="5 10 5 10"/>
+            <Label Text ="Description Markup:"></Label>
+            <PanelContainer StyleIdentifier="PaperEditBackground" MinHeight="20">
+                <TextEdit Name="DescriptionLabel"  Access="Public" HorizontalExpand="True" MinHeight="50"/>
+            </PanelContainer>
+            <Label Text ="Reward Markup:"></Label>
+            <PanelContainer StyleIdentifier="PaperEditBackground" MinHeight="20">
+                <TextEdit Name="RewardLabel"  Access="Public" HorizontalExpand="True" MinHeight="50"/>
+            </PanelContainer>
+            <Label Text ="Completed Description Markup:"></Label>
+            <PanelContainer StyleIdentifier="PaperEditBackground" MinHeight="20">
+                <TextEdit Name="CompletedDescriptionLabel" Access="Public" HorizontalExpand="True" MinHeight="50"/>
+            </PanelContainer>
+            <BoxContainer Orientation="Horizontal" Name="MainContainer" Access="Public">
+
+                
+            </BoxContainer>
+        </BoxContainer>
+    </PanelContainer>
+</BoxContainer>

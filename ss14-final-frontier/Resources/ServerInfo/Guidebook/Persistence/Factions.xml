@@ -1,0 +1,9 @@
+<Document>
+  # Factions
+  [color=#f39f27]Factions[/color] are used to create accesses and assignments for members of the faction to use. Factions can claim a grid and all anchored machines on that grid will be considered owned by that faction unless the machine has been specifically tagged by a different faction.
+    <Box>
+      <GuideEntityEmbed Entity="StationGenesisDevice" Caption="Faction Genesis Device"/>
+      <GuideEntityEmbed Entity="GridConfigurator" Caption="Grid Configurator"/>
+      <GuideEntityEmbed Entity="StationTagger" Caption="Faction Tagger"/>
+    </Box>
+</Document>
