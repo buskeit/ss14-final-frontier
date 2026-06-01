@@ -5,6 +5,7 @@ using Content.Shared.IdentityManagement;
 using Content.Shared.Interaction;
 using Content.Shared.Mind.Components;
 using Content.Shared.Popups;
+using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Random.Helpers;
 using Content.Shared.Roles.Jobs;
 using Content.Shared.Tag;
@@ -27,6 +28,7 @@ public sealed class PaperSystem : EntitySystem
     [Dependency] private readonly SharedInteractionSystem _interaction = default!;
     [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
     [Dependency] private readonly TagSystem _tagSystem = default!;
+    [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _uiSystem = default!;
     [Dependency] private readonly MetaDataSystem _metaSystem = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
@@ -130,6 +132,21 @@ public sealed class PaperSystem : EntitySystem
 
                     args.Handled = true;
                     return;
+                }
+
+                if (TryComp<PenInkComponent>(args.Used, out var penInk))
+                {
+                    if (_solutionContainer.TryGetSolution(args.Used, penInk.SolutionName, out _, out var solution))
+                    {
+                        if (solution.Volume <= 0)
+                        {
+                            var penInkEmptyMessage = Loc.GetString("pen-ink-empty", ("pen", args.Used));
+                            _popupSystem.PopupClient(penInkEmptyMessage, entity, args.User);
+
+                            args.Handled = true;
+                            return;
+                        }
+                    }
                 }
 
                 var ev = new PaperWriteAttemptEvent(entity.Owner);

@@ -6,3 +6,12 @@
   components:
   - type: Sprite
     state: pen_exec
+  - type: SolutionContainerManager
+    solutions:
+      ink:
+        maxVol: 100
+        reagents:
+        - ReagentId: InkBlack
+          Quantity: 100
+  - type: PenInk
+    refillable: true
