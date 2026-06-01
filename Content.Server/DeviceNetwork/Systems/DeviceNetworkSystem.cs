@@ -158,12 +158,14 @@ namespace Content.Server.DeviceNetwork.Systems
         /// </summary>
         private void OnNetworkShutdown(EntityUid uid, DeviceNetworkComponent component, ComponentShutdown args)
         {
-            foreach (var list in component.DeviceLists)
+            var deviceLists = new List<EntityUid>(component.DeviceLists);
+            foreach (var list in deviceLists)
             {
                 _deviceLists.OnDeviceShutdown(list, (uid, component));
             }
 
-            foreach (var list in component.Configurators)
+            var configurators = new List<EntityUid>(component.Configurators);
+            foreach (var list in configurators)
             {
                 _configurator.OnDeviceShutdown(list, (uid, component));
             }

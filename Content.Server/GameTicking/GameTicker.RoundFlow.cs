@@ -122,12 +122,60 @@ namespace Content.Server.GameTicking
                     }
                 }
             }
+
+            var gridCount = _mapManager.GetAllMapGrids(DefaultMap).Count();
+            if (gridCount == 0)
+            {
+                SendMapSaveAdminAlert(
+                    $"AUTOSAVE WARNING: map {DefaultMap} has 0 grids before save. Save may be empty.");
+            }
+
             var start = _gameTiming.CurTime;
             bool save_stat = _loader.TrySaveMap(DefaultMap, path!.Value);
             var end = _gameTiming.CurTime;
             var finaltime = start - end;
             _adminLogger.Add(LogType.EventRan, LogImpact.Extreme, $"MAP SAVE STATUS: {save_stat} TIME TAKEN: {finaltime.TotalSeconds}");
+
+            if (!save_stat)
+            {
+                SendMapSaveAdminAlert(
+                    $"AUTOSAVE FAILED: map {DefaultMap}, target '{path.Value}', took {finaltime.TotalSeconds:F2}s.");
+            }
+            else
+            {
+                var rootedPath = path.Value.ToRootedPath();
+                if (_resourceManager.UserData.Exists(rootedPath))
+                {
+                    try
+                    {
+                        using var stream = _resourceManager.UserData.Open(rootedPath, FileMode.Open);
+                        if (stream.Length == 0)
+                        {
+                            SendMapSaveAdminAlert(
+                                $"AUTOSAVE WARNING: map {DefaultMap} saved empty file at '{path.Value}'.");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        SendMapSaveAdminAlert(
+                            $"AUTOSAVE WARNING: unable to validate save output for '{path.Value}': {e.Message}");
+                    }
+                }
+                else
+                {
+                    SendMapSaveAdminAlert(
+                        $"AUTOSAVE WARNING: save reported success but output '{path.Value}' was not found.");
+                }
+            }
+
             _map.SetPaused(DefaultMap, false);
+        }
+
+        private void SendMapSaveAdminAlert(string message)
+        {
+            var escaped = FormattedMessage.EscapeText(message);
+            _chatManager.SendAdminAlertNoFormatOrEscape($"[color=red]{escaped}[/color]");
+            _sawmill.Error(message);
         }
 
         private void LoadMaps()
