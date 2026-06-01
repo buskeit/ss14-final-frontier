@@ -1,3 +1,10 @@
 ss14-ff-testing/release/
 ss14-ff-testing/Resources/ConfigPresets/
 ss14-ff-testing/server_config.toml
+
+# Local build artifacts
+**/bin/
+**/obj/
+
+# Local Codex attachments
+.codex-remote-attachments/
