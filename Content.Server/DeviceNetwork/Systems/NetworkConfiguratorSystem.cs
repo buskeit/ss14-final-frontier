@@ -827,14 +827,21 @@ public sealed class NetworkConfiguratorSystem : SharedNetworkConfiguratorSystem
     public void OnDeviceShutdown(Entity<NetworkConfiguratorComponent?> conf, Entity<DeviceNetworkComponent> device)
     {
         device.Comp.Configurators.Remove(conf.Owner);
-        if (!Resolve(conf.Owner, ref conf.Comp))
+        if (!TryComp(conf.Owner, out conf.Comp))
             return;
 
+        string? removedAddress = null;
         foreach (var (addr, dev) in conf.Comp.Devices)
         {
             if (device.Owner == dev)
-                conf.Comp.Devices.Remove(addr);
+            {
+                removedAddress = addr;
+                break;
+            }
         }
+
+        if (removedAddress != null)
+            conf.Comp.Devices.Remove(removedAddress);
 
         UpdateListUiState(conf, conf.Comp);
     }
