@@ -115,3 +115,19 @@
   id: Hologram
   kind: source
   path: "/Textures/Shaders/hologram.swsl"
+
+# Persistence shaders
+- type: shader
+  id: WhiteHoleNegative
+  kind: source
+  path: "/Textures/Shaders/white_hole_negative.swsl"
+
+- type: shader
+  id: ContainmentFieldResistanceWave
+  kind: source
+  path: "/Textures/Shaders/containment_field_resistance_wave.swsl"
+
+- type: shader
+  id: SectorEventTint
+  kind: source
+  path: "/Textures/Shaders/sector_event_tint.swsl"
