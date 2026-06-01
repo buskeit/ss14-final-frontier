@@ -228,9 +228,11 @@
   description: A replacement cartridge filled with black ink, used to refill fountain and advanced pens.
   components:
   - type: Sprite
-    sprite: Objects/Specific/Chemistry/vial_mini.rsi
+    sprite: Objects/Specific/Chemistry/bottle.rsi
+    state: ink_bottle
   - type: Item
-    sprite: Objects/Specific/Chemistry/vial_mini.rsi
+    sprite: Objects/Specific/Chemistry/bottle.rsi
+    state: ink_bottle
     size: Tiny
   - type: SolutionContainerManager
     solutions:
