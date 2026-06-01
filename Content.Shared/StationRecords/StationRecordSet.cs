@@ -1,6 +1,7 @@
 using Robust.Shared.Utility;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 
 namespace Content.Shared.StationRecords;
 
@@ -32,7 +33,7 @@ public sealed partial class StationRecordSet
     /// <summary>
     /// Dictionary between a record's type and then each record indexed by id.
     /// </summary>
-    [DataField]
+    [DataField(customTypeSerializer: typeof(AbstractDictionarySerializer<Dictionary<uint, object>>))]
     private Dictionary<Type, Dictionary<uint, object>> _tables = new();
 
     /// <summary>
