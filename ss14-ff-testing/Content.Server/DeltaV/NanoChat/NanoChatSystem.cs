@@ -34,7 +34,7 @@ public sealed class NanoChatSystem : SharedNanoChatSystem
         SubscribeLocalEvent<NanoChatCardComponent, EntGotInsertedIntoContainerMessage>(OnInserted);
         SubscribeLocalEvent<NanoChatCardComponent, EntGotRemovedFromContainerMessage>(OnRemoved);
 
-        SubscribeLocalEvent<NanoChatCardComponent, MapInitEvent>(OnCardInit);
+        SubscribeLocalEvent<NanoChatCardComponent, ComponentInit>(OnCardInit);
         SubscribeLocalEvent<NanoChatCardComponent, BeingMicrowavedEvent>(OnMicrowaved, after: [typeof(IdCardSystem)]);
     }
 
@@ -44,6 +44,10 @@ public sealed class NanoChatSystem : SharedNanoChatSystem
             return;
 
         ent.Comp.PdaUid = args.Container.Owner;
+
+        if (ent.Comp.Number == null)
+            AssignNumber(ent);
+
         Dirty(ent);
     }
 
@@ -155,14 +159,18 @@ public sealed class NanoChatSystem : SharedNanoChatSystem
         return new string(chars);
     }
 
-    private void OnCardInit(Entity<NanoChatCardComponent> ent, ref MapInitEvent args)
+    private void OnCardInit(Entity<NanoChatCardComponent> ent, ref ComponentInit args)
     {
         if (ent.Comp.Number != null)
             return;
 
-        // Assign a random number
+        AssignNumber(ent);
+    }
+
+    private void AssignNumber(Entity<NanoChatCardComponent> ent)
+    {
         _name.GenerateUniqueName(ent, _nameIdentifierGroup, out var number);
-        ent.Comp.Number = (uint)number;
+        ent.Comp.Number = (uint) number;
         Dirty(ent);
     }
 }

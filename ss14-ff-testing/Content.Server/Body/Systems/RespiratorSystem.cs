@@ -44,6 +44,7 @@ public sealed class RespiratorSystem : EntitySystem
     [Dependency] private readonly SharedSolutionContainerSystem _solutionContainerSystem = default!;
 
     private static readonly ProtoId<MetabolismStagePrototype> RespirationStage = new("Respiration");
+    private const float DefaultMetabolicMultiplier = 1f;
 
     public override void Initialize()
     {
@@ -69,6 +70,9 @@ public sealed class RespiratorSystem : EntitySystem
     }
     private void OnMapInit(Entity<RespiratorComponent> ent, ref MapInitEvent args)
     {
+        if (!float.IsFinite(ent.Comp.UpdateIntervalMultiplier) || ent.Comp.UpdateIntervalMultiplier <= 0f)
+            ent.Comp.UpdateIntervalMultiplier = DefaultMetabolicMultiplier;
+
         ent.Comp.NextUpdate = _gameTiming.CurTime + ent.Comp.AdjustedUpdateInterval;
     }
 
@@ -79,6 +83,12 @@ public sealed class RespiratorSystem : EntitySystem
         var query = EntityQueryEnumerator<RespiratorComponent>();
         while (query.MoveNext(out var uid, out var respirator))
         {
+            if (!float.IsFinite(respirator.UpdateIntervalMultiplier) || respirator.UpdateIntervalMultiplier <= 0f)
+            {
+                respirator.UpdateIntervalMultiplier = DefaultMetabolicMultiplier;
+                respirator.NextUpdate = _gameTiming.CurTime + respirator.AdjustedUpdateInterval;
+            }
+
             if (_gameTiming.CurTime < respirator.NextUpdate)
                 continue;
 
@@ -364,7 +374,9 @@ public sealed class RespiratorSystem : EntitySystem
 
     private void OnApplyMetabolicMultiplier(Entity<RespiratorComponent> ent, ref ApplyMetabolicMultiplierEvent args)
     {
-        ent.Comp.UpdateIntervalMultiplier = args.Multiplier;
+        ent.Comp.UpdateIntervalMultiplier = float.IsFinite(args.Multiplier) && args.Multiplier > 0f
+            ? args.Multiplier
+            : DefaultMetabolicMultiplier;
     }
 
     private void OnGasInhaled(Entity<LungComponent> ent, ref BodyRelayedEvent<InhaledGasEvent> args)
