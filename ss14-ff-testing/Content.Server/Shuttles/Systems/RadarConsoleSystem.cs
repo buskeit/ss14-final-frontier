@@ -4,6 +4,8 @@ using Content.Shared.Shuttles.Systems;
 using Robust.Server.GameObjects;
 using Robust.Shared.Map;
 using System.Numerics;
+using Content.Server.Sectors.Events;
+using Content.Server.Sectors.Systems;
 
 namespace Content.Server.Shuttles.Systems;
 
@@ -11,6 +13,10 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
 {
     [Dependency] private readonly ShuttleConsoleSystem _console = default!;
     [Dependency] private readonly UserInterfaceSystem _uiSystem = default!;
+    [Dependency] private readonly SectorWeatherSystem _sectorWeather = default!;
+
+    private float _refreshTimer;
+    private const float RefreshInterval = 1f;
 
     public override void Initialize()
     {
@@ -21,6 +27,8 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
         {
             subs.Event<BoundUIOpenedEvent>(UpdateUserInterface);
         });
+
+        SubscribeLocalEvent<SectorWeatherChangedEvent>(OnSectorWeatherChanged);
     }
 
     private void UpdateUserInterface(EntityUid uid, RadarConsoleComponent component, BoundUIOpenedEvent args)
@@ -31,6 +39,15 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
     private void OnRadarStartup(EntityUid uid, RadarConsoleComponent component, ComponentStartup args)
     {
         UpdateState(uid, component);
+    }
+
+    private void OnSectorWeatherChanged(SectorWeatherChangedEvent ev)
+    {
+        var query = EntityQueryEnumerator<RadarConsoleComponent>();
+        while (query.MoveNext(out var uid, out var comp))
+        {
+            UpdateState(uid, comp);
+        }
     }
 
     protected override void UpdateState(EntityUid uid, RadarConsoleComponent component)
@@ -63,6 +80,26 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
             state.RotateWithEntity = !component.FollowEntity;
 
             _uiSystem.SetUiState(uid, RadarConsoleUiKey.Key, new NavBoundUserInterfaceState(state));
+        }
+    }
+
+    public override void Update(float frameTime)
+    {
+        base.Update(frameTime);
+
+        _refreshTimer += frameTime;
+        if (_refreshTimer < RefreshInterval)
+            return;
+
+        _refreshTimer -= RefreshInterval;
+
+        var query = EntityQueryEnumerator<RadarConsoleComponent>();
+        while (query.MoveNext(out var uid, out var component))
+        {
+            if (!_uiSystem.IsUiOpen(uid, RadarConsoleUiKey.Key))
+                continue;
+
+            UpdateState(uid, component);
         }
     }
 }

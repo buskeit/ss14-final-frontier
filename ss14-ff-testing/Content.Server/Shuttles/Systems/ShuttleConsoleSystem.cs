@@ -1,4 +1,7 @@
 using Content.Server.Power.EntitySystems;
+using Content.Server.Sectors.Components;
+using Content.Server.Sectors.Events;
+using Content.Server.Sectors.Systems;
 using Content.Server.Shuttles.Components;
 using Content.Server.Shuttles.Events;
 using Content.Server.Station.Systems;
@@ -7,6 +10,7 @@ using Content.Shared.Alert;
 using Content.Shared.Movement.Systems;
 using Content.Shared.Popups;
 using Content.Shared.Power;
+using Content.Shared.Singularity.Components;
 using Content.Shared.Shuttles.BUIStates;
 using Content.Shared.Shuttles.Components;
 using Content.Shared.Shuttles.Events;
@@ -37,11 +41,15 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
     [Dependency] private readonly TagSystem _tags = default!;
     [Dependency] private readonly UserInterfaceSystem _ui = default!;
     [Dependency] private readonly SharedContentEyeSystem _eyeSystem = default!;
+    [Dependency] private readonly SectorWeatherSystem _sectorWeather = default!;
 
     private EntityQuery<MetaDataComponent> _metaQuery;
     private EntityQuery<TransformComponent> _xformQuery;
 
     private readonly HashSet<Entity<ShuttleConsoleComponent>> _consoles = new();
+    private float _navRefreshTimer;
+
+    private const float NavRefreshInterval = 1f;
 
     private static readonly ProtoId<TagPrototype> CanPilotTag = "CanPilot";
 
@@ -74,6 +82,7 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
 
         SubscribeLocalEvent<DockEvent>(OnDock);
         SubscribeLocalEvent<UndockEvent>(OnUndock);
+        SubscribeLocalEvent<SectorWeatherChangedEvent>(OnSectorWeatherChanged);
 
         SubscribeLocalEvent<PilotComponent, ComponentGetState>(OnGetState);
         SubscribeLocalEvent<PilotComponent, StopPilotingAlertEvent>(OnStopPilotingAlert);
@@ -100,6 +109,11 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
     }
 
     private void OnUndock(UndockEvent ev)
+    {
+        RefreshShuttleConsoles();
+    }
+
+    private void OnSectorWeatherChanged(SectorWeatherChangedEvent ev)
     {
         RefreshShuttleConsoles();
     }
@@ -277,7 +291,13 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
         }
         else
         {
-            navState = new NavInterfaceState(0f, null, null, new Dictionary<NetEntity, List<DockingPortState>>(), ShuttleDampingMode.Normal);
+            navState = new NavInterfaceState(
+                0f,
+                null,
+                null,
+                new Dictionary<NetEntity, List<DockingPortState>>(),
+                ShuttleDampingMode.Normal,
+                _sectorWeather.GetHazardWeatherSnapshot());
             mapState = new ShuttleMapInterfaceState(
                 FTLState.Invalid,
                 default,
@@ -294,6 +314,22 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
     public override void Update(float frameTime)
     {
         base.Update(frameTime);
+
+        _navRefreshTimer += frameTime;
+        if (_navRefreshTimer >= NavRefreshInterval)
+        {
+            _navRefreshTimer -= NavRefreshInterval;
+
+            DockingInterfaceState? dock = null;
+            var consoleQuery = EntityQueryEnumerator<ShuttleConsoleComponent>();
+            while (consoleQuery.MoveNext(out var consoleUid, out _))
+            {
+                if (!_ui.IsUiOpen(consoleUid, ShuttleConsoleUiKey.Key))
+                    continue;
+
+                UpdateState(consoleUid, ref dock);
+            }
+        }
 
         var toRemove = new ValueList<(EntityUid, PilotComponent)>();
         var query = EntityQueryEnumerator<PilotComponent>();
@@ -399,7 +435,7 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
         }
 
         if (!Resolve(entity, ref entity.Comp1, ref entity.Comp2))
-            return new NavInterfaceState(entity.Comp1!.MaxRange, null, null, docks, damping);
+            return new NavInterfaceState(entity.Comp1!.MaxRange, null, null, docks, damping, _sectorWeather.GetHazardWeatherSnapshot());
 
         return GetNavState(
             entity,
@@ -422,14 +458,72 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
         }
 
         if (!Resolve(entity, ref entity.Comp1, ref entity.Comp2))
-            return new NavInterfaceState(entity.Comp1!.MaxRange, GetNetCoordinates(coordinates), angle, docks, damping);
+            return new NavInterfaceState(entity.Comp1!.MaxRange, GetNetCoordinates(coordinates), angle, docks, damping, _sectorWeather.GetHazardWeatherSnapshot());
+
+        var trackedEntities = GetTrackedEntities(coordinates);
 
         return new NavInterfaceState(
             entity.Comp1.MaxRange,
             GetNetCoordinates(coordinates),
             angle,
             docks,
-            damping);
+            damping,
+            _sectorWeather.GetHazardWeatherSnapshot(),
+            trackedEntities);
+    }
+
+    private List<NavTrackedEntityState> GetTrackedEntities(EntityCoordinates radarCoordinates)
+    {
+        var tracked = new List<NavTrackedEntityState>();
+        var radarMapId = _transform.ToMapCoordinates(radarCoordinates).MapId;
+
+        if (radarMapId == MapId.Nullspace)
+            return tracked;
+
+        var query = EntityQueryEnumerator<NavScreenTrackableComponent, TransformComponent, MetaDataComponent>();
+        while (query.MoveNext(out var uid, out var marker, out var xform, out var meta))
+        {
+            if (xform.MapID != radarMapId)
+                continue;
+
+            if (xform.MapID == MapId.Nullspace)
+                continue;
+
+            var label = string.IsNullOrWhiteSpace(marker.Label) ? meta.EntityName : marker.Label;
+
+            var markerSize = marker.MarkerSize;
+            if (TryComp<SingularityComponent>(uid, out var singularity))
+            {
+                markerSize += Math.Max(0, singularity.Level - 1) * marker.SingularityLevelSizeGrowth;
+            }
+            else if (TryComp<WhiteHoleComponent>(uid, out var whiteHole) &&
+                     whiteHole.LinkedSingularity is { } linkedSingularityUid &&
+                     TryComp<SingularityComponent>(linkedSingularityUid, out var linkedSingularity))
+            {
+                markerSize += Math.Max(0, linkedSingularity.Level - 1) * marker.SingularityLevelSizeGrowth;
+            }
+
+            NetCoordinates? spawnCoords = null;
+            if (marker.TrackerType == NavScreenTrackerType.SpawnTracked &&
+                TryComp<SectorWeatherSpawnedComponent>(uid, out var spawned))
+            {
+                var spawnMapCoordinates = new MapCoordinates(spawned.SpawnWorldPosition, radarMapId);
+                var spawnCoordinates = _transform.ToCoordinates(_mapSystem.GetMap(radarMapId), spawnMapCoordinates);
+                spawnCoords = GetNetCoordinates(spawnCoordinates);
+            }
+
+            tracked.Add(new NavTrackedEntityState(
+                GetNetEntity(uid),
+                GetNetCoordinates(xform.Coordinates),
+                marker.Color,
+                label,
+                marker.ShowLabel,
+                marker.TrackerType,
+                spawnCoords,
+                markerSize));
+        }
+
+        return tracked;
     }
 
     /// <summary>

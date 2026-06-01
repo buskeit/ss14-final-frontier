@@ -1,4 +1,4 @@
-<controls:BoxContainer Visible="False"
+﻿<controls:BoxContainer Visible="False"
               HorizontalExpand="True"
               xmlns:controls="https://spacestation14.io"
               xmlns:ui="clr-namespace:Content.Client.Shuttles.UI"
@@ -33,6 +33,16 @@
                         <controls:Label Text="{controls:Loc 'shuttle-console-position'}"/>
                         <controls:Label Name="GridPosition"
                                Text="0.0, 0.0"
+                               HorizontalExpand="True"
+                               Align="Right"/>
+                        <controls:Label Text="{controls:Loc 'shuttle-console-sector'}"/>
+                        <controls:Label Name="GridSector"
+                               Text="Center"
+                               HorizontalExpand="True"
+                               Align="Right"/>
+                        <controls:Label Text="{controls:Loc 'shuttle-console-hazard-event'}"/>
+                        <controls:Label Name="GridHazardWeather"
+                               Text="None"
                                HorizontalExpand="True"
                                Align="Right"/>
                         <controls:Label Text="{controls:Loc 'shuttle-console-orientation'}"/>
