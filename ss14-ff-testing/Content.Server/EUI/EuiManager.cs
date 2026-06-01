@@ -114,7 +114,7 @@ namespace Content.Server.EUI
         {
             if (e.NewStatus == SessionStatus.Connected)
             {
-                _playerData.Add(e.Session, new PlayerEuiData());
+                _playerData[e.Session] = new PlayerEuiData();
             }
             else if (e.NewStatus == SessionStatus.Disconnected)
             {

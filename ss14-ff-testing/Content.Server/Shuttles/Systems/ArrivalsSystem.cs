@@ -233,7 +233,11 @@ public sealed class ArrivalsSystem : EntitySystem
                 payload.Add(ShuttleTimerMasks.DestTime, ftlTime);
             }
             else
+            {
                 sourceMap = args.FromMapUid;
+                payload.Add(ShuttleTimerMasks.DestMap, Transform(args.TargetCoordinates.EntityId).MapUid);
+                payload.Add(ShuttleTimerMasks.DestTime, ftlTime);
+            }
 
             payload.Add(ShuttleTimerMasks.SourceMap, sourceMap);
             payload.Add(ShuttleTimerMasks.SourceTime, ftlTime + TimeSpan.FromSeconds(arrivalsDelay));
