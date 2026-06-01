@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "GkjIEjZYNP0=",
+  "dgSpecHash": "0Ti+Yc1vke4=",
   "success": true,
-  "projectFilePath": "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\Content.PatreonParser\\Content.PatreonParser.csproj",
+  "projectFilePath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.PatreonParser/Content.PatreonParser.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\zaxoo\\.nuget\\packages\\csvhelper\\33.1.0\\csvhelper.33.1.0.nupkg.sha512"
+    "/home/bbuske/.nuget/packages/csvhelper/33.1.0/csvhelper.33.1.0.nupkg.sha512",
+    "/home/bbuske/.nuget/packages/microsoft.aspnetcore.app.ref/10.0.8/microsoft.aspnetcore.app.ref.10.0.8.nupkg.sha512"
   ],
   "logs": []
 }

@@ -1,0 +1,8 @@
+- type: reagent
+  id: InkBlack
+  name: reagent-name-ink-black
+  desc: reagent-desc-ink-black
+  physicalDesc: reagent-physical-desc-liquid
+  flavor: bitter
+  color: #000000
+  viscosity: 0.8

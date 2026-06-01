@@ -35,9 +35,6 @@
         "warningProperties": {
           "warnAsError": [
             "NU1605"
-          ],
-          "warnNotAsError": [
-            "NU1903"
           ]
         },
         "restoreAuditProperties": {

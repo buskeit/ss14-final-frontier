@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 3,
   "targets": {
     "net10.0": {
       "BenchmarkDotNet/0.15.8": {
@@ -2689,6 +2689,15 @@
           }
         }
       },
+      "SpaceWizards.Fontconfig.Interop/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net9.0/_._": {}
+        },
+        "runtime": {
+          "lib/net9.0/SpaceWizards.Fontconfig.Interop.dll": {}
+        }
+      },
       "SpaceWizards.HttpListener/0.2.0": {
         "type": "package",
         "compile": {
@@ -3235,6 +3244,7 @@
           "SQLitePCLRaw.bundle_e_sqlite3": "3.0.2",
           "Serilog": "4.3.0",
           "SixLabors.ImageSharp": "3.1.12",
+          "SpaceWizards.Fontconfig.Interop": "1.0.0",
           "SpaceWizards.Lidgren.Network": "1.0.0",
           "SpaceWizards.NFluidsynth": "0.2.2",
           "SpaceWizards.Sdl": "1.1.1",
@@ -7374,6 +7384,18 @@
         "sourcegear.sqlite3.nuspec"
       ]
     },
+    "SpaceWizards.Fontconfig.Interop/1.0.0": {
+      "sha512": "5O7VKgfg1EZwUpWHXeDJwBwJCRto0wB90qqrt6r8bfqcZwThZSLth7NL9hc12A+exDQuOEdDhMMwz94JBghy9A==",
+      "type": "package",
+      "path": "spacewizards.fontconfig.interop/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net9.0/SpaceWizards.Fontconfig.Interop.dll",
+        "spacewizards.fontconfig.interop.1.0.0.nupkg.sha512",
+        "spacewizards.fontconfig.interop.nuspec"
+      ]
+    },
     "SpaceWizards.HttpListener/0.2.0": {
       "sha512": "XweGELOwn6JPjvzPcySiT746u53XH1jDcDP6pq4WabWXn3jgLY10EBjI5u1PvZ/cnMNcSTAVCBGQ0oQNemypDw==",
       "type": "package",
@@ -8132,21 +8154,21 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\zaxoo\\.nuget\\packages\\": {}
+    "/home/bbuske/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\Content.Tests\\Content.Tests.csproj",
+      "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Tests/Content.Tests.csproj",
       "projectName": "Content.Tests",
-      "projectPath": "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\Content.Tests\\Content.Tests.csproj",
-      "packagesPath": "C:\\Users\\zaxoo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\Content.Tests\\obj\\",
+      "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Tests/Content.Tests.csproj",
+      "packagesPath": "/home/bbuske/.nuget/packages/",
+      "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Tests/obj/",
       "projectStyle": "PackageReference",
       "centralPackageVersionsManagementEnabled": true,
       "configFilePaths": [
-        "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\NuGet.Config",
-        "C:\\Users\\zaxoo\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+        "/home/bbuske/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -8158,47 +8180,46 @@
       },
       "frameworks": {
         "net10.0": {
-          "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\Content.Client\\Content.Client.csproj": {
-              "projectPath": "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\Content.Client\\Content.Client.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Client/Content.Client.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Client/Content.Client.csproj"
             },
-            "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\Content.Server\\Content.Server.csproj": {
-              "projectPath": "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\Content.Server\\Content.Server.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/Content.Server.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/Content.Server.csproj"
             },
-            "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\Content.Shared\\Content.Shared.csproj": {
-              "projectPath": "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\Content.Shared\\Content.Shared.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared/Content.Shared.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared/Content.Shared.csproj"
             },
-            "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\RobustToolbox\\Avalonia.Base\\Avalonia.Base.csproj": {
-              "projectPath": "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\RobustToolbox\\Avalonia.Base\\Avalonia.Base.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj"
             },
-            "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\RobustToolbox\\NetSerializer\\NetSerializer\\NetSerializer.csproj": {
-              "projectPath": "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\RobustToolbox\\NetSerializer\\NetSerializer\\NetSerializer.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
             },
-            "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\RobustToolbox\\Robust.Client\\Robust.Client.csproj": {
-              "projectPath": "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\RobustToolbox\\Robust.Client\\Robust.Client.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Client/Robust.Client.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Client/Robust.Client.csproj"
             },
-            "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\RobustToolbox\\Robust.Server.Testing\\Robust.Server.Testing.csproj": {
-              "projectPath": "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\RobustToolbox\\Robust.Server.Testing\\Robust.Server.Testing.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server.Testing/Robust.Server.Testing.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server.Testing/Robust.Server.Testing.csproj"
             },
-            "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\RobustToolbox\\Robust.Server\\Robust.Server.csproj": {
-              "projectPath": "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\RobustToolbox\\Robust.Server\\Robust.Server.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server/Robust.Server.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server/Robust.Server.csproj"
             },
-            "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\RobustToolbox\\Robust.Shared.Maths.Testing\\Robust.Shared.Maths.Testing.csproj": {
-              "projectPath": "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\RobustToolbox\\Robust.Shared.Maths.Testing\\Robust.Shared.Maths.Testing.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj"
             },
-            "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\RobustToolbox\\Robust.Shared.Maths\\Robust.Shared.Maths.csproj": {
-              "projectPath": "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\RobustToolbox\\Robust.Shared.Maths\\Robust.Shared.Maths.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
             },
-            "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\RobustToolbox\\Robust.Shared.Testing\\Robust.Shared.Testing.csproj": {
-              "projectPath": "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\RobustToolbox\\Robust.Shared.Testing\\Robust.Shared.Testing.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj"
             },
-            "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\RobustToolbox\\Robust.Shared\\Robust.Shared.csproj": {
-              "projectPath": "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\RobustToolbox\\Robust.Shared\\Robust.Shared.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
             },
-            "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\RobustToolbox\\Robust.UnitTesting\\Robust.UnitTesting.csproj": {
-              "projectPath": "C:\\Users\\zaxoo\\Documents\\ss14-final-frontier-clean\\ss14-ff-testing\\RobustToolbox\\Robust.UnitTesting\\Robust.UnitTesting.csproj"
+            "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.UnitTesting/Robust.UnitTesting.csproj": {
+              "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.UnitTesting/Robust.UnitTesting.csproj"
             }
           }
         }
@@ -8213,11 +8234,10 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.300"
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net10.0": {
-        "framework": "net10.0",
         "targetAlias": "net10.0",
         "dependencies": {
           "Microsoft.NET.Test.Sdk": {
@@ -8329,12 +8349,18 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[10.0.8, 10.0.8]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.108/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.CSharp": "(,4.7.32767]",
           "Microsoft.VisualBasic": "(,10.4.32767]",
