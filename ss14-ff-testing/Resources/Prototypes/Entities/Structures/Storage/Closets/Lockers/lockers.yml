@@ -633,7 +633,6 @@
     stateDoorOpen: xo_open
     stateDoorClosed: xo_door
   - type: AccessReader
-    access: [["ExecutiveOfficer"]]
 
 # League Official
 - type: entity
@@ -647,7 +646,6 @@
     stateDoorOpen: official-AL_open
     stateDoorClosed: official-AL_door
   - type: AccessReader
-    access: [["ExecutiveOfficer"]]
 
 # League Secretary General
 - type: entity
@@ -661,4 +659,3 @@
     stateDoorOpen: exec-AL_open
     stateDoorClosed: exec-AL_door
   - type: AccessReader
-    access: [["ExecutiveOfficer"]]
