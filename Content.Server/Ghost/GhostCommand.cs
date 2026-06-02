@@ -51,14 +51,14 @@ namespace Content.Server.Ghost
             }
 
             // Disabled Ghosting
-            var deniedMessage = "Ghosting is disabled on this server."
+            var ghostingDeniedMessage = "Ghosting is disabled on this server.";
 
-            shell.WriteLine(deniedMessage);
+            shell.WriteLine(ghostingDeniedMessage);
 
             if (player.AttachedEntity is { Valid: true } attached)
             {
                 _entities.System<PopupSystem>()
-                .PopupEntity(deniedMessage, attached, attached);
+                .PopupEntity(ghostingDeniedMessage, attached, attached);
             }
 
             return;
