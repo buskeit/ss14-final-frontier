@@ -38,15 +38,9 @@ namespace Content.Server.GameTicking.Commands
                 _adminManager.DeAdmin(player);
             }
 
-            if (ticker.PlayerGameStatuses.TryGetValue(player.UserId, out var status) &&
-                status != PlayerGameStatus.JoinedGame)
-            {
-                ticker.JoinAsObserver(player);
-            }
-            else
-            {
-                shell.WriteError($"{player.Name} is not in the lobby.   This incident will be reported.");
-            }
+            // Disabled Observe Command
+            shell.WriteError("Observing is not allowed on this server.");
+            return;
         }
     }
 }

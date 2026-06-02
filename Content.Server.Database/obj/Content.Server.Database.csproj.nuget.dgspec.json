@@ -1,21 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server.Database/Content.Server.Database.csproj": {}
+    "/home/bbuske/ss14-final-frontier/Content.Server.Database/Content.Server.Database.csproj": {}
   },
   "projects": {
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server.Database/Content.Server.Database.csproj": {
+    "/home/bbuske/ss14-final-frontier/Content.Server.Database/Content.Server.Database.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server.Database/Content.Server.Database.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/Content.Server.Database/Content.Server.Database.csproj",
         "projectName": "Content.Server.Database",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server.Database/Content.Server.Database.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/Content.Server.Database/Content.Server.Database.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server.Database/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/Content.Server.Database/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -30,8 +30,8 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/Content.Shared.Database.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/Content.Shared.Database.csproj"
+              "/home/bbuske/ss14-final-frontier/Content.Shared.Database/Content.Shared.Database.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/Content.Shared.Database/Content.Shared.Database.csproj"
               }
             }
           }
@@ -39,6 +39,9 @@
         "warningProperties": {
           "warnAsError": [
             "NU1605"
+          ],
+          "warnNotAsError": [
+            "NU1903"
           ]
         },
         "restoreAuditProperties": {
@@ -67,11 +70,6 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[10.0.0, )",
-              "versionCentrallyManaged": true
-            },
-            "SQLitePCLRaw.bundle_e_sqlite3": {
-              "target": "Package",
-              "version": "[3.0.2, )",
               "versionCentrallyManaged": true
             }
           },
@@ -452,18 +450,18 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/Content.Shared.Database.csproj": {
+    "/home/bbuske/ss14-final-frontier/Content.Shared.Database/Content.Shared.Database.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/Content.Shared.Database.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/Content.Shared.Database/Content.Shared.Database.csproj",
         "projectName": "Content.Shared.Database",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/Content.Shared.Database.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/Content.Shared.Database/Content.Shared.Database.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/Content.Shared.Database/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -483,6 +481,9 @@
         "warningProperties": {
           "warnAsError": [
             "NU1605"
+          ],
+          "warnNotAsError": [
+            "NU1903"
           ]
         },
         "restoreAuditProperties": {

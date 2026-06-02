@@ -50,10 +50,19 @@ namespace Content.Server.Ghost
                 mind = _entities.GetComponent<MindComponent>(mindId);
             }
 
-            if (!_entities.System<GhostSystem>().OnGhostAttempt(mindId, true, true, mind: mind))
+            // Disabled Ghosting
+            var deniedMessage = "Ghosting is disabled on this server."
+
+            shell.WriteLine(deniedMessage);
+
+            if (player.AttachedEntity is { Valid: true } attached)
             {
-                shell.WriteLine(Loc.GetString("ghost-command-denied"));
+                _entities.System<PopupSystem>()
+                .PopupEntity(deniedMessage, attached, attached);
             }
+
+            return;
         }
+
     }
 }

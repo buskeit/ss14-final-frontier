@@ -22,3 +22,15 @@
 /home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/obj/Release/net10.0/refint/Content.Shared.Database.dll
 /home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/obj/Release/net10.0/Content.Shared.Database.pdb
 /home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/obj/Release/net10.0/ref/Content.Shared.Database.dll
+/home/bbuske/ss14-final-frontier/Content.Shared.Database/bin/Release/net10.0/Content.Shared.Database.deps.json
+/home/bbuske/ss14-final-frontier/Content.Shared.Database/bin/Release/net10.0/Content.Shared.Database.dll
+/home/bbuske/ss14-final-frontier/Content.Shared.Database/bin/Release/net10.0/Content.Shared.Database.pdb
+/home/bbuske/ss14-final-frontier/Content.Shared.Database/obj/Release/net10.0/Content.Shared.Database.GeneratedMSBuildEditorConfig.editorconfig
+/home/bbuske/ss14-final-frontier/Content.Shared.Database/obj/Release/net10.0/Content.Shared.Database.AssemblyInfoInputs.cache
+/home/bbuske/ss14-final-frontier/Content.Shared.Database/obj/Release/net10.0/Content.Shared.Database.AssemblyInfo.cs
+/home/bbuske/ss14-final-frontier/Content.Shared.Database/obj/Release/net10.0/Content.Shared.Database.csproj.CoreCompileInputs.cache
+/home/bbuske/ss14-final-frontier/Content.Shared.Database/obj/Release/net10.0/Content.Shared.Database.sourcelink.json
+/home/bbuske/ss14-final-frontier/Content.Shared.Database/obj/Release/net10.0/Content.Shared.Database.dll
+/home/bbuske/ss14-final-frontier/Content.Shared.Database/obj/Release/net10.0/refint/Content.Shared.Database.dll
+/home/bbuske/ss14-final-frontier/Content.Shared.Database/obj/Release/net10.0/Content.Shared.Database.pdb
+/home/bbuske/ss14-final-frontier/Content.Shared.Database/obj/Release/net10.0/ref/Content.Shared.Database.dll
