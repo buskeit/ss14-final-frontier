@@ -258,7 +258,14 @@ namespace Content.Server.GameTicking
 
         public HumanoidCharacterProfile? GetPlayerProfile(ICommonSession p)
         {
-            return (HumanoidCharacterProfile?)_prefsManager.GetPreferences(p.UserId).SelectedCharacter;
+            var preferences = _prefsManager.GetPreferences(p.UserId);
+            if (preferences.SelectedCharacter is { } selected)
+                return selected;
+
+            foreach (var character in preferences.Characters.Values)
+                return character;
+
+            return HumanoidCharacterProfile.Random();
         }
 
         public void PlayerJoinGame(ICommonSession session, bool silent = false)
