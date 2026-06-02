@@ -392,8 +392,8 @@
 - type: cargoProduct
   id: BulkPlantBGoneExTS
   icon:
-    sprite: Objects/Specific/Chemistry/jug.rsi
-    state: jug
+    sprite: Objects/Consumable/Drinks/generic_jug.rsi
+    state: icon
   product: CratePlantBGone
   cost: 2500
   category: cargoproduct-category-name-hydroponics
