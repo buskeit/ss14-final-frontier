@@ -184,6 +184,9 @@ namespace Content.Server.GameTicking
             var silent = true;
             var lateJoin = true;
             HumanoidCharacterProfile? character = GetPlayerProfile(player);
+            if (character == null)
+                return;
+
             EntityUid? station;
             station = _stationSystem.GetStationByID(1);
             if (station == null) return;
@@ -267,6 +270,23 @@ namespace Content.Server.GameTicking
             var lateJoin = true;
             HumanoidCharacterProfile? character = GetPlayerProfile(player);
             if (character == null) return;
+
+            var data = player.ContentData();
+            DebugTools.AssertNotNull(data);
+            if (data == null)
+                return;
+
+            var saveFilePath = new ResPath($"{data.UserId}]{character.Name}");
+            if (!_loader.TryLoadEntity(saveFilePath, out var mobMaybe))
+            {
+                _sawmill.Warning(
+                    "No persistent character save found for {Player} at {Path}; creating a new persistent character.",
+                    player.Name,
+                    saveFilePath);
+                SpawnPlayerPersistent(player);
+                return;
+            }
+
             EntityUid station;
             var stations = GetSpawnableStations();
             _robustRandom.Shuffle(stations);
@@ -276,10 +296,6 @@ namespace Content.Server.GameTicking
                 station = stations[0];
 
             PlayerJoinGame(player);
-
-            var data = player.ContentData();
-
-            DebugTools.AssertNotNull(data);
             var jobId = "Passenger";
 
 
@@ -290,12 +306,7 @@ namespace Content.Server.GameTicking
             if (_crewMetaRecords.MetaRecords != null)
                 _crewMetaRecords.MetaRecords.CreateRecord(character!.Name, out _);
 
-            var saveFilePath = new ResPath($"{data!.UserId}]{character!.Name}");
-            _loader.TryLoadEntity(saveFilePath, out var mobMaybe);
-            DebugTools.AssertNotNull(mobMaybe);
-            Entity<TransformComponent> eC = (Entity<TransformComponent>)mobMaybe!;
-            EntityUid? pe = eC.Owner;
-            var mob = (EntityUid)pe;
+            var mob = mobMaybe.Value.Owner;
 
             if (_ent.TryGetComponent<MindContainerComponent>(mob, out var container))
             {

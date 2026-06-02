@@ -331,7 +331,18 @@ namespace Content.Server.Preferences.Managers
             }
 
             var curPrefs = prefsData.Prefs!;
-            if (curPrefs.SelectedCharacter == null) return;
+            if (!curPrefs.Characters.TryGetValue(slot, out _))
+                return;
+
+            prefsData.Prefs = new PlayerPreferences(
+                curPrefs.Characters,
+                slot,
+                curPrefs.AdminOOCColor,
+                curPrefs.ConstructionFavorites);
+
+            if (ShouldStorePrefs(session.Channel.AuthType))
+                await _db.SaveSelectedCharacterIndexAsync(userId, slot);
+
             gameTicker.MakeJoinGamePersistentLoad(session);
         }
 
