@@ -166,15 +166,37 @@ namespace Content.Client.Access.UI
             }
             // Can edit general record: if owner, or if priv assignment has CanEditGeneralRecord
             var canEditGeneral = state.IsOwner || (state.PrivAssignment != null && state.PrivAssignment.CanEditGeneralRecord);
-            EditGeneralRecord.Visible = canEditGeneral;
+            TabContainer.SetTabVisible(EditGeneralRecord, canEditGeneral);
+            if (!canEditGeneral && GeneralTabs.CurrentTab == 1)
+            {
+                GeneralTabs.CurrentTab = 0;
+            }
 
             // Criminal and Medical records tabs are only visible if the privileged ID has access
-            CriminalRecord.Visible = state.CanAccessCriminal;
-            MedicalRecord.Visible = state.CanAccessMedical;
+            TabContainer.SetTabVisible(CriminalRecord, state.CanAccessCriminal);
+            TabContainer.SetTabVisible(MedicalRecord, state.CanAccessMedical);
+
+            if (MainTabs.CurrentTab == 2 && !state.CanAccessCriminal)
+            {
+                MainTabs.CurrentTab = 0;
+            }
+            else if (MainTabs.CurrentTab == 3 && !state.CanAccessMedical)
+            {
+                MainTabs.CurrentTab = 0;
+            }
 
             // Edit tabs for criminal and medical should be visible if they have access to the tab AND can edit records
-            EditCriminalRecord.Visible = canEditGeneral && state.CanAccessCriminal;
-            EditMedicalRecord.Visible = canEditGeneral && state.CanAccessMedical;
+            TabContainer.SetTabVisible(EditCriminalRecord, canEditGeneral && state.CanAccessCriminal);
+            if (!(canEditGeneral && state.CanAccessCriminal) && CriminalTabs.CurrentTab == 1)
+            {
+                CriminalTabs.CurrentTab = 0;
+            }
+
+            TabContainer.SetTabVisible(EditMedicalRecord, canEditGeneral && state.CanAccessMedical);
+            if (!(canEditGeneral && state.CanAccessMedical) && MedicalTabs.CurrentTab == 1)
+            {
+                MedicalTabs.CurrentTab = 0;
+            }
         }
 
 
