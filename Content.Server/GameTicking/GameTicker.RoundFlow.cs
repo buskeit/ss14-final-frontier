@@ -100,28 +100,7 @@ namespace Content.Server.GameTicking
         private void SaveMaps()
         {
             _map.SetPaused(DefaultMap, true);
-            bool finalSaveFound = false;
-            var initial = new ResPath("current");
-            ResPath? path = initial;
-            int indof = 0;
-            if (_resourceManager.UserData.Exists(initial.ToRootedPath()))
-            {
-                while (!finalSaveFound)
-                {
-                    indof++;
-                    if (path == null) break;
-                    var next = new ResPath($"current{indof}");
-                    if (_resourceManager.UserData.Exists(next.ToRootedPath()))
-                    {
-                        path = next;
-                    }
-                    else
-                    {
-                        finalSaveFound = true;
-                        path = new ResPath($"current{indof}");
-                    }
-                }
-            }
+            var path = new ResPath("current");
 
             var gridCount = _mapManager.GetAllMapGrids(DefaultMap).Count();
             if (gridCount == 0)
@@ -131,19 +110,19 @@ namespace Content.Server.GameTicking
             }
 
             var start = _gameTiming.CurTime;
-            bool save_stat = _loader.TrySaveMap(DefaultMap, path!.Value);
+            bool save_stat = _loader.TrySaveMap(DefaultMap, path);
             var end = _gameTiming.CurTime;
-            var finaltime = start - end;
+            var finaltime = end - start;
             _adminLogger.Add(LogType.EventRan, LogImpact.Extreme, $"MAP SAVE STATUS: {save_stat} TIME TAKEN: {finaltime.TotalSeconds}");
 
             if (!save_stat)
             {
                 SendMapSaveAdminAlert(
-                    $"AUTOSAVE FAILED: map {DefaultMap}, target '{path.Value}', took {finaltime.TotalSeconds:F2}s.");
+                    $"AUTOSAVE FAILED: map {DefaultMap}, target '{path}', took {finaltime.TotalSeconds:F2}s.");
             }
             else
             {
-                var rootedPath = path.Value.ToRootedPath();
+                var rootedPath = path.ToRootedPath();
                 if (_resourceManager.UserData.Exists(rootedPath))
                 {
                     try
@@ -152,23 +131,84 @@ namespace Content.Server.GameTicking
                         if (stream.Length == 0)
                         {
                             SendMapSaveAdminAlert(
-                                $"AUTOSAVE WARNING: map {DefaultMap} saved empty file at '{path.Value}'.");
+                                $"AUTOSAVE WARNING: map {DefaultMap} saved empty file at '{path}'.");
+                        }
+                        else
+                        {
+                            PruneLegacyAutosaves();
                         }
                     }
                     catch (Exception e)
                     {
                         SendMapSaveAdminAlert(
-                            $"AUTOSAVE WARNING: unable to validate save output for '{path.Value}': {e.Message}");
+                            $"AUTOSAVE WARNING: unable to validate save output for '{path}': {e.Message}");
                     }
                 }
                 else
                 {
                     SendMapSaveAdminAlert(
-                        $"AUTOSAVE WARNING: save reported success but output '{path.Value}' was not found.");
+                        $"AUTOSAVE WARNING: save reported success but output '{path}' was not found.");
                 }
             }
 
             _map.SetPaused(DefaultMap, false);
+        }
+
+        private ResPath GetLatestAutosavePath()
+        {
+            var latestPath = new ResPath("current");
+            var latestIndex = -1;
+
+            foreach (var file in _resourceManager.UserData.Find("current*", recursive: false).files)
+            {
+                if (!TryGetAutosaveIndex(file, out var index) || index <= latestIndex)
+                    continue;
+
+                latestPath = file;
+                latestIndex = index;
+            }
+
+            return latestPath;
+        }
+
+        private void PruneLegacyAutosaves()
+        {
+            foreach (var file in _resourceManager.UserData.Find("current*", recursive: false).files)
+            {
+                if (!TryGetAutosaveIndex(file, out var index) || index == 0)
+                    continue;
+
+                try
+                {
+                    _resourceManager.UserData.Delete(file.ToRootedPath());
+                }
+                catch (Exception e)
+                {
+                    _sawmill.Warning("Failed to prune legacy autosave {Path}: {Message}", file, e.Message);
+                }
+            }
+        }
+
+        private static bool TryGetAutosaveIndex(ResPath path, out int index)
+        {
+            const string prefix = "current";
+            var fileName = path.Filename;
+
+            if (fileName == prefix)
+            {
+                index = 0;
+                return true;
+            }
+
+            if (fileName.StartsWith(prefix) &&
+                int.TryParse(fileName[prefix.Length..], out index) &&
+                index > 0)
+            {
+                return true;
+            }
+
+            index = -1;
+            return false;
         }
 
         private void SendMapSaveAdminAlert(string message)
@@ -182,35 +222,18 @@ namespace Content.Server.GameTicking
         {
             if (_map.MapExists(DefaultMap))
                 return;
-            bool finalSaveFound = false;
-            var initial = new ResPath("current");
-            ResPath? path = initial;
-            int indof = 0;
-            if (_resourceManager.UserData.Exists(initial.ToRootedPath()))
+            var path = GetLatestAutosavePath();
+            if (_resourceManager.UserData.Exists(path.ToRootedPath()))
             {
-                while (!finalSaveFound)
-                {
-                    indof++;
-                    if (path == null) break;
-                    var next = new ResPath($"current{indof}");
-                    if (_resourceManager.UserData.Exists(next.ToRootedPath()))
-                    {
-                        path = next;
-                    }
-                    else
-                    {
-                        finalSaveFound = true;
-                    }
-                }
                 var start = _gameTiming.CurTime;
-                bool save_stat = _loader.TryLoadMap(path!.Value, out var entity, out var grids, new DeserializationOptions() { PauseMaps = true });
+                bool save_stat = _loader.TryLoadMap(path, out var entity, out var grids, new DeserializationOptions() { PauseMaps = true });
                 if (entity.HasValue)
                 {
                     DefaultMap = entity.Value.Comp.MapId;
                 }
 
                 var end = _gameTiming.CurTime;
-                var finaltime = start - end;
+                var finaltime = end - start;
                 _adminLogger.Add(LogType.EventRan, LogImpact.Extreme, $"MAP LOAD STATUS: {save_stat} TIME TAKEN: {finaltime.TotalSeconds}");
                 if (save_stat) return;
 
