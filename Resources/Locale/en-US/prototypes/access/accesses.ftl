@@ -1,6 +1,7 @@
 id-card-access-level-command = Command
 id-card-access-level-captain = Captain
 id-card-access-level-head-of-personnel = Head of Personnel
+id-card-access-level-executive-officer = Executive Officer
 id-card-access-level-cryogenics = Cryogenics
 id-card-access-level-emergency-shuttle-repeal = E.Shuttle Repeal All
 
@@ -45,6 +46,8 @@ id-card-access-level-nuclear-operative = Nuclear Operative
 id-card-access-level-syndicate-agent = Syndicate Agent
 
 id-card-access-level-central-command = Central Command
+id-card-access-level-league-official = League Official
+id-card-access-level-secretary-general = Secretary General
 
 id-card-access-level-wizard = Wizard
 

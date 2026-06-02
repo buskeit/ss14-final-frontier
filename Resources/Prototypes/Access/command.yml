@@ -10,6 +10,10 @@
   id: HeadOfPersonnel
   name: id-card-access-level-head-of-personnel
 
+- type: accessLevel
+  id: ExecutiveOfficer
+  name: id-card-access-level-executive-officer
+
 - type: accessGroup
   id: Command
   tags:

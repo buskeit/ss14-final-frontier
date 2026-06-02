@@ -4,6 +4,7 @@
   - EmergencyShuttleRepealAll
   - Captain
   - HeadOfPersonnel
+  - ExecutiveOfficer
   - ChiefEngineer
   - ChiefMedicalOfficer
   - HeadOfSecurity
@@ -34,6 +35,8 @@
   - Atmospherics
   - GenpopEnter
   - GenpopLeave
+  - LeagueOfficial
+  - SecretaryGeneral
 
 - type: accessGroup
   id: General

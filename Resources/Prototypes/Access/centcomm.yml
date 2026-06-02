@@ -1,3 +1,11 @@
 - type: accessLevel
   id: CentralCommand
   name: id-card-access-level-central-command
+
+- type: accessLevel
+  id: LeagueOfficial
+  name: id-card-access-level-league-official
+
+- type: accessLevel
+  id: SecretaryGeneral
+  name: id-card-access-level-secretary-general
