@@ -846,6 +846,7 @@
     accentVColor: "#2a4b5b"
   - type: Icon
     state: pda-paramedic
+  - type: CartridgeLoader
     preinstalled:
       - CrewManifestCartridge
       - NotekeeperCartridge
@@ -891,6 +892,7 @@
     accentVColor: "#8900c9"
   - type: Icon
     state: pda-rd
+  - type: CartridgeLoader
     preinstalled:
       - CrewManifestCartridge
       - NotekeeperCartridge
