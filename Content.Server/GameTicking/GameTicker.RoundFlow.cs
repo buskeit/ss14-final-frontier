@@ -820,22 +820,22 @@ namespace Content.Server.GameTicking
             IncrementRoundNumber();
             SendRoundStartingDiscordMessage();
 
-            //if (true)//!LobbyEnabled)
-            //{
-            StartRound();
-            //}
-            //else
-            //{
-            //    if (_playerManager.PlayerCount == 0)
-            //        _roundStartCountdownHasNotStartedYetDueToNoPlayers = true;
-            //    else
-            //        _roundStartTime = _gameTiming.CurTime + LobbyDuration;
+            if (!LobbyEnabled)
+            {
+                StartRound();
+            }
+            else
+            {
+                if (_playerManager.PlayerCount == 0)
+                    _roundStartCountdownHasNotStartedYetDueToNoPlayers = true;
+                else
+                    _roundStartTime = _gameTiming.CurTime + LobbyDuration;
 
-            //    SendStatusToAll();
-            //    UpdateInfoText();
+                SendStatusToAll();
+                UpdateInfoText();
 
-            //    ReqWindowAttentionAll();
-            //}
+                ReqWindowAttentionAll();
+            }
         }
 
         private async void SendRoundStartingDiscordMessage()
