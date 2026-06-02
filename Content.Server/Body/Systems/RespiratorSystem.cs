@@ -21,6 +21,7 @@ using Content.Shared.EntityEffects.Effects.Body;
 using Content.Shared.EntityEffects.Effects.Damage;
 using Content.Shared.Metabolism;
 using Content.Shared.Mobs.Systems;
+using Content.Shared.Nutrition.Components;
 using JetBrains.Annotations;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
@@ -97,6 +98,12 @@ public sealed class RespiratorSystem : EntitySystem
             if (_mobState.IsDead(uid))
                 continue;
 
+            if (ShouldPausePersistentSleepRespiration(uid))
+            {
+                PausePersistentSleepRespiration((uid, respirator));
+                continue;
+            }
+
             UpdateSaturation(uid, -(float)respirator.UpdateInterval.TotalSeconds, respirator);
 
             if (!_mobState.IsIncapacitated(uid)) // cannot breathe in crit.
@@ -133,6 +140,27 @@ public sealed class RespiratorSystem : EntitySystem
             StopSuffocation((uid, respirator));
             respirator.SuffocationCycles = 0;
         }
+    }
+
+    private bool ShouldPausePersistentSleepRespiration(EntityUid uid)
+    {
+        // PersistentSleepNutritionComponent is the existing marker for offline mobs sleeping in a persistent bed.
+        // Respiration pauses immediately so sleepers do not slowly drain the room or die if atmos changes while SSD.
+        return HasComp<PersistentSleepNutritionComponent>(uid);
+    }
+
+    private void PausePersistentSleepRespiration(Entity<RespiratorComponent> ent)
+    {
+        ent.Comp.NextUpdate = _gameTiming.CurTime + ent.Comp.AdjustedUpdateInterval;
+        ent.Comp.Saturation = ent.Comp.MaxSaturation;
+
+        if (ent.Comp.SuffocationCycles <= 0)
+            return;
+
+        ent.Comp.SuffocationCycles = 0;
+
+        var ev = new StopSuffocatingEvent();
+        RaiseLocalEvent(ent, ref ev);
     }
 
     public void Inhale(Entity<RespiratorComponent?> entity)
