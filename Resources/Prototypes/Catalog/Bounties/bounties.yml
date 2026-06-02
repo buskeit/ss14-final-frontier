@@ -6,7 +6,7 @@
   group: GasBounty
   bountyType: PayPerGas
   entries:
-  - name: Oxygen
+  - name: reagent-name-oxygen
     amount: 10000
 
 - type: cargoBounty
@@ -17,7 +17,7 @@
   group: GasBounty
   bountyType: PayPerGas
   entries:
-  - name: Nitrogen
+  - name: reagent-name-nitrogen
     amount: 10000
 
 - type: cargoBounty
@@ -28,7 +28,7 @@
   group: GasBounty
   bountyType: PayPerGas
   entries:
-  - name: Hydrogen
+  - name: reagent-name-hydrogen
     amount: 10000
 
 - type: cargoBounty
@@ -39,7 +39,7 @@
   group: GasBounty
   bountyType: PayPerGas
   entries:
-  - name: Plasma
+  - name: reagent-name-plasma
     amount: 12500
 
 - type: cargoBounty
@@ -50,7 +50,7 @@
   group: GasBounty
   bountyType: PayPerGas
   entries:
-  - name: Chlorine
+  - name: reagent-name-chlorine
     amount: 2500
 
 - type: cargoBounty
@@ -61,7 +61,7 @@
   group: GasBounty
   bountyType: PayPerGas
   entries:
-  - name: Fluorine
+  - name: reagent-name-fluorine
     amount: 2500
 
 - type: cargoBounty
@@ -72,7 +72,7 @@
   group: GasBounty
   bountyType: PayPerGas
   entries:
-  - name: Tritium
+  - name: reagent-name-tritium
     amount: 2000
 
 - type: cargoBounty
@@ -83,7 +83,7 @@
   group: GasBounty
   bountyType: PayPerGas
   entries:
-  - name: Frezon
+  - name: reagent-name-frezon
     amount: 1500
 
 - type: cargoBounty
@@ -94,7 +94,7 @@
   group: GasBounty
   bountyType: PayPerGas
   entries:
-  - name: Methane
+  - name: reagent-name-methane
     amount: 3000
 
 - type: cargoBounty
@@ -105,7 +105,7 @@
   group: GasBounty
   bountyType: PayPerGas
   entries:
-  - name: ChlorineTrifluoride
+  - name: reagent-name-chlorine-trifluoride
     amount: 1500
 
 - type: cargoBounty
@@ -116,7 +116,7 @@
   group: ReagentBounty
   bountyType: PayPerReagent
   entries:
-  - name: Artifact Glue
+  - name: reagent-name-artifact-glue
     amount: 1000
 
 - type: cargoBounty
@@ -127,7 +127,7 @@
   group: ReagentBounty
   bountyType: PayPerReagent
   entries:
-  - name: Welding Fuel
+  - name: reagent-name-welding-fuel
     amount: 1000
 
 - type: cargoBounty
@@ -138,7 +138,7 @@
   group: ReagentBounty
   bountyType: PayPerReagent
   entries:
-  - name: Acetone
+  - name: reagent-name-acetone
     amount: 1000
 
 - type: cargoBounty
@@ -149,7 +149,7 @@
   group: ReagentBounty
   bountyType: PayPerReagent
   entries:
-  - name: Arithrazine
+  - name: reagent-name-arithrazine
     amount: 100
 
 - type: cargoBounty
@@ -160,7 +160,7 @@
   group: ReagentBounty
   bountyType: PayPerReagent
   entries:
-  - name: Epinephrine
+  - name: reagent-name-epinephrine
     amount: 200
 
 - type: cargoBounty
@@ -171,7 +171,7 @@
   group: ServiceBounty
   bountyType: PayPerReagent
   entries:
-  - name: Unstable Mutagen
+  - name: reagent-name-unstable-mutagen
     amount: 250
 
 - type: cargoBounty
@@ -182,7 +182,7 @@
   group: ServiceBounty
   bountyType: PayPerReagent
   entries:
-  - name: Ammonia
+  - name: reagent-name-ammonia
     amount: 500
 
 - type: cargoBounty
@@ -193,7 +193,7 @@
   group: ServiceBounty
   bountyType: PayPerReagent
   entries:
-  - name: Flour
+  - name: reagent-name-flour
     amount: 750
 
 - type: cargoBounty
@@ -204,7 +204,7 @@
   group: ServiceBounty
   bountyType: PayPerReagent
   entries:
-  - name: Cocoa Powder
+  - name: reagent-name-cocoapowder
     amount: 600
 
 - type: cargoBounty
@@ -215,7 +215,7 @@
   group: ServiceBounty
   bountyType: PayPerReagent
   entries:
-  - name: Frost Oil
+  - name: reagent-name-frost-oil
     amount: 500
 
 - type: cargoBounty
@@ -226,7 +226,7 @@
   group: StationBounty
   bountyType: PayPerReagent
   entries:
-  - name: Opporozidone
+  - name: reagent-name-opporozidone
     amount: 200
 
 - type: cargoBounty
