@@ -204,11 +204,11 @@
   quantized: true
   reactants:
     Plasma:
-      amount: 20
+      amount: 18
     Bananium:
-      amount: 20
+      amount: 18
     Titanium:
-      amount: 10
+      amount: 9
     Fresium:
       amount: 5
   effects:
