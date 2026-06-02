@@ -154,18 +154,27 @@ namespace Content.Server.GameTicking
             _map.SetPaused(DefaultMap, false);
         }
 
+        private const int MaxLegacyAutosaveIndex = 10000;
+
         private ResPath GetLatestAutosavePath()
         {
             var latestPath = new ResPath("current");
-            var latestIndex = -1;
+            var latestIndex = _resourceManager.UserData.Exists(latestPath.ToRootedPath()) ? 0 : -1;
 
-            foreach (var file in _resourceManager.UserData.Find("current*", recursive: false).files)
+            for (var i = 1; i <= MaxLegacyAutosaveIndex; i++)
             {
-                if (!TryGetAutosaveIndex(file, out var index) || index <= latestIndex)
+                var path = new ResPath($"current{i}");
+                if (!_resourceManager.UserData.Exists(path.ToRootedPath()))
                     continue;
 
-                latestPath = file;
-                latestIndex = index;
+                latestPath = path;
+                latestIndex = i;
+            }
+
+            if (latestIndex == MaxLegacyAutosaveIndex)
+            {
+                _sawmill.Warning("Autosave scan reached legacy save limit {Limit}; ignoring any higher currentN files.",
+                    MaxLegacyAutosaveIndex);
             }
 
             return latestPath;
@@ -173,42 +182,22 @@ namespace Content.Server.GameTicking
 
         private void PruneLegacyAutosaves()
         {
-            foreach (var file in _resourceManager.UserData.Find("current*", recursive: false).files)
+            for (var i = 1; i <= MaxLegacyAutosaveIndex; i++)
             {
-                if (!TryGetAutosaveIndex(file, out var index) || index == 0)
+                var path = new ResPath($"current{i}");
+                var rootedPath = path.ToRootedPath();
+                if (!_resourceManager.UserData.Exists(rootedPath))
                     continue;
 
                 try
                 {
-                    _resourceManager.UserData.Delete(file.ToRootedPath());
+                    _resourceManager.UserData.Delete(rootedPath);
                 }
                 catch (Exception e)
                 {
-                    _sawmill.Warning("Failed to prune legacy autosave {Path}: {Message}", file, e.Message);
+                    _sawmill.Warning("Failed to prune legacy autosave {Path}: {Message}", path, e.Message);
                 }
             }
-        }
-
-        private static bool TryGetAutosaveIndex(ResPath path, out int index)
-        {
-            const string prefix = "current";
-            var fileName = path.Filename;
-
-            if (fileName == prefix)
-            {
-                index = 0;
-                return true;
-            }
-
-            if (fileName.StartsWith(prefix) &&
-                int.TryParse(fileName[prefix.Length..], out index) &&
-                index > 0)
-            {
-                return true;
-            }
-
-            index = -1;
-            return false;
         }
 
         private void SendMapSaveAdminAlert(string message)
