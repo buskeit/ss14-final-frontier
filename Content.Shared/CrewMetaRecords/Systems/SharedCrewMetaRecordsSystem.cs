@@ -20,9 +20,18 @@ public abstract partial class SharedCrewMetaRecordsSystem : EntitySystem
     {
         base.Update(frameTime);
 
-        var metaRecords = GetMetaRecordsComponent();
-        while (metaRecords != null && _pendingActions.TryDequeue(out var action))
-            action.Invoke(metaRecords);
+        var query = EntityQueryEnumerator<CrewMetaRecordsComponent>();
+        if (query.MoveNext(out var uid, out var metaRecords))
+        {
+            var dirtied = false;
+            while (_pendingActions.TryDequeue(out var action))
+            {
+                action.Invoke(metaRecords);
+                dirtied = true;
+            }
+            if (dirtied)
+                Dirty(uid, metaRecords);
+        }
     }
 
     public CrewMetaRecordsComponent? GetMetaRecordsComponent()
@@ -35,11 +44,16 @@ public abstract partial class SharedCrewMetaRecordsSystem : EntitySystem
 
     public void EnsureMetaRecordsAction(Action<CrewMetaRecordsComponent> action)
     {
-        var metaRecords = GetMetaRecordsComponent();
-        if (metaRecords == null)
+        var query = EntityQueryEnumerator<CrewMetaRecordsComponent>();
+        if (!query.MoveNext(out var uid, out var metaRecords))
+        {
             _pendingActions.Enqueue(action);
+        }
         else
+        {
             action.Invoke(metaRecords);
+            Dirty(uid, metaRecords);
+        }
     }
 }
 

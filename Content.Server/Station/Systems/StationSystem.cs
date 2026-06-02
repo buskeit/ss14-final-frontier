@@ -286,6 +286,11 @@ public sealed partial class StationSystem : SharedStationSystem
             RaiseLocalEvent(new StationGridRemovedEvent(grid, uid));
         }
 
+        _metaRecords.EnsureMetaRecordsAction((metaRecords) =>
+        {
+            metaRecords.Stations.Remove(component.UID);
+        });
+
         RaiseNetworkEvent(new StationsUpdatedEvent(GetStationNames()), Filter.Broadcast());
     }
 

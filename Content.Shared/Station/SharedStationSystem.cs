@@ -143,7 +143,7 @@ public abstract partial class SharedStationSystem : EntitySystem
     /// </summary>
     public EntityUid? GetLargestGrid(Entity<StationDataComponent?> ent)
     {
-        if (!Resolve(ent, ref ent.Comp))
+        if (!TryComp<StationDataComponent>(ent, out ent.Comp))
             return null;
 
         EntityUid? largestGrid = null;
@@ -167,7 +167,7 @@ public abstract partial class SharedStationSystem : EntitySystem
     /// </summary>
     public int GetTileCount(Entity<StationDataComponent?> ent)
     {
-        if (!Resolve(ent, ref ent.Comp))
+        if (!TryComp<StationDataComponent>(ent, out ent.Comp))
             return 0;
 
         var count = 0;
