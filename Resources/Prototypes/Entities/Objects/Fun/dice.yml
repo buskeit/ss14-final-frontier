@@ -41,6 +41,7 @@
     state: d20_20
   - type: Tag
     tags:
+    - Dice
     - DiceD20
 
 - type: entity
