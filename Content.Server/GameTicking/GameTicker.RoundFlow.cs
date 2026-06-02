@@ -820,7 +820,7 @@ namespace Content.Server.GameTicking
             IncrementRoundNumber();
             SendRoundStartingDiscordMessage();
 
-            if (!LobbyEnabled)
+            if (!LobbyEnabled || _cfg.GetCVar(CCVars.UsePersistence))
             {
                 StartRound();
             }
