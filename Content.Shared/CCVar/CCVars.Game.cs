@@ -9,7 +9,7 @@ public sealed partial class CCVars
     ///     Controls if persistence autosave functionality is enabled.
     /// </summary>
     public static readonly CVarDef<bool>
-        AutoSaveEnabled = CVarDef.Create("game.autosaveenabled", true, CVar.ARCHIVE);
+        AutoSaveEnabled = CVarDef.Create("game.autosaveenabled", false, CVar.ARCHIVE);
 
     /// <summary>
     ///     How frequently the persistence autosave should happen, in minutes.
@@ -45,7 +45,7 @@ public sealed partial class CCVars
     ///     Controls the default game preset.
     /// </summary>
     public static readonly CVarDef<string>
-        GameLobbyDefaultPreset = CVarDef.Create("game.defaultpreset", "persist", CVar.ARCHIVE);
+        GameLobbyDefaultPreset = CVarDef.Create("game.defaultpreset", "Secret", CVar.ARCHIVE);
 
     /// <summary>
     ///     Controls if the game can force a different preset if the current preset's criteria are not met.
