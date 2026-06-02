@@ -25,8 +25,8 @@ public sealed partial class CCVars
         CVarDef.Create("cargo.enable_lockbox_cut", true, CVar.REPLICATED);
 
     /// <summary>
-    ///     Multiplier applied to cargo sale prices.
+    ///     Whether or not the separate lockbox cut is enabled
     /// </summary>
     public static readonly CVarDef<float> PriceMult =
-        CVarDef.Create("cargo.price_mult", 1f, CVar.REPLICATED);
+        CVarDef.Create("cargo.price_mult", 0.5f, CVar.REPLICATED);
 }

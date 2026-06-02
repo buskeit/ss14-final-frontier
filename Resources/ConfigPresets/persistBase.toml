@@ -4,6 +4,3 @@ usepersistence = true
 autosaveenabled = true
 autosaveinterval = 60
 persistencemap = "Empty"
-
-[cargo]
-price_mult = 0.5
