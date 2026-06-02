@@ -15,9 +15,9 @@ public sealed class PersistenceSaveGridCommand : LocalizedEntityCommands
 
     public override void Execute(IConsoleShell shell, string argStr, string[] args)
     {
-        if (args.Length < 2)
+        if (args.Length < 2 || args.Length > 3)
         {
-            shell.WriteError("Not enough arguments.");
+            shell.WriteError("Usage: persistencesavegrid <gridUid> <path> [delete]");
             return;
         }
 
@@ -29,7 +29,14 @@ public sealed class PersistenceSaveGridCommand : LocalizedEntityCommands
 
         var uid = _ent.GetEntity(uidNet);
 
-        if (_persistence.SaveGrid(uid, new ResPath(args[1]), out var errorMessage, dumpSpecialEntities: true, deleteGrid: true))
+        var deleteGrid = false;
+        if (args.Length == 3 && !TryParseDeleteArg(args[2], out deleteGrid))
+        {
+            shell.WriteError("Delete argument must be true, false, or delete.");
+            return;
+        }
+
+        if (_persistence.SaveGrid(uid, new ResPath(args[1]), out var errorMessage, dumpSpecialEntities: true, deleteGrid: deleteGrid))
         {
             shell.WriteLine("Save successful. Look in the user data directory.");
         }
@@ -41,4 +48,12 @@ public sealed class PersistenceSaveGridCommand : LocalizedEntityCommands
         }
     }
 
+    private static bool TryParseDeleteArg(string arg, out bool deleteGrid)
+    {
+        if (bool.TryParse(arg, out deleteGrid))
+            return true;
+
+        deleteGrid = arg.Equals("delete", StringComparison.OrdinalIgnoreCase);
+        return deleteGrid;
+    }
 }
