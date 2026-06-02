@@ -149,6 +149,15 @@ namespace Content.Server.GameTicking
             bool silent = false)
         {
             var character = GetPlayerProfile(player);
+            if (character == null)
+            {
+                if (!LobbyEnabled)
+                    JoinAsObserver(player);
+                else
+                    _chatManager.DispatchServerMessage(player, "Select a character before joining the game.");
+
+                return;
+            }
 
             var jobBans = _banManager.GetJobBans(player.UserId);
             if (jobBans == null || jobId != null && jobBans.Contains(jobId)) //TODO: use IsRoleBanned directly?
@@ -163,7 +172,7 @@ namespace Content.Server.GameTicking
                     return;
             }
 
-            SpawnPlayer(player, character!, station, jobId, lateJoin, silent);
+            SpawnPlayer(player, character, station, jobId, lateJoin, silent);
         }
 
 
