@@ -53,7 +53,7 @@
   job: ExecutiveOfficer
   hasMindShield: true
   equipment:
-    head: ClothingHeadHatXOcap
+    head: ClothingHeadHatXO
     eyes: ClothingEyesGlassesCommand
     mask: ClothingMaskGasXO
     neck: ClothingNeckCloakXO
