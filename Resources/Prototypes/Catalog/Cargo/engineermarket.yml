@@ -24,7 +24,7 @@
     sprite: Objects/Materials/Sheets/other.rsi
     state: plastic_3
   product: CrateMaterialPlastic
-  cost: 1500
+  cost: 2600
   category: cargoproduct-category-name-materials
   group: engineermarket2
 
@@ -104,7 +104,7 @@
     sprite: Objects/Materials/Sheets/other.rsi
     state: generic_materials
   product: CrateMaterialBasicResource
-  cost: 1500
+  cost: 2050
   category: cargoproduct-category-name-materials
   group: engineermarket
 
@@ -294,7 +294,7 @@
     sprite: Structures/Storage/canister.rsi
     state: red
   product: LiquidNitrogenCanister
-  cost: 1250
+  cost: 2000
   category: cargoproduct-category-name-atmospherics
   group: engineermarket
 

@@ -156,7 +156,7 @@
   container:
     entity: WrappedParcel
     containerId: contents
-  cost: 1200
+  cost: 2650
   category: cargoproduct-category-name-service
   group: market
 
@@ -450,7 +450,7 @@
     sprite: Structures/Machines/VendingMachines/cart.rsi
     state: off
   product: VendingMachineCart
-  cost: 1500
+  cost: 2700
   category: cargoproduct-category-name-service
   group: market
 
