@@ -8,12 +8,12 @@
     CrowbarYellow: 4
     Multitool: 4
     NetworkConfigurator: 4
-    TrayScanner: 4
+    trayScanner: 4
     GasAnalyzer: 4
     FlashlightLantern: 4
-    powerCellSmall: 10
+    PowerCellSmall: 10
     PowerCellMedium: 6
-    PowerCellLarge: 4
+    PowerCellHigh: 4
     ClothingHandsGlovesColorYellow: 4
     BoxInflatable: 4
     ClothingHeadHatCone: 4

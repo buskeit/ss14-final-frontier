@@ -15,7 +15,7 @@
     RnDPDA: 5
     RnDPDASOL: 5
     HoSPDA: 5
-    HOSPDASOL: 5
+    HoSPDASOL: 5
     QuartermasterPDA: 5
     QuartermasterPDASOL: 5
   # Senior Officer PDAs
@@ -28,12 +28,12 @@
     EngineerPDA: 5
     MedicalPDA: 5
     ChemistryPDA: 5
-    PsycologistPDA: 5
+    PsychologistPDA: 5
     ParamedicPDA: 5
     SciencePDA: 5
     WardenPDA: 5
     DetectivePDA: 5
-    BridmedicPDA: 5
+    BrigmedicPDA: 5
     SecurityPDA: 5
     CargoPDA: 5
     SalvagePDA: 5
@@ -49,7 +49,7 @@
     ChaplainPDA: 5
     MusicianPDA: 5
     ReporterPDA: 5
-    ZookeperPDA: 5
+    ZookeeperPDA: 5
     LibrarianPDA: 5
     LawyerPDA: 5
     JanitorPDA: 5
@@ -67,17 +67,16 @@
     SeniorPhysicianIDCard: 5
     SeniorResearcherIDCard: 5
     SeniorOfficerIDCard: 5
-    SeniorCourierIDCard: 5
   # Officers
     EngineeringIDCard: 5
     MedicalIDCard: 5
-    ChemistryIDCard: 5
-    PsycologistIDCard: 5
+    ChemistIDCard: 5
+    PsychologistIDCard: 5
     ParamedicIDCard: 5
     ResearchIDCard: 5
     WardenIDCard: 5
     DetectiveIDCard: 5
-    BridmedicIDCard: 5
+    BrigmedicIDCard: 5
     SecurityIDCard: 5
     CargoIDCard: 5
     SalvageIDCard: 5
@@ -87,7 +86,7 @@
     ResearchAssistantIDCard: 5
     SecurityCadetIDCard: 5
   # Service and Civlian
-    BarTenderIDCard: 5
+    BartenderIDCard: 5
     ServiceWorkerIDCard: 5
     ChefIDCard: 5
     BotanistIDCard: 5
@@ -98,7 +97,7 @@
     MusicianIDCard: 5
     ChaplainIDCard: 5
     JanitorIDCard: 5
-    ZookeperIDCard: 5
+    ZookeeperIDCard: 5
   # Others 
     CivilianIDCard: 20
     PrisonerIDCard: 5
@@ -123,7 +122,7 @@
     EncryptionKeySecurity: 10
     EncryptionKeyRobo: 10
     EncryptionKeyService: 20
-    EncryptiionKeyFreelance: 20
+    EncryptionKeyFreelance: 20
   # Headsets
     ClothingHeadsetEngineering: 5
     ClothingHeadsetMedical: 5
@@ -157,12 +156,12 @@
     RubberStampCESOL: 3
     RubberStampCMOSOL: 3
     RubberStampHosSOL: 3
-    RubberStampRDSOL: 3
+    RubberStampRdSOL: 3
     RubberStampQmSOL: 3
     RubberStampHop: 3
     RubberStampCE: 3
     RubberStampCMO: 3
-    RubberStampHoS: 3
+    RubberStampHos: 3
     RubberStampQm: 3
     RubberStampRd: 3
     RubberStampWarden: 3

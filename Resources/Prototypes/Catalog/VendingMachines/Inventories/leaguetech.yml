@@ -10,7 +10,7 @@
     CEPDASOL: 3
     CMOPDASOL: 3
     RnDPDASOL: 3
-    HOSPDASOL: 3
+    HoSPDASOL: 3
     QuartermasterPDASOL: 3
   # ID Cards
   # Heads / Command
@@ -55,7 +55,7 @@
     RubberStampCESOL: 2
     RubberStampCMOSOL: 2
     RubberStampHosSOL: 2
-    RubberStampRDSOL: 2
+    RubberStampRdSOL: 2
     RubberStampQmSOL: 2
     RubberStampHop: 2
     RubberStampGreytide: 5
