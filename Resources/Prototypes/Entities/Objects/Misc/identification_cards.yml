@@ -1047,6 +1047,20 @@
         - SyndicateAgent
 
 - type: entity
+  parent: [IDCardStandard, BaseMajorContraband]
+  id: NinjaIDCard
+  name: Ninja ID Card
+  components:
+    - type: Sprite
+      layers:
+        - state: ninja
+    - type: Item
+      heldPrefix: black
+    - type: IdCard
+      jobTitle: job-name-ninja
+      jobIcon: JobIconNinja
+
+- type: entity
   parent: IDCardStandard
   id: XenoborgIDCard
   name: Xenoborg ID Card
