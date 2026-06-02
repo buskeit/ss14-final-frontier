@@ -31,6 +31,9 @@ enabled = true
 #  by default the launcher will assume the address and port match that of the status server.
 # connectaddress = "udp://localhost:1212"
 
+[config]
+presets = "persistBase"
+
 [game]
 hostname = "MyServer"
 
