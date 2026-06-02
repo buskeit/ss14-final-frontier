@@ -6,7 +6,7 @@ namespace Content.Shared.StationRecords;
 /// <summary>
 ///     General station record. Indicates the crewmember's name and job.
 /// </summary>
-[Serializable, NetSerializable, DataRecord]
+[Serializable, NetSerializable]
 public sealed record GeneralStationRecord
 {
     /// <summary>
