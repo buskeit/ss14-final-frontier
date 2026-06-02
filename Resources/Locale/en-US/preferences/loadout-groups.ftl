@@ -28,6 +28,12 @@ loadout-group-captain-neck = Captain neck
 loadout-group-captain-backpack = Captain backpack
 loadout-group-captain-outerclothing = Captain outer clothing
 
+loadout-group-xo-head = Executive Officer head
+loadout-group-xo-jumpsuit = Executive Officer jumpsuit
+loadout-group-xo-neck = Executive Officer neck
+loadout-group-xo-backpack = Executive Officer backpack
+loadout-group-xo-outerclothing = Executive Officer outer clothing
+
 loadout-group-hop-head = Head of Personnel head
 loadout-group-hop-jumpsuit = Head of Personnel jumpsuit
 loadout-group-hop-neck = Head of Personnel neck
