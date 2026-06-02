@@ -316,7 +316,7 @@ public abstract class SharedSingularitySystem : EntitySystem
         }
 
         comp.FalloffPower = newFalloffPower;
-        comp.Intensity = newIntensity;
+        comp.Intensity = comp.InvertDistortion ? -newIntensity : newIntensity;
         Dirty(uid, comp);
     }
 

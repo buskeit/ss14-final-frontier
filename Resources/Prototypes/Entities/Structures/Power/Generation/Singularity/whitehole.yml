@@ -29,8 +29,6 @@
   - type: RadiationSource
     slope: 0.85
     intensity: 1
-    updateInterval: 1.0
-    staggerUpdates: true
   - type: SingularityDistortion
     invertDistortion: true
     falloffPower: 2.529822

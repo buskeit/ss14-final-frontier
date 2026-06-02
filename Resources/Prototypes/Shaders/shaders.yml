@@ -35,6 +35,11 @@
   path: "/Textures/Shaders/singularity.swsl"
 
 - type: shader
+  id: WhiteHoleNegative
+  kind: source
+  path: "/Textures/Shaders/white_hole_negative.swsl"
+
+- type: shader
   id: Radiation
   kind: source
   path: "/Textures/Shaders/radiation.swsl"
