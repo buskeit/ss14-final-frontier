@@ -1,0 +1,12 @@
+- type: damageModifierSet
+  id: Felinid
+  coefficients:
+    Blunt: 1
+    Slash: 1
+    Piercing: 1
+    Heat: 1
+    Shock: 1
+    Cold: 1
+    Poison: 1
+    Radiation: 1
+    Caustic: 1
