@@ -27,8 +27,6 @@
   - type: Stamina
     critThreshold: 85
     decay: 2.55
-  - type: TypingIndicator
-    proto: felinid
   - type: Vocal
     sounds:
       Male: MaleHuman
