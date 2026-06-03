@@ -1,6 +1,0 @@
-[game]
-defaultpreset = "persist"
-usepersistence = true
-autosaveenabled = true
-autosaveinterval = 60
-persistencemap = "Empty"
