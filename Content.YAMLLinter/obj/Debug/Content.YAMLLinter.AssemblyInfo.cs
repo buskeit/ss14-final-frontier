@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Content.YAMLLinter")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+618f278c797452cd1a138cb0c3c5aee10f970b4a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+538a764dd969094ae2dd24fa74b94b4666880458")]
 [assembly: System.Reflection.AssemblyProductAttribute("Content.YAMLLinter")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Content.YAMLLinter")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

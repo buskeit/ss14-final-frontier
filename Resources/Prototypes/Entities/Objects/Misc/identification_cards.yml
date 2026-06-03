@@ -184,9 +184,9 @@
       layers:
         - state: silver
         - state: stripe_top
-          color: &color-security-top "#cb0000"
+          color: *color-security-top
         - state: stripe_bottom
-          color: &color-security-bottom "#830000"
+          color: *color-security-bottom
         - sprite: *icon-rsi
           offset: *icon-offset
           state: Commandant
