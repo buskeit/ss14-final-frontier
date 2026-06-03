@@ -11,15 +11,12 @@ public sealed partial class StationMemberComponent : Component
     /// <summary>
     /// Station that this grid is a part of.
     /// </summary>
-    [DataField(readOnly: true), AutoNetworkedField]
+    [AutoNetworkedField]
     public EntityUid Station = EntityUid.Invalid;
 
-    /// Station that this grid is a part of.
-    /// </summary>
     /// <summary>
+    /// Stable station ID used to restore <see cref="Station"/> after loading a map.
+    /// </summary>
     [DataField, AutoNetworkedField]
     public int? StationUID = null;
-
-
-
 }
