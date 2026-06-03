@@ -18,9 +18,29 @@ public sealed class PenInkSystem : EntitySystem
     public override void Initialize()
     {
         base.Initialize();
+        SubscribeLocalEvent<PenInkComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<PenInkComponent, PaperWriteEvent>(OnPaperWrite);
         SubscribeLocalEvent<PenInkComponent, ExaminedEvent>(OnExamined);
         SubscribeLocalEvent<PenInkComponent, InteractUsingEvent>(OnInteractUsing);
+    }
+
+    private void OnMapInit(Entity<PenInkComponent> ent, ref MapInitEvent args)
+    {
+        if (!_solutionContainer.TryGetSolution(
+            ent.Owner,
+            ent.Comp.SolutionName,
+            out var solutionEnt,
+            out var solution))
+            return;
+
+        if (solution.Volume > 0)
+            return;
+
+        _solutionContainer.TryAddReagent(
+            solutionEnt.Value,
+            "InkBlack",
+            solution.MaxVolume,
+            out _);
     }
 
     private void OnPaperWrite(
@@ -111,4 +131,4 @@ public sealed class PenInkSystem : EntitySystem
         _popup.PopupClient(Loc.GetString("pen-ink-refill-success", ("pen", ent.Owner), ("cartridge", args.Used)), ent.Owner, args.User);
         _audio.PlayPredicted(new SoundPathSpecifier("/Audio/Items/pen_click.ogg"), ent.Owner, args.User);
     }
-}
+}
