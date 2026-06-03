@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UAIV67mgges=",
+  "dgSpecHash": "1g44pkIvOpE=",
   "success": true,
-  "projectFilePath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.YAMLLinter/Content.YAMLLinter.csproj",
+  "projectFilePath": "/home/bbuske/ss14-final-frontier/Content.YAMLLinter/Content.YAMLLinter.csproj",
   "expectedPackageFiles": [
     "/home/bbuske/.nuget/packages/benchmarkdotnet/0.15.8/benchmarkdotnet.0.15.8.nupkg.sha512",
     "/home/bbuske/.nuget/packages/benchmarkdotnet.annotations/0.15.8/benchmarkdotnet.annotations.0.15.8.nupkg.sha512",

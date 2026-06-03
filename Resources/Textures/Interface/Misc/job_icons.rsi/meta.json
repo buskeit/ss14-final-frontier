@@ -92,7 +92,7 @@
             "name": "HeadOfPersonnel"
         },
         {
-            "name": "HeadOfSecurity"
+            "name": "Commandant"
         },
         {
             "name": "HeadRevolutionary"
@@ -246,6 +246,9 @@
         },
         {
             "name": "XO"
+        },
+        {
+            "name": "ChiefOfPolice"
         },
         {
             "name": "Zookeeper"

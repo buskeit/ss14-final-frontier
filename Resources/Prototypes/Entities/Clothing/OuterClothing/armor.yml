@@ -514,3 +514,17 @@
   - type: Tag
     tags:
     - WhitelistChameleon
+
+- type: entity
+  parent: [ClothingOuterArmorBaseCarapace, BaseCommandContraband]
+  id: ClothingOuterArmorExecutiveCarapaceSOL
+  name: League Official's Carapace
+  description: An armored chestpiece that provides protection whilst still offering maximum mobility and flexibility for League Officials.
+  components:
+  - type: Sprite
+    sprite: Clothing/OuterClothing/Armor/league-official_carapace.rsi
+  - type: Clothing
+    sprite: Clothing/OuterClothing/Armor/league-official_carapace.rsi
+  - type: Tag
+    tags:
+    - WhitelistChameleon

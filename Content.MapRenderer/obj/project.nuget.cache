@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "I1h8+oE7jys=",
+  "dgSpecHash": "N7lJXmuCkmY=",
   "success": true,
-  "projectFilePath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.MapRenderer/Content.MapRenderer.csproj",
+  "projectFilePath": "/home/bbuske/ss14-final-frontier/Content.MapRenderer/Content.MapRenderer.csproj",
   "expectedPackageFiles": [
     "/home/bbuske/.nuget/packages/benchmarkdotnet/0.15.8/benchmarkdotnet.0.15.8.nupkg.sha512",
     "/home/bbuske/.nuget/packages/benchmarkdotnet.annotations/0.15.8/benchmarkdotnet.annotations.0.15.8.nupkg.sha512",

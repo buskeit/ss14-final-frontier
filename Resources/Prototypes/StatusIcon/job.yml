@@ -59,11 +59,19 @@
 
 - type: jobIcon
   parent: JobIcon
-  id: JobIconHeadOfSecurity
+  id: JobIconCommandant
   icon:
     sprite: *icon-rsi
-    state: HeadOfSecurity
-  jobName: job-name-hos
+    state: Commandant
+  jobName: job-name-commandant
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconChiefOfPolice
+  icon:
+    sprite: *icon-rsi
+    state: ChiefOfPolice
+  jobName: job-name-chief-of-police
 
 - type: jobIcon
   parent: JobIcon

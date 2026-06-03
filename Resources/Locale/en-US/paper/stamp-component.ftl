@@ -23,7 +23,7 @@ stamp-component-stamped-name-wizard = Wizard
 
 stamp-component-stamped-name-al-secgen = Secretary General
 stamp-component-stamped-name-al-official = Aurelian League Official
-stamp-component-stamped-name-rd-al = Chief Science Officer
+stamp-component-stamped-name-rd-al = Research Director
 stamp-component-stamped-name-hos-al = Chief of Police
 stamp-component-stamped-name-cmo-al = Medical Director
 stamp-component-stamped-name-qm-al = Chief Logistics Officer

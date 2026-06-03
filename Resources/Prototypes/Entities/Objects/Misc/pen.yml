@@ -81,10 +81,10 @@
   - type: SolutionContainerManager
     solutions:
       ink:
-        maxVol: 100
+        maxVol: 150
         reagents:
         - ReagentId: InkBlack
-          Quantity: 100
+          Quantity: 150
   - type: PenInk
     refillable: false
 
@@ -132,6 +132,15 @@
     heldPrefix: overpriced_pen
   - type: StaticPrice
     price: 500
+  - type: SolutionContainerManager
+    solutions:
+      ink:
+        maxVol: 150
+        reagents:
+        - ReagentId: InkBlack
+          Quantity: 150
+  - type: PenInk
+    refillable: true
 
 - type: entity
   name: CentComm pen
@@ -143,6 +152,15 @@
     state: pen_centcom
   - type: Item
     heldPrefix: pen_centcom
+  - type: SolutionContainerManager
+    solutions:
+      ink:
+        maxVol: 200
+        reagents:
+        - ReagentId: InkBlack
+          Quantity: 200
+  - type: PenInk
+    refillable: true
 
 - type: entity
   name: Commanding Officer's Fountain Pen
@@ -155,10 +173,10 @@
   - type: SolutionContainerManager
     solutions:
       ink:
-        maxVol: 100
+        maxVol: 150
         reagents:
         - ReagentId: InkBlack
-          Quantity: 100
+          Quantity: 150
   - type: PenInk
     refillable: true
 
@@ -173,10 +191,10 @@
   - type: SolutionContainerManager
     solutions:
       ink:
-        maxVol: 100
+        maxVol: 150
         reagents:
         - ReagentId: InkBlack
-          Quantity: 100
+          Quantity: 150
   - type: PenInk
     refillable: true
 
@@ -191,10 +209,10 @@
   - type: SolutionContainerManager
     solutions:
       ink:
-        maxVol: 100
+        maxVol: 150
         reagents:
         - ReagentId: InkBlack
-          Quantity: 100
+          Quantity: 150
   - type: PenInk
     refillable: true
 
@@ -219,6 +237,24 @@
         - ReagentId: InkBlack
           Quantity: 100
   - type: PenInk
+    refillable: false
+
+- type: entity
+  name: League Official's fountain pen
+  parent: PenEmbeddable
+  id: PenExec
+  description: A luxurious fountain pen with a comfortable orange grip, given to official League Representatives.
+  components:
+  - type: Sprite
+    state: pen_exec
+  - type: SolutionContainerManager
+    solutions:
+      ink:
+        maxVol: 200
+        reagents:
+        - ReagentId: InkBlack
+          Quantity: 200
+  - type: PenInk
     refillable: true
 
 - type: entity
@@ -236,8 +272,8 @@
   - type: SolutionContainerManager
     solutions:
       reagents:
-        maxVol: 50
+        maxVol: 100
         reagents:
         - ReagentId: InkBlack
-          Quantity: 50
+          Quantity: 100
   - type: InkCartridge

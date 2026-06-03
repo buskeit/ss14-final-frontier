@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "TfluVBKHC1I=",
+  "dgSpecHash": "iCoJxy9v6cY=",
   "success": true,
-  "projectFilePath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Benchmarks/Content.Benchmarks.csproj",
+  "projectFilePath": "/home/bbuske/ss14-final-frontier/Content.Benchmarks/Content.Benchmarks.csproj",
   "expectedPackageFiles": [
     "/home/bbuske/.nuget/packages/benchmarkdotnet/0.15.8/benchmarkdotnet.0.15.8.nupkg.sha512",
     "/home/bbuske/.nuget/packages/benchmarkdotnet.annotations/0.15.8/benchmarkdotnet.annotations.0.15.8.nupkg.sha512",

@@ -164,8 +164,8 @@
     - id: ClothingBeltUtilityFilled
     - id: ClothingHeadsetAltScience
     - id: DoorRemoteResearch
-#    - id: HandTeleporter # removed because brawler doesnt want it -Beridot
-    - id: RubberStampRdSOL
+    - id: HandTeleporter
+    - id: RubberStampRdAL
     - id: RnDPDASOL
 
 # Hardsuit table, used for suit storage as well

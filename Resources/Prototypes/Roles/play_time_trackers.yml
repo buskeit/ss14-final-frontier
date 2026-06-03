@@ -83,7 +83,10 @@
   id: JobHeadOfPersonnel
 
 - type: playTimeTracker
-  id: JobHeadOfSecurity
+  id: JobCommandant
+
+- type: playTimeTracker
+  id: JobChiefOfPolice
 
 - type: playTimeTracker
   id: JobJanitor

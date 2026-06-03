@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "AmiK7L1oiLQ=",
+  "dgSpecHash": "xwUmTt2ldHY=",
   "success": true,
-  "projectFilePath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Pow3r/Pow3r.csproj",
+  "projectFilePath": "/home/bbuske/ss14-final-frontier/Pow3r/Pow3r.csproj",
   "expectedPackageFiles": [
     "/home/bbuske/.nuget/packages/benchmarkdotnet/0.15.8/benchmarkdotnet.0.15.8.nupkg.sha512",
     "/home/bbuske/.nuget/packages/benchmarkdotnet.annotations/0.15.8/benchmarkdotnet.annotations.0.15.8.nupkg.sha512",
@@ -177,9 +177,9 @@
       "code": "NU1903",
       "level": "Warning",
       "message": "Package 'Microsoft.NETCore.App' 1.0.5 has a known high severity vulnerability, https://github.com/advisories/GHSA-7mfr-774f-w5r9",
-      "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Pow3r/Pow3r.csproj",
+      "projectPath": "/home/bbuske/ss14-final-frontier/Pow3r/Pow3r.csproj",
       "warningLevel": 1,
-      "filePath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Pow3r/Pow3r.csproj",
+      "filePath": "/home/bbuske/ss14-final-frontier/Pow3r/Pow3r.csproj",
       "libraryId": "Microsoft.NETCore.App",
       "targetGraphs": [
         "net10.0"
@@ -189,9 +189,9 @@
       "code": "NU1903",
       "level": "Warning",
       "message": "Package 'Microsoft.NETCore.App' 1.0.5 has a known high severity vulnerability, https://github.com/advisories/GHSA-8884-xcr4-r68p",
-      "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Pow3r/Pow3r.csproj",
+      "projectPath": "/home/bbuske/ss14-final-frontier/Pow3r/Pow3r.csproj",
       "warningLevel": 1,
-      "filePath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Pow3r/Pow3r.csproj",
+      "filePath": "/home/bbuske/ss14-final-frontier/Pow3r/Pow3r.csproj",
       "libraryId": "Microsoft.NETCore.App",
       "targetGraphs": [
         "net10.0"
@@ -201,9 +201,9 @@
       "code": "NU1903",
       "level": "Warning",
       "message": "Package 'Microsoft.NETCore.Jit' 1.0.7 has a known high severity vulnerability, https://github.com/advisories/GHSA-xcvr-qv8h-m7xw",
-      "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Pow3r/Pow3r.csproj",
+      "projectPath": "/home/bbuske/ss14-final-frontier/Pow3r/Pow3r.csproj",
       "warningLevel": 1,
-      "filePath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Pow3r/Pow3r.csproj",
+      "filePath": "/home/bbuske/ss14-final-frontier/Pow3r/Pow3r.csproj",
       "libraryId": "Microsoft.NETCore.Jit",
       "targetGraphs": [
         "net10.0"

@@ -1,21 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.IntegrationTests/Content.IntegrationTests.csproj": {}
+    "/home/bbuske/ss14-final-frontier/Content.IntegrationTests/Content.IntegrationTests.csproj": {}
   },
   "projects": {
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Client/Content.Client.csproj": {
+    "/home/bbuske/ss14-final-frontier/Content.Client/Content.Client.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Client/Content.Client.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/Content.Client/Content.Client.csproj",
         "projectName": "Content.Client",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Client/Content.Client.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/Content.Client/Content.Client.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Client/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/Content.Client/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -30,26 +30,26 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared/Content.Shared.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared/Content.Shared.csproj"
+              "/home/bbuske/ss14-final-frontier/Content.Shared/Content.Shared.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/Content.Shared/Content.Shared.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Client/Robust.Client.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Client/Robust.Client.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Client/Robust.Client.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Client/Robust.Client.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
               }
             }
           }
@@ -469,18 +469,18 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.IntegrationTests/Content.IntegrationTests.csproj": {
+    "/home/bbuske/ss14-final-frontier/Content.IntegrationTests/Content.IntegrationTests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.IntegrationTests/Content.IntegrationTests.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/Content.IntegrationTests/Content.IntegrationTests.csproj",
         "projectName": "Content.IntegrationTests",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.IntegrationTests/Content.IntegrationTests.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/Content.IntegrationTests/Content.IntegrationTests.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.IntegrationTests/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/Content.IntegrationTests/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -495,47 +495,47 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Client/Content.Client.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Client/Content.Client.csproj"
+              "/home/bbuske/ss14-final-frontier/Content.Client/Content.Client.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/Content.Client/Content.Client.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/Content.Server.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/Content.Server.csproj"
+              "/home/bbuske/ss14-final-frontier/Content.Server/Content.Server.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/Content.Server/Content.Server.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared/Content.Shared.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared/Content.Shared.csproj"
+              "/home/bbuske/ss14-final-frontier/Content.Shared/Content.Shared.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/Content.Shared/Content.Shared.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Tests/Content.Tests.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Tests/Content.Tests.csproj"
+              "/home/bbuske/ss14-final-frontier/Content.Tests/Content.Tests.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/Content.Tests/Content.Tests.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Client/Robust.Client.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Client/Robust.Client.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Client/Robust.Client.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Client/Robust.Client.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server.Testing/Robust.Server.Testing.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server.Testing/Robust.Server.Testing.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Server.Testing/Robust.Server.Testing.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Server.Testing/Robust.Server.Testing.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server/Robust.Server.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server/Robust.Server.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Server/Robust.Server.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Server/Robust.Server.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.UnitTesting/Robust.UnitTesting.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.UnitTesting/Robust.UnitTesting.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.UnitTesting/Robust.UnitTesting.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.UnitTesting/Robust.UnitTesting.csproj"
               }
             }
           }
@@ -949,18 +949,18 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Packaging/Content.Packaging.csproj": {
+    "/home/bbuske/ss14-final-frontier/Content.Packaging/Content.Packaging.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Packaging/Content.Packaging.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/Content.Packaging/Content.Packaging.csproj",
         "projectName": "Content.Packaging",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Packaging/Content.Packaging.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/Content.Packaging/Content.Packaging.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Packaging/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/Content.Packaging/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -975,17 +975,17 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Packaging/Robust.Packaging.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Packaging/Robust.Packaging.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Packaging/Robust.Packaging.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Packaging/Robust.Packaging.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
               }
             }
           }
@@ -1382,18 +1382,18 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server.Database/Content.Server.Database.csproj": {
+    "/home/bbuske/ss14-final-frontier/Content.Server.Database/Content.Server.Database.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server.Database/Content.Server.Database.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/Content.Server.Database/Content.Server.Database.csproj",
         "projectName": "Content.Server.Database",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server.Database/Content.Server.Database.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/Content.Server.Database/Content.Server.Database.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server.Database/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/Content.Server.Database/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -1408,8 +1408,8 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/Content.Shared.Database.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/Content.Shared.Database.csproj"
+              "/home/bbuske/ss14-final-frontier/Content.Shared.Database/Content.Shared.Database.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/Content.Shared.Database/Content.Shared.Database.csproj"
               }
             }
           }
@@ -1830,18 +1830,18 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/Content.Server.csproj": {
+    "/home/bbuske/ss14-final-frontier/Content.Server/Content.Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/Content.Server.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/Content.Server/Content.Server.csproj",
         "projectName": "Content.Server",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/Content.Server.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/Content.Server/Content.Server.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/Content.Server/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -1856,35 +1856,35 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Packaging/Content.Packaging.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Packaging/Content.Packaging.csproj"
+              "/home/bbuske/ss14-final-frontier/Content.Packaging/Content.Packaging.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/Content.Packaging/Content.Packaging.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server.Database/Content.Server.Database.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server.Database/Content.Server.Database.csproj"
+              "/home/bbuske/ss14-final-frontier/Content.Server.Database/Content.Server.Database.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/Content.Server.Database/Content.Server.Database.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/Content.Shared.Database.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/Content.Shared.Database.csproj"
+              "/home/bbuske/ss14-final-frontier/Content.Shared.Database/Content.Shared.Database.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/Content.Shared.Database/Content.Shared.Database.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared/Content.Shared.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared/Content.Shared.csproj"
+              "/home/bbuske/ss14-final-frontier/Content.Shared/Content.Shared.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/Content.Shared/Content.Shared.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Packaging/Robust.Packaging.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Packaging/Robust.Packaging.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Packaging/Robust.Packaging.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Packaging/Robust.Packaging.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server/Robust.Server.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server/Robust.Server.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Server/Robust.Server.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Server/Robust.Server.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
               }
             }
           }
@@ -2299,18 +2299,18 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/Content.Shared.Database.csproj": {
+    "/home/bbuske/ss14-final-frontier/Content.Shared.Database/Content.Shared.Database.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/Content.Shared.Database.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/Content.Shared.Database/Content.Shared.Database.csproj",
         "projectName": "Content.Shared.Database",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/Content.Shared.Database.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/Content.Shared.Database/Content.Shared.Database.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/Content.Shared.Database/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -2719,18 +2719,18 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared/Content.Shared.csproj": {
+    "/home/bbuske/ss14-final-frontier/Content.Shared/Content.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared/Content.Shared.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/Content.Shared/Content.Shared.csproj",
         "projectName": "Content.Shared",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared/Content.Shared.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/Content.Shared/Content.Shared.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/Content.Shared/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -2745,20 +2745,20 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/Content.Shared.Database.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared.Database/Content.Shared.Database.csproj"
+              "/home/bbuske/ss14-final-frontier/Content.Shared.Database/Content.Shared.Database.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/Content.Shared.Database/Content.Shared.Database.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
               }
             }
           }
@@ -3163,18 +3163,18 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Tests/Content.Tests.csproj": {
+    "/home/bbuske/ss14-final-frontier/Content.Tests/Content.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Tests/Content.Tests.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/Content.Tests/Content.Tests.csproj",
         "projectName": "Content.Tests",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Tests/Content.Tests.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/Content.Tests/Content.Tests.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Tests/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/Content.Tests/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -3189,44 +3189,44 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Client/Content.Client.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Client/Content.Client.csproj"
+              "/home/bbuske/ss14-final-frontier/Content.Client/Content.Client.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/Content.Client/Content.Client.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/Content.Server.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Server/Content.Server.csproj"
+              "/home/bbuske/ss14-final-frontier/Content.Server/Content.Server.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/Content.Server/Content.Server.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared/Content.Shared.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Shared/Content.Shared.csproj"
+              "/home/bbuske/ss14-final-frontier/Content.Shared/Content.Shared.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/Content.Shared/Content.Shared.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Client/Robust.Client.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Client/Robust.Client.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Client/Robust.Client.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Client/Robust.Client.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server.Testing/Robust.Server.Testing.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server.Testing/Robust.Server.Testing.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Server.Testing/Robust.Server.Testing.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Server.Testing/Robust.Server.Testing.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server/Robust.Server.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server/Robust.Server.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Server/Robust.Server.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Server/Robust.Server.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.UnitTesting/Robust.UnitTesting.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.UnitTesting/Robust.UnitTesting.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.UnitTesting/Robust.UnitTesting.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.UnitTesting/Robust.UnitTesting.csproj"
               }
             }
           }
@@ -3645,18 +3645,18 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj": {
+    "/home/bbuske/ss14-final-frontier/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj": {
       "version": "275.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj",
         "projectName": "Avalonia.Base",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Avalonia.Base/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Avalonia.Base/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/nuget.config",
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/RobustToolbox/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -3988,19 +3988,19 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj": {
+    "/home/bbuske/ss14-final-frontier/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj",
         "projectName": "SpaceWizards.Lidgren.Network",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Lidgren.Network/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Lidgren.Network/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/nuget.config",
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/RobustToolbox/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -4405,18 +4405,18 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
+    "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
       "version": "4.1.1",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj",
         "projectName": "Robust.NetSerializer",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/nuget.config",
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/RobustToolbox/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -4748,19 +4748,19 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Client/Robust.Client.csproj": {
+    "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Client/Robust.Client.csproj": {
       "version": "275.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Client/Robust.Client.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Client/Robust.Client.csproj",
         "projectName": "Robust.Client",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Client/Robust.Client.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Client/Robust.Client.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Client/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Client/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/nuget.config",
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/RobustToolbox/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -4775,29 +4775,29 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Avalonia.Base/Avalonia.Base.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.LoaderApi/Robust.LoaderApi/Robust.LoaderApi.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.LoaderApi/Robust.LoaderApi/Robust.LoaderApi.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.LoaderApi/Robust.LoaderApi/Robust.LoaderApi.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.LoaderApi/Robust.LoaderApi/Robust.LoaderApi.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Scripting/Robust.Shared.Scripting.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Scripting/Robust.Shared.Scripting.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Scripting/Robust.Shared.Scripting.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Scripting/Robust.Shared.Scripting.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Xaml/Robust.Xaml.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Xaml/Robust.Xaml.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Xaml/Robust.Xaml.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Xaml/Robust.Xaml.csproj"
               }
             }
           }
@@ -5345,18 +5345,18 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.LoaderApi/Robust.LoaderApi/Robust.LoaderApi.csproj": {
+    "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.LoaderApi/Robust.LoaderApi/Robust.LoaderApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.LoaderApi/Robust.LoaderApi/Robust.LoaderApi.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.LoaderApi/Robust.LoaderApi/Robust.LoaderApi.csproj",
         "projectName": "Robust.LoaderApi",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.LoaderApi/Robust.LoaderApi/Robust.LoaderApi.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.LoaderApi/Robust.LoaderApi/Robust.LoaderApi.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.LoaderApi/Robust.LoaderApi/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.LoaderApi/Robust.LoaderApi/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/nuget.config",
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/RobustToolbox/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -5691,19 +5691,19 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Packaging/Robust.Packaging.csproj": {
+    "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Packaging/Robust.Packaging.csproj": {
       "version": "275.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Packaging/Robust.Packaging.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Packaging/Robust.Packaging.csproj",
         "projectName": "Robust.Packaging",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Packaging/Robust.Packaging.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Packaging/Robust.Packaging.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Packaging/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Packaging/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/nuget.config",
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/RobustToolbox/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -5718,8 +5718,8 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
               }
             }
           }
@@ -6123,19 +6123,19 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server.Testing/Robust.Server.Testing.csproj": {
+    "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Server.Testing/Robust.Server.Testing.csproj": {
       "version": "275.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server.Testing/Robust.Server.Testing.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Server.Testing/Robust.Server.Testing.csproj",
         "projectName": "Robust.Server.Testing",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server.Testing/Robust.Server.Testing.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Server.Testing/Robust.Server.Testing.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server.Testing/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Server.Testing/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/nuget.config",
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/RobustToolbox/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -6150,20 +6150,20 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server/Robust.Server.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server/Robust.Server.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Server/Robust.Server.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Server/Robust.Server.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
               }
             }
           }
@@ -6579,19 +6579,19 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server/Robust.Server.csproj": {
+    "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Server/Robust.Server.csproj": {
       "version": "275.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server/Robust.Server.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Server/Robust.Server.csproj",
         "projectName": "Robust.Server",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server/Robust.Server.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Server/Robust.Server.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Server/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/nuget.config",
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/RobustToolbox/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -6606,23 +6606,23 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Packaging/Robust.Packaging.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Packaging/Robust.Packaging.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Packaging/Robust.Packaging.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Packaging/Robust.Packaging.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Scripting/Robust.Shared.Scripting.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Scripting/Robust.Shared.Scripting.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Scripting/Robust.Shared.Scripting.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Scripting/Robust.Shared.Scripting.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
               }
             }
           }
@@ -7148,19 +7148,19 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj": {
+    "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj": {
       "version": "275.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj",
         "projectName": "Robust.Shared.Maths.Testing",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths.Testing/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths.Testing/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/nuget.config",
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/RobustToolbox/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -7175,8 +7175,8 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
               }
             }
           }
@@ -7586,19 +7586,19 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths.Tests/Robust.Shared.Maths.Tests.csproj": {
+    "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths.Tests/Robust.Shared.Maths.Tests.csproj": {
       "version": "275.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths.Tests/Robust.Shared.Maths.Tests.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths.Tests/Robust.Shared.Maths.Tests.csproj",
         "projectName": "Robust.Shared.Maths.Tests",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths.Tests/Robust.Shared.Maths.Tests.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths.Tests/Robust.Shared.Maths.Tests.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths.Tests/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths.Tests/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/nuget.config",
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/RobustToolbox/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -7613,14 +7613,14 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
               }
             }
           }
@@ -8048,19 +8048,19 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
+    "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
       "version": "275.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj",
         "projectName": "Robust.Shared.Maths",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/nuget.config",
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/RobustToolbox/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -8470,19 +8470,19 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Scripting/Robust.Shared.Scripting.csproj": {
+    "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Scripting/Robust.Shared.Scripting.csproj": {
       "version": "275.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Scripting/Robust.Shared.Scripting.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Scripting/Robust.Shared.Scripting.csproj",
         "projectName": "Robust.Shared.Scripting",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Scripting/Robust.Shared.Scripting.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Scripting/Robust.Shared.Scripting.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Scripting/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Scripting/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/nuget.config",
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/RobustToolbox/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -8497,14 +8497,14 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
               }
             }
           }
@@ -8932,19 +8932,19 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj": {
+    "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj": {
       "version": "275.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj",
         "projectName": "Robust.Shared.Testing",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Testing/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Testing/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/nuget.config",
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/RobustToolbox/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -8959,8 +8959,8 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
               }
             }
           }
@@ -9376,19 +9376,19 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
+    "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
       "version": "275.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj",
         "projectName": "Robust.Shared",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/nuget.config",
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/RobustToolbox/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -9403,14 +9403,14 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
               }
             }
           }
@@ -9918,19 +9918,19 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.UnitTesting/Robust.UnitTesting.csproj": {
+    "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.UnitTesting/Robust.UnitTesting.csproj": {
       "version": "275.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.UnitTesting/Robust.UnitTesting.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.UnitTesting/Robust.UnitTesting.csproj",
         "projectName": "Robust.UnitTesting",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.UnitTesting/Robust.UnitTesting.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.UnitTesting/Robust.UnitTesting.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.UnitTesting/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.UnitTesting/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/nuget.config",
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/RobustToolbox/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -9945,32 +9945,32 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Lidgren.Network/Lidgren.Network.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/NetSerializer/NetSerializer/NetSerializer.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Client/Robust.Client.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Client/Robust.Client.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Client/Robust.Client.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Client/Robust.Client.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server/Robust.Server.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Server/Robust.Server.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Server/Robust.Server.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Server/Robust.Server.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths.Testing/Robust.Shared.Maths.Testing.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths.Tests/Robust.Shared.Maths.Tests.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths.Tests/Robust.Shared.Maths.Tests.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths.Tests/Robust.Shared.Maths.Tests.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths.Tests/Robust.Shared.Maths.Tests.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Shared/Robust.Shared.csproj"
               }
             }
           }
@@ -10416,18 +10416,18 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Xaml/Robust.Xaml.csproj": {
+    "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Xaml/Robust.Xaml.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Xaml/Robust.Xaml.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Xaml/Robust.Xaml.csproj",
         "projectName": "Robust.Xaml",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Xaml/Robust.Xaml.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Xaml/Robust.Xaml.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/Robust.Xaml/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/Robust.Xaml/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/nuget.config",
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/RobustToolbox/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -10442,11 +10442,11 @@
           "netstandard2.0": {
             "targetAlias": "netstandard2.0",
             "projectReferences": {
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/XamlX/src/XamlX.IL.Cecil/XamlX.IL.Cecil.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/XamlX/src/XamlX.IL.Cecil/XamlX.IL.Cecil.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/XamlX/src/XamlX.IL.Cecil/XamlX.IL.Cecil.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/XamlX/src/XamlX.IL.Cecil/XamlX.IL.Cecil.csproj"
               },
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/XamlX/src/XamlX/XamlX.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/XamlX/src/XamlX/XamlX.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/XamlX/src/XamlX/XamlX.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/XamlX/src/XamlX/XamlX.csproj"
               }
             }
           }
@@ -10507,18 +10507,18 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/XamlX/src/XamlX.IL.Cecil/XamlX.IL.Cecil.csproj": {
+    "/home/bbuske/ss14-final-frontier/RobustToolbox/XamlX/src/XamlX.IL.Cecil/XamlX.IL.Cecil.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/XamlX/src/XamlX.IL.Cecil/XamlX.IL.Cecil.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/RobustToolbox/XamlX/src/XamlX.IL.Cecil/XamlX.IL.Cecil.csproj",
         "projectName": "XamlX.IL.Cecil",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/XamlX/src/XamlX.IL.Cecil/XamlX.IL.Cecil.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/XamlX/src/XamlX.IL.Cecil/XamlX.IL.Cecil.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/XamlX/src/XamlX.IL.Cecil/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/XamlX/src/XamlX.IL.Cecil/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/nuget.config",
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/RobustToolbox/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -10533,8 +10533,8 @@
           "netstandard2.0": {
             "targetAlias": "netstandard2.0",
             "projectReferences": {
-              "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/XamlX/src/XamlX/XamlX.csproj": {
-                "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/XamlX/src/XamlX/XamlX.csproj"
+              "/home/bbuske/ss14-final-frontier/RobustToolbox/XamlX/src/XamlX/XamlX.csproj": {
+                "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/XamlX/src/XamlX/XamlX.csproj"
               }
             }
           }
@@ -10585,18 +10585,18 @@
         }
       }
     },
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/XamlX/src/XamlX/XamlX.csproj": {
+    "/home/bbuske/ss14-final-frontier/RobustToolbox/XamlX/src/XamlX/XamlX.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/XamlX/src/XamlX/XamlX.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/RobustToolbox/XamlX/src/XamlX/XamlX.csproj",
         "projectName": "XamlX",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/XamlX/src/XamlX/XamlX.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/XamlX/src/XamlX/XamlX.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/XamlX/src/XamlX/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/RobustToolbox/XamlX/src/XamlX/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/RobustToolbox/nuget.config",
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/RobustToolbox/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [

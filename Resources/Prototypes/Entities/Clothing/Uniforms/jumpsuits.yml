@@ -1480,3 +1480,146 @@
     sprite: Clothing/Uniforms/Jumpsuit/xoformal.rsi
   - type: Clothing
     sprite: Clothing/Uniforms/Jumpsuit/xoformal.rsi
+
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband]
+  id: ClothingUniformJumpsuitChiefEngineerSOL
+  name: Aurelian League Chief Engineer's Jumpsuit
+  description: A orange jumpsuit with dark gray overalls. Designed to endure the harsh conditions an Aurelian League chief engineer may work in.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpsuit/al_ce.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpsuit/al_ce.rsi
+
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband, ClothingUniformFoldableBase]
+  id: ClothingUniformJumpsuitChiefEngineerTurtleSOL
+  name: Aurelian League Chief Engineer's Turtleneck
+  description: A comfortable, yet rugged orange turtleneck worn by Aurelian League chief engineers.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpsuit/al_ce_turtle.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpsuit/al_ce_turtle.rsi
+
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband]
+  id: ClothingUniformJumpsuitClerkSOL
+  name: Aurelian League Clerk's Jumpsuit
+  description: A sensible suit worn by clerks of the Aurelian League's bureaucratic department.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpsuit/al_clerk.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpsuit/al_clerk.rsi
+
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband]
+  id: ClothingUniformJumpsuitCMOSOL
+  name: Aurelian League Medical Director's Jumpsuit
+  description: A light blue jumpsuit worn by medical directors of the Aurelian League.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpsuit/al_cmo.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpsuit/al_cmo.rsi
+
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband, ClothingUniformFoldableBase]
+  id: ClothingUniformJumpsuitCMOTurtleSOL
+  name: Aurelian League Medical Director's Turtleneck
+  description: A soft, sterile blue turtleneck worn by medical directors of the Solar Legion.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpsuit/al_cmo_turtle.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpsuit/al_cmo_turtle.rsi
+
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband]
+  id: ClothingUniformJumpsuitExecSOL
+  name: Aurelian League Secretary General's Jumpsuit
+  description: A durable and regal red jumpsuit. The added padding on the back acts provides additional comfort.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpsuit/al_exec.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpsuit/al_exec.rsi
+
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband]
+  id: ClothingUniformJumpsuitExecFormalSOL
+  name: Aurelian League Secreatry General's Formal Jumpsuit
+  description: A truly regal piece of formal attire only worn by the Secretary General of the Aurelian League.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpsuit/al_execformal.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpsuit/al_execformal.rsi
+
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband, ClothingUniformFoldableBase]
+  id: ClothingUniformJumpsuitHoSAltSOL
+  name: Aurelian League Chief of Police's Jumpsuit
+  description: A darkly colored jumpsuit. The Aurelian League colors and symbols show that the wearer of this uniform is the one who leads the war on crime.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpsuit/al_cop_alt.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpsuit/al_cop_alt.rsi
+
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband]
+  id: ClothingUniformJumpshortsMedicalOfficerSOL
+  name: Aurelian League Medical Officer's Jumpshorts
+  description: A comfortable outfit worn by medical officers of the Aurelian League.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpsuit/al_medofficer.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpsuit/al_medofficer.rsi
+
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband]
+  id: ClothingUniformJumpsuitQMSOL
+  name: Aurelian League Chief Logistic Officer's Jumpsuit
+  description: A smart light brown suit with silver accessorises worn by the chief logistic officers of the Aurelian League.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpsuit/al_qm.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpsuit/al_qm.rsi
+
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband, ClothingUniformFoldableBase]
+  id: ClothingUniformJumpsuitQMTurtleneckSOL
+  name: Aurelian League Chief Logistic Officer's Turtleneck
+  description: 
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpsuit/al_qmturtle.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpsuit/al_qmturtle.rsi
+
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband]
+  id: ClothingUniformJumpsuitRndTurtleneckSOL
+  name: Aurelian League Research Director's Turtleneck
+  description: A comfortable purple turtleneck worn by research directors of the Aurelian League.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpsuit/al_rdturtle.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpsuit/al_rdturtle.rsi
+
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband]
+  id: ClothingUniformJumpsuitRndSOL
+  name: Aurelian League Research Director's Jumpsuit
+  description: A comfortable purple outfit worn by researcher directors of the Aurelian League.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpsuit/al_rnd.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpsuit/al_rnd.rsi

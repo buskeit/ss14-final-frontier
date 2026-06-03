@@ -157,8 +157,8 @@
 
 - type: entity
   parent: IDCardStandard
-  id: HoSIDCard
-  name: Head of Security ID Card
+  id: CoPIDCard
+  name: Chief of Police ID Card
   components:
     - type: Sprite
       layers:
@@ -169,11 +169,31 @@
           color: &color-security-bottom "#830000"
         - sprite: *icon-rsi
           offset: *icon-offset
-          state: HeadOfSecurity
+          state: ChiefOfPolice
     - type: Item
       heldPrefix: silver
     - type: PresetIdCard
-      job: HeadOfSecurity
+      job: ChiefOfPolice
+
+- type: entity
+  parent: IDCardStandard
+  id: HoSIDCard
+  name: Commandant ID Card
+  components:
+    - type: Sprite
+      layers:
+        - state: silver
+        - state: stripe_top
+          color: &color-security-top "#cb0000"
+        - state: stripe_bottom
+          color: &color-security-bottom "#830000"
+        - sprite: *icon-rsi
+          offset: *icon-offset
+          state: Commandant
+    - type: Item
+      heldPrefix: silver
+    - type: PresetIdCard
+      job: Commandant
 
 - type: entity
   parent: IDCardStandard

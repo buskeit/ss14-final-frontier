@@ -59,6 +59,7 @@
     HoPIDCard: 2
     CEIDCard: 2
     CMOIDCard: 2
+    ChiefOfPoliceIDCard: 2
     HoSIDCard: 2
     RDIDCard: 2
     QuartermasterIDCard: 2
@@ -144,6 +145,13 @@
     ClothingHeadsetAltScience: 5
     ClothingHeadsetAltSecurity: 5
     ClothingHeadsetAltFreelancer: 10
+  # HUDs
+    ClothingEyesGlassesCommand: 3
+    ClothingEyesHudCommand: 3
+    ClothingEyesGlassesMedical: 3
+    ClothingEyesHudMedical: 3
+    ClothingEyesGlassesSecurity: 3
+    ClothingEyesHudSecurity: 3
   # Cartridges
     MedTekCartridge: 5
     WantedListCartridge: 5
@@ -156,7 +164,7 @@
     RubberStampCESOL: 3
     RubberStampCMOSOL: 3
     RubberStampHosSOL: 3
-    RubberStampRdSOL: 3
+    RubberStampRdAL: 3
     RubberStampQmSOL: 3
     RubberStampHop: 3
     RubberStampCE: 3

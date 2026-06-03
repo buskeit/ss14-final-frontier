@@ -1,0 +1,41 @@
+- type: job
+  id: LeagueSecretaryGeneral
+  name: job-name-league-secretary-general
+  description: job-description-league-secretary-general
+  playTimeTracker: JobLeagueSecGen
+  setPreference: false
+  startingGear: CentcommGear
+  icon: "JobIconLeagueSecGen"
+  supervisors: job-supervisors-league
+  canBeAntag: false
+  accessGroups:
+    - AllAccess
+  access:
+    - CentralCommand
+  special:
+    - !type:AddImplantSpecial
+      implants: [MindShieldImplant, DeathRattleImplantCentcomm]
+
+- type: startingGear
+  id: LeagueSecGenGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitCentcomOfficial
+    shoes: ClothingShoesBootsCombatFilled
+    head: ClothingHeadHatCentcom
+    eyes: ClothingEyesGlassesCommand
+    gloves: ClothingHandsGlovesColorBlack
+    outerClothing: ClothingOuterArmorCentcommCarapace
+    id: CentcomPDA
+    ears: ClothingHeadsetAltCentCom
+    belt: WeaponPistolN1984
+    pocket1: BoxFolderCentComClipboardThreePapers
+    pocket2: PenCentcom
+
+
+- type: chameleonOutfit
+  id: LeagueSecGenOutfit
+  job: LeagueSecretaryGeneral
+  hasMindShield: true
+  equipment:
+    neck: ClothingNeckScarfStripedCentcom
+    mask: ClothingMaskGasCentcom

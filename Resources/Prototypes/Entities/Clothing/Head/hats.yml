@@ -1632,3 +1632,164 @@
     - ClothMade
     - Recyclable
     - WhitelistChameleon
+
+# Custom Final Frontier
+- type: entity
+  parent: ClothingHeadBase
+  id: ClothingHeadHatBeretRNDSOL
+  name: Aurelian League Research Director's Beret
+  description: A beret for the leaders of cutting edge research.
+  components:
+  - type: Sprite
+    sprite: Clothing/Head/Hats/al_beret_rnd.rsi
+  - type: Clothing
+    sprite: Clothing/Head/Hats/al_beret_rnd.rsi
+  - type: Tag
+    tags:
+    - PetWearable
+    - CorgiWearable
+    - ClothMade
+    - Recyclable
+    - HamsterWearable
+    - WhitelistChameleon
+
+- type: entity
+  parent: ClothingHeadBase
+  id: ClothingHeadHatBeretHoSSOL
+  name: Aurelian League Chief of Police's Beret
+  description: A black beret with with the insignia of the Aurelian League Chief of Police.
+  components:
+  - type: Sprite
+    sprite: Clothing/Head/Hats/al_beret_cop.rsi
+  - type: Clothing
+    sprite: Clothing/Head/Hats/al_beret_cop.rsi
+  - type: Tag
+    tags:
+    - PetWearable
+    - CorgiWearable
+    - ClothMade
+    - Recyclable
+    - HamsterWearable
+    - WhitelistChameleon
+
+- type: entity
+  parent: ClothingHeadBase
+  id: ClothingHeadHatBeretLieutenantSOL
+  name: Aurelian League Lieutenant's Beret
+  description: A dark-blue beret with a lieutenant's rank emblem.
+  components:
+  - type: Sprite
+    sprite: Clothing/Head/Hats/al_beret_lieutenant.rsi
+  - type: Clothing
+    sprite: Clothing/Head/Hats/al_beret_lieutenant.rsi
+  - type: Tag
+    tags:
+    - PetWearable
+    - CorgiWearable
+
+- type: entity
+  parent: ClothingHeadBase
+  id: ClothingHeadHatBeretMedOfficerSOL
+  name: Aurelian League Medical Officer's Beret
+  description: A light blue beret with Aurelian League colors and a medical badge. 
+  components:
+  - type: Sprite
+    sprite: Clothing/Head/Hats/al_beret_medofficer.rsi
+  - type: Clothing
+    sprite: Clothing/Head/Hats/al_beret_medofficer.rsi
+  - type: Tag
+    tags:
+    - PetWearable
+    - CorgiWearable
+
+- type: entity
+  parent: ClothingHeadBase
+  id: ClothingHeadHatBeretExecSecSOL
+  name: League Official's beret
+  description: A Aurelian League colored beret with a bronze badge on the front.
+  components:
+  - type: Sprite
+    sprite: Clothing/Head/Hats/al_beret_official.rsi
+  - type: Clothing
+    sprite: Clothing/Head/Hats/al_beret_official.rsi
+  - type: Tag
+    tags:
+    - ClothMade
+    - HamsterWearable
+    - WhitelistChameleon
+    - PetWearable
+    - CorgiWearable
+
+- type: entity
+  parent: [ClothingHeadBase, BaseCommandContraband]
+  id: ClothingHeadHatBeretMDSOL
+  name: Aurelian League Medical Director's Beret
+  description: A cyan beret with a cross on the front. It is worn by medical directors of the Aurelian League.
+  components:
+  - type: Sprite
+    sprite: Clothing/Head/Hats/al_beret_cmo.rsi
+  - type: Clothing
+    sprite: Clothing/Head/Hats/al_beret_cmo.rsi
+  - type: Tag
+    tags:
+    - PetWearable
+    - CorgiWearable
+    - ClothMade
+    - Recyclable
+    - HamsterWearable
+    - WhitelistChameleon
+
+- type: entity
+  parent: ClothingHeadBase
+  id: ClothingHeadHatBeretCargoForemanSOL
+  name: Aurelian League Cargo Foreman's Beret
+  description: A brown colored beret with Aurelian League colors. It has a a forman badge on the front and is worn by Aurelian League formen.
+  components:
+  - type: Sprite
+    sprite: Clothing/Head/Hats/al_beret_cargoforeman.rsi
+  - type: Clothing
+    sprite: Clothing/Head/Hats/al_beret_cargoforeman.rsi
+  - type: Tag
+    tags:
+    - PetWearable
+    - CorgiWearable
+
+- type: entity
+  parent: ClothingHeadBase
+  id: ClothingHeadHatBeretSciOfficerSOL
+  name: Aurelian League Science Officer's Beret
+  description: A purple beret with Aurelian League colors and a badge of the Research Director. 
+  components:
+  - type: Sprite
+    sprite: Clothing/Head/Hats/al_beret_sciofficer.rsi
+  - type: Clothing
+    sprite: Clothing/Head/Hats/al_beret_sciofficer.rsi
+  - type: Tag
+    tags:
+    - PetWearable
+    - CorgiWearable
+
+- type: entity
+  parent: ClothingHeadBase
+  id: ClothingHeadHatExeccapSOL
+  name: Aurelian League Secretary Generals's Cap
+  description: An official cap worn by the Aurelian League Secretary General. It is worn by the league's supreme commander.
+  components:
+  - type: Sprite
+    sprite: Clothing/Head/Hats/al_execcap.rsi
+  - type: Clothing
+    sprite: Clothing/Head/Hats/al_execcap.rsi
+  - type: Item
+    sprite: Clothing/Head/Hats/al_execcap.rsi
+  - type: Tag
+    tags:
+    - PetWearable
+    - CorgiWearable
+    - ClothMade
+    - Recyclable
+    - WhitelistChameleon
+    - HamsterWearable
+  - type: SentienceTarget
+    flavorKind: station-event-random-sentience-flavor-inanimate
+    weight: 0.0002 # 5,000 times less likely than 1 regular animal
+  - type: BlockMovement

@@ -938,3 +938,103 @@
     sprite: Clothing/Uniforms/Jumpskirt/xoformaldress.rsi
   - type: Clothing
     sprite: Clothing/Uniforms/Jumpskirt/xoformaldress.rsi
+
+# Custom Jumpskirts Aurelian League
+- type: entity
+  parent: [ClothingUniformSkirtBase, BaseCommandContraband]
+  id: ClothingUniformJumpskirtClerkSOL
+  name: Aurelian League Clerk's Jumpskirt
+  description: A formal jumpskirt with Aurelian League colorations. Worn by members of the Bureaucratic department.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpskirt/al_clerk.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpskirt/al_clerk.rsi
+
+- type: entity
+  parent: [ClothingUniformSkirtBase, BaseCommandContraband]
+  id: ClothingUniformJumpskirtChiefEngineerSOL
+  name: Aurelian League Chief Engineer's Jumpskirt
+  description: It's a high visibility jumpskirt given to those engineers insane enough to achieve the rank of Chief Engineer within the Aurelian League.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpskirt/al_ce.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpskirt/al_ce.rsi
+
+- type: entity
+  parent: [ClothingUniformSkirtBase, BaseCommandContraband]
+  id: ClothingUniformJumpskirtChiefEngineerTurtleSOL
+  name: Aurelian League Chief Engineer's Turtleneck Skirt
+  description: An orange turtleneck designed specifically for work in conditions of the Aurelian League engineering department.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpskirt/al_ce_turtle.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpskirt/al_ce_turtle.rsi
+
+- type: entity
+  parent: [ClothingUniformSkirtBase, BaseCommandContraband]
+  id: ClothingUniformJumpskirtCmoSOL
+  name: Aurelian League Medical Director's Jumpskirt
+  description: It's a light blue jumpskirt with Aurelian League colorations. The silver trims denote the wearer as the head of a Aurelian League medical department.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpskirt/al_cmo.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpskirt/al_cmo.rsi
+
+- type: entity
+  parent: [ClothingUniformSkirtBase, BaseCommandContraband]
+  id: ClothingUniformJumpskirtCmoTurtleSOL
+  name: Aurelian League Medical Director's Turtleneck Skirt
+  description: It's a blue turtleneck with Aurelian League colorations. The silver trims denote the wearer as the head of a Aurelian League medical department.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpskirt/al_cmo_turtle.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpskirt/al_cmo_turtle.rsi
+
+- type: entity
+  parent: [ClothingUniformSkirtBase, BaseCommandContraband]
+  id: ClothingUniformJumpskirtHosSOL
+  name: Aurelian League Chief of Police's Jumpskirt
+  description: A black turtleneck designed for a Aurelian League police chief. Features Aurelian League colors and silver badges to denote their rank and allegiance.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpskirt/al_cop_alt.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpskirt/al_cop_alt.rsi
+
+- type: entity
+  parent: [ClothingUniformSkirtBase, BaseCommandContraband]
+  id: ClothingUniformJumpskirtQuartermasterTurtleneckSOL
+  name: Aurelian League Chief Logistic Officers's Turtleneck Skirt
+  description: It's a brown turtleneck skirt with Aurelian League colorations. The silver trims denote the wearer as the head of a Aurelian League cargo department.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpskirt/al_mturtleskirt.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpskirt/al_qmturtleskirt.rsi
+
+- type: entity
+  parent: [ClothingUniformSkirtBase, BaseCommandContraband]
+  id: ClothingUniformJumpskirtRndSOL
+  name: Aurelian League Research Director's Jumpskirt
+  description: It's a purple jumpskirt with Aurelian League colorations. The silver trims denote the wearer as the head of a Aurelian League science department.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpskirt/al_rnd.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpskirt/al_rnd.rsi
+
+- type: entity
+  parent: [ClothingUniformSkirtBase, BaseCommandContraband]
+  id: ClothingUniformJumpskirtRndTurtleSOL
+  name: Aurelian League Research Director's Turtleneck Skirt
+  description: A purple turtleneck designed specifically for work in conditions of the Aurelian League science department.
+  components:
+  - type: Sprite
+    sprite: Clothing/Uniforms/Jumpskirt/al_rndturtle.rsi
+  - type: Clothing
+    sprite: Clothing/Uniforms/Jumpskirt/al_rndturtle.rsi

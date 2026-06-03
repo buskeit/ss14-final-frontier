@@ -1,0 +1,41 @@
+- type: job
+  id: LeagueOfficial
+  name: job-name-league-official
+  description: job-description-official
+  playTimeTracker: JobLeagueOfficial
+  setPreference: false
+  startingGear: CentcommGear
+  icon: "JobIconLeagueOfficial"
+  supervisors: job-supervisors-league
+  canBeAntag: false
+  accessGroups:
+    - AllAccess
+  access:
+    - CentralCommand
+  special:
+    - !type:AddImplantSpecial
+      implants: [MindShieldImplant, DeathRattleImplantCentcomm]
+
+- type: startingGear
+  id: LeagueOfficialGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitCentcomOfficial
+    shoes: ClothingShoesBootsCombatFilled
+    head: ClothingHeadHatCentcom
+    eyes: ClothingEyesGlassesCommand
+    gloves: ClothingHandsGlovesColorBlack
+    outerClothing: ClothingOuterArmorCentcommCarapace
+    id: CentcomPDA
+    ears: ClothingHeadsetAltCentCom
+    belt: WeaponPistolN1984
+    pocket1: BoxFolderCentComClipboardThreePapers
+    pocket2: PenCentcom
+
+
+- type: chameleonOutfit
+  id: LeagueOfficialOutfit
+  job: LeagueOfficial
+  hasMindShield: true
+  equipment:
+    neck: ClothingNeckScarfStripedCentcom
+    mask: ClothingMaskGasCentcom

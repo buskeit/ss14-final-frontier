@@ -1,21 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.PatreonParser/Content.PatreonParser.csproj": {}
+    "/home/bbuske/ss14-final-frontier/Content.PatreonParser/Content.PatreonParser.csproj": {}
   },
   "projects": {
-    "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.PatreonParser/Content.PatreonParser.csproj": {
+    "/home/bbuske/ss14-final-frontier/Content.PatreonParser/Content.PatreonParser.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.PatreonParser/Content.PatreonParser.csproj",
+        "projectUniqueName": "/home/bbuske/ss14-final-frontier/Content.PatreonParser/Content.PatreonParser.csproj",
         "projectName": "Content.PatreonParser",
-        "projectPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.PatreonParser/Content.PatreonParser.csproj",
+        "projectPath": "/home/bbuske/ss14-final-frontier/Content.PatreonParser/Content.PatreonParser.csproj",
         "packagesPath": "/home/bbuske/.nuget/packages/",
-        "outputPath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.PatreonParser/obj/",
+        "outputPath": "/home/bbuske/ss14-final-frontier/Content.PatreonParser/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
-          "/home/bbuske/ss14-final-frontier/ss14-ff-testing/nuget.config",
+          "/home/bbuske/ss14-final-frontier/nuget.config",
           "/home/bbuske/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [

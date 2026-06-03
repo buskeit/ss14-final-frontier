@@ -778,3 +778,16 @@
     sprite: Clothing/Mask/gasxo.rsi
   - type: BreathMask
   - type: IngestionBlocker
+
+- type: entity
+  parent: [ClothingMaskGasAtmos, BaseCommandContraband]
+  id: ClothingMaskGasLeague
+  name: League Official's Gas Mask
+  description: A reddish gas mask, worn by league officials.
+  components:
+  - type: Sprite
+    sprite: Clothing/Mask/gasleague.rsi
+  - type: Clothing
+    sprite: Clothing/Mask/gasleague.rsi
+  - type: BreathMask
+  - type: IngestionBlocker

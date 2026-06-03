@@ -279,3 +279,12 @@
   components:
   - type: Sprite
     sprite: Clothing/Back/Duffels/xo.rsi
+
+- type: entity
+  parent: [ClothingBackpackDuffel, BaseCommandContraband]
+  id: ClothingBackpackDuffelExec
+  name: League Official's duffel bag
+  description: A large duffel bag for Aurelian League Officials.
+  components:
+  - type: Sprite
+    sprite: Clothing/Back/Duffels/league.rsi

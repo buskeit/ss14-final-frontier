@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "v0pc4FzTr8Y=",
+  "dgSpecHash": "FfBqWxLUJxU=",
   "success": true,
-  "projectFilePath": "/home/bbuske/ss14-final-frontier/ss14-ff-testing/Content.Replay/Content.Replay.csproj",
+  "projectFilePath": "/home/bbuske/ss14-final-frontier/Content.Replay/Content.Replay.csproj",
   "expectedPackageFiles": [
     "/home/bbuske/.nuget/packages/discordrichpresence/1.2.1.24/discordrichpresence.1.2.1.24.nupkg.sha512",
     "/home/bbuske/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",

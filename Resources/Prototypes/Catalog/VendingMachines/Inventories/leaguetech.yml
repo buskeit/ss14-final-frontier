@@ -3,6 +3,7 @@
   startingInventory:
   # PDAs
   # Heads / Command (Captain PDA not included for obvious reasons)
+    ExecutivePDASOL: 5
     CentcomPDA: 5
     CaptainPDA: 5
     ExecutiveOfficerPDA: 5
@@ -40,6 +41,9 @@
     ClothingHeadsetAltMedical: 5
     ClothingHeadsetAltScience: 5
     ClothingHeadsetAltSecurity: 5
+  #HUDs
+    ClothingEyesGlassesCommand: 3
+    ClothingEyesHudCommand: 3
   # Cartridges
     MedTekCartridge: 5
     WantedListCartridge: 5
@@ -55,7 +59,7 @@
     RubberStampCESOL: 2
     RubberStampCMOSOL: 2
     RubberStampHosSOL: 2
-    RubberStampRdSOL: 2
+    RubberStampRdAL: 2
     RubberStampQmSOL: 2
     RubberStampHop: 2
     RubberStampGreytide: 5

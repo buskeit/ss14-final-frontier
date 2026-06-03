@@ -1,7 +1,9 @@
 job-supervisors-centcom = Central Command
+job-supervisors-league = the Aurelian League
 job-supervisors-captain = the Captain
 job-supervisors-hop = the Head of Personnel
-job-supervisors-hos = the Head of Security
+job-supervisors-chief-of-police = the Chief of police
+job-supervisors-commandant = the Commandant
 job-supervisors-ce = the Chief Engineer
 job-supervisors-cmo = the Chief Medical Officer
 job-supervisors-rd = the Research Director

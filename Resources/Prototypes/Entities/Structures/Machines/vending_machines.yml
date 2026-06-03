@@ -328,7 +328,7 @@
     energy: 2.0
     color: "#ffb0b0"
   - type: AccessReader
-    access: [["HeadOfPersonnel", "ExecutiveOfficer"]]
+    access: [["HeadOfPersonnel"], ["Captain"]]
 
 - type: entity
   parent: VendingMachine
@@ -2115,6 +2115,34 @@
 
 - type: entity
   parent: VendingMachine
+  id: VendingMachineLeaguedrobe
+  name: Leaguedrobe
+  description: A one-of-a-kind vending machine for all your centcomm aesthetic needs!
+  components:
+  - type: VendingMachine
+    pack: LeagueDrobeInventory
+    offState: off
+    brokenState: broken
+    normalState: normal-unshaded
+  - type: Sprite
+    sprite: Structures/Machines/VendingMachines/leaguedrobe.rsi
+    layers:
+    - state: "off"
+      map: ["enum.VendingMachineVisualLayers.Base"]
+    - state: "off"
+      map: ["enum.VendingMachineVisualLayers.BaseUnshaded"]
+      shader: unshaded
+    - state: panel
+      map: ["enum.WiresVisualLayers.MaintenancePanel"]
+  - type: PointLight
+    radius: 1.5
+    energy: 3.0
+    color: "#aa0000"
+  - type: AccessReader
+    access: [["CentralCommand"]]
+
+- type: entity
+  parent: VendingMachine
   id: VendingMachineHappyHonk
   name: Happy Honk Dispenser
   description: A happy honk meal box dispenser made by honk! co.
@@ -2339,4 +2367,4 @@
     energy: 2.0
     color: "#ffb0b0"
   - type: AccessReader
-    access: [["CentralCommand", "LeagueOfficial"]]
+    access: [["CentralCommand"]]

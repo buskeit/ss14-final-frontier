@@ -429,3 +429,12 @@
   components:
   - type: Sprite
     sprite: Clothing/Back/Backpacks/xo.rsi
+
+- type: entity
+  parent: [ClothingBackpack, BaseCommandContraband]
+  id: ClothingBackpackExec
+  name: League Official's backpack
+  description: It's a special backpack made exclusively for Aurelian League Officials.
+  components:
+  - type: Sprite
+    sprite: Clothing/Back/Backpacks/league.rsi
