@@ -3,7 +3,7 @@
   name: species-name-felinid
   roundStart: true
   prototype: MobFelinid
-  dollPrototype: MobFelinidDummy
+  dollPrototype: AppearanceHuman
   skinColoration: HumanToned
   minHeight: 0.65
   defaultHeight: 0.8
