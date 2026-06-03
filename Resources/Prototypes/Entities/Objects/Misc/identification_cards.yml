@@ -193,7 +193,7 @@
     - type: Item
       heldPrefix: silver
     - type: PresetIdCard
-      job: Commandant
+      job: HeadOfSecurity
 
 - type: entity
   parent: IDCardStandard

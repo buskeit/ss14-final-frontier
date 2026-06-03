@@ -1013,7 +1013,7 @@
   description: It's a brown turtleneck skirt with Aurelian League colorations. The silver trims denote the wearer as the head of a Aurelian League cargo department.
   components:
   - type: Sprite
-    sprite: Clothing/Uniforms/Jumpskirt/al_mturtleskirt.rsi
+    sprite: Clothing/Uniforms/Jumpskirt/al_qmturtleskirt.rsi
   - type: Clothing
     sprite: Clothing/Uniforms/Jumpskirt/al_qmturtleskirt.rsi
 

@@ -81,7 +81,7 @@ public sealed partial class MetabolizerComponent : Component
     public bool SolutionOnBody = true;
 
     /// <summary>
-    ///     List of metabolizer types that this organ is. ex. Human, Slime, Felinid, w/e.
+    ///     List of metabolizer types that this organ is. ex. Human, Slime, w/e.
     /// </summary>
     [DataField]
     [Access(typeof(MetabolizerSystem), Other = AccessPermissions.ReadExecute)] // FIXME Friends

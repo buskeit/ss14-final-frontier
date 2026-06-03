@@ -59,7 +59,7 @@
     HoPIDCard: 2
     CEIDCard: 2
     CMOIDCard: 2
-    ChiefOfPoliceIDCard: 2
+    CoPIDCard: 2
     HoSIDCard: 2
     RDIDCard: 2
     QuartermasterIDCard: 2
@@ -148,7 +148,6 @@
   # HUDs
     ClothingEyesGlassesCommand: 3
     ClothingEyesHudCommand: 3
-    ClothingEyesGlassesMedical: 3
     ClothingEyesHudMedical: 3
     ClothingEyesGlassesSecurity: 3
     ClothingEyesHudSecurity: 3

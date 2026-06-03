@@ -301,6 +301,9 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
         if (!string.IsNullOrWhiteSpace(targetCard.FullName))
             return;
 
+        if (!TryEnsureStationRecord(station.Value, component.SelectedRecord, stationData))
+            return;
+
         if (!TryGetStationRecordKey(station.Value, component.SelectedRecord.Name, out var recordKey))
             return;
 
@@ -323,6 +326,32 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
             $"{player} registered card {targetId} to record {component.SelectedRecord.Name} with assignment {targetCard.LocalizedJobTitle}");
 
         UpdateUserInterface(uid, component, args);
+    }
+
+    private bool TryEnsureStationRecord(EntityUid station, CrewRecord crewRecord, CrewAssignmentsComponent? assignments)
+    {
+        if (_record.GetRecordByName(station, crewRecord.Name) != null)
+            return true;
+
+        CrewAssignment? assignment = null;
+        assignments?.TryGetAssignment(crewRecord.AssignmentID, out assignment);
+
+        var record = new GeneralStationRecord
+        {
+            Name = crewRecord.Name,
+            JobTitle = assignment?.Name ?? string.Empty,
+            DisplayPriority = assignment?.Clevel ?? 0,
+        };
+
+        var key = _record.AddRecordEntry(station, record);
+        if (!key.IsValid())
+        {
+            Log.Warning($"Failed to create station record entry for persistent crew record {crewRecord.Name}");
+            return false;
+        }
+
+        _record.Synchronize(key);
+        return true;
     }
 
     private void OnSaveGeneralRecord(EntityUid uid, IdCardConsoleComponent component, SaveGeneralRecord args)

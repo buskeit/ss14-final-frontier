@@ -5,7 +5,7 @@
   - !type:JobRequirementLoadoutEffect
     requirement:
       !type:RoleTimeRequirement
-      role: JobHeadOfSecurity
+      role: JobCommandant
       time: 20h
 
 # Jumpsuit
