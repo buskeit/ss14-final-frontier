@@ -93,10 +93,9 @@ public abstract partial class SharedStationSystem
             return;
 
         ent.Comp.Station = station;
-        if (TryComp<StationDataComponent>(station, out var sD) && sD != null)
-        {
-            ent.Comp.stationUID = sD.UID;
-        }
+        ent.Comp.stationUID = TryComp<StationDataComponent>(station, out var sD) && sD != null
+            ? sD.UID
+            : 0;
 
         Dirty(ent);
     }

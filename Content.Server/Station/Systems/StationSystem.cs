@@ -19,6 +19,7 @@ using Robust.Shared.Collections;
 using Robust.Shared.Enums;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
+using Robust.Shared.Map.Events;
 using Robust.Shared.Player;
 using Robust.Shared.Utility;
 using System.Linq;
@@ -51,6 +52,7 @@ public sealed partial class StationSystem : SharedStationSystem
 
     private ValueList<MapId> _mapIds;
     private ValueList<(Box2Rotated Bounds, MapId MapId)> _gridBounds;
+    private readonly Dictionary<EntityUid, HashSet<EntityUid>> _stationGridSerializationSnapshots = new();
 
     /// <inheritdoc/>
     public override void Initialize()
@@ -69,6 +71,8 @@ public sealed partial class StationSystem : SharedStationSystem
         SubscribeLocalEvent<StationMemberComponent, ComponentShutdown>(OnStationGridDeleted);
         SubscribeLocalEvent<StationMemberComponent, PostGridSplitEvent>(OnStationSplitEvent);
         SubscribeLocalEvent<StationMemberComponent, ComponentStartup>(OnStationMemberStartup);
+        SubscribeLocalEvent<BeforeSerializationEvent>(OnBeforeSerialization);
+        SubscribeLocalEvent<AfterSerializationEvent>(OnAfterSerialization);
 
 
         SubscribeLocalEvent<StationGridAddedEvent>(OnStationGridAdded);
@@ -190,11 +194,77 @@ public sealed partial class StationSystem : SharedStationSystem
 
     private void OnStationGridDeleted(EntityUid uid, StationMemberComponent component, ComponentShutdown args)
     {
-        if (!TryComp<StationDataComponent>(component.Station, out var stationData))
+        var station = component.Station;
+        if (!TryComp<StationDataComponent>(station, out var stationData))
             return;
 
         stationData.Grids.Remove(uid);
-        Dirty(uid, component);
+        Dirty(station, stationData);
+    }
+
+    private void OnBeforeSerialization(BeforeSerializationEvent ev)
+    {
+        _stationGridSerializationSnapshots.Clear();
+
+        var query = EntityQueryEnumerator<StationDataComponent>();
+        while (query.MoveNext(out var station, out var stationData))
+        {
+            if (stationData.Grids.Count == 0)
+                continue;
+
+            var serializableGrids = new HashSet<EntityUid>();
+            var restoredGrids = new HashSet<EntityUid>();
+
+            foreach (var grid in stationData.Grids)
+            {
+                if (!CanSaveStationGrid(grid, out var mapId))
+                    continue;
+
+                restoredGrids.Add(grid);
+
+                if (ev.MapIds.Contains(mapId))
+                    serializableGrids.Add(grid);
+            }
+
+            if (serializableGrids.SetEquals(stationData.Grids))
+                continue;
+
+            if (!restoredGrids.SetEquals(serializableGrids))
+                _stationGridSerializationSnapshots[station] = restoredGrids;
+
+            stationData.Grids.Clear();
+            stationData.Grids.UnionWith(serializableGrids);
+            Dirty(station, stationData);
+        }
+    }
+
+    private void OnAfterSerialization(AfterSerializationEvent ev)
+    {
+        foreach (var (station, grids) in _stationGridSerializationSnapshots)
+        {
+            if (!TryComp<StationDataComponent>(station, out var stationData))
+                continue;
+
+            stationData.Grids.Clear();
+            stationData.Grids.UnionWith(grids);
+            Dirty(station, stationData);
+        }
+
+        _stationGridSerializationSnapshots.Clear();
+    }
+
+    private bool CanSaveStationGrid(EntityUid grid, out MapId mapId)
+    {
+        mapId = MapId.Nullspace;
+
+        if (!grid.IsValid() || !Exists(grid) || TerminatingOrDeleted(grid))
+            return false;
+
+        if (!_gridQuery.HasComp(grid) || !_xformQuery.TryGetComponent(grid, out var xform))
+            return false;
+
+        mapId = xform.MapID;
+        return true;
     }
 
     public override void Shutdown()
