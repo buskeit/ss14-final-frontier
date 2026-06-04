@@ -22,6 +22,7 @@ using Robust.Server.Containers;
 using Robust.Server.GameObjects;
 using Robust.Server.Player;
 using Robust.Shared.Containers;
+using Robust.Shared.EntitySerialization;
 using Robust.Shared.EntitySerialization.Systems;
 using Robust.Shared.Enums;
 using Robust.Shared.Network;
@@ -34,6 +35,11 @@ namespace Content.Server.Bed.Cryostorage;
 /// <inheritdoc/>
 public sealed class CryostorageSystem : SharedCryostorageSystem
 {
+    private static readonly SerializationOptions PersistentCharacterSaveOptions = SerializationOptions.Default with
+    {
+        MissingEntityBehaviour = MissingEntityBehaviour.Ignore
+    };
+
     [Dependency] private readonly IChatManager _chatManager = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly AudioSystem _audio = default!;
@@ -178,7 +184,7 @@ public sealed class CryostorageSystem : SharedCryostorageSystem
         if (userId != null)
         {
             var saveFilePath = PersistentCharacterSavePath.ForPlayer(userId.Value);
-            _loader.TrySaveGeneric(ent.Owner, saveFilePath, out var use);
+            _loader.TrySaveGeneric(ent.Owner, saveFilePath, out var use, PersistentCharacterSaveOptions);
             if (TryComp<ActorComponent>(ent.Owner, out var actor))
                 _ticker.PlayerJoinLobby(actor.PlayerSession);
             _transform.DetachEntity(ent, Transform(ent));
@@ -187,7 +193,7 @@ public sealed class CryostorageSystem : SharedCryostorageSystem
         else
         {
             var saveFilePath = PersistentCharacterSavePath.ForNpc(ent.Owner);
-            _loader.TrySaveGeneric(ent.Owner, saveFilePath, out var use);
+            _loader.TrySaveGeneric(ent.Owner, saveFilePath, out var use, PersistentCharacterSaveOptions);
             if (TryComp<ActorComponent>(ent.Owner, out var actor))
                 _ticker.PlayerJoinLobby(actor.PlayerSession);
             _transform.DetachEntity(ent, Transform(ent));

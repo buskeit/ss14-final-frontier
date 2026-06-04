@@ -23,6 +23,7 @@ using Content.Shared.Roles;
 using Content.Shared.Roles.Jobs;
 using Robust.Shared.ContentPack;
 using Robust.Shared.Containers;
+using Robust.Shared.EntitySerialization;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Network;
@@ -39,6 +40,16 @@ namespace Content.Server.GameTicking
 {
     public sealed partial class GameTicker
     {
+        private static readonly SerializationOptions PersistentCharacterSaveOptions = SerializationOptions.Default with
+        {
+            MissingEntityBehaviour = MissingEntityBehaviour.Ignore
+        };
+
+        private static readonly DeserializationOptions PersistentCharacterLoadOptions = DeserializationOptions.Default with
+        {
+            LogInvalidEntities = false
+        };
+
         [Dependency] private readonly SharedContainerSystem _container = default!;
         [Dependency] private readonly IAdminManager _adminManager = default!;
         [Dependency] private readonly SharedJobSystem _jobs = default!;
@@ -252,7 +263,7 @@ namespace Content.Server.GameTicking
             if (mobMaybe != null)
             {
                 EntityUid mobSure = (EntityUid)mobMaybe;
-                _loader.TrySaveGeneric(mobSure, saveFilePath, out var category);
+                _loader.TrySaveGeneric(mobSure, saveFilePath, out var category, PersistentCharacterSaveOptions);
             }
             _chatSystem.DispatchStationAnnouncement(station.Value,
             $"{MetaData(mob).EntityName} has arrived into the Threshold.",
@@ -284,7 +295,7 @@ namespace Content.Server.GameTicking
                 return;
             }
 
-            if (!_loader.TryLoadEntity(saveFilePath, out var mobMaybe))
+            if (!_loader.TryLoadEntity(saveFilePath, out var mobMaybe, PersistentCharacterLoadOptions))
             {
                 _sawmill.Warning(
                     "No persistent character save found for {Player} at {Path}; creating a new persistent character.",

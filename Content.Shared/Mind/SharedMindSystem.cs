@@ -48,13 +48,20 @@ public abstract partial class SharedMindSystem : EntitySystem
 
     private HashSet<Entity<MindComponent>> _pickingMinds = new();
     private readonly Dictionary<EntityUid, MindSerializationSnapshot> _mindSerializationSnapshots = new();
+    private readonly Dictionary<EntityUid, MindContainerSerializationSnapshot> _mindContainerSerializationSnapshots = new();
 
     private readonly EntProtoId _mindProto = "MindBase";
 
     private readonly record struct MindSerializationSnapshot(
         EntityUid? OwnedEntity,
         EntityUid? VisitingEntity,
-        List<EntityUid> Objectives);
+        List<EntityUid> Objectives,
+        NetUserId? UserId,
+        NetUserId? OriginalOwnerUserId);
+
+    private readonly record struct MindContainerSerializationSnapshot(
+        EntityUid? Mind,
+        bool HasMind);
 
     public override void Initialize()
     {
@@ -117,6 +124,7 @@ public abstract partial class SharedMindSystem : EntitySystem
     private void OnBeforeSerialization(BeforeSerializationEvent ev)
     {
         _mindSerializationSnapshots.Clear();
+        _mindContainerSerializationSnapshots.Clear();
 
         var query = EntityQueryEnumerator<MindComponent>();
         while (query.MoveNext(out var uid, out var mind))
@@ -133,7 +141,9 @@ public abstract partial class SharedMindSystem : EntitySystem
 
             if (ownedEntity == mind.OwnedEntity &&
                 visitingEntity == mind.VisitingEntity &&
-                objectives.SequenceEqual(mind.Objectives))
+                objectives.SequenceEqual(mind.Objectives) &&
+                mind.UserId == null &&
+                mind.OriginalOwnerUserId == null)
             {
                 continue;
             }
@@ -141,13 +151,32 @@ public abstract partial class SharedMindSystem : EntitySystem
             _mindSerializationSnapshots[uid] = new MindSerializationSnapshot(
                 mind.OwnedEntity,
                 mind.VisitingEntity,
-                new List<EntityUid>(mind.Objectives));
+                new List<EntityUid>(mind.Objectives),
+                mind.UserId,
+                mind.OriginalOwnerUserId);
 
             mind.OwnedEntity = ownedEntity;
             mind.VisitingEntity = visitingEntity;
             mind.Objectives.Clear();
             mind.Objectives.AddRange(objectives);
+            mind.UserId = null;
+            mind.OriginalOwnerUserId = null;
             Dirty(uid, mind);
+        }
+
+        var containerQuery = EntityQueryEnumerator<MindContainerComponent>();
+        while (containerQuery.MoveNext(out var uid, out var container))
+        {
+            if (container.Mind == null && !container.HasMind)
+                continue;
+
+            _mindContainerSerializationSnapshots[uid] = new MindContainerSerializationSnapshot(
+                container.Mind,
+                container.HasMind);
+
+            container.Mind = null;
+            container.HasMind = false;
+            Dirty(uid, container);
         }
     }
 
@@ -162,10 +191,24 @@ public abstract partial class SharedMindSystem : EntitySystem
             mind.VisitingEntity = snapshot.VisitingEntity;
             mind.Objectives.Clear();
             mind.Objectives.AddRange(snapshot.Objectives);
+            mind.UserId = snapshot.UserId;
+            mind.OriginalOwnerUserId = snapshot.OriginalOwnerUserId;
             Dirty(uid, mind);
         }
 
         _mindSerializationSnapshots.Clear();
+
+        foreach (var (uid, snapshot) in _mindContainerSerializationSnapshots)
+        {
+            if (!TryComp<MindContainerComponent>(uid, out var container))
+                continue;
+
+            container.Mind = snapshot.Mind;
+            container.HasMind = snapshot.HasMind;
+            Dirty(uid, container);
+        }
+
+        _mindContainerSerializationSnapshots.Clear();
     }
 
     private EntityUid? GetSerializableMindReference(EntityUid? uid, HashSet<MapId> mapIds)

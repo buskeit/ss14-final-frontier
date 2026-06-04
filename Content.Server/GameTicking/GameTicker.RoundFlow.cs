@@ -35,6 +35,17 @@ namespace Content.Server.GameTicking
 {
     public sealed partial class GameTicker
     {
+        private static readonly SerializationOptions PersistentMapSaveOptions = SerializationOptions.Default with
+        {
+            MissingEntityBehaviour = MissingEntityBehaviour.Ignore
+        };
+
+        private static readonly DeserializationOptions PersistentMapLoadOptions = DeserializationOptions.Default with
+        {
+            PauseMaps = true,
+            LogInvalidEntities = false
+        };
+
         [Dependency] private readonly DiscordWebhook _discord = default!;
         [Dependency] private readonly RoleSystem _role = default!;
         [Dependency] private readonly ITaskManager _taskManager = default!;
@@ -110,7 +121,7 @@ namespace Content.Server.GameTicking
             }
 
             var start = _gameTiming.CurTime;
-            bool save_stat = _loader.TrySaveMap(DefaultMap, path);
+            bool save_stat = _loader.TrySaveMap(DefaultMap, path, PersistentMapSaveOptions);
             var end = _gameTiming.CurTime;
             var finaltime = end - start;
             _adminLogger.Add(LogType.EventRan, LogImpact.Extreme, $"MAP SAVE STATUS: {save_stat} TIME TAKEN: {finaltime.TotalSeconds}");
@@ -215,7 +226,7 @@ namespace Content.Server.GameTicking
             if (_resourceManager.UserData.Exists(path.ToRootedPath()))
             {
                 var start = _gameTiming.CurTime;
-                bool save_stat = _loader.TryLoadMap(path, out var entity, out var grids, new DeserializationOptions() { PauseMaps = true });
+                bool save_stat = _loader.TryLoadMap(path, out var entity, out var grids, PersistentMapLoadOptions);
                 if (entity.HasValue)
                 {
                     DefaultMap = entity.Value.Comp.MapId;

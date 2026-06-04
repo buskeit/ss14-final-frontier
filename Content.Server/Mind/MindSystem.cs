@@ -8,6 +8,7 @@ using Content.Shared.Mind.Components;
 using Content.Shared.Players;
 using Robust.Server.GameStates;
 using Robust.Server.Player;
+using Robust.Shared.Map;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Utility;
@@ -30,6 +31,23 @@ public sealed class MindSystem : SharedMindSystem
 
         SubscribeLocalEvent<MindContainerComponent, EntityTerminatingEvent>(OnMindContainerTerminating);
         SubscribeLocalEvent<MindComponent, ComponentShutdown>(OnMindShutdown);
+        SubscribeLocalEvent<MindComponent, MapInitEvent>(OnMindMapInitSanitize);
+    }
+
+    private void OnMindMapInitSanitize(EntityUid uid, MindComponent mind, MapInitEvent args)
+    {
+        if (mind.UserId is not { } userId)
+            return;
+
+        if (_players.TryGetPlayerData(userId, out _))
+            return;
+
+        UserMinds.Remove(userId);
+        if (mind.OriginalOwnerUserId == userId)
+            mind.OriginalOwnerUserId = null;
+
+        mind.UserId = null;
+        Dirty(uid, mind);
     }
 
     private void OnMindShutdown(EntityUid uid, MindComponent mind, ComponentShutdown args)
@@ -287,10 +305,11 @@ public sealed class MindSystem : SharedMindSystem
 
         Dirty(mindId, mind);
 
-        if (userId != null && !_players.TryGetPlayerData(userId.Value, out _))
+        SessionData? newPlayerData = null;
+        if (userId != null && !_players.TryGetPlayerData(userId.Value, out newPlayerData))
         {
             Log.Error($"Attempted to set mind user to invalid value {userId}");
-            return;
+            userId = null;
         }
         // Clear any existing entity attachment
         if (_players.TryGetSessionById(mind.UserId, out var oldSession))
@@ -302,8 +321,12 @@ public sealed class MindSystem : SharedMindSystem
         if (mind.UserId != null)
         {
             UserMinds.Remove(mind.UserId.Value);
-            if (_players.GetPlayerData(mind.UserId.Value).ContentData() is { } oldData)
+            if (_players.TryGetPlayerData(mind.UserId.Value, out var oldPlayerData) &&
+                oldPlayerData.ContentData() is { } oldData)
+            {
                 oldData.Mind = null;
+            }
+
             mind.UserId = null;
         }
 
@@ -315,14 +338,14 @@ public sealed class MindSystem : SharedMindSystem
             SetUserId(oldMindId, null, oldMind);
         }
 
-        DebugTools.AssertNull(_players.GetPlayerData(userId.Value).ContentData()?.Mind);
+        DebugTools.AssertNull(newPlayerData?.ContentData()?.Mind);
 
         UserMinds[userId.Value] = mindId;
         mind.UserId = userId;
         mind.OriginalOwnerUserId ??= userId;
         // The UserId may not have a current session, but user data may still exist for disconnected players.
         // So we cannot combine this with the TryGetSessionById() check below.
-        if (_players.GetPlayerData(userId.Value).ContentData() is { } data)
+        if (newPlayerData?.ContentData() is { } data)
             data.Mind = mindId;
         if (_players.TryGetSessionById(userId.Value, out var session))
         {

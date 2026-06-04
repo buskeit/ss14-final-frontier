@@ -401,6 +401,7 @@
   name: League Research Director's Rubber Stamp
   parent: [RubberStampBase, BaseCommandContraband]
   id: RubberStampRdAL
+  suffix: AL
   components:
   - type: Stamp
     stampedName: stamp-component-stamped-name-rd-al
@@ -408,3 +409,9 @@
     stampState: "paper_stamp-rd-al"
   - type: Sprite
     state: stamp-rd
+
+- type: entity
+  name: League Research Director's Rubber Stamp
+  parent: RubberStampRdAL
+  id: RubberStampRdSOL
+  suffix: SOL
