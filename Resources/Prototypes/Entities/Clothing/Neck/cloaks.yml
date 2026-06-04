@@ -303,7 +303,6 @@
   - type: StealTarget
     stealGroup: HeadCloak
 
-
 - type: entity
   parent: [ClothingNeckBase, BaseCommandContraband]
   id: ClothingNeckCloakXOFormal
@@ -314,3 +313,66 @@
     sprite: Clothing/Neck/Cloaks/xocloakformal.rsi
   - type: StealTarget
     stealGroup: HeadCloak
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckCloakExecSOL
+  name: Aurelian League Secretary Generals's Cloak
+  description: A comfortable red cloak with gold trim. It shows that the bearer is the Secretary General of the Aurelian League.
+  components:
+    - type: Sprite
+      sprite: Clothing/Neck/Cloaks/al_secgen.rsi
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckCloakOfficialSOL
+  name: Aurelian League Official's Cloak
+  description: A red colored, comfortable cloak with silver trim, showing that the bearer is an official Aurelian League representative.
+    - components:
+        - type: Sprite
+          sprite: Clothing/Neck/Cloaks/al_official.rsi
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckCloakHosSOL
+  name: Aurelian League Chief of Police's Cloak
+  description: A dark cloak in Aurelian League colors and emblems emblazoned across it. Features silver trim denoting the rank of the wearer as Chief of the Police.
+  components:
+    - type: Sprite
+      sprite: Clothing/Neck/Cloaks/al_cop.rsi
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckCloakCeSOL
+  name: Aurelian League Chief Engineer's Cloak
+  description: A dark orange cloak in Aurelian League colors and symbols emblazoned across it. It features silver trim denoting the rank of the wearer.
+  components:
+    - type: Sprite
+      sprite: Clothing/Neck/Cloaks/al_ce.rsi
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingCloakCmoSOL
+  name: Aurelian League Medical Director's Cloak
+  description: A sterile light blue cloak the colors of the Aurelian League. It has symbols emblazoned across it and features silver trim denoting the rank of the wearer, as well as small green crosses showing their medical expertise.
+  components:
+    - type: Sprite
+      sprite: Clothing/Neck/Cloaks/al_cmo.rsi
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckCloakRdSOL
+  name: Aurelian League Research Director's Cloak
+  description: A light purple cloak in Aurelian League colors and symbols emblazoned across it. Features silver trim denoting the rank of the wearer.
+  components:
+    - type: Sprite
+      sprite: Clothing/Neck/Cloaks/al_rd.rsi
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckCloakQmSOL
+  name: Aurelian League Chief Logistic Officer's Cloak
+  description: A dark brown cloak in Aurelian League colors with symbols emblazoned across it. Features silver trim denoting the rank of the wearer.
+  components:
+    - type: Sprite
+      sprite: Clothing/Neck/Cloaks/al_qm.rsi

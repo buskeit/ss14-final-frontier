@@ -16,9 +16,9 @@
     #ClothingHeadsetLeague: 3
     #ClothingOuterWinterLeague: 3
     #ClothingNeckScarfStripedLeague: 3
-    #ClothingNeckCloakExecSOL: 3
+    ClothingNeckCloakExecSOL: 3
     #ClothingNeckCloakExecFormalSOL: 3
-    #ClothingNeckCloakLeagueOfficial: 3
+    ClothingNeckCloakOfficialSOL: 3
     #ClothingNeckCloakFormalLeagueOfficial: 3
     #ClothingNeckMantleLeagueOfficial: 3
     #ClothingNeckMantleExecSOL: 3

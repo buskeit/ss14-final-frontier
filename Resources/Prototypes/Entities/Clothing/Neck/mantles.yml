@@ -99,3 +99,124 @@
     sprite: Clothing/Neck/mantles/xomantle.rsi
   - type: Clothing
     sprite: Clothing/Neck/mantles/xomantle.rsi
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckMantleExecSOL
+  name: Secretary General's Mantle
+  description: A comfortable and chique mantle worn by the Secretary General of the Aurelian League.
+  components:
+    - type: Sprite
+      sprite: Clothing/Neck/mantles/secgenmantle.rsi
+    - type: Clothing
+      sprite: Clothing/Neck/mantles/secgenmantle.rsi
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckMantleCESOL
+  name: Aurelian League Chief Engineer's Mantle
+  description: A dark orange mantle in Aurelian League colors. Features silver trim denoting the rank of the wearer.
+  components:
+    - type: Sprite
+      sprite: Clothing/Neck/mantles/al_cemantle.rsi
+    - type: Clothing
+      sprite: Clothing/Neck/mantles/al_cemantle.rsi
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckMantleCMOSOL
+  name: Aurelian League Medical Director's Mantle
+  description: A sterile light blue mantle colors of the Aurelian League. It features silver trim denoting the rank of the wearer, as well as small green crosses showing their medical expertise.
+  components:
+    - type: Sprite
+      sprite: Clothing/Neck/mantles/al_cmomantle.rsi
+    - type: Clothing
+      sprite: Clothing/Neck/mantles/al_cmomantle.rsi
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckMantleHOSSOL
+  name: Aurelian League Chief of Police's Mantle
+  description: A dark mantle bearing Solar Legion colors and emblems. Features silver trim denoting the rank of the wearer.
+  components:
+    - type: Sprite
+      sprite: Clothing/Neck/mantles/al_copmantle.rsi
+    - type: Clothing
+      sprite: Clothing/Neck/mantles/al_copmantle.rsi
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckMantleRDSOL
+  name: Aurelian League Research Director's Mantle
+  description: A purple mantle in Aurelian League colors, with emblems emblazoned across it. Features silver trim denoting the rank of the wearer.
+  components:
+    - type: Sprite
+      sprite: Clothing/Neck/mantles/al_rdmantle.rsi
+    - type: Clothing
+      sprite: Clothing/Neck/mantles/al_rdmantle.rsi
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckMantleQMSOL
+  name: Aurelian League Chief Logistic Officers's mantle
+  description: A dark brown cloak in the colors of the Aurelian League. It features silver trim denoting the rank of the wearer.
+  components:
+    - type: Sprite
+      sprite: Clothing/Neck/mantles/al_qmmantle.rsi
+    - type: Clothing
+      sprite: Clothing/Neck/mantles/al_qmmantle.rsi
+
+- type: entity
+  parent: ClothingNeckBase
+  id: ClothingNeckMantleMedOfficerSOL
+  name: Aurelian League Medical Officer's Mantle
+  description: A soft blue mantle in solar legion colors. Features bronze trims to show an the rank of an Aurelian League Assistant Chief Medical Officer.
+  components:
+    - type: Sprite
+      sprite: Clothing/Neck/mantles/al_acmo.rsi
+    - type: Clothing
+      sprite: Clothing/Neck/mantles/al_acmo.rsi
+
+- type: entity
+  parent: ClothingNeckBase
+  id: ClothingNeckMantleExecSecSOL
+  name: Aurelian League Official's mantle
+  description: A soft mantle with Solar Legion colors and symbols. The regal red colors denote the wearer's status as an official representative of the Aurelian League.
+  components:
+    - type: Sprite
+      sprite: Clothing/Neck/mantles/al_officialmantle.rsi
+    - type: Clothing
+      sprite: Clothing/Neck/mantles/al_officialmantle.rsi
+
+- type: entity
+  parent: ClothingNeckBase
+  id: ClothingNeckMantleCargoForemanSOL
+  name: Aurelian League Logistic Foreman's Mantle
+  description: A soft brown mantle in Aurelian League colors. Features bronze trims to show the wearer's rank as a cargo foreman of the Aurelian League.
+  components:
+    - type: Sprite
+      sprite: Clothing/Neck/mantles/al_cargoforeman.rsi
+    - type: Clothing
+      sprite: Clothing/Neck/mantles/al_cargoforeman.rsi
+
+- type: entity
+  parent: ClothingNeckBase
+  id: ClothingNeckMantleSciOfficerSOL
+  name: Aurelian League Science Officer's Mantle
+  description: A soft purple mantle in solar legion colors. Features bronze trims to show the wearer's rank as Aurelian League Assistant Research Director.
+  components:
+    - type: Sprite
+      sprite: Clothing/Neck/mantles/al_ard.rsi
+    - type: Clothing
+      sprite: Clothing/Neck/mantles/al_ard.rsi
+
+- type: entity
+  parent: ClothingNeckBase
+  id: ClothingNeckMantleEngiForemanSOL
+  name: Aurelian League Engineering Foreman's Mantle
+  description: A soft yellow mantle in solar legion colors. Features bronze trims to show the wearer's rank as an Aurelian League engineering foreman.
+  components:
+    - type: Sprite
+      sprite: _Persistence14/Clothing/Neck/mantles/engiforeman.rsi
+    - type: Clothing
+      sprite: _Persistence14/Clothing/Neck/mantles/engiforeman.rsi 
