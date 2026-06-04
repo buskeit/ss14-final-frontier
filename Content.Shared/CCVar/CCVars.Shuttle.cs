@@ -43,7 +43,7 @@ public sealed partial class CCVars
     ///     Cooldown between arrivals departures. This should be longer than the FTL time or it will double cycle.
     /// </summary>
     public static readonly CVarDef<float> ArrivalsCooldown =
-        CVarDef.Create("shuttle.arrivals_cooldown", 600f, CVar.SERVERONLY);
+        CVarDef.Create("shuttle.arrivals_cooldown", 300f, CVar.SERVERONLY);
 
     /// <summary>
     ///     Are players allowed to return on the arrivals shuttle.
@@ -86,26 +86,26 @@ public sealed partial class CCVars
     ///     How long a shuttle spends in FTL.
     /// </summary>
     public static readonly CVarDef<float> FTLTravelTime =
-        CVarDef.Create("shuttle.travel_time", 900f, CVar.SERVERONLY);
+        CVarDef.Create("shuttle.travel_time", 180f, CVar.SERVERONLY);
 
     /// <summary>
     ///     How long the final stage of FTL before arrival should be.
     /// </summary>
     public static readonly CVarDef<float> FTLArrivalTime =
-        CVarDef.Create("shuttle.arrival_time", 180f, CVar.SERVERONLY);
+        CVarDef.Create("shuttle.arrival_time", 120f, CVar.SERVERONLY);
 
     /// <summary>
     ///     How much time in seconds that needs to pass before a non-arrivals shuttle can FTL again.
     /// </summary>
     public static readonly CVarDef<float> FTLCooldown =
-        CVarDef.Create("shuttle.cooldown", 60f, CVar.SERVERONLY);
+        CVarDef.Create("shuttle.cooldown", 120f, CVar.SERVERONLY);
 
     /// <summary>
     ///     How much time in seconds that needs to pass before the arrivals shuttle can FTL again.
     ///     If this is adjusted, ensure that shuttle.arrivals_cooldown is longer than this value.
     /// </summary>
     public static readonly CVarDef<float> ArrivalsFTLCooldown =
-        CVarDef.Create("shuttle.arrivals_ftl_cooldown", 300f, CVar.SERVERONLY);
+        CVarDef.Create("shuttle.arrivals_ftl_cooldown", 120f, CVar.SERVERONLY);
 
     /// <summary>
     ///     The maximum <see cref="PhysicsComponent.Mass"/> a grid can have before it becomes unable to FTL.
@@ -130,7 +130,7 @@ public sealed partial class CCVars
     ///     How long the emergency shuttle remains docked with the station, in seconds.
     /// </summary>
     public static readonly CVarDef<float> EmergencyShuttleDockTime =
-        CVarDef.Create("shuttle.emergency_dock_time", 320f, CVar.SERVERONLY);
+        CVarDef.Create("shuttle.emergency_dock_time", 300f, CVar.SERVERONLY);
 
     /// <summary>
     ///     If the emergency shuttle can't dock at a priority port, the dock time will be multiplied with this value.
