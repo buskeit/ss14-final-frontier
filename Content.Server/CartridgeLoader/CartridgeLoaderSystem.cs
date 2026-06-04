@@ -142,12 +142,24 @@ public sealed class CartridgeLoaderSystem : SharedCartridgeLoaderSystem
         if (!Resolve(uid, ref loader))
             return new List<NetEntity>();
 
-        var available = GetNetEntityList(GetInstalled(uid));
+        var installed = GetInstalled(uid);
+        var available = GetNetEntityList(installed);
 
         if (loader.CartridgeSlot.Item is not { } cartridge)
             return available;
 
-        // TODO exclude duplicate programs. Or something I dunno I CBF fixing this mess.
+        if (TryComp(cartridge, out CartridgeComponent? insertedCartridge))
+        {
+            foreach (var program in installed)
+            {
+                if (TryComp(program, out CartridgeComponent? installedCartridge) &&
+                    installedCartridge.ProgramName == insertedCartridge.ProgramName)
+                {
+                    return available;
+                }
+            }
+        }
+
         available.Add(GetNetEntity(cartridge));
         return available;
     }
