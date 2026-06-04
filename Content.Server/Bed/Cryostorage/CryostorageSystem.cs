@@ -177,7 +177,7 @@ public sealed class CryostorageSystem : SharedCryostorageSystem
         // if we have a session, we use that to add back in all the job slots the player had.
         if (userId != null)
         {
-            var saveFilePath = new ResPath($"{userId}]{name}");
+            var saveFilePath = PersistentCharacterSavePath.ForPlayer(userId.Value);
             _loader.TrySaveGeneric(ent.Owner, saveFilePath, out var use);
             if (TryComp<ActorComponent>(ent.Owner, out var actor))
                 _ticker.PlayerJoinLobby(actor.PlayerSession);
@@ -186,7 +186,7 @@ public sealed class CryostorageSystem : SharedCryostorageSystem
         }
         else
         {
-            var saveFilePath = new ResPath($"NPC]{name}");
+            var saveFilePath = PersistentCharacterSavePath.ForNpc(ent.Owner);
             _loader.TrySaveGeneric(ent.Owner, saveFilePath, out var use);
             if (TryComp<ActorComponent>(ent.Owner, out var actor))
                 _ticker.PlayerJoinLobby(actor.PlayerSession);

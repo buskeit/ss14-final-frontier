@@ -21,6 +21,7 @@ using Content.Shared.Random;
 using Content.Shared.Random.Helpers;
 using Content.Shared.Roles;
 using Content.Shared.Roles.Jobs;
+using Robust.Shared.ContentPack;
 using Robust.Shared.Containers;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
@@ -247,7 +248,7 @@ namespace Content.Server.GameTicking
                 station.Value,
                 character);
             RaiseLocalEvent(mob, aev, true);
-            var saveFilePath = new ResPath($"{data!.UserId}]{character.Name}");
+            var saveFilePath = PersistentCharacterSavePath.ForPlayer(data!.UserId);
             if (mobMaybe != null)
             {
                 EntityUid mobSure = (EntityUid)mobMaybe;
@@ -276,7 +277,13 @@ namespace Content.Server.GameTicking
             if (data == null)
                 return;
 
-            var saveFilePath = new ResPath($"{data.UserId}]{character.Name}");
+            var saveFilePath = PersistentCharacterSavePath.ForPlayer(data.UserId);
+            if (!_resourceManager.UserData.Exists(saveFilePath.ToRootedPath()))
+            {
+                SpawnPlayerPersistent(player);
+                return;
+            }
+
             if (!_loader.TryLoadEntity(saveFilePath, out var mobMaybe))
             {
                 _sawmill.Warning(

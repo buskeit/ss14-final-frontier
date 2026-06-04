@@ -1,6 +1,7 @@
 using Content.Shared.Body;
 using Content.Shared.Humanoid.Markings;
 using Content.Shared.Humanoid.Prototypes;
+using Content.Shared.Preferences;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Serialization;
@@ -13,6 +14,8 @@ namespace Content.Shared.Humanoid;
 [Serializable, NetSerializable]
 public sealed partial class HumanoidCharacterAppearance : IEquatable<HumanoidCharacterAppearance>
 {
+    private static readonly ProtoId<SpeciesPrototype> FallbackSpecies = HumanoidCharacterProfile.DefaultSpecies;
+
     [DataField]
     public Color EyeColor { get; set; } = Color.Black;
 
@@ -56,8 +59,10 @@ public sealed partial class HumanoidCharacterAppearance : IEquatable<HumanoidCha
     public static HumanoidCharacterAppearance DefaultWithSpecies(ProtoId<SpeciesPrototype> species, Sex sex)
     {
         var protoMan = IoCManager.Resolve<IPrototypeManager>();
-        var speciesPrototype = protoMan.Index<SpeciesPrototype>(species);
-        var skinColoration = protoMan.Index(speciesPrototype.SkinColoration).Strategy;
+        if (!TryGetValidSpeciesData(protoMan, species, out var speciesPrototype, out var skinColorationProto))
+            return new HumanoidCharacterAppearance();
+
+        var skinColoration = skinColorationProto.Strategy;
         var skinColor = skinColoration.InputType switch
         {
             SkinColorationStrategyInput.Unary => skinColoration.FromUnary(speciesPrototype.DefaultHumanSkinTone),
@@ -70,7 +75,7 @@ public sealed partial class HumanoidCharacterAppearance : IEquatable<HumanoidCha
             skinColor,
             new()
         );
-        return EnsureValid(appearance, species, sex);
+        return EnsureValid(appearance, speciesPrototype.ID, sex);
     }
 
     private static IReadOnlyList<Color> _realisticEyeColors = new List<Color>
@@ -92,8 +97,10 @@ public sealed partial class HumanoidCharacterAppearance : IEquatable<HumanoidCha
         var newEyeColor = random.Pick(_realisticEyeColors);
 
         var protoMan = IoCManager.Resolve<IPrototypeManager>();
-        var skinType = protoMan.Index<SpeciesPrototype>(species).SkinColoration;
-        var strategy = protoMan.Index(skinType).Strategy;
+        if (!TryGetValidSpeciesData(protoMan, species, out _, out var skinColorationProto))
+            return new HumanoidCharacterAppearance(newEyeColor, new HumanoidCharacterAppearance().SkinColor, new());
+
+        var strategy = skinColorationProto.Strategy;
 
         var newSkinColor = strategy.InputType switch
         {
@@ -120,10 +127,10 @@ public sealed partial class HumanoidCharacterAppearance : IEquatable<HumanoidCha
         var skinColor = appearance.SkinColor;
         var validatedMarkings = appearance.Markings.ShallowClone();
 
-        if (proto.TryIndex(species, out var speciesProto))
+        if (TryGetValidSpeciesData(proto, species, out var speciesProto, out var skinColorationProto))
         {
-            var strategy = proto.Index(speciesProto.SkinColoration).Strategy;
-            var organs = markingManager.GetOrgans(species);
+            var strategy = skinColorationProto.Strategy;
+            var organs = markingManager.GetOrgans(speciesProto.ID);
             skinColor = strategy.EnsureVerified(skinColor);
 
             foreach (var (organ, markings) in appearance.Markings)
@@ -155,6 +162,42 @@ public sealed partial class HumanoidCharacterAppearance : IEquatable<HumanoidCha
             eyeColor,
             skinColor,
             validatedMarkings);
+    }
+
+    private static bool TryGetValidSpeciesData(
+        IPrototypeManager protoMan,
+        ProtoId<SpeciesPrototype> species,
+        out SpeciesPrototype speciesPrototype,
+        out SkinColorationPrototype skinColoration)
+    {
+        if (TryGetSpeciesData(protoMan, species, out speciesPrototype, out skinColoration))
+            return true;
+
+        return TryGetSpeciesData(protoMan, FallbackSpecies, out speciesPrototype, out skinColoration);
+    }
+
+    private static bool TryGetSpeciesData(
+        IPrototypeManager protoMan,
+        ProtoId<SpeciesPrototype> species,
+        out SpeciesPrototype speciesPrototype,
+        out SkinColorationPrototype skinColoration)
+    {
+        speciesPrototype = default!;
+        skinColoration = default!;
+
+        if (!protoMan.TryIndex(species, out var candidate))
+            return false;
+
+        if (!protoMan.HasIndex<EntityPrototype>(candidate.Prototype) ||
+            !protoMan.HasIndex<EntityPrototype>(candidate.DollPrototype) ||
+            !protoMan.TryIndex(candidate.SkinColoration, out SkinColorationPrototype? candidateSkinColoration))
+        {
+            return false;
+        }
+
+        speciesPrototype = candidate;
+        skinColoration = candidateSkinColoration;
+        return true;
     }
 
     public bool Equals(HumanoidCharacterAppearance? other)

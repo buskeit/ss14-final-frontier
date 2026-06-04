@@ -101,8 +101,8 @@ public sealed partial class HumanoidProfileEditor
         if (Profile == null)
             return;
 
-        var skin = _prototypeManager.Index<SpeciesPrototype>(Profile.Species).SkinColoration;
-        var strategy = _prototypeManager.Index(skin).Strategy;
+        if (!TryGetSkinColorStrategy(Profile.Species, out var strategy))
+            return;
 
         switch (strategy.InputType)
         {
@@ -151,7 +151,7 @@ public sealed partial class HumanoidProfileEditor
         SpeciesButton.Clear();
         _species.Clear();
 
-        _species.AddRange(_prototypeManager.EnumeratePrototypes<SpeciesPrototype>().Where(o => o.RoundStart));
+        _species.AddRange(_prototypeManager.EnumeratePrototypes<SpeciesPrototype>().Where(IsValidRoundStartSpecies));
         _species.Sort((a, b) => string.Compare(a.Name, b.Name, StringComparison.CurrentCultureIgnoreCase));
         var speciesIds = _species.Select(o => o.ID).ToList();
 
@@ -256,8 +256,8 @@ public sealed partial class HumanoidProfileEditor
     {
         if (Profile is null) return;
 
-        var skin = _prototypeManager.Index<SpeciesPrototype>(Profile.Species).SkinColoration;
-        var strategy = _prototypeManager.Index(skin).Strategy;
+        if (!TryGetSkinColorStrategy(Profile.Species, out var strategy))
+            return;
 
         switch (strategy.InputType)
         {
@@ -294,5 +294,53 @@ public sealed partial class HumanoidProfileEditor
         }
 
         ReloadProfilePreview();
+    }
+
+    private bool TryGetSkinColorStrategy(ProtoId<SpeciesPrototype> speciesId, out ISkinColorationStrategy strategy)
+    {
+        strategy = default!;
+
+        if (!TryGetValidSpeciesPrototype(speciesId, out var speciesProto))
+            return false;
+
+        if (!_prototypeManager.TryIndex(speciesProto.SkinColoration, out SkinColorationPrototype? skinColoration))
+            return false;
+
+        strategy = skinColoration.Strategy;
+        return true;
+    }
+
+    private bool TryGetValidSpeciesPrototype(ProtoId<SpeciesPrototype> speciesId, out SpeciesPrototype speciesProto)
+    {
+        if (TryGetValidSpeciesPrototypeDirect(speciesId, out speciesProto))
+            return true;
+
+        return TryGetValidSpeciesPrototypeDirect(HumanoidCharacterProfile.DefaultSpecies, out speciesProto);
+    }
+
+    private bool TryGetValidSpeciesPrototypeDirect(ProtoId<SpeciesPrototype> speciesId, out SpeciesPrototype speciesProto)
+    {
+        speciesProto = default!;
+
+        if (!_prototypeManager.TryIndex(speciesId, out var candidate))
+            return false;
+
+        if (!_prototypeManager.HasIndex<EntityPrototype>(candidate.Prototype) ||
+            !_prototypeManager.HasIndex<EntityPrototype>(candidate.DollPrototype) ||
+            !_prototypeManager.HasIndex<SkinColorationPrototype>(candidate.SkinColoration))
+        {
+            return false;
+        }
+
+        speciesProto = candidate;
+        return true;
+    }
+
+    private bool IsValidRoundStartSpecies(SpeciesPrototype species)
+    {
+        return species.RoundStart &&
+               _prototypeManager.HasIndex<EntityPrototype>(species.Prototype) &&
+               _prototypeManager.HasIndex<EntityPrototype>(species.DollPrototype) &&
+               _prototypeManager.HasIndex<SkinColorationPrototype>(species.SkinColoration);
     }
 }

@@ -478,10 +478,10 @@ namespace Content.Shared.Preferences
             var configManager = collection.Resolve<IConfigurationManager>();
             var prototypeManager = collection.Resolve<IPrototypeManager>();
 
-            if (!prototypeManager.TryIndex(Species, out var speciesPrototype) || speciesPrototype.RoundStart == false)
+            if (!TryGetValidRoundStartSpecies(prototypeManager, Species, out var speciesPrototype))
             {
                 Species = HumanoidCharacterProfile.DefaultSpecies;
-                speciesPrototype = prototypeManager.Index(Species);
+                speciesPrototype = prototypeManager.Index<SpeciesPrototype>(Species);
             }
 
             var sex = Sex switch
@@ -680,6 +680,27 @@ namespace Content.Shared.Preferences
             }
 
             return result;
+        }
+
+        private static bool TryGetValidRoundStartSpecies(
+            IPrototypeManager prototypeManager,
+            ProtoId<SpeciesPrototype> speciesId,
+            out SpeciesPrototype speciesPrototype)
+        {
+            speciesPrototype = default!;
+
+            if (!prototypeManager.TryIndex(speciesId, out var candidate) || !candidate.RoundStart)
+                return false;
+
+            if (!prototypeManager.HasIndex<EntityPrototype>(candidate.Prototype) ||
+                !prototypeManager.HasIndex<EntityPrototype>(candidate.DollPrototype) ||
+                !prototypeManager.HasIndex<SkinColorationPrototype>(candidate.SkinColoration))
+            {
+                return false;
+            }
+
+            speciesPrototype = candidate;
+            return true;
         }
 
         public HumanoidCharacterProfile Validated(ICommonSession session, IDependencyCollection collection)
