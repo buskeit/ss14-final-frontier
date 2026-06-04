@@ -148,8 +148,11 @@ namespace Robust.Server.Player
             // client session is complete, set their status accordingly.
             // This is done before the packet is built, so that the client
             // can see themselves Connected.
-            session.ConnectedTime = DateTime.UtcNow;
-            SetStatus(session, SessionStatus.Connected);
+            if (session.Status != SessionStatus.Connected)
+            {
+                session.ConnectedTime = DateTime.UtcNow;
+                SetStatus(session, SessionStatus.Connected);
+            }
 
             var list = new List<SessionState>();
             foreach (var client in players)

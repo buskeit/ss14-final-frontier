@@ -62,7 +62,7 @@
   parent: BaseVariationPass
   components:
   - type: EntitySpawnVariationPass
-    tilesPerEntityAverage: 120
+    tilesPerEntityAverage: 20
     tilesPerEntityStdDev: 5
     entities:
     - id: DecalSpawnerGraffiti
@@ -95,7 +95,6 @@
     reagents:
     - Vomit
     - InsectBlood
-    - WeldingFuel
     - Mold
   - quantity: 55
     weight: 4
@@ -131,7 +130,7 @@
 - type: weightedRandomFillSolution
   id: RandomFillTrashPuddleBloodbath
   fills:
-  - quantity: 80
+  - quantity: 10
     weight: 1
     reagents:
     - Blood
@@ -148,7 +147,7 @@
   parent: BaseVariationPass
   components:
   - type: PuddleMessVariationPass
-    tilesPerSpillAverage: 150
+    tilesPerSpillAverage: 50
     tilesPerSpillStdDev: 10
     randomPuddleSolutionFill: RandomFillTrashPuddleBloodbath
 
@@ -158,7 +157,7 @@
   components:
   - type: CutWireVariationPass
     wireCutChance: 0.01
-    maxWiresCut: 20
+    maxWiresCut: 5
     blacklist:
       components:
       - ParticleAcceleratorControlBox
@@ -169,18 +168,18 @@
   components:
   - type: SolarPanelReplaceVariationPass
   - type: EntityReplaceVariationPass
-    entitiesPerReplacementAverage: 30
+    entitiesPerReplacementAverage: 10
     entitiesPerReplacementStdDev: 5
     replacements:
     - id: SolarPanelBroken
 
-- type: entity
-  id: SolarPanelEmptyVariationPass
-  parent: BaseVariationPass
-  components:
-  - type: SolarPanelReplaceVariationPass
-  - type: EntityReplaceVariationPass
-    entitiesPerReplacementAverage: 30
-    entitiesPerReplacementStdDev: 5
-    replacements:
-    - id: SolarAssembly
+#- type: entity
+#  id: SolarPanelEmptyVariationPass
+#  parent: BaseVariationPass
+#  components:
+#  - type: SolarPanelReplaceVariationPass
+#  - type: EntityReplaceVariationPass
+#    entitiesPerReplacementAverage: 30
+#    entitiesPerReplacementStdDev: 5
+#    replacements:
+#    - id: SolarAssembly

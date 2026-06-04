@@ -271,7 +271,7 @@ namespace Robust.Server.GameObjects
             switch (args.NewStatus)
             {
                 case SessionStatus.Connected:
-                    _lastProcessedSequencesCmd.Add(args.Session, 0);
+                    _lastProcessedSequencesCmd.TryAdd(args.Session, 0);
                     break;
 
                 case SessionStatus.Disconnected:

@@ -364,8 +364,8 @@
   id: JobIconPassenger
   icon:
     sprite: *icon-rsi
-    state: Passenger
-  jobName: job-name-passenger
+    state: Civilian
+  jobName: job-name-civilian
 
 - type: jobIcon
   parent: JobIcon

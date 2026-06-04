@@ -18,6 +18,8 @@ using Content.Shared.Speech;
 using Content.Shared.Whitelist;
 using Robust.Shared.Containers;
 using Robust.Shared.Map;
+using Robust.Shared.Map.Components;
+using Robust.Shared.Map.Events;
 using Robust.Shared.Network;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
@@ -45,8 +47,14 @@ public abstract partial class SharedMindSystem : EntitySystem
     protected readonly Dictionary<NetUserId, EntityUid> UserMinds = new();
 
     private HashSet<Entity<MindComponent>> _pickingMinds = new();
+    private readonly Dictionary<EntityUid, MindSerializationSnapshot> _mindSerializationSnapshots = new();
 
     private readonly EntProtoId _mindProto = "MindBase";
+
+    private readonly record struct MindSerializationSnapshot(
+        EntityUid? OwnedEntity,
+        EntityUid? VisitingEntity,
+        List<EntityUid> Objectives);
 
     public override void Initialize()
     {
@@ -59,6 +67,8 @@ public abstract partial class SharedMindSystem : EntitySystem
         SubscribeLocalEvent<MindComponent, ComponentInit>(OnMindInit);
         SubscribeLocalEvent<MindComponent, ComponentStartup>(OnMindStartup);
         SubscribeLocalEvent<MindComponent, EntityRenamedEvent>(OnRenamed);
+        SubscribeLocalEvent<BeforeSerializationEvent>(OnBeforeSerialization);
+        SubscribeLocalEvent<AfterSerializationEvent>(OnAfterSerialization);
 
         InitializeRelay();
     }
@@ -102,6 +112,86 @@ public abstract partial class SharedMindSystem : EntitySystem
 
         Log.Error($"Encountered a user {component.UserId} that is already assigned to a mind while initializing mind {ToPrettyString(uid)}. Ignoring user field.");
         component.UserId = null;
+    }
+
+    private void OnBeforeSerialization(BeforeSerializationEvent ev)
+    {
+        _mindSerializationSnapshots.Clear();
+
+        var query = EntityQueryEnumerator<MindComponent>();
+        while (query.MoveNext(out var uid, out var mind))
+        {
+            var ownedEntity = GetSerializableMindReference(mind.OwnedEntity, ev.MapIds);
+            var visitingEntity = GetSerializableMindReference(mind.VisitingEntity, ev.MapIds);
+            var objectives = new List<EntityUid>(mind.Objectives.Count);
+
+            foreach (var objective in mind.Objectives)
+            {
+                if (IsSerializableMindReference(objective, ev.MapIds))
+                    objectives.Add(objective);
+            }
+
+            if (ownedEntity == mind.OwnedEntity &&
+                visitingEntity == mind.VisitingEntity &&
+                objectives.SequenceEqual(mind.Objectives))
+            {
+                continue;
+            }
+
+            _mindSerializationSnapshots[uid] = new MindSerializationSnapshot(
+                mind.OwnedEntity,
+                mind.VisitingEntity,
+                new List<EntityUid>(mind.Objectives));
+
+            mind.OwnedEntity = ownedEntity;
+            mind.VisitingEntity = visitingEntity;
+            mind.Objectives.Clear();
+            mind.Objectives.AddRange(objectives);
+            Dirty(uid, mind);
+        }
+    }
+
+    private void OnAfterSerialization(AfterSerializationEvent ev)
+    {
+        foreach (var (uid, snapshot) in _mindSerializationSnapshots)
+        {
+            if (!TryComp<MindComponent>(uid, out var mind))
+                continue;
+
+            mind.OwnedEntity = snapshot.OwnedEntity;
+            mind.VisitingEntity = snapshot.VisitingEntity;
+            mind.Objectives.Clear();
+            mind.Objectives.AddRange(snapshot.Objectives);
+            Dirty(uid, mind);
+        }
+
+        _mindSerializationSnapshots.Clear();
+    }
+
+    private EntityUid? GetSerializableMindReference(EntityUid? uid, HashSet<MapId> mapIds)
+    {
+        if (uid == null)
+            return null;
+
+        return IsSerializableMindReference(uid.Value, mapIds)
+            ? uid
+            : null;
+    }
+
+    private bool IsSerializableMindReference(EntityUid uid, HashSet<MapId> mapIds)
+    {
+        if (!uid.IsValid() || !Exists(uid) || TerminatingOrDeleted(uid))
+            return false;
+
+        if (!TryComp<TransformComponent>(uid, out var xform))
+            return false;
+
+        if (mapIds.Contains(xform.MapID))
+            return true;
+
+        return xform.ParentUid == EntityUid.Invalid &&
+               !HasComp<MapComponent>(uid) &&
+               !HasComp<MapGridComponent>(uid);
     }
 
     private void OnReset(RoundRestartCleanupEvent ev)
