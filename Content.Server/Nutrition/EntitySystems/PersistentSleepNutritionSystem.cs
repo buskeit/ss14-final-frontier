@@ -42,28 +42,27 @@ public sealed class PersistentSleepNutritionSystem : EntitySystem
             }
 
             var pause = EnsureComp<PersistentSleepPauseComponent>(uid);
-            EnsureComp<PersistentSleepNutritionComponent>(uid);
+            var nutrition = EnsureComp<PersistentSleepNutritionComponent>(uid);
 
             if (pause.SleepStartedAt == default)
                 pause.SleepStartedAt = _timing.CurTime;
+
+            if (nutrition.SleepStartedAt == default)
+                nutrition.SleepStartedAt = pause.SleepStartedAt;
         }
     }
 
     private bool IsEligibleForPersistentSleepPause(EntityUid uid)
     {
-        // Must be SSD/offline. Online sleeping players still consume normally.
         if (_actorQuery.HasComp(uid))
             return false;
 
-        // Must be actually sleeping, i.e. real sleep state / bed icon.
         if (!_sleepingQuery.HasComp(uid))
             return false;
 
-        // Must be buckled to something.
         if (!_buckleQuery.TryComp(uid, out var buckle))
             return false;
 
-        // Must be buckled to a valid persistent sleep location.
         if (buckle.BuckledTo is not { Valid: true } bed)
             return false;
 
