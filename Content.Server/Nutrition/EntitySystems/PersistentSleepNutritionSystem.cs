@@ -32,22 +32,24 @@ public sealed class PersistentSleepNutritionSystem : EntitySystem
         var query = EntityQueryEnumerator<HungerComponent, ThirstComponent>();
         while (query.MoveNext(out var uid, out _, out _))
         {
-            var eligible = IsEligibleForPersistentSleepNutritionPause(uid);
+            var eligible = IsEligibleForPersistentSleepPause(uid);
 
             if (!eligible)
             {
+                RemCompDeferred<PersistentSleepPauseComponent>(uid);
                 RemCompDeferred<PersistentSleepNutritionComponent>(uid);
                 continue;
             }
 
-            var comp = EnsureComp<PersistentSleepNutritionComponent>(uid);
+            var pause = EnsureComp<PersistentSleepPauseComponent>(uid);
+            EnsureComp<PersistentSleepNutritionComponent>(uid);
 
-            if (comp.SleepStartedAt == default)
-                comp.SleepStartedAt = _timing.CurTime;
+            if (pause.SleepStartedAt == default)
+                pause.SleepStartedAt = _timing.CurTime;
         }
     }
 
-    private bool IsEligibleForPersistentSleepNutritionPause(EntityUid uid)
+    private bool IsEligibleForPersistentSleepPause(EntityUid uid)
     {
         // Must be SSD/offline. Online sleeping players still consume normally.
         if (_actorQuery.HasComp(uid))
@@ -65,6 +67,6 @@ public sealed class PersistentSleepNutritionSystem : EntitySystem
         if (buckle.BuckledTo is not { Valid: true } bed)
             return false;
 
-            return _sleepLocationQuery.HasComp(bed);
+        return _sleepLocationQuery.HasComp(bed);
     }
 }
