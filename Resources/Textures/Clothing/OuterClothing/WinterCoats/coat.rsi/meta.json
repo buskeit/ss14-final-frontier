@@ -453,6 +453,21 @@
       "name": "CENTCOM-inhand-right",
       "directions": 4
     },
+    {
+      "name": "league-icon"
+    },
+    {
+      "name": "league-equipped-OUTERCLOTHING",
+      "directions": 4
+    },
+    {
+      "name": "league-inhand-left",
+      "directions": 4
+    },
+    {
+      "name": "league-inhand-right",
+      "directions": 4
+    },
 	{
       "name": "VIRO-icon"
     },

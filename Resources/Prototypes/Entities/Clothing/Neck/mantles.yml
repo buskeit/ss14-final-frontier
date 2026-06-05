@@ -88,7 +88,6 @@
 
 # Custom
 ## Command
-
 - type: entity
   parent: [ClothingNeckBase, BaseCommandContraband]
   id: ClothingNeckMantleXO
@@ -107,10 +106,21 @@
   description: A comfortable and chique mantle worn by the Secretary General of the Aurelian League.
   components:
     - type: Sprite
-      sprite: Clothing/Neck/mantles/secgenmantle.rsi
+      sprite: Clothing/Neck/mantles/al_secgenmantle.rsi
     - type: Clothing
-      sprite: Clothing/Neck/mantles/secgenmantle.rsi
+      sprite: Clothing/Neck/mantles/al_secgenmantle.rsi
 
+- type: entity
+  parent: ClothingNeckBase
+  id: ClothingNeckMantleLeagueOfficialSOL
+  name: Aurelian League Official's mantle
+  description: A soft mantle with Solar Legion colors and symbols. The regal red colors denote the wearer's status as an official representative of the Aurelian League.
+  components:
+    - type: Sprite
+      sprite: Clothing/Neck/mantles/al_officialmantle.rsi
+    - type: Clothing
+      sprite: Clothing/Neck/mantles/al_officialmantle.rsi
+      
 - type: entity
   parent: [ClothingNeckBase, BaseCommandContraband]
   id: ClothingNeckMantleCESOL
@@ -179,17 +189,6 @@
 
 - type: entity
   parent: ClothingNeckBase
-  id: ClothingNeckMantleExecSecSOL
-  name: Aurelian League Official's mantle
-  description: A soft mantle with Solar Legion colors and symbols. The regal red colors denote the wearer's status as an official representative of the Aurelian League.
-  components:
-    - type: Sprite
-      sprite: Clothing/Neck/mantles/al_officialmantle.rsi
-    - type: Clothing
-      sprite: Clothing/Neck/mantles/al_officialmantle.rsi
-
-- type: entity
-  parent: ClothingNeckBase
   id: ClothingNeckMantleCargoForemanSOL
   name: Aurelian League Logistic Foreman's Mantle
   description: A soft brown mantle in Aurelian League colors. Features bronze trims to show the wearer's rank as a cargo foreman of the Aurelian League.
@@ -217,6 +216,6 @@
   description: A soft yellow mantle in solar legion colors. Features bronze trims to show the wearer's rank as an Aurelian League engineering foreman.
   components:
     - type: Sprite
-      sprite: _Persistence14/Clothing/Neck/mantles/engiforeman.rsi
+      sprite: Clothing/Neck/mantles/al_engiforeman.rsi
     - type: Clothing
-      sprite: _Persistence14/Clothing/Neck/mantles/engiforeman.rsi 
+      sprite: Clothing/Neck/mantles/al_engiforeman.rsi 

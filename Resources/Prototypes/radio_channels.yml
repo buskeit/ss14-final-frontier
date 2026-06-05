@@ -16,6 +16,14 @@
   longRange: true
 
 - type: radioChannel
+  id: AurelianLeague
+  name: chat-radio-league
+  keycode: 'l'
+  frequency: 1303
+  color: "#2681a5"
+  longRange: true
+
+- type: radioChannel
   id: Command
   name: chat-radio-command
   keycode: 'c'

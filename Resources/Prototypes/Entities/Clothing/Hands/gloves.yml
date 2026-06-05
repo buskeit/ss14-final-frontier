@@ -694,12 +694,11 @@
 
 # Custom
 # Command
-
 - type: entity
   parent: [ClothingHandsBase, BaseCommandContraband]
   id: ClothingHandsGlovesXO
   name: Executive Officer's Gloves
-  description: Standard issue gloves in blue command colers. The silver trim shows they belong to an Executive Officer.
+  description: Standard issue gloves in blue command colors. The silver trim shows they belong to an Executive Officer.
   components:
   - type: Sprite
     sprite: Clothing/Hands/Gloves/xo.rsi
@@ -710,3 +709,35 @@
     fiberMaterial: fibers-durathread
     fiberColor: fibers-regal-blue
   - type: FingerprintMask
+
+- type: entity
+  parent: [ClothingHandsBase, BaseCommandContraband]
+  id: ClothingHandsGlovesExec
+  name: Aurelian League Secretary General's Gloves
+  description: Regal red gloves with gold trims. A rare case of function and fashion.
+  components:
+    - type: Sprite
+      sprite: Clothing/Hands/Gloves/al_secgen.rsi
+    - type: Clothing
+      sprite: Clothing/Hands/Gloves/al_secgen.rsi
+    - type: Insulated
+    - type: Fiber
+      fiberMaterial: fibers-durathread
+      fiberColor: fibers-regal-red
+    - type: FingerprintMask
+
+- type: entity
+  parent: [ClothingHandsBase, BaseCommandContraband]
+  id: ClothingHandsGlovesLeagueOfficial
+  name: Aurelian League Official's Gloves
+  description: Regal red gloves with silver trim, made for Aurelian League official representatives.
+  components:
+      - type: Sprite
+        sprite: Clothing/Hands/Gloves/al_official.rsi
+      - type: Clothing
+        sprite: Clothing/Hands/Gloves/al_official.rsi
+      - type: Insulated
+      - type: Fiber
+        fiberMaterial: fibers-durathread
+        fiberColor: fibers-regal-red
+      - type: FingerprintMask

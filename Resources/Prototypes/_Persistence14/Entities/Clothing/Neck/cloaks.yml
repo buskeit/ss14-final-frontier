@@ -1,8 +1,0 @@
-- type: entity
-  parent: [ClothingNeckBase, BaseCommandContraband]
-  id: ClothingNeckCloakExecFormalSOL
-  name: solar legion executive's formal cloak
-  description: A lavish and decorated cloak designed for a Solar Legion executive meant for special occasions.
-  components:
-  - type: Sprite
-    sprite: _Persistence14/Clothing/Neck/Cloaks/execcloakformal.rsi

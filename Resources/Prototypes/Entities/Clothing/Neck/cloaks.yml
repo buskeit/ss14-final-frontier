@@ -376,3 +376,21 @@
   components:
     - type: Sprite
       sprite: Clothing/Neck/Cloaks/al_qm.rsi
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckCloakExecFormalSOL
+  name: Aurelian League Secretary General's Formal Cloak
+  description: A decorated orange-red cloak designed for the Secretary General of the Aurelian League. It is meant for special occasions.
+  components:
+    - type: Sprite
+      sprite: Clothing/Neck/Cloaks/al_secgencloakformal.rsi
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ClothingNeckCloakOfficialFormalSOL
+  name: Aurelian League Official's Formal Cloak
+  description: A decorated orange-red cloak with silver stripes and boardings, worn by League Officials on special occassions.
+    - components:
+        - type: Sprite
+          sprite: Clothing/Neck/Cloaks/al_officialcloakformal.rsi

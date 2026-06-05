@@ -192,6 +192,29 @@
     clothingPrototype: ClothingHeadHatHoodWinterCentcom
 
 - type: entity
+  parent: [ ClothingOuterWinterCoatToggleable, BaseCentcommContraband ]
+  id: ClothingOuterWinterAurelianLeague
+  name: Aurelian League Winter Coat
+  components:
+    - type: Sprite
+      sprite: Clothing/OuterClothing/WinterCoats/coat.rsi
+      layers:
+        - state: league-icon
+    - type: Item
+      inhandVisuals:
+        left:
+          - state: league-inhand-left
+        right:
+          - state: league-inhand-right
+    - type: Clothing
+      sprite: Clothing/OuterClothing/WinterCoats/coat.rsi
+      clothingVisuals:
+        outerClothing:
+          - state: league-equipped-OUTERCLOTHING
+    - type: ToggleableClothing
+      clothingPrototype: ClothingHeadHatHoodWinterAurelianLeague
+
+- type: entity
   parent: ClothingOuterWinterCoat
   id: ClothingOuterWinterChef
   name: chef's freezer coat

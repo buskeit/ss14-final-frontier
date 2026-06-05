@@ -333,6 +333,18 @@
 
 - type: entity
   parent: ClothingHeadHatHoodWinterBase
+  id: ClothingHeadHatHoodWinterAurelianLeague
+  categories: [ HideSpawnMenu ]
+  name: Aurelian League Winter Coat Hood
+  description: A hood for the wintercoat of Aurelian League Officials.
+  components:
+    - type: Sprite
+      sprite: Clothing/Head/Hoods/Coat/al_hoodleague.rsi
+    - type: Clothing
+      sprite: Clothing/Head/Hoods/Coat/al_hoodleague.rsi
+
+- type: entity
+  parent: ClothingHeadHatHoodWinterBase
   id: ClothingHeadHatHoodWinterChem
   categories: [ HideSpawnMenu ]
   name: chemist winter coat hood

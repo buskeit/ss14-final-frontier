@@ -29,18 +29,16 @@
     DoorRemoteCommand: 5
     DoorRemoteAll: 2
   # Encryption Keys
-    EncryptionKeyCommand: 15
+    EncryptionKeyAurelianLeague: 5
+    EncryptionKeyStationMaster: 5
+    EncryptionKeyCommand: 5
   # Headsets
-    ClothingHeadsetCommand: 5
-    ClothingHeadsetGrey: 5
-    ClothingHeadsetCentCom: 5
-  # Over-Ear Headsets / Command Only + Freelancer
-    ClothingHeadsetAltCommand: 5
-    ClothingHeadsetAltCargo: 5
-    ClothingHeadsetAltEngineering: 5
-    ClothingHeadsetAltMedical: 5
-    ClothingHeadsetAltScience: 5
-    ClothingHeadsetAltSecurity: 5
+    ClothingHeadsetAurelianLeague: 3
+    ClothingHeadsetCommand: 3
+  # Over-Ear Headsets 
+    ClothingHeadsetAltAurelianLeague: 3
+    ClothingHeadsetAltCommand: 3
+
   #HUDs
     ClothingEyesGlassesCommand: 3
     ClothingEyesHudCommand: 3

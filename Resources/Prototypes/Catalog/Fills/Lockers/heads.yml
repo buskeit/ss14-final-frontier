@@ -84,6 +84,7 @@
     children:
     - id: ClothingOuterHardsuitCap
     - id: ClothingMaskGasCaptain
+    - id: ClothingShoesBootsMagAdv
     - id: JetpackCaptainFilled
     - id: OxygenTankFilled
     - id: NitrogenTankFilled
@@ -150,6 +151,7 @@
     children:
     - id: ClothingOuterHardsuitXO
     - id: ClothingMaskGasXO
+    - id: ClothingShoesBootsMagAdv
     - id: JetpackXOFilled
     - id: OxygenTankFilled
     - id: NitrogenTankFilled
