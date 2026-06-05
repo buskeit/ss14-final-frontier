@@ -328,9 +328,9 @@
   id: ClothingNeckCloakOfficialSOL
   name: Aurelian League Official's Cloak
   description: A red colored, comfortable cloak with silver trim, showing that the bearer is an official Aurelian League representative.
-    - components:
-        - type: Sprite
-          sprite: Clothing/Neck/Cloaks/al_official.rsi
+  components:
+    - type: Sprite
+      sprite: Clothing/Neck/Cloaks/al_official.rsi
 
 - type: entity
   parent: [ClothingNeckBase, BaseCommandContraband]
