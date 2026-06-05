@@ -86,20 +86,25 @@ namespace Content.Client.Access.UI
             TargetIdLabel.Text = state.TargetIdName;
 
             var selectedRecordName = state.CrewRecord?.Name ?? state.TargetIdFullName ?? string.Empty;
+            var hasSelectedAccount = !string.IsNullOrEmpty(selectedRecordName);
 
             FullNameLineEdit.Editable = state.IsPrivilegedIdAuthorized && state.IsTargetIdPresent;
             RegisterIdButton.Visible = state.IsTargetIdPresent && string.IsNullOrEmpty(state.TargetIdFullName) && state.CrewRecord != null && state.IsPrivilegedIdAuthorized;
 
-            if (!string.IsNullOrEmpty(selectedRecordName))
+            if (hasSelectedAccount)
             {
                 FullNameLineEdit.Text = selectedRecordName;
                 SelectedAccountLabel.Text = selectedRecordName;
-                AccountDetails.Visible = true;
             }
             else
             {
                 SelectedAccountLabel.Text = "*None*";
-                AccountDetails.Visible = false;
+            }
+
+            TabContainer.SetTabVisible(AccountDetails, hasSelectedAccount);
+            if (!hasSelectedAccount && MainTabs.CurrentTab == 0)
+            {
+                MainTabs.CurrentTab = 1;
             }
 
             var fullNameDirty = _lastFullName != null && FullNameLineEdit.Text != selectedRecordName;
