@@ -183,6 +183,9 @@ public sealed partial class IdCardConsoleComponent : Component
         public readonly CrewRecord? CrewRecord;
         public readonly bool CanAccessCriminal;
         public readonly bool CanAccessMedical;
+        public readonly bool CanEditGeneral;
+        public readonly bool CanEditCriminal;
+        public readonly bool CanEditMedical;
 
         public IdCardConsoleBoundUserInterfaceState(bool isPrivilegedIdPresent,
             bool isPrivilegedIdAuthorized,
@@ -198,7 +201,10 @@ public sealed partial class IdCardConsoleComponent : Component
             int spentFunds,
             CrewRecord? crewRecord,
             bool canAccessCriminal,
-            bool canAccessMedical)
+            bool canAccessMedical,
+            bool canEditGeneral,
+            bool canEditCriminal,
+            bool canEditMedical)
         {
             IsPrivilegedIdPresent = isPrivilegedIdPresent;
             IsPrivilegedIdAuthorized = isPrivilegedIdAuthorized;
@@ -215,6 +221,9 @@ public sealed partial class IdCardConsoleComponent : Component
             CrewRecord = crewRecord;
             CanAccessCriminal = canAccessCriminal;
             CanAccessMedical = canAccessMedical;
+            CanEditGeneral = canEditGeneral;
+            CanEditCriminal = canEditCriminal;
+            CanEditMedical = canEditMedical;
         }
     }
 
