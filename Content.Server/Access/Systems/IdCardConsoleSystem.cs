@@ -237,10 +237,34 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
 
     private bool PrivilegedIdCanEditGeneralRecords(EntityUid console, EntityUid id)
     {
-        if (!TryGetVerifiedCrewRecordForId(console, id, out _, out var assignment))
-            return false;
+        if (IsVerifiedStationOwner(console, id))
+            return true;
 
-        return IsVerifiedStationOwner(console, id) || assignment?.CanEditGeneralRecord == true;
+        if (TryGetVerifiedCrewRecordForId(console, id, out _, out var assignment) &&
+            assignment?.CanEditGeneralRecord == true)
+        {
+            return true;
+        }
+
+        return PrivilegedIdHasAnyAccess(console, id, "Command", "HeadOfPersonnel");
+    }
+
+    private bool PrivilegedIdCanEditMedicalRecords(EntityUid console, EntityUid id)
+    {
+        return IsVerifiedStationOwner(console, id) ||
+               PrivilegedIdHasAnyAccess(console, id, "Medical", "ChiefMedicalOfficer", "Command");
+    }
+
+    private bool PrivilegedIdCanEditCriminalRecords(EntityUid console, EntityUid id)
+    {
+        return IsVerifiedStationOwner(console, id) ||
+               PrivilegedIdHasAnyAccess(console, id, "Security", "HeadOfSecurity", "Command");
+    }
+
+    private void DirtySelectedRecord(EntityUid station)
+    {
+        if (TryComp<CrewRecordsComponent>(station, out var crewRecords))
+            Dirty(station, crewRecords);
     }
 
     private static CrewRecord GetVisibleRecord(CrewRecord source, bool canViewGeneral, bool canViewMedical, bool canViewCriminal)
@@ -364,8 +388,8 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
         if (station == null) return;
         if (!PrivilegedIdCanEditGeneralRecords(uid, privilegedId)) return;
 
-
         component.SelectedRecord.GeneralRecord = ClampRecordContent(args.Content);
+        DirtySelectedRecord(station.Value);
 
         UpdateUserInterface(uid, component, args);
     }
@@ -389,12 +413,10 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
         if (component.PrivilegedIdSlot.Item is not { Valid: true } privilegedId) return;
         var station = _station.GetOwningStation(uid);
         if (station == null) return;
-
-        if (!PrivilegedIdHasAnyAccess(uid, privilegedId, "Medical", "ChiefMedicalOfficer", "Command")) return;
-
-        if (!PrivilegedIdCanEditGeneralRecords(uid, privilegedId)) return;
+        if (!PrivilegedIdCanEditMedicalRecords(uid, privilegedId)) return;
 
         component.SelectedRecord.MedicalRecord = ClampRecordContent(args.Content);
+        DirtySelectedRecord(station.Value);
 
         UpdateUserInterface(uid, component, args);
     }
@@ -406,7 +428,7 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
         if (component.SelectedRecord == null) return;
         if (component.PrivilegedIdSlot.Item is not { Valid: true } privilegedId) return;
 
-        if (!PrivilegedIdHasAnyAccess(uid, privilegedId, "Medical", "ChiefMedicalOfficer", "Command")) return;
+        if (!PrivilegedIdCanEditMedicalRecords(uid, privilegedId)) return;
 
         SpawnPaper(uid, component.SelectedRecord.MedicalRecord, $"{component.SelectedRecord.Name} Medical Record");
     }
@@ -419,12 +441,10 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
         if (component.PrivilegedIdSlot.Item is not { Valid: true } privilegedId) return;
         var station = _station.GetOwningStation(uid);
         if (station == null) return;
-
-        if (!PrivilegedIdHasAnyAccess(uid, privilegedId, "Security", "HeadOfSecurity", "Command")) return;
-
-        if (!PrivilegedIdCanEditGeneralRecords(uid, privilegedId)) return;
+        if (!PrivilegedIdCanEditCriminalRecords(uid, privilegedId)) return;
 
         component.SelectedRecord.CriminalRecord = ClampRecordContent(args.Content);
+        DirtySelectedRecord(station.Value);
 
         UpdateUserInterface(uid, component, args);
     }
@@ -436,7 +456,7 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
         if (component.SelectedRecord == null) return;
         if (component.PrivilegedIdSlot.Item is not { Valid: true } privilegedId) return;
 
-        if (!PrivilegedIdHasAnyAccess(uid, privilegedId, "Security", "HeadOfSecurity", "Command")) return;
+        if (!PrivilegedIdCanEditCriminalRecords(uid, privilegedId)) return;
 
         SpawnPaper(uid, component.SelectedRecord.CriminalRecord, $"{component.SelectedRecord.Name} Criminal Record");
     }
@@ -573,8 +593,12 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
         var targetIdFullName = string.Empty;
         CrewAssignment? assignment = null;
         CrewAssignment? privassignment = null;
-        var owner = false;
+        var canManageIds = false;
+        var isStationOwner = false;
+        var canViewGeneral = false;
         var canEditGeneral = false;
+        var canEditCriminal = false;
+        var canEditMedical = false;
 
         if (component.TargetIdSlot.Item is { Valid: true } targetId) // targetID lsot occupied
         {
@@ -596,10 +620,14 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
             else
                 component.PrivRecord = null;
 
-            canAccessCriminal = PrivilegedIdHasAnyAccess(uid, privId, "Security", "HeadOfSecurity", "Command");
-            canAccessMedical = PrivilegedIdHasAnyAccess(uid, privId, "Medical", "ChiefMedicalOfficer", "Command");
+            isStationOwner = IsVerifiedStationOwner(uid, privId);
+            canAccessCriminal = isStationOwner || PrivilegedIdHasAnyAccess(uid, privId, "Security", "HeadOfSecurity", "Command");
+            canAccessMedical = isStationOwner || PrivilegedIdHasAnyAccess(uid, privId, "Medical", "ChiefMedicalOfficer", "Command");
             canEditGeneral = PrivilegedIdCanEditGeneralRecords(uid, privId);
-            owner = PrivilegedIdCanManageIds(uid, component, out _);
+            canEditCriminal = PrivilegedIdCanEditCriminalRecords(uid, privId);
+            canEditMedical = PrivilegedIdCanEditMedicalRecords(uid, privId);
+            canManageIds = PrivilegedIdCanManageIds(uid, component, out _);
+            canViewGeneral = canEditGeneral || canManageIds;
         }
         else
         {
@@ -612,7 +640,7 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
 
             newState = new IdCardConsoleBoundUserInterfaceState(
                 component.PrivilegedIdSlot.HasItem,
-                owner,
+                canManageIds,
                 component.TargetIdSlot.HasItem,
                 targetIdFullName,
                 targetIdName,
@@ -621,11 +649,14 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
                 assignment,
                 privassignment,
                 possibleAssignments,
-                owner,
+                isStationOwner,
                 0,
                 null,
                 canAccessCriminal,
-                canAccessMedical);
+                canAccessMedical,
+                canEditGeneral,
+                canEditCriminal,
+                canEditMedical);
 
 
         }
@@ -633,11 +664,11 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
         {
 
             possibleAssignments.TryGetValue(component.SelectedRecord.AssignmentID, out assignment);
-            var visibleRecord = GetVisibleRecord(component.SelectedRecord, canEditGeneral || owner, canAccessMedical || owner, canAccessCriminal || owner);
+            var visibleRecord = GetVisibleRecord(component.SelectedRecord, canViewGeneral, canAccessMedical, canAccessCriminal);
 
             newState = new IdCardConsoleBoundUserInterfaceState(
                 component.PrivilegedIdSlot.HasItem,
-                owner,
+                canManageIds,
                 component.TargetIdSlot.HasItem,
                 targetIdFullName,
                 targetIdName,
@@ -646,11 +677,14 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
                 assignment,
                 privassignment,
                 possibleAssignments,
-                owner,
+                isStationOwner,
                 component.SelectedRecord.Spent,
                 visibleRecord,
                 canAccessCriminal,
-                canAccessMedical);
+                canAccessMedical,
+                canEditGeneral,
+                canEditCriminal,
+                canEditMedical);
 
         }
 
