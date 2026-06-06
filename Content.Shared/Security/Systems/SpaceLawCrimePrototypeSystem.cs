@@ -28,14 +28,24 @@ public sealed class SpaceLawCrimePrototypeSystem : EntitySystem
 
     private void ReloadCrimes()
     {
-        SpaceLaw.Crimes.Clear();
+        var crimes = _prototype.EnumeratePrototypes<SpaceLawCrimePrototype>()
+            .OrderBy(crime => crime.Order)
+            .ThenBy(crime => crime.Category)
+            .ThenBy(crime => crime.Name)
+            .ToArray();
 
-        foreach (var crime in _prototype.EnumeratePrototypes<SpaceLawCrimePrototype>()
-                     .OrderBy(crime => crime.Order)
-                     .ThenBy(crime => crime.Category)
-                     .ThenBy(crime => crime.Name))
+        foreach (var crime in crimes)
         {
-            SpaceLaw.Crimes.Add(new SpaceLawCrime(crime.Name, crime.Category, crime.BrigTime, crime.Fine));
+            var entry = new SpaceLawCrime(crime.Name, crime.Category, crime.BrigTime, crime.Fine);
+            var existingIndex = SpaceLaw.Crimes.FindIndex(existing => existing.Name == crime.Name);
+
+            if (existingIndex >= 0)
+            {
+                SpaceLaw.Crimes[existingIndex] = entry;
+                continue;
+            }
+
+            SpaceLaw.Crimes.Add(entry);
         }
     }
 }
