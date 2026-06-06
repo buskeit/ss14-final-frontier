@@ -72,7 +72,9 @@ namespace Content.Client.VendingMachines
             _cachedInventory = vendingState.Inventory;
             _prices = vendingState.Prices;
             _requiresCash = vendingState.RequiresCash;
-            _balance = vendingState.Balance;
+            _balance = vendingState.Balance ?? _balance;
+            if (!vendingState.RequiresCash)
+                _balance = null;
             Refresh();
         }
 
