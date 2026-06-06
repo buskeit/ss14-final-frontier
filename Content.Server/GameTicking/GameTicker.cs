@@ -129,6 +129,7 @@ namespace Content.Server.GameTicking
             if (DummyTicker)
                 return;
             base.Update(frameTime);
+            UpdatePersistentAutosave(frameTime);
             UpdateRoundFlow(frameTime);
             UpdateGameRules();
         }
