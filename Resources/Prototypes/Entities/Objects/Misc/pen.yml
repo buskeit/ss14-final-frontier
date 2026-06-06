@@ -26,6 +26,14 @@
         maxDistance: 2
   - type: UseDelay
     delay: 1.5
+  - type: Stamp
+    stampedColor: "#333333"
+    stampState: "paper_stamp-nf-signature"
+    sound:
+      path: /Audio/Items/Paper/paper_scribble1.ogg
+      params:
+        volume: -2
+        maxDistance: 5
   - type: Fixtures
     fixtures:
       fix1:
