@@ -101,7 +101,7 @@
 
 - type: entity
   parent: [ClothingNeckBase, BaseCommandContraband]
-  id: ClothingNeckMantleSecGenSOL
+  id: ClothingNeckMantleSecGen
   name: Secretary General's Mantle
   description: A comfortable and chique mantle worn by the Secretary General of the Aurelian League.
   components:
