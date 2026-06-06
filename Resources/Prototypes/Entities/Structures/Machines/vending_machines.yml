@@ -244,6 +244,7 @@
     brokenState: broken
     normalState: normal-unshaded
     denyState: deny-unshaded
+    requiresCash: true
     loopDeny: false
   - type: DatasetVocalizer
     dataset: BoozeOMatAds
@@ -313,6 +314,7 @@
     normalState: normal-unshaded
     ejectState: eject-unshaded
     denyState: deny-unshaded
+    requiresCash: true
   - type: Sprite
     sprite: Structures/Machines/VendingMachines/cart.rsi
     layers:
@@ -378,6 +380,7 @@
     normalState: normal-unshaded
     ejectState: eject-unshaded
     denyState: deny-unshaded
+    requiresCash: true
   - type: DatasetVocalizer
     dataset: CigaretteMachineAds
   - type: SpeakOnUIClosed
@@ -923,6 +926,7 @@
     ejectState: eject-unshaded
     denyState: deny-unshaded
     ejectDelay: 0.6
+    requiresCash: true
   - type: DatasetVocalizer
     dataset: NanoMedAds
   - type: SpeakOnUIClosed
@@ -1406,6 +1410,7 @@
     normalState: normal-unshaded
     ejectState: eject-unshaded
     ejectDelay: 1.8
+    requiresCash: true
   - type: DatasetVocalizer
     dataset: GoodCleanFunAds
   - type: SpeakOnUIClosed
@@ -2223,6 +2228,7 @@
   components:
   - type: VendingMachine
     pack: TankDispenserEVAInventory
+    requiresCash: true
   - type: Sprite
     sprite: Structures/Machines/VendingMachines/tankdispenser.rsi #TODO add visualiser for remaining tanks as layers
     state: dispenser
@@ -2352,6 +2358,7 @@
     normalState: normal-unshaded
     ejectState: eject-unshaded
     denyState: deny-unshaded
+    requiresCash: true
   - type: Sprite
     sprite: Structures/Machines/VendingMachines/leaguetech.rsi
     layers:

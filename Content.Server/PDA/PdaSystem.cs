@@ -7,6 +7,7 @@ using Content.Server.PDA.Ringer;
 using Content.Server.Station.Systems;
 using Content.Server.Store.Systems;
 using Content.Server.Traitor.Uplink;
+using Content.Server._NF.Bank;
 using Content.Shared.Access.Components;
 using Content.Shared.CartridgeLoader;
 using Content.Shared.Chat;
@@ -33,6 +34,7 @@ namespace Content.Server.PDA
         [Dependency] private readonly RingerSystem _ringer = default!;
         [Dependency] private readonly StationSystem _station = default!;
         [Dependency] private readonly StoreSystem _store = default!;
+        [Dependency] private readonly BankSystem _bank = default!;
         [Dependency] private readonly IChatManager _chatManager = default!;
         [Dependency] private readonly UserInterfaceSystem _ui = default!;
         [Dependency] private readonly UnpoweredFlashlightSystem _unpoweredFlashlight = default!;
@@ -202,6 +204,8 @@ namespace Content.Server.PDA
 
             var programs = _cartridgeLoader.GetAvailablePrograms(uid, loader);
             var id = CompOrNull<IdCardComponent>(pda.ContainedId);
+            var balance = GetPdaBalance(pda, id);
+
             var state = new PdaUpdateState(
                 programs,
                 GetNetEntity(loader.ActiveProgram),
@@ -219,7 +223,8 @@ namespace Content.Server.PDA
                 pda.StationName,
                 showUplink,
                 hasInstrument,
-                address);
+                address,
+                balance);
 
             _ui.SetUiState(uid, PdaUiKey.Key, state);
         }
@@ -322,6 +327,22 @@ namespace Content.Server.PDA
             }
 
             return address;
+        }
+
+        private int? GetPdaBalance(PdaComponent pda, IdCardComponent? id)
+        {
+            if (pda.PdaOwner is { } owner && _bank.TryGetBalance(owner, out var ownerBalance))
+                return ownerBalance;
+
+            var accounts = _bank.GetMoneyAccountsComponent();
+            if (accounts == null)
+                return null;
+
+            var accountName = id?.FullName ?? pda.OwnerName;
+            if (string.IsNullOrWhiteSpace(accountName))
+                return null;
+
+            return accounts.TryGetBalance(accountName, out var balance) ? balance : null;
         }
     }
 }

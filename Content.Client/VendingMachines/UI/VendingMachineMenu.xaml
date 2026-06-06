@@ -5,6 +5,12 @@
     xmlns:co="clr-namespace:Content.Client.UserInterface.Controls"
     MinHeight="210">
     <BoxContainer Name="MainContainer" Orientation="Vertical">
+        <PanelContainer Name="BalancePanel" Margin="4 4 4 0" Visible="False">
+            <BoxContainer Orientation="Horizontal" Margin="6 4">
+                <Label Name="BalanceLabel" HorizontalExpand="True" />
+                <Label Name="CashSlotLabel" HorizontalAlignment="Right" />
+            </BoxContainer>
+        </PanelContainer>
         <LineEdit Name="SearchBar" PlaceHolder="{Loc 'vending-machine-component-search-filter'}" HorizontalExpand="True"  Margin ="4 4"/>
         <co:SearchListContainer Name="VendingContents" VerticalExpand="True" Margin="4 4"/>
          <!-- Footer -->

@@ -17,6 +17,9 @@ namespace Content.Shared.VendingMachines
         [DataField("pack", customTypeSerializer: typeof(PrototypeIdSerializer<VendingMachineInventoryPrototype>), required: true)]
         public string PackPrototypeId = string.Empty;
 
+        [DataField]
+        public bool RequiresCash = false;
+
         /// <summary>
         /// Used by the server to determine how long the vending machine stays in the "Deny" state.
         /// Used by the client to determine how long the deny animation should be played.

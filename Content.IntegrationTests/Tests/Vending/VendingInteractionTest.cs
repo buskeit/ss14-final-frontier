@@ -1,21 +1,32 @@
 using Content.IntegrationTests.Tests.Interaction;
+using Content.Server.Cargo.Systems;
+using Content.Server.GameTicking;
+using Content.Server._NF.Bank;
 using Content.Server.VendingMachines;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.Damage.Systems;
 using Content.Shared.FixedPoint;
+using Content.Shared._NF.Bank.Components;
 using Content.Shared.VendingMachines;
+using Robust.Shared.GameObjects;
 using Robust.Shared.Prototypes;
+using System;
 using System.Linq;
+using System.Reflection;
 
 namespace Content.IntegrationTests.Tests.Vending;
 
 public sealed class VendingInteractionTest : InteractionTest
 {
     private const string VendingMachineProtoId = "InteractionTestVendingMachine";
+    private const string PaidVendingMachineProtoId = "InteractionTestPaidVendingMachine";
+    private const string FreePricedVendingMachineProtoId = "InteractionTestFreePricedVendingMachine";
+    private const string AccessLockedPaidVendingMachineProtoId = "InteractionTestAccessLockedPaidVendingMachine";
 
     private const string VendedItemProtoId = "InteractionTestItem";
+    private const string PaidVendedItemProtoId = "InteractionTestPaidItem";
 
     private const string RestockBoxProtoId = "InteractionTestRestockBox";
 
@@ -29,10 +40,23 @@ public sealed class VendingInteractionTest : InteractionTest
   id: {VendedItemProtoId}
   name: {VendedItemProtoId}
 
+- type: entity
+  parent: BaseItem
+  id: {PaidVendedItemProtoId}
+  name: {PaidVendedItemProtoId}
+  components:
+  - type: StaticPrice
+    price: 7
+
 - type: vendingMachineInventory
   id: InteractionTestVendingInventory
   startingInventory:
     {VendedItemProtoId}: 5
+
+- type: vendingMachineInventory
+  id: InteractionTestPaidVendingInventory
+  startingInventory:
+    {PaidVendedItemProtoId}: 1
 
 - type: vendingMachineInventory
   id: InteractionTestVendingInventoryOther
@@ -62,6 +86,40 @@ public sealed class VendingInteractionTest : InteractionTest
   - type: VendingMachine
     pack: InteractionTestVendingInventory
     ejectDelay: 0 # no delay to speed up tests
+  - type: Sprite
+    sprite: error.rsi
+
+- type: entity
+  id: {PaidVendingMachineProtoId}
+  parent: VendingMachine
+  components:
+  - type: VendingMachine
+    pack: InteractionTestPaidVendingInventory
+    requiresCash: true
+    ejectDelay: 0
+  - type: Sprite
+    sprite: error.rsi
+
+- type: entity
+  id: {FreePricedVendingMachineProtoId}
+  parent: VendingMachine
+  components:
+  - type: VendingMachine
+    pack: InteractionTestPaidVendingInventory
+    ejectDelay: 0
+  - type: Sprite
+    sprite: error.rsi
+
+- type: entity
+  id: {AccessLockedPaidVendingMachineProtoId}
+  parent: VendingMachine
+  components:
+  - type: VendingMachine
+    pack: InteractionTestPaidVendingInventory
+    requiresCash: true
+    ejectDelay: 0
+  - type: AccessReader
+    access: [[""Command""]]
   - type: Sprite
     sprite: error.rsi
 ";
@@ -193,6 +251,91 @@ public sealed class VendingInteractionTest : InteractionTest
         Assert.That(IsUiOpen(VendingMachineUiKey.Key), "Failed to open BUI after repair.");
     }
 
+    [Test]
+    public async Task PaidVendRequiresFunds()
+    {
+        await SpawnTarget(PaidVendingMachineProtoId);
+        await SpawnEntity("APCBasic", SEntMan.GetCoordinates(TargetCoords));
+        await SetBankBalance(0);
+        await RunTicks(1);
+
+        var vendingSystem = SEntMan.System<VendingMachineSystem>();
+        var vendorEnt = SEntMan.GetEntity(Target.Value);
+
+        await Activate();
+        Assert.That(IsUiOpen(VendingMachineUiKey.Key), "BUI failed to open.");
+
+        await SendBui(VendingMachineUiKey.Key, new VendingMachineEjectMessage(InventoryType.Regular, PaidVendedItemProtoId));
+
+        Assert.That(vendingSystem.GetAllInventory(vendorEnt).Single().Amount, Is.EqualTo(1), "Paid vend dispensed without funds.");
+        await AssertEntityLookup(("APCBasic", 1));
+        Assert.That(GetBankBalance(), Is.EqualTo(0), "Balance changed on failed vend.");
+    }
+
+    [Test]
+    public async Task PaidVendWithdrawsOnSuccess()
+    {
+        await SpawnTarget(PaidVendingMachineProtoId);
+        await SpawnEntity("APCBasic", SEntMan.GetCoordinates(TargetCoords));
+        await SetBankBalance(10);
+        await RunTicks(1);
+
+        var vendingSystem = SEntMan.System<VendingMachineSystem>();
+        var vendorEnt = SEntMan.GetEntity(Target.Value);
+        var expectedPrice = GetExpectedPrice();
+
+        await Activate();
+        Assert.That(IsUiOpen(VendingMachineUiKey.Key), "BUI failed to open.");
+
+        await SendBui(VendingMachineUiKey.Key, new VendingMachineEjectMessage(InventoryType.Regular, PaidVendedItemProtoId));
+
+        Assert.That(vendingSystem.GetAllInventory(vendorEnt).Single().Amount, Is.EqualTo(0), "Paid vend did not reduce stock.");
+        await AssertEntityLookup(("APCBasic", 1), (PaidVendedItemProtoId, 1));
+        Assert.That(GetBankBalance(), Is.EqualTo(10 - expectedPrice), "Paid vend did not withdraw the correct amount.");
+    }
+
+    [Test]
+    public async Task FreeVendDoesNotWithdraw()
+    {
+        await SpawnTarget(FreePricedVendingMachineProtoId);
+        await SpawnEntity("APCBasic", SEntMan.GetCoordinates(TargetCoords));
+        await SetBankBalance(10);
+        await RunTicks(1);
+
+        var vendingSystem = SEntMan.System<VendingMachineSystem>();
+        var vendorEnt = SEntMan.GetEntity(Target.Value);
+
+        await Activate();
+        Assert.That(IsUiOpen(VendingMachineUiKey.Key), "BUI failed to open.");
+
+        await SendBui(VendingMachineUiKey.Key, new VendingMachineEjectMessage(InventoryType.Regular, PaidVendedItemProtoId));
+
+        Assert.That(vendingSystem.GetAllInventory(vendorEnt).Single().Amount, Is.EqualTo(0), "Free vend did not reduce stock.");
+        await AssertEntityLookup(("APCBasic", 1), (PaidVendedItemProtoId, 1));
+        Assert.That(GetBankBalance(), Is.EqualTo(10), "Free vend should not withdraw funds.");
+    }
+
+    [Test]
+    public async Task AccessLockedPaidVendDoesNotCharge()
+    {
+        await SpawnTarget(AccessLockedPaidVendingMachineProtoId);
+        await SpawnEntity("APCBasic", SEntMan.GetCoordinates(TargetCoords));
+        await SetBankBalance(100);
+        await RunTicks(1);
+
+        var vendingSystem = SEntMan.System<VendingMachineSystem>();
+        var vendorEnt = SEntMan.GetEntity(Target.Value);
+
+        await Activate();
+        Assert.That(IsUiOpen(VendingMachineUiKey.Key), "BUI failed to open.");
+
+        await SendBui(VendingMachineUiKey.Key, new VendingMachineEjectMessage(InventoryType.Regular, PaidVendedItemProtoId));
+
+        Assert.That(vendingSystem.GetAllInventory(vendorEnt).Single().Amount, Is.EqualTo(1), "Access-locked paid vend should not reduce stock.");
+        await AssertEntityLookup(("APCBasic", 1));
+        Assert.That(GetBankBalance(), Is.EqualTo(100), "Access-locked paid vend should not charge funds.");
+    }
+
     private async Task BreakVendor()
     {
         var damageableSys = SEntMan.System<DamageableSystem>();
@@ -205,5 +348,44 @@ public sealed class VendingInteractionTest : InteractionTest
         await Server.WaitPost(() => damageableSys.TryChangeDamage(SEntMan.GetEntity(Target).Value, damage, ignoreResistances: true));
         await RunTicks(5);
         Assert.That(damageableSys.GetAllDamage(STarget!.Value).GetTotal(), Is.GreaterThan(FixedPoint2.Zero), $"{VendingMachineProtoId} did not take damage.");
+    }
+
+    private async Task SetBankBalance(int amount)
+    {
+        await Server.WaitPost(() =>
+        {
+            var bank = SEntMan.System<BankSystem>();
+            var ticker = SEntMan.System<GameTicker>();
+            typeof(GameTicker).GetProperty(nameof(GameTicker.DefaultMap), BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)!
+                .SetValue(ticker, MapData.MapId);
+
+            var mapUid = MapSystem.GetMapOrInvalid(ticker.DefaultMap);
+            SEntMan.EnsureComponent<MoneyAccountsComponent>(mapUid);
+            var accountName = SEntMan.GetComponent<MetaDataComponent>(SPlayer).EntityName;
+            bank.EnsureAccount(accountName, amount);
+
+            if (!bank.TryGetBalance(SPlayer, out var currentBalance))
+                return;
+
+            var delta = amount - currentBalance;
+            if (delta > 0)
+                bank.TryBankDeposit(SPlayer, delta);
+            else if (delta < 0)
+                bank.TryBankWithdraw(SPlayer, -delta);
+        });
+    }
+
+    private int GetBankBalance()
+    {
+        var bank = SEntMan.System<BankSystem>();
+        Assert.That(bank.TryGetBalance(SPlayer, out var balance), "Player bank balance was unavailable.");
+        return balance;
+    }
+
+    private int GetExpectedPrice()
+    {
+        var pricing = SEntMan.System<PricingSystem>();
+        var proto = ProtoMan.Index<EntityPrototype>(PaidVendedItemProtoId);
+        return (int) Math.Ceiling(pricing.GetEstimatedPrice(proto));
     }
 }
