@@ -16,6 +16,7 @@ namespace Content.Client.VendingMachines
         private List<VendingMachineInventoryEntry> _cachedInventory = new();
         private Dictionary<string, int> _prices = new();
         private bool _requiresCash;
+        private int? _balance;
 
         public VendingMachineBoundUserInterface(EntityUid owner, Enum uiKey) : base(owner, uiKey)
         {
@@ -33,13 +34,13 @@ namespace Content.Client.VendingMachines
         public void Refresh()
         {
             var enabled = EntMan.TryGetComponent(Owner, out VendingMachineComponent? bendy) && !bendy.Ejecting;
-            _menu?.Populate(_cachedInventory, _prices, _requiresCash, enabled);
+            _menu?.Populate(_cachedInventory, _prices, _requiresCash, _balance, enabled);
         }
 
         public void UpdateAmounts()
         {
             var enabled = EntMan.TryGetComponent(Owner, out VendingMachineComponent? bendy) && !bendy.Ejecting;
-            _menu?.UpdateAmounts(_cachedInventory, _prices, _requiresCash, enabled);
+            _menu?.UpdateAmounts(_cachedInventory, _prices, _requiresCash, _balance, enabled);
         }
 
         private void OnItemSelected(GUIBoundKeyEventArgs args, ListData data)
@@ -71,6 +72,7 @@ namespace Content.Client.VendingMachines
             _cachedInventory = vendingState.Inventory;
             _prices = vendingState.Prices;
             _requiresCash = vendingState.RequiresCash;
+            _balance = vendingState.Balance;
             Refresh();
         }
 
