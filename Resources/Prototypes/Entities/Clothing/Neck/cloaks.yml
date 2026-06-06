@@ -391,6 +391,6 @@
   id: ClothingNeckCloakOfficialFormalSOL
   name: Aurelian League Official's Formal Cloak
   description: A decorated orange-red cloak with silver stripes and boardings, worn by League Officials on special occassions.
-    - components:
-        - type: Sprite
-          sprite: Clothing/Neck/Cloaks/al_officialcloakformal.rsi
+  components:
+    - type: Sprite
+      sprite: Clothing/Neck/Cloaks/al_officialcloakformal.rsi

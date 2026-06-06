@@ -1,4 +1,4 @@
-7- type: entity
+- type: entity
   parent: ClothingScarfBase
   id: ClothingNeckScarfStripedRed
   name: striped red scarf
@@ -119,16 +119,16 @@
     - type: Clothing
       sprite: Clothing/Neck/Scarfs/centcom.rsi
 
-  - type: entity
-    parent: [ ClothingScarfBase, BaseCentcommContraband ]
-    id: ClothingNeckScarfStripedAurelianLeague
-    name: Striped Aurelian League Scarf
-    description: A thick striped cotton scarf in Aurelian League colors, used by official representatives. The perfect accesory for cold times.
-    components:
-      - type: Sprite
-        sprite: Clothing/Neck/Scarfs/centcom.rsi
-      - type: Clothing
-        sprite: Clothing/Neck/Scarfs/al_league.rsi
+- type: entity
+  parent: [ ClothingScarfBase, BaseCentcommContraband ]
+  id: ClothingNeckScarfStripedAurelianLeague
+  name: Striped Aurelian League Scarf
+  description: A thick striped cotton scarf in Aurelian League colors, used by official representatives. The perfect accesory for cold times.
+  components:
+  - type: Sprite
+    sprite: Clothing/Neck/Scarfs/centcom.rsi
+  - type: Clothing
+    sprite: Clothing/Neck/Scarfs/al_league.rsi
         
 - type: entity
   parent: ClothingScarfBase
