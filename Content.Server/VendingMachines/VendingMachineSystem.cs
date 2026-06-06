@@ -23,7 +23,6 @@ namespace Content.Server.VendingMachines
         [Dependency] private readonly PricingSystem _pricing = default!;
         [Dependency] private readonly ThrowingSystem _throwingSystem = default!;
 
-        private const int FallbackVendPrice = 20;
         private const float WallVendEjectDistanceFromWall = 1f;
 
         public override void Initialize()
@@ -247,7 +246,7 @@ namespace Content.Server.VendingMachines
             args.Cancelled |= ent.Comp.Broken;
         }
 
-        protected override void UpdateUI(Entity<VendingMachineComponent?> entity)
+        protected override void UpdateUI(Entity<VendingMachineComponent?> entity, EntityUid? actor = null)
         {
             if (!Resolve(entity.Owner, ref entity.Comp))
                 return;
@@ -259,21 +258,17 @@ namespace Content.Server.VendingMachines
             {
                 foreach (var entry in inventory)
                 {
-                    var price = FallbackVendPrice;
-                    if (PrototypeManager.TryIndex<EntityPrototype>(entry.ID, out var proto))
-                    {
-                        var estimatedPrice = _pricing.GetEstimatedPrice(proto);
-                        if (double.IsFinite(estimatedPrice) && estimatedPrice > 0)
-                            price = (int)Math.Ceiling(estimatedPrice);
-                    }
-
-                    prices[entry.ID] = price;
+                    prices[entry.ID] = GetVendPrice(entity.Comp, entry.ID);
                 }
             }
 
+            int? balance = null;
+            if (actor != null && _bank.TryGetBalance(actor.Value, out var accountBalance))
+                balance = accountBalance;
+
             UISystem.SetUiState(entity.Owner,
                 VendingMachineUiKey.Key,
-                new VendingMachineUpdateState(inventory, prices, entity.Comp.RequiresCash));
+                new VendingMachineUpdateState(inventory, prices, entity.Comp.RequiresCash, balance));
         }
 
         public override void AuthorizedVend(EntityUid uid, EntityUid sender, InventoryType type, string itemId, VendingMachineComponent component)
@@ -287,18 +282,13 @@ namespace Content.Server.VendingMachines
                 return;
             }
 
-            var price = FallbackVendPrice;
-            if (PrototypeManager.TryIndex<EntityPrototype>(itemId, out var proto))
-            {
-                var estimatedPrice = _pricing.GetEstimatedPrice(proto);
-                if (double.IsFinite(estimatedPrice) && estimatedPrice > 0)
-                    price = (int) Math.Ceiling(estimatedPrice);
-            }
+            var price = GetVendPrice(component, itemId);
 
             if (!_bank.TryGetBalance(sender, out var balance) || balance < price)
             {
                 Popup.PopupClient(Loc.GetString("bank-insufficient-funds"), uid, sender);
                 Deny((uid, component), sender);
+                UpdateUI((uid, component), sender);
                 return;
             }
 
@@ -306,7 +296,20 @@ namespace Content.Server.VendingMachines
                 return;
 
             if (!_bank.TryBankWithdraw(sender, price))
+            {
                 Log.Warning($"Vending purchase withdrawal failed after vend for {ToPrettyString(sender)} on {ToPrettyString(uid)}.");
+                return;
+            }
+
+            UpdateUI((uid, component), sender);
+        }
+
+        private static int GetVendPrice(VendingMachineComponent component, string itemId)
+        {
+            if (component.Prices.TryGetValue(itemId, out var price))
+                return Math.Max(0, price);
+
+            return Math.Max(0, component.DefaultPrice);
         }
     }
 }
