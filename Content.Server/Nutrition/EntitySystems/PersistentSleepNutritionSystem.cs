@@ -32,39 +32,40 @@ public sealed class PersistentSleepNutritionSystem : EntitySystem
         var query = EntityQueryEnumerator<HungerComponent, ThirstComponent>();
         while (query.MoveNext(out var uid, out _, out _))
         {
-            var eligible = IsEligibleForPersistentSleepNutritionPause(uid);
+            var eligible = IsEligibleForPersistentSleepPause(uid);
 
             if (!eligible)
             {
+                RemCompDeferred<PersistentSleepPauseComponent>(uid);
                 RemCompDeferred<PersistentSleepNutritionComponent>(uid);
                 continue;
             }
 
-            var comp = EnsureComp<PersistentSleepNutritionComponent>(uid);
+            var pause = EnsureComp<PersistentSleepPauseComponent>(uid);
+            var nutrition = EnsureComp<PersistentSleepNutritionComponent>(uid);
 
-            if (comp.SleepStartedAt == default)
-                comp.SleepStartedAt = _timing.CurTime;
+            if (pause.SleepStartedAt == default)
+                pause.SleepStartedAt = _timing.CurTime;
+
+            if (nutrition.SleepStartedAt == default)
+                nutrition.SleepStartedAt = pause.SleepStartedAt;
         }
     }
 
-    private bool IsEligibleForPersistentSleepNutritionPause(EntityUid uid)
+    private bool IsEligibleForPersistentSleepPause(EntityUid uid)
     {
-        // Must be SSD/offline. Online sleeping players still consume normally.
         if (_actorQuery.HasComp(uid))
             return false;
 
-        // Must be actually sleeping, i.e. real sleep state / bed icon.
         if (!_sleepingQuery.HasComp(uid))
             return false;
 
-        // Must be buckled to something.
         if (!_buckleQuery.TryComp(uid, out var buckle))
             return false;
 
-        // Must be buckled to a valid persistent sleep location.
         if (buckle.BuckledTo is not { Valid: true } bed)
             return false;
 
-            return _sleepLocationQuery.HasComp(bed);
+        return _sleepLocationQuery.HasComp(bed);
     }
 }

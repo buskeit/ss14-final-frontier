@@ -86,20 +86,25 @@ namespace Content.Client.Access.UI
             TargetIdLabel.Text = state.TargetIdName;
 
             var selectedRecordName = state.CrewRecord?.Name ?? state.TargetIdFullName ?? string.Empty;
+            var hasSelectedAccount = !string.IsNullOrEmpty(selectedRecordName);
 
             FullNameLineEdit.Editable = state.IsPrivilegedIdAuthorized && state.IsTargetIdPresent;
             RegisterIdButton.Visible = state.IsTargetIdPresent && string.IsNullOrEmpty(state.TargetIdFullName) && state.CrewRecord != null && state.IsPrivilegedIdAuthorized;
 
-            if (!string.IsNullOrEmpty(selectedRecordName))
+            if (hasSelectedAccount)
             {
                 FullNameLineEdit.Text = selectedRecordName;
                 SelectedAccountLabel.Text = selectedRecordName;
-                AccountDetails.Visible = true;
             }
             else
             {
                 SelectedAccountLabel.Text = "*None*";
-                AccountDetails.Visible = false;
+            }
+
+            TabContainer.SetTabVisible(AccountDetails, hasSelectedAccount);
+            if (!hasSelectedAccount && MainTabs.CurrentTab == 0)
+            {
+                MainTabs.CurrentTab = 1;
             }
 
             var fullNameDirty = _lastFullName != null && FullNameLineEdit.Text != selectedRecordName;
@@ -164,10 +169,8 @@ namespace Content.Client.Access.UI
                 CriminalRecordLabel.SetMarkup(state.CrewRecord.CriminalRecord);
                 CriminalRecordTE.TextRope = new Rope.Leaf(state.CrewRecord.CriminalRecord);
             }
-            // Can edit general record: if owner, or if priv assignment has CanEditGeneralRecord
-            var canEditGeneral = state.IsOwner || (state.PrivAssignment != null && state.PrivAssignment.CanEditGeneralRecord);
-            TabContainer.SetTabVisible(EditGeneralRecord, canEditGeneral);
-            if (!canEditGeneral && GeneralTabs.CurrentTab == 1)
+            TabContainer.SetTabVisible(EditGeneralRecord, state.CanEditGeneral);
+            if (!state.CanEditGeneral && GeneralTabs.CurrentTab == 1)
             {
                 GeneralTabs.CurrentTab = 0;
             }
@@ -185,15 +188,14 @@ namespace Content.Client.Access.UI
                 MainTabs.CurrentTab = 0;
             }
 
-            // Edit tabs for criminal and medical should be visible if they have access to the tab AND can edit records
-            TabContainer.SetTabVisible(EditCriminalRecord, canEditGeneral && state.CanAccessCriminal);
-            if (!(canEditGeneral && state.CanAccessCriminal) && CriminalTabs.CurrentTab == 1)
+            TabContainer.SetTabVisible(EditCriminalRecord, state.CanEditCriminal);
+            if (!state.CanEditCriminal && CriminalTabs.CurrentTab == 1)
             {
                 CriminalTabs.CurrentTab = 0;
             }
 
-            TabContainer.SetTabVisible(EditMedicalRecord, canEditGeneral && state.CanAccessMedical);
-            if (!(canEditGeneral && state.CanAccessMedical) && MedicalTabs.CurrentTab == 1)
+            TabContainer.SetTabVisible(EditMedicalRecord, state.CanEditMedical);
+            if (!state.CanEditMedical && MedicalTabs.CurrentTab == 1)
             {
                 MedicalTabs.CurrentTab = 0;
             }
