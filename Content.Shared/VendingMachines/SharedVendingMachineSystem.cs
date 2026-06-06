@@ -152,7 +152,7 @@ public abstract partial class SharedVendingMachineSystem : EntitySystem
         if (!Equals(args.UiKey, VendingMachineUiKey.Key))
             return;
 
-        UpdateUI((entity.Owner, entity.Comp));
+        UpdateUI((entity.Owner, entity.Comp), args.Actor);
     }
 
     protected virtual void OnMapInit(EntityUid uid, VendingMachineComponent component, MapInitEvent args)
@@ -253,7 +253,7 @@ public abstract partial class SharedVendingMachineSystem : EntitySystem
 
         entry.Amount--;
         Dirty(uid, vendComponent);
-        UpdateUI((uid, vendComponent));
+        UpdateUI((uid, vendComponent), user);
         TryUpdateVisualState((uid, vendComponent));
         Audio.PlayPredicted(vendComponent.SoundVend, uid, user);
         return true;
@@ -273,7 +273,7 @@ public abstract partial class SharedVendingMachineSystem : EntitySystem
         Dirty(entity);
     }
 
-    protected virtual void UpdateUI(Entity<VendingMachineComponent?> entity) { }
+    protected virtual void UpdateUI(Entity<VendingMachineComponent?> entity, EntityUid? actor = null) { }
 
     /// <summary>
     /// Tries to update the visuals of the component based on its current state.
