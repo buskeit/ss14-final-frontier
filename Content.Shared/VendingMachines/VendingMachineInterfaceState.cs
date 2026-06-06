@@ -9,12 +9,14 @@ namespace Content.Shared.VendingMachines
         public List<VendingMachineInventoryEntry> Inventory;
         public Dictionary<string, int> Prices;
         public bool RequiresCash;
+        public int? Balance;
 
-        public VendingMachineUpdateState(List<VendingMachineInventoryEntry> inventory, Dictionary<string, int> prices, bool requiresCash)
+        public VendingMachineUpdateState(List<VendingMachineInventoryEntry> inventory, Dictionary<string, int> prices, bool requiresCash, int? balance = null)
         {
             Inventory = inventory;
             Prices = prices;
             RequiresCash = requiresCash;
+            Balance = balance;
         }
     }
 
