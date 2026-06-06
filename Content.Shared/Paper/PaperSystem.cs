@@ -1,15 +1,17 @@
 using Content.Shared.Administration.Logs;
+using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Database;
 using Content.Shared.Examine;
+using Content.Shared.Ghost;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Interaction;
 using Content.Shared.Mind.Components;
 using Content.Shared.Popups;
-using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Random.Helpers;
 using Content.Shared.Roles.Jobs;
 using Content.Shared.Tag;
 using Content.Shared.UserInterface;
+using Content.Shared.Verbs;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
@@ -48,6 +50,7 @@ public sealed class PaperSystem : EntitySystem
         SubscribeLocalEvent<PaperComponent, ExaminedEvent>(OnExamined);
         SubscribeLocalEvent<PaperComponent, InteractUsingEvent>(OnInteractUsing);
         SubscribeLocalEvent<PaperComponent, PaperInputTextMessage>(OnInputTextMessage);
+        SubscribeLocalEvent<PaperComponent, GetVerbsEvent<AlternativeVerb>>(AddSignVerb);
 
         SubscribeLocalEvent<RandomPaperContentComponent, MapInitEvent>(OnRandomPaperContentMapInit);
 
@@ -105,14 +108,37 @@ public sealed class PaperSystem : EntitySystem
 
             if (entity.Comp.StampedBy.Count > 0)
             {
-                var commaSeparated =
-                    string.Join(", ", entity.Comp.StampedBy.Select(s => Loc.GetString(s.StampedName)));
-                args.PushMarkup(
-                    Loc.GetString(
-                        "paper-component-examine-detail-stamped-by",
-                        ("paper", entity),
-                        ("stamps", commaSeparated))
-                );
+                var stamps = entity.Comp.StampedBy
+                    .Where(s => s.Type == StampType.RubberStamp)
+                    .Select(s => Loc.GetString(s.StampedName))
+                    .Distinct()
+                    .ToList();
+
+                if (stamps.Count > 0)
+                {
+                    args.PushMarkup(
+                        Loc.GetString(
+                            "paper-component-examine-detail-stamped-by",
+                            ("paper", entity),
+                            ("stamps", string.Join(", ", stamps)))
+                    );
+                }
+
+                var signatures = entity.Comp.StampedBy
+                    .Where(s => s.Type == StampType.Signature)
+                    .Select(s => s.StampedName)
+                    .Distinct()
+                    .ToList();
+
+                if (signatures.Count > 0)
+                {
+                    args.PushMarkup(
+                        Loc.GetString(
+                            "paper-component-examine-detail-signed-by",
+                            ("paper", entity),
+                            ("stamps", string.Join(", ", signatures)))
+                    );
+                }
             }
         }
     }
@@ -261,6 +287,82 @@ public sealed class PaperSystem : EntitySystem
     private void OnPaperWrite(Entity<ActivateOnPaperOpenedComponent> entity, ref PaperWriteEvent args)
     {
         _interaction.UseInHandInteraction(args.User, entity);
+    }
+
+    private void AddSignVerb(EntityUid uid, PaperComponent component, GetVerbsEvent<AlternativeVerb> args)
+    {
+        if (!args.CanAccess || !args.CanInteract)
+            return;
+
+        if (uid != args.Target || HasComp<GhostComponent>(args.User))
+            return;
+
+        if (!args.Using.HasValue || !_tagSystem.HasTag(args.Using.Value, WriteTag))
+            return;
+
+        args.Verbs.Add(new AlternativeVerb
+        {
+            Act = () => TrySign((uid, component), args.User, args.Using.Value),
+            Text = Loc.GetString("paper-component-verb-sign"),
+            Priority = 3
+        });
+    }
+
+    public bool TrySign(Entity<PaperComponent> paper, EntityUid signer, EntityUid pen)
+    {
+        if (!TryComp<StampComponent>(pen, out var stamp))
+            return false;
+
+        if (TryComp<PenInkComponent>(pen, out var penInk) &&
+            _solutionContainer.TryGetSolution(pen, penInk.SolutionName, out _, out var solution) &&
+            solution.Volume <= 0)
+        {
+            var penInkEmptyMessage = Loc.GetString("pen-ink-empty", ("pen", pen));
+            _popupSystem.PopupClient(penInkEmptyMessage, paper.Owner, signer);
+            return false;
+        }
+
+        var info = GetStampInfo(stamp);
+        info.Type = StampType.Signature;
+        info.StampedName = GetPlayerSignature(signer);
+
+        var oldStampCount = paper.Comp.StampedBy.Count;
+        if (!TryStamp(paper, info, stamp.StampState) || paper.Comp.StampedBy.Count == oldStampCount)
+            return false;
+
+        var writeEvent = new PaperWriteEvent(signer, paper);
+        RaiseLocalEvent(pen, ref writeEvent);
+
+        var signedEvent = new PaperSignedEvent(signer);
+        RaiseLocalEvent(paper.Owner, ref signedEvent);
+
+        _popupSystem.PopupEntity(
+            Loc.GetString(
+                "paper-component-action-signed-other",
+                ("user", signer),
+                ("target", paper.Owner)
+            ),
+            signer,
+            Filter.PvsExcept(signer, entityManager: EntityManager),
+            true
+        );
+
+        _popupSystem.PopupClient(
+            Loc.GetString(
+                "paper-component-action-signed-self",
+                ("target", paper.Owner)
+            ),
+            signer,
+            signer
+        );
+
+        _audio.PlayPredicted(stamp.Sound ?? paper.Comp.Sound, paper.Owner, signer);
+
+        _adminLogger.Add(LogType.Verb, LogImpact.Low,
+            $"{ToPrettyString(signer):player} signed {ToPrettyString(paper):paper}.");
+
+        UpdateUserInterface(paper);
+        return true;
     }
 
     /// <summary>
