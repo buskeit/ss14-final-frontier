@@ -217,16 +217,16 @@
 
 - type: entity
   parent: IDCardStandard
-  id: QuartermasterIDCard
+  id: ForemanIDCard
   name: Foreman ID Card
   components:
     - type: Sprite
       layers:
         - state: silver
         - state: stripe_top
-          color: &color-supply-top "#b18644"
+          color: *color-supply-top
         - state: stripe_bottom
-          color: &color-supply-bottom "#5b4523"
+          color: *color-supply-bottom
         - sprite: *icon-rsi
           offset: *icon-offset
           state: Foreman

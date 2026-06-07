@@ -2,7 +2,7 @@
   id: Civilian
   name: job-name-civilian
   description: job-description-civilian
-  playTimeTracker: JobCivilian
+  playTimeTracker: JobAssistant
   startingGear: PassengerGear
   icon: "JobIconCivilian"
   supervisors: job-supervisors-everyone

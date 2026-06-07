@@ -98,8 +98,8 @@
 - type: entity
   parent: BaseClothingBeltEngineering
   id: ClothingBeltChiefEngineer
-  name: chief engineer's toolbelt
-  description: Holds tools, looks snazzy.
+  name: Chief Engineer's Toolbelt
+  description: Holds tools the chief engineer needs to do their job.
   components:
   - type: Sprite
     sprite: Clothing/Belt/ce.rsi
@@ -115,17 +115,17 @@
 - type: entity
   parent: BaseClothingBeltEngineering
   id: ClothingBeltChiefEngineerSOL
-  name: solar legion chief engineer's toolbelt
-  description: Holds tools, looks snazzy. Designed for use by chief engineers all across the Solar Legion.
+  name: Aurelian League Chief Engineer's Toolbelt
+  description: Holds tools for the Chief Engineer. Designed for use by chief engineers all across the Solar Legion.
   components:
-    - type: Sprite
-      sprite: Clothing/Belt/al_ce.rsi
-    - type: Clothing
-      sprite: Clothing/Belt/al_ce.rsi
-    - type: Storage
-      grid:
-        - 0,0,9,1
-        - 
+  - type: Sprite
+    sprite: Clothing/Belt/al_ce.rsi
+  - type: Clothing
+    sprite: Clothing/Belt/al_ce.rsi
+  - type: Storage
+    grid:
+    - 0,0,9,1
+
 - type: entity
   parent: ClothingBeltStorageBase
   id: ClothingBeltJanitor
