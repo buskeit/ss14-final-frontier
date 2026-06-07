@@ -158,7 +158,9 @@ namespace Content.Server.GameTicking
 
                         if (mind == null)
                         {
-                            if (LobbyEnabled)
+                            if (PersistentJoinEnabled)
+                                PersistentJoinWaitDb();
+                            else if (LobbyEnabled)
                                 PlayerJoinLobby(session);
                             else
                                 SpawnWaitDb();
@@ -174,7 +176,10 @@ namespace Content.Server.GameTicking
                             // This player is joining the game with an existing mind, but the mind has no entity.
                             // Their entity was probably deleted sometime while they were disconnected, or they were an observer.
                             // Instead of allowing them to spawn in, we will dump and their existing mind in an observer ghost.
-                            PlayerJoinLobby(session);
+                            if (PersistentJoinEnabled)
+                                PersistentJoinWaitDb();
+                            else
+                                PlayerJoinLobby(session);
                         }
                         else
                         {
@@ -247,6 +252,21 @@ namespace Content.Server.GameTicking
                 JoinAsObserver(session);
             }
 
+            async void PersistentJoinWaitDb()
+            {
+                try
+                {
+                    await _userDb.WaitLoadComplete(session);
+                }
+                catch (OperationCanceledException)
+                {
+                    Log.Debug($"Database load cancelled while waiting to persistently spawn {session}");
+                    return;
+                }
+
+                JoinPersistentPlayer(session);
+            }
+
             async void AddPlayerToDb(Guid id)
             {
                 if (RoundId != 0 && _runLevel != GameRunLevel.PreRoundLobby)
@@ -265,7 +285,23 @@ namespace Content.Server.GameTicking
             foreach (var character in preferences.Characters.Values)
                 return character;
 
+            if (PersistentJoinEnabled)
+                return null;
+
             return HumanoidCharacterProfile.Random();
+        }
+
+        private bool PersistentJoinEnabled => _cfg.GetCVar(CCVars.UsePersistence);
+
+        private void JoinPersistentPlayer(ICommonSession session)
+        {
+            if (GetPlayerProfile(session) != null)
+            {
+                MakeJoinGamePersistentLoad(session);
+                return;
+            }
+
+            PlayerJoinLobby(session, forceCharacterSetup: true);
         }
 
         public void PlayerJoinGame(ICommonSession session, bool silent = false)
@@ -288,14 +324,19 @@ namespace Content.Server.GameTicking
             RaiseNetworkEvent(new TickerJoinGameEvent(), session.Channel);
         }
 
-        public void PlayerJoinLobby(ICommonSession session)
+        public void PlayerJoinLobby(ICommonSession session, bool forceCharacterSetup = false)
         {
             if (session == null) return;
-            _playerGameStatuses[session.UserId] = LobbyEnabled ? PlayerGameStatus.NotReadyToPlay : PlayerGameStatus.ReadyToPlay;
+            var persistentMode = PersistentJoinEnabled;
+            _playerGameStatuses[session.UserId] = persistentMode
+                ? PlayerGameStatus.ReadyToPlay
+                : LobbyEnabled
+                    ? PlayerGameStatus.NotReadyToPlay
+                    : PlayerGameStatus.ReadyToPlay;
             _db.AddRoundPlayers(RoundId, session.UserId);
 
             var client = session.Channel;
-            RaiseNetworkEvent(new TickerJoinLobbyEvent(), client);
+            RaiseNetworkEvent(new TickerJoinLobbyEvent(persistentMode, forceCharacterSetup), client);
             RaiseNetworkEvent(GetStatusMsg(session), client);
             RaiseNetworkEvent(GetInfoMsg(), client);
             RaiseLocalEvent(new PlayerJoinedLobbyEvent(session));
