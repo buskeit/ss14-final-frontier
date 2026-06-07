@@ -1,6 +1,6 @@
 - type: job
   id: Passenger
-  name: job-name-civilian
+  name: job-name-passenger
   description: job-description-civilian
   playTimeTracker: JobCivilian
   startingGear: PassengerGear
