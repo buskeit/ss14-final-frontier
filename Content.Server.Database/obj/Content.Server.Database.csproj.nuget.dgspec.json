@@ -39,6 +39,9 @@
         "warningProperties": {
           "warnAsError": [
             "NU1605"
+          ],
+          "warnNotAsError": [
+            "NU1903"
           ]
         },
         "restoreAuditProperties": {
@@ -67,11 +70,6 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[10.0.0, )",
-              "versionCentrallyManaged": true
-            },
-            "SQLitePCLRaw.bundle_e_sqlite3": {
-              "target": "Package",
-              "version": "[3.0.2, )",
               "versionCentrallyManaged": true
             }
           },
@@ -483,6 +481,9 @@
         "warningProperties": {
           "warnAsError": [
             "NU1605"
+          ],
+          "warnNotAsError": [
+            "NU1903"
           ]
         },
         "restoreAuditProperties": {

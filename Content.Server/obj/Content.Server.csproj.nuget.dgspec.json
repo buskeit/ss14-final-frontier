@@ -48,6 +48,9 @@
         "warningProperties": {
           "warnAsError": [
             "NU1605"
+          ],
+          "warnNotAsError": [
+            "NU1903"
           ]
         },
         "restoreAuditProperties": {
@@ -472,6 +475,9 @@
         "warningProperties": {
           "warnAsError": [
             "NU1605"
+          ],
+          "warnNotAsError": [
+            "NU1903"
           ]
         },
         "restoreAuditProperties": {
@@ -500,11 +506,6 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[10.0.0, )",
-              "versionCentrallyManaged": true
-            },
-            "SQLitePCLRaw.bundle_e_sqlite3": {
-              "target": "Package",
-              "version": "[3.0.2, )",
               "versionCentrallyManaged": true
             }
           },
@@ -1385,6 +1386,9 @@
         "warningProperties": {
           "warnAsError": [
             "NU1605"
+          ],
+          "warnNotAsError": [
+            "NU1903"
           ]
         },
         "restoreAuditProperties": {
@@ -3473,12 +3477,6 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[2025.2.4, )",
-              "versionCentrallyManaged": true
-            },
-            "JetBrains.Profiler.Api": {
-              "suppressParent": "Compile, Build, ContentFiles, Analyzers, BuildTransitive",
-              "target": "Package",
-              "version": "[1.4.10, )",
               "versionCentrallyManaged": true
             },
             "Microsoft.CodeAnalysis.CSharp.Features": {
