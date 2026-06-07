@@ -1841,7 +1841,7 @@
     - NewsReaderCartridge
     - WantedListCartridge
     - LogProbeCartridge
-    - AstronavCartridge
+    - AstroNavCartridge
   
 - type: entity
   parent: BasePDA
