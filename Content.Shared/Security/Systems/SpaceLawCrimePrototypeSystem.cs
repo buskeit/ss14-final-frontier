@@ -1,4 +1,5 @@
 using System.Linq;
+using Content.Shared.CriminalRecords;
 using Robust.Shared.Prototypes;
 
 namespace Content.Shared.Security.Systems;
@@ -36,7 +37,7 @@ public sealed class SpaceLawCrimePrototypeSystem : EntitySystem
 
         foreach (var crime in crimes)
         {
-            var entry = new SpaceLawCrime(crime.Name, crime.Category, crime.BrigTime, crime.Fine);
+            var entry = new SpaceLawCrime(crime.Name, crime.BrigTime, crime.Fine, crime.Category);
             var existingIndex = SpaceLaw.Crimes.FindIndex(existing => existing.Name == crime.Name);
 
             if (existingIndex >= 0)
