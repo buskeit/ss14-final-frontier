@@ -30,7 +30,7 @@
             </BoxContainer>
             <PanelContainer StyleClasses="highlight" MinHeight="2" />
             <BoxContainer Orientation="Horizontal" VerticalExpand="True" SeparationOverride="0">
-                <ScrollContainer MinSize="325 0" Margin="5 5 0 0">
+                <ScrollContainer Name="CharacterList" MinSize="325 0" Margin="5 5 0 0">
                     <BoxContainer Name="Characters" Orientation="Vertical" />
                 </ScrollContainer>
                 <PanelContainer MinSize="2 0" StyleClasses="highlight">

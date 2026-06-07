@@ -343,7 +343,10 @@ namespace Content.Server.Preferences.Managers
             if (ShouldStorePrefs(session.Channel.AuthType))
                 await _db.SaveSelectedCharacterIndexAsync(userId, slot);
 
-            gameTicker.MakeJoinGamePersistentLoad(session);
+            if (_cfg.GetCVar(CCVars.UsePersistence))
+                gameTicker.MakeJoinGamePersistentLoad(session);
+            else
+                gameTicker.MakeJoinGame(session, EntityUid.Invalid);
         }
 
         public async Task FinalizeCharacter(HumanoidCharacterProfile profile, int slot, NetUserId userId, ICommonSession session)
@@ -375,8 +378,10 @@ namespace Content.Server.Preferences.Managers
             arr.Add(slot, profile);
             prefsData.Prefs = new PlayerPreferences(arr, slot, curPrefs.AdminOOCColor, curPrefs.ConstructionFavorites);
             FinishLoad(session);
-            metaRecords.JoinFirstTime(session);
             await _db.SaveCharacterSlotAsync(userId, profile, slot);
+
+            if (_cfg.GetCVar(CCVars.UsePersistence))
+                metaRecords.JoinFirstTime(session);
         }
 
         public async void DeleteCharacter(int slot, NetUserId userId, ICommonSession session)
