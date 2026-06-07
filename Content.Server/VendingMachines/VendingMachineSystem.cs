@@ -304,10 +304,17 @@ namespace Content.Server.VendingMachines
             UpdateUI((uid, component), sender);
         }
 
-        private static int GetVendPrice(VendingMachineComponent component, string itemId)
+        private int GetVendPrice(VendingMachineComponent component, string itemId)
         {
             if (component.Prices.TryGetValue(itemId, out var price))
                 return Math.Max(0, price);
+
+            if (PrototypeManager.TryIndex<EntityPrototype>(itemId, out var prototype))
+            {
+                var estimated = (int)Math.Ceiling(_pricing.GetEstimatedPrice(prototype));
+                if (estimated > 0)
+                    return estimated;
+            }
 
             return Math.Max(0, component.DefaultPrice);
         }

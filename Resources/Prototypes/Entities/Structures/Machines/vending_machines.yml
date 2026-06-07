@@ -1,4 +1,4 @@
-﻿# base
+# base
 
 - type: entity
   id: VendingMachine
@@ -181,6 +181,8 @@
   components:
   - type: VendingMachine
     pack: CondimentInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
   - type: Sprite
     sprite: Structures/Machines/VendingMachines/condiments.rsi
@@ -214,6 +216,8 @@
   components:
   - type: VendingMachine
     pack: AmmoVendInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -240,11 +244,12 @@
   components:
   - type: VendingMachine
     pack: BoozeOMatInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
     denyState: deny-unshaded
-    requiresCash: true
     loopDeny: false
   - type: DatasetVocalizer
     dataset: BoozeOMatAds
@@ -275,6 +280,8 @@
   components:
   - type: VendingMachine
     pack: BoozeOMatInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -309,12 +316,13 @@
   components:
   - type: VendingMachine
     pack: PTechInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
     ejectState: eject-unshaded
     denyState: deny-unshaded
-    requiresCash: true
   - type: Sprite
     sprite: Structures/Machines/VendingMachines/cart.rsi
     layers:
@@ -340,6 +348,8 @@
   components:
   - type: VendingMachine
     pack: ChefvendInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -373,6 +383,8 @@
   components:
   - type: VendingMachine
     pack: CigaretteMachineInventory
+    requiresCash: true
+    defaultPrice: 20
     dispenseOnHitChance: 0.25
     dispenseOnHitThreshold: 2
     offState: off
@@ -380,7 +392,6 @@
     normalState: normal-unshaded
     ejectState: eject-unshaded
     denyState: deny-unshaded
-    requiresCash: true
   - type: DatasetVocalizer
     dataset: CigaretteMachineAds
   - type: SpeakOnUIClosed
@@ -404,6 +415,8 @@
   components:
   - type: VendingMachine
     pack: ClothesMateInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -435,6 +448,8 @@
   components:
   - type: VendingMachine
     pack: WinterDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -466,6 +481,8 @@
   components:
   - type: VendingMachine
     pack: HotDrinksMachineInventory
+    requiresCash: true
+    defaultPrice: 20
     dispenseOnHitChance: 0.25
     dispenseOnHitThreshold: 2
     offState: off
@@ -507,6 +524,8 @@
   components:
   - type: VendingMachine
     pack: RobustSoftdrinksInventory
+    requiresCash: true
+    defaultPrice: 20
     dispenseOnHitChance: 0.25
     dispenseOnHitThreshold: 2
     offState: off
@@ -584,6 +603,8 @@
   components:
   - type: VendingMachine
     pack: SpaceUpInventory
+    requiresCash: true
+    defaultPrice: 20
   - type: Sprite
     sprite: Structures/Machines/VendingMachines/spaceup.rsi
     layers:
@@ -606,6 +627,8 @@
   components:
   - type: VendingMachine
     pack: SodaInventory
+    requiresCash: true
+    defaultPrice: 20
   - type: Sprite
     sprite: Structures/Machines/VendingMachines/soda.rsi
     layers:
@@ -629,6 +652,8 @@
   components:
   - type: VendingMachine
     pack: StarkistInventory
+    requiresCash: true
+    defaultPrice: 20
   - type: Sprite
     sprite: Structures/Machines/VendingMachines/starkist.rsi
     layers:
@@ -652,6 +677,8 @@
   components:
   - type: VendingMachine
     pack: ShamblersJuiceInventory
+    requiresCash: true
+    defaultPrice: 20
     dispenseOnHitChance: 0.25
     dispenseOnHitThreshold: 2
     offState: off
@@ -686,6 +713,8 @@
   components:
   - type: VendingMachine
     pack: PwrGameInventory
+    requiresCash: true
+    defaultPrice: 20
     dispenseOnHitChance: 0.25
     dispenseOnHitThreshold: 2
     offState: off
@@ -722,6 +751,8 @@
   components:
   - type: VendingMachine
     pack: DrGibbInventory
+    requiresCash: true
+    defaultPrice: 20
     dispenseOnHitChance: 0.25
     dispenseOnHitThreshold: 2
     offState: off
@@ -768,6 +799,8 @@
       map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
   - type: VendingMachine
     pack: SmiteInventory
+    requiresCash: true
+    defaultPrice: 20
     dispenseOnHitChance: 0.25
     dispenseOnHitThreshold: 2
     offState: off
@@ -794,6 +827,8 @@
   components:
   - type: VendingMachine
     pack: DinnerwareInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -827,6 +862,8 @@
   components:
   - type: VendingMachine
     pack: MagiVendInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -857,6 +894,8 @@
   components:
   - type: VendingMachine
     pack: DiscountDansInventory
+    requiresCash: true
+    defaultPrice: 20
     dispenseOnHitChance: 0.25
     dispenseOnHitThreshold: 2
     offState: off
@@ -890,6 +929,8 @@
   components:
   - type: VendingMachine
     pack: EngiVendInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -920,13 +961,14 @@
   components:
   - type: VendingMachine
     pack: NanoMedCivilianInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off-civilian
     brokenState: broken
     normalState: normal-unshaded
     ejectState: eject-unshaded
     denyState: deny-unshaded
     ejectDelay: 0.6
-    requiresCash: true
   - type: DatasetVocalizer
     dataset: NanoMedAds
   - type: SpeakOnUIClosed
@@ -956,6 +998,8 @@
   components:
   - type: VendingMachine
     pack: NanoMedPlusInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
   - type: Sprite
     layers:
@@ -977,6 +1021,8 @@
   components:
   - type: VendingMachine
     pack: NutriMaxInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1011,6 +1057,8 @@
   components:
   - type: VendingMachine
     pack: SecTechInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1050,6 +1098,8 @@
   components:
   - type: VendingMachine
     pack: MegaSeedServitorInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1090,6 +1140,8 @@
   components:
   - type: VendingMachine
     pack: GetmoreChocolateCorpInventory
+    requiresCash: true
+    defaultPrice: 20
     dispenseOnHitChance: 0.25
     dispenseOnHitThreshold: 2
     offState: off
@@ -1125,6 +1177,8 @@
   components:
   - type: VendingMachine
     pack: SustenanceInventory
+    requiresCash: true
+    defaultPrice: 20
     dispenseOnHitChance: 0.25
     dispenseOnHitThreshold: 2
     offState: off
@@ -1236,6 +1290,8 @@
   components:
   - type: VendingMachine
     pack: BodaInventory
+    requiresCash: true
+    defaultPrice: 20
     dispenseOnHitChance: 0.25
     dispenseOnHitThreshold: 2
     offState: off
@@ -1272,6 +1328,8 @@
   components:
   - type: VendingMachine
     pack: AutoDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1308,6 +1366,8 @@
   components:
   - type: VendingMachine
     pack: VendomatInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1340,6 +1400,8 @@
   components:
   - type: VendingMachine
     pack: RoboticsInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1377,6 +1439,8 @@
   components:
   - type: VendingMachine
     pack: YouToolInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1405,12 +1469,13 @@
   components:
   - type: VendingMachine
     pack: GoodCleanFunInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
     ejectState: eject-unshaded
     ejectDelay: 1.8
-    requiresCash: true
   - type: DatasetVocalizer
     dataset: GoodCleanFunAds
   - type: SpeakOnUIClosed
@@ -1438,6 +1503,8 @@
   components:
   - type: VendingMachine
     pack: ChangInventory
+    requiresCash: true
+    defaultPrice: 20
     dispenseOnHitChance: 0.25
     dispenseOnHitThreshold: 2
     offState: off
@@ -1471,6 +1538,8 @@
   components:
   - type: VendingMachine
     pack: SalvageEquipmentInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1503,6 +1572,8 @@
   components:
   - type: VendingMachine
     pack: DonutInventory
+    requiresCash: true
+    defaultPrice: 20
     dispenseOnHitChance: 0.25
     dispenseOnHitThreshold: 2
     offState: off
@@ -1538,6 +1609,8 @@
   components:
   - type: VendingMachine
     pack: HyDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1570,6 +1643,8 @@
   components:
   - type: VendingMachine
     pack: LawDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1598,6 +1673,8 @@
   components:
   - type: VendingMachine
     pack: SecDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1630,6 +1707,8 @@
   components:
   - type: VendingMachine
     pack: BarDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1657,6 +1736,8 @@
   components:
   - type: VendingMachine
     pack: PietyVendInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1686,6 +1767,8 @@
   components:
   - type: VendingMachine
     pack: CargoDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1718,6 +1801,8 @@
   components:
   - type: VendingMachine
     pack: MediDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1746,6 +1831,8 @@
   components:
   - type: VendingMachine
     pack: ChemDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1774,6 +1861,8 @@
   components:
   - type: VendingMachine
     pack: CuraDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1802,6 +1891,8 @@
   components:
   - type: VendingMachine
     pack: AtmosDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1834,6 +1925,8 @@
   components:
   - type: VendingMachine
     pack: EngiDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1866,6 +1959,8 @@
   components:
   - type: VendingMachine
     pack: ChefDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1894,6 +1989,8 @@
   components:
   - type: VendingMachine
     pack: DetDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1922,6 +2019,8 @@
   components:
   - type: VendingMachine
     pack: JaniDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1954,6 +2053,8 @@
   components:
   - type: VendingMachine
     pack: SciDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -1982,6 +2083,8 @@
   components:
   - type: VendingMachine
     pack: SyndieDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -2014,6 +2117,8 @@
   components:
   - type: VendingMachine
     pack: RoboDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -2042,6 +2147,8 @@
   components:
   - type: VendingMachine
     pack: GeneDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -2070,6 +2177,8 @@
   components:
   - type: VendingMachine
     pack: ViroDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -2098,6 +2207,8 @@
   components:
   - type: VendingMachine
     pack: CentDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -2126,6 +2237,8 @@
   components:
   - type: VendingMachine
     pack: LeagueDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -2154,6 +2267,8 @@
   components:
   - type: VendingMachine
     pack: HappyHonkDispenserInventory
+    requiresCash: true
+    defaultPrice: 20
     dispenseOnHitChance: 0.25
     dispenseOnHitThreshold: 2
     offState: off
@@ -2194,6 +2309,8 @@
   components:
   - type: VendingMachine
     pack: PrideDrobeInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
@@ -2229,6 +2346,7 @@
   - type: VendingMachine
     pack: TankDispenserEVAInventory
     requiresCash: true
+    defaultPrice: 20
   - type: Sprite
     sprite: Structures/Machines/VendingMachines/tankdispenser.rsi #TODO add visualiser for remaining tanks as layers
     state: dispenser
@@ -2242,6 +2360,8 @@
   components:
   - type: VendingMachine
     pack: TankDispenserEngineeringInventory
+    requiresCash: true
+    defaultPrice: 20
   - type: Sprite
     sprite: Structures/Machines/VendingMachines/tankdispenser.rsi #TODO add visualiser for remaining tanks as layers
     layers:
@@ -2256,6 +2376,8 @@
   components:
   - type: VendingMachine
     pack: ChemVendInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal
@@ -2285,6 +2407,8 @@
   components:
   - type: VendingMachine
     pack: ChemVendInventorySyndicate
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal
@@ -2302,6 +2426,8 @@
   components:
   - type: VendingMachine
     pack: NanoMedCivilianWallInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off-civilian
     brokenState: broken
     normalState: normal-unshaded
@@ -2331,6 +2457,8 @@
   components:
   - type: VendingMachine
     pack: NanoMedInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
   - type: Sprite
     layers:
@@ -2353,12 +2481,13 @@
   components:
   - type: VendingMachine
     pack: LeagueTechInventory
+    requiresCash: true
+    defaultPrice: 20
     offState: off
     brokenState: broken
     normalState: normal-unshaded
     ejectState: eject-unshaded
     denyState: deny-unshaded
-    requiresCash: true
   - type: Sprite
     sprite: Structures/Machines/VendingMachines/leaguetech.rsi
     layers:
