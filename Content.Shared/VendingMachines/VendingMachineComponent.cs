@@ -17,6 +17,22 @@ namespace Content.Shared.VendingMachines
         [DataField("pack", customTypeSerializer: typeof(PrototypeIdSerializer<VendingMachineInventoryPrototype>), required: true)]
         public string PackPrototypeId = string.Empty;
 
+        [DataField]
+        public bool RequiresCash = false;
+
+        /// <summary>
+        /// Per-item vending prices in spesos, configured by entity prototype ID in YAML.
+        /// If an item is absent from this map, <see cref="DefaultPrice"/> is used.
+        /// </summary>
+        [DataField]
+        public Dictionary<string, int> Prices = new();
+
+        /// <summary>
+        /// Fallback vending price in spesos for paid vendors when an item has no explicit YAML price.
+        /// </summary>
+        [DataField]
+        public int DefaultPrice = 20;
+
         /// <summary>
         /// Used by the server to determine how long the vending machine stays in the "Deny" state.
         /// Used by the client to determine how long the deny animation should be played.

@@ -14,6 +14,9 @@ namespace Content.Client.VendingMachines
 
         [ViewVariables]
         private List<VendingMachineInventoryEntry> _cachedInventory = new();
+        private Dictionary<string, int> _prices = new();
+        private bool _requiresCash;
+        private int? _balance;
 
         public VendingMachineBoundUserInterface(EntityUid owner, Enum uiKey) : base(owner, uiKey)
         {
@@ -26,26 +29,18 @@ namespace Content.Client.VendingMachines
             _menu = this.CreateWindowCenteredLeft<VendingMachineMenu>();
             _menu.Title = EntMan.GetComponent<MetaDataComponent>(Owner).EntityName;
             _menu.OnItemSelected += OnItemSelected;
-            Refresh();
         }
 
         public void Refresh()
         {
             var enabled = EntMan.TryGetComponent(Owner, out VendingMachineComponent? bendy) && !bendy.Ejecting;
-
-            var system = EntMan.System<VendingMachineSystem>();
-            _cachedInventory = system.GetAllInventory(Owner);
-
-            _menu?.Populate(_cachedInventory, enabled);
+            _menu?.Populate(_cachedInventory, _prices, _requiresCash, _balance, enabled);
         }
 
         public void UpdateAmounts()
         {
             var enabled = EntMan.TryGetComponent(Owner, out VendingMachineComponent? bendy) && !bendy.Ejecting;
-
-            var system = EntMan.System<VendingMachineSystem>();
-            _cachedInventory = system.GetAllInventory(Owner);
-            _menu?.UpdateAmounts(_cachedInventory, enabled);
+            _menu?.UpdateAmounts(_cachedInventory, _prices, _requiresCash, _balance, enabled);
         }
 
         private void OnItemSelected(GUIBoundKeyEventArgs args, ListData data)
@@ -65,6 +60,22 @@ namespace Content.Client.VendingMachines
                 return;
 
             SendPredictedMessage(new VendingMachineEjectMessage(selectedItem.Type, selectedItem.ID));
+        }
+
+        protected override void UpdateState(BoundUserInterfaceState state)
+        {
+            base.UpdateState(state);
+
+            if (state is not VendingMachineUpdateState vendingState)
+                return;
+
+            _cachedInventory = vendingState.Inventory;
+            _prices = vendingState.Prices;
+            _requiresCash = vendingState.RequiresCash;
+            _balance = vendingState.Balance ?? _balance;
+            if (!vendingState.RequiresCash)
+                _balance = null;
+            Refresh();
         }
 
         protected override void Dispose(bool disposing)

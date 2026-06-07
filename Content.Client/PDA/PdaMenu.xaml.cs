@@ -1,4 +1,5 @@
 using Content.Client.GameTicking.Managers;
+using Content.Shared._NF.Bank;
 using Content.Shared.PDA;
 using Robust.Shared.Utility;
 using Content.Shared.CartridgeLoader;
@@ -32,6 +33,7 @@ namespace Content.Client.PDA
         private string _stationName = Loc.GetString("comp-pda-ui-unknown");
         private string _alertLevel = Loc.GetString("comp-pda-ui-unknown");
         private string _instructions = Loc.GetString("comp-pda-ui-unknown");
+        private int? _balance;
 
 
         private int _currentView;
@@ -125,6 +127,12 @@ namespace Content.Client.PDA
                 _clipboard.SetText(_instructions);
             };
 
+            BalanceButton.OnPressed += _ =>
+            {
+                if (_balance != null)
+                    _clipboard.SetText(BankSystemExtensions.ToSpesoString(_balance.Value));
+            };
+
 
 
 
@@ -187,6 +195,16 @@ namespace Content.Client.PDA
                 "comp-pda-ui-station-alert-level-instructions",
                 ("instructions", _instructions))
             );
+
+            _balance = state.Balance;
+            BalanceButton.Visible = _balance != null;
+            BalanceLabel.Visible = _balance != null;
+            if (_balance != null)
+            {
+                BalanceLabel.SetMarkup(Loc.GetString(
+                    "comp-pda-ui-balance",
+                    ("balance", BankSystemExtensions.ToSpesoString(_balance.Value))));
+            }
 
             AddressLabel.Text = state.Address?.ToUpper() ?? " - ";
 

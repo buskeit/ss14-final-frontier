@@ -1,4 +1,5 @@
 using Content.Server.Cargo.Systems;
+using Content.Server._NF.Bank;
 using Content.Server.Power.Components;
 using Content.Server.Vocalization.Systems;
 using Content.Shared.Cargo;
@@ -18,6 +19,7 @@ namespace Content.Server.VendingMachines
     public sealed class VendingMachineSystem : SharedVendingMachineSystem
     {
         [Dependency] private readonly IRobustRandom _random = default!;
+        [Dependency] private readonly BankSystem _bank = default!;
         [Dependency] private readonly PricingSystem _pricing = default!;
         [Dependency] private readonly ThrowingSystem _throwingSystem = default!;
 
@@ -242,6 +244,79 @@ namespace Content.Server.VendingMachines
         private void OnTryVocalize(Entity<VendingMachineComponent> ent, ref TryVocalizeEvent args)
         {
             args.Cancelled |= ent.Comp.Broken;
+        }
+
+        protected override void UpdateUI(Entity<VendingMachineComponent?> entity, EntityUid? actor = null)
+        {
+            if (!Resolve(entity.Owner, ref entity.Comp))
+                return;
+
+            var inventory = GetAllInventory(entity.Owner, entity.Comp);
+            var prices = new Dictionary<string, int>();
+
+            if (entity.Comp.RequiresCash)
+            {
+                foreach (var entry in inventory)
+                {
+                    prices[entry.ID] = GetVendPrice(entity.Comp, entry.ID);
+                }
+            }
+
+            int? balance = null;
+            if (actor != null && _bank.TryGetBalance(actor.Value, out var accountBalance))
+                balance = accountBalance;
+
+            UISystem.SetUiState(entity.Owner,
+                VendingMachineUiKey.Key,
+                new VendingMachineUpdateState(inventory, prices, entity.Comp.RequiresCash, balance));
+        }
+
+        public override void AuthorizedVend(EntityUid uid, EntityUid sender, InventoryType type, string itemId, VendingMachineComponent component)
+        {
+            if (!IsAuthorized(uid, sender, component))
+                return;
+
+            if (!component.RequiresCash)
+            {
+                TryEjectVendorItem(uid, type, itemId, component.CanShoot, sender, component);
+                return;
+            }
+
+            var price = GetVendPrice(component, itemId);
+
+            if (!_bank.TryGetBalance(sender, out var balance) || balance < price)
+            {
+                Popup.PopupClient(Loc.GetString("bank-insufficient-funds"), uid, sender);
+                Deny((uid, component), sender);
+                UpdateUI((uid, component), sender);
+                return;
+            }
+
+            if (!TryEjectVendorItem(uid, type, itemId, component.CanShoot, sender, component))
+                return;
+
+            if (!_bank.TryBankWithdraw(sender, price))
+            {
+                Log.Warning($"Vending purchase withdrawal failed after vend for {ToPrettyString(sender)} on {ToPrettyString(uid)}.");
+                return;
+            }
+
+            UpdateUI((uid, component), sender);
+        }
+
+        private int GetVendPrice(VendingMachineComponent component, string itemId)
+        {
+            if (component.Prices.TryGetValue(itemId, out var price))
+                return Math.Max(0, price);
+
+            if (PrototypeManager.TryIndex<EntityPrototype>(itemId, out var prototype))
+            {
+                var estimated = (int)Math.Ceiling(_pricing.GetEstimatedPrice(prototype));
+                if (estimated > 0)
+                    return estimated;
+            }
+
+            return Math.Max(0, component.DefaultPrice);
         }
     }
 }

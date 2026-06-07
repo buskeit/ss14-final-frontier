@@ -46,6 +46,7 @@ public abstract partial class SharedVendingMachineSystem : EntitySystem
         SubscribeLocalEvent<VendingMachineComponent, EmpPulseEvent>(OnEmpPulse);
         SubscribeLocalEvent<VendingMachineComponent, RestockDoAfterEvent>(OnRestockDoAfter);
         SubscribeLocalEvent<VendingMachineComponent, ActivatableUIOpenAttemptEvent>(OnActivatableUIOpenAttempt);
+        SubscribeLocalEvent<VendingMachineComponent, BoundUIOpenedEvent>(OnBoundUiOpened);
         SubscribeLocalEvent<VendingMachineComponent, BreakageEventArgs>(OnBreak);
 
         SubscribeLocalEvent<VendingMachineRestockComponent, AfterInteractEvent>(OnAfterInteract);
@@ -146,6 +147,14 @@ public abstract partial class SharedVendingMachineSystem : EntitySystem
         AuthorizedVend(entity.Owner, actor, args.Type, args.ID, entity.Comp);
     }
 
+    private void OnBoundUiOpened(Entity<VendingMachineComponent> entity, ref BoundUIOpenedEvent args)
+    {
+        if (!Equals(args.UiKey, VendingMachineUiKey.Key))
+            return;
+
+        UpdateUI((entity.Owner, entity.Comp), args.Actor);
+    }
+
     protected virtual void OnMapInit(EntityUid uid, VendingMachineComponent component, MapInitEvent args)
     {
         RestockInventoryFromPrototype(uid, component, component.InitialStockQuality);
@@ -208,14 +217,14 @@ public abstract partial class SharedVendingMachineSystem : EntitySystem
     /// <param name="itemId">The prototype ID of the item</param>
     /// <param name="throwItem">Whether the item should be thrown in a random direction after ejection</param>
     /// <param name="vendComponent"></param>
-    public void TryEjectVendorItem(EntityUid uid, InventoryType type, string itemId, bool throwItem, EntityUid? user = null, VendingMachineComponent? vendComponent = null)
+    public bool TryEjectVendorItem(EntityUid uid, InventoryType type, string itemId, bool throwItem, EntityUid? user = null, VendingMachineComponent? vendComponent = null)
     {
         if (!Resolve(uid, ref vendComponent))
-            return;
+            return false;
 
         if (vendComponent.Ejecting || vendComponent.Broken || !_receiver.IsPowered(uid))
         {
-            return;
+            return false;
         }
 
         var entry = GetEntry(uid, itemId, type, vendComponent);
@@ -224,14 +233,14 @@ public abstract partial class SharedVendingMachineSystem : EntitySystem
         {
             Popup.PopupClient(Loc.GetString("vending-machine-component-try-eject-invalid-item"), uid);
             Deny((uid, vendComponent));
-            return;
+            return false;
         }
 
         if (entry.Amount <= 0)
         {
             Popup.PopupClient(Loc.GetString("vending-machine-component-try-eject-out-of-stock"), uid);
             Deny((uid, vendComponent));
-            return;
+            return false;
         }
 
         // Start Ejecting, and prevent users from ordering while anim playing
@@ -244,9 +253,10 @@ public abstract partial class SharedVendingMachineSystem : EntitySystem
 
         entry.Amount--;
         Dirty(uid, vendComponent);
-        UpdateUI((uid, vendComponent));
+        UpdateUI((uid, vendComponent), user);
         TryUpdateVisualState((uid, vendComponent));
         Audio.PlayPredicted(vendComponent.SoundVend, uid, user);
+        return true;
     }
 
     public void Deny(Entity<VendingMachineComponent?> entity, EntityUid? user = null)
@@ -263,7 +273,7 @@ public abstract partial class SharedVendingMachineSystem : EntitySystem
         Dirty(entity);
     }
 
-    protected virtual void UpdateUI(Entity<VendingMachineComponent?> entity) { }
+    protected virtual void UpdateUI(Entity<VendingMachineComponent?> entity, EntityUid? actor = null) { }
 
     /// <summary>
     /// Tries to update the visuals of the component based on its current state.
@@ -309,7 +319,7 @@ public abstract partial class SharedVendingMachineSystem : EntitySystem
     /// <param name="type">The type of inventory the item is from</param>
     /// <param name="itemId">The prototype ID of the item</param>
     /// <param name="component"></param>
-    public void AuthorizedVend(EntityUid uid, EntityUid sender, InventoryType type, string itemId, VendingMachineComponent component)
+    public virtual void AuthorizedVend(EntityUid uid, EntityUid sender, InventoryType type, string itemId, VendingMachineComponent component)
     {
         if (IsAuthorized(uid, sender, component))
         {
