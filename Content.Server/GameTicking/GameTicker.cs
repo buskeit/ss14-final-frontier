@@ -24,6 +24,7 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
+using System.Threading;
 #if EXCEPTION_TOLERANCE
 using Robust.Shared.Exceptions;
 #endif
@@ -106,7 +107,10 @@ namespace Content.Server.GameTicking
 
             // We restart the round now that entities are initialized and prototypes have been loaded.
             if (!DummyTicker)
+            {
                 RestartRound();
+                StartAutosaveLoop();
+            }
 
             _postInitialized = true;
         }
@@ -115,6 +119,7 @@ namespace Content.Server.GameTicking
         {
             base.Shutdown();
 
+            _autosaveLoopCts?.Cancel();
             ShutdownGameRules();
         }
 

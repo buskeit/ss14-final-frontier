@@ -30,6 +30,7 @@ using Robust.Shared.Utility;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Threading;
 
 namespace Content.Server.GameTicking
 {
@@ -74,6 +75,12 @@ namespace Content.Server.GameTicking
         private string? _replayRoundText;
 
         private TimeSpan _timeToNextSave = TimeSpan.Zero;
+        private string? _lastAutosaveStateKey;
+        private uint _autosaveUpdateCount;
+        private float _lastAutosaveFrameTime;
+        private string? _lastAutosaveSource;
+        private string _lastAutosaveState = "uninitialized";
+        private CancellationTokenSource? _autosaveLoopCts;
 
         [ViewVariables]
         public GameRunLevel RunLevel
@@ -108,31 +115,92 @@ namespace Content.Server.GameTicking
         ///     Must be called before the runlevel is set to InRound.
         /// </remarks>
         ///
-        private void SaveMaps()
+        public bool ForcePersistenceSave(out string result)
         {
-            _map.SetPaused(DefaultMap, true);
+            return SaveMaps("manual", out result);
+        }
+
+        public bool PreparePersistenceMap(string mapProto, out string result)
+        {
+            result = string.Empty;
+
+            if (RunLevel != GameRunLevel.PreRoundLobby)
+            {
+                result = $"PERSISTENCE PREP FAILED: expected {GameRunLevel.PreRoundLobby}, got {RunLevel}.";
+                return false;
+            }
+
+            if (!_gameMapManager.CheckMapExists(mapProto))
+            {
+                result = $"PERSISTENCE PREP FAILED: unknown map prototype '{mapProto}'.";
+                return false;
+            }
+
+            _gameMapManager.SelectMap(mapProto);
+            LoadMaps();
+
+            var hasValidMap = _map.TryGetMap(DefaultMap, out var mapUid) && TryComp(mapUid.Value, out MapComponent? _);
+            if (!hasValidMap)
+            {
+                result = $"PERSISTENCE PREP FAILED: selected '{mapProto}' but DefaultMap {DefaultMap} is not valid after load.";
+                return false;
+            }
+
+            result = $"PERSISTENCE PREP OK: selected '{mapProto}', DefaultMap={DefaultMap}.";
+            return true;
+        }
+
+        public string GetAutosaveStatus()
+        {
+            var autosaveEnabled = _cfg.GetCVar(CCVars.AutoSaveEnabled);
+            var usePersistence = _cfg.GetCVar(CCVars.UsePersistence);
+            var intervalMinutes = _cfg.GetCVar(CCVars.AutoSaveInterval);
+            var hasValidMap = _map.TryGetMap(DefaultMap, out var mapUid) && TryComp(mapUid.Value, out MapComponent? _);
+            var updateDeclaringType = GetType().GetMethod(nameof(Update), new[] { typeof(float) })?.DeclaringType?.FullName ?? "unknown";
+
+            return
+                $"AUTOSAVE STATUS: runLevel={RunLevel}, state={_lastAutosaveState}, source={_lastAutosaveSource ?? "none"}, autosaveenabled={autosaveEnabled}, usepersistence={usePersistence}, intervalMinutes={intervalMinutes}, nextSave={_timeToNextSave}, updates={_autosaveUpdateCount}, lastFrameTime={_lastAutosaveFrameTime:F4}, defaultMap={DefaultMap}, validMap={hasValidMap}, updateDeclaringType={updateDeclaringType}";
+        }
+
+        private bool SaveMaps(string source, out string result)
+        {
             var path = new ResPath("current");
+            result = string.Empty;
 
-            var gridCount = _mapManager.GetAllMapGrids(DefaultMap).Count();
-            if (gridCount == 0)
+            if (!_map.TryGetMap(DefaultMap, out var mapUid) || !TryComp(mapUid.Value, out MapComponent? mapComp))
             {
-                SendMapSaveAdminAlert(
-                    $"AUTOSAVE WARNING: map {DefaultMap} has 0 grids before save. Save may be empty.");
+                result = $"AUTOSAVE FAILED: map {DefaultMap} is not a valid loaded map.";
+                SendMapSaveAdminAlert(result);
+                return false;
             }
 
-            var start = _gameTiming.CurTime;
-            bool save_stat = _loader.TrySaveMap(DefaultMap, path, PersistentMapSaveOptions);
-            var end = _gameTiming.CurTime;
-            var finaltime = end - start;
-            _adminLogger.Add(LogType.EventRan, LogImpact.Extreme, $"MAP SAVE STATUS: {save_stat} TIME TAKEN: {finaltime.TotalSeconds}");
+            var map = (mapUid.Value, mapComp);
+            var wasPaused = _map.IsPaused(map);
+            _map.SetPaused(map, true);
 
-            if (!save_stat)
+            try
             {
-                SendMapSaveAdminAlert(
-                    $"AUTOSAVE FAILED: map {DefaultMap}, target '{path}', took {finaltime.TotalSeconds:F2}s.");
-            }
-            else
-            {
+                var gridCount = _mapManager.GetAllMapGrids(DefaultMap).Count();
+                if (gridCount == 0)
+                {
+                    SendMapSaveAdminAlert(
+                        $"AUTOSAVE WARNING: map {DefaultMap} has 0 grids before save. Save may be empty.");
+                }
+
+                var start = _gameTiming.CurTime;
+                var saveStat = _loader.TrySaveMap(DefaultMap, path, PersistentMapSaveOptions);
+                var end = _gameTiming.CurTime;
+                var finalTime = end - start;
+
+                if (!saveStat)
+                {
+                    result = $"AUTOSAVE FAILED: source={source}, map {DefaultMap}, target '{path}', took {finalTime.TotalSeconds:F2}s.";
+                    _adminLogger.Add(LogType.EventRan, LogImpact.Extreme,
+                        $"MAP SAVE STATUS: False SOURCE: {source} TIME TAKEN: {finalTime.TotalSeconds}");
+                    SendMapSaveAdminAlert(result);
+                    return false;
+                }
+
                 var rootedPath = path.ToRootedPath();
                 if (_resourceManager.UserData.Exists(rootedPath))
                 {
@@ -160,9 +228,25 @@ namespace Content.Server.GameTicking
                     SendMapSaveAdminAlert(
                         $"AUTOSAVE WARNING: save reported success but output '{path}' was not found.");
                 }
-            }
 
-            _map.SetPaused(DefaultMap, false);
+                result = $"MAP SAVE STATUS: True SOURCE: {source} TARGET: '{path}' TIME TAKEN: {finalTime.TotalSeconds:F2}s";
+                _adminLogger.Add(LogType.EventRan, LogImpact.Extreme,
+                    $"MAP SAVE STATUS: True SOURCE: {source} TARGET: '{path}' TIME TAKEN: {finalTime.TotalSeconds:F2}s");
+                _sawmill.Info(result);
+                return true;
+            }
+            catch (Exception e)
+            {
+                result = $"AUTOSAVE FAILED: source={source}, map {DefaultMap}, target '{path}', exception: {e.Message}";
+                _sawmill.Error("Persistence save threw while saving map {MapId} to {Path} from {Source}: {Exception}",
+                    DefaultMap, path, source, e);
+                SendMapSaveAdminAlert(result);
+                return false;
+            }
+            finally
+            {
+                _map.SetPaused(map, wasPaused);
+            }
         }
 
         private const int MaxLegacyAutosaveIndex = 10000;
@@ -235,6 +319,8 @@ namespace Content.Server.GameTicking
                 var end = _gameTiming.CurTime;
                 var finaltime = end - start;
                 _adminLogger.Add(LogType.EventRan, LogImpact.Extreme, $"MAP LOAD STATUS: {save_stat} TIME TAKEN: {finaltime.TotalSeconds}");
+                _sawmill.Info("MAP LOAD STATUS: {Status} SOURCE: '{Path}' TIME TAKEN: {Seconds:F2}s",
+                    save_stat, path, finaltime.TotalSeconds);
                 if (save_stat) return;
 
             }
@@ -927,47 +1013,6 @@ namespace Content.Server.GameTicking
         }
         private void UpdateRoundFlow(float frameTime)
         {
-            
-            if (_cfg.GetCVar(CCVars.AutoSaveEnabled) && RunLevel == GameRunLevel.InRound)
-            {
-                RoundLengthMetric.Inc(frameTime);
-
-                _timeToNextSave += TimeSpan.FromSeconds(frameTime);
-                if (_warnings == 3)
-                {
-                    if (_timeToNextSave > TimeSpan.FromMinutes(_cfg.GetCVar(CCVars.AutoSaveInterval) - 5))
-                    {
-                        _warnings--;
-                        SendServerMessage("The game will automatically save in 5 minutes.");
-                    }
-                }
-                else if (_warnings == 2)
-                {
-                    if (_timeToNextSave > TimeSpan.FromMinutes(_cfg.GetCVar(CCVars.AutoSaveInterval) - 1))
-                    {
-                        _warnings--;
-                        SendServerMessage("The game will automatically save in 1 minute.");
-                    }
-                }
-                else if (_warnings == 1)
-                {
-                    if (_timeToNextSave > TimeSpan.FromMinutes(_cfg.GetCVar(CCVars.AutoSaveInterval)) - TimeSpan.FromSeconds(3))
-                    {
-                        _warnings--;
-                        SendServerMessage("The game is saving..");
-                    }
-                }
-                if (_timeToNextSave > TimeSpan.FromMinutes(_cfg.GetCVar(CCVars.AutoSaveInterval)))
-                {
-                    _timeToNextSave = TimeSpan.Zero;
-                    _warnings = 3;
-                    SaveMaps();
-                    SendServerMessage("Game Saved.");
-                }
-
-
-            }
-
             if (_roundStartTime == TimeSpan.Zero ||
                 RunLevel != GameRunLevel.PreRoundLobby ||
                 Paused ||
