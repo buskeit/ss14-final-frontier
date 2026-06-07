@@ -5,10 +5,8 @@ using Content.Shared.Examine;
 using Content.Shared.Ghost;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Interaction;
-using Content.Shared.Mind.Components;
 using Content.Shared.Popups;
 using Content.Shared.Random.Helpers;
-using Content.Shared.Roles.Jobs;
 using Content.Shared.Tag;
 using Content.Shared.UserInterface;
 using Content.Shared.Verbs;
@@ -452,26 +450,12 @@ public sealed class PaperSystem : EntitySystem
 
     private string GetPlayerSignature(EntityUid player)
     {
-        var role = string.Empty;
         var name = Identity.Name(player, EntityManager);
 
         if (string.IsNullOrEmpty(name))
             name = MetaData(player).EntityName;
 
-        if (TryComp<MindContainerComponent>(player, out var mindContainer) && mindContainer.Mind != null)
-        {
-            var jobSystem = EntityManager.System<SharedJobSystem>();
-            if (jobSystem.MindTryGetJobName(mindContainer.Mind.Value, out var jobName))
-                role = jobName;
-        }
-
-        string? signature;
-        if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(role))
-            signature = $"{name}, {role}";
-        else
-            signature = name;
-
-        return signature;
+        return name;
     }
 }
 
