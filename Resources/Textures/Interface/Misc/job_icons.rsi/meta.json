@@ -257,6 +257,9 @@
             "name": "Zookeeper"
         },
         {
+            "name": "Foreman"
+        },
+        {
             "name": "Zombie"
         }
     ]

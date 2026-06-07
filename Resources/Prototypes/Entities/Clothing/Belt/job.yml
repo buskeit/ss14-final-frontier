@@ -111,6 +111,21 @@
   - type: StealTarget
     stealGroup: ChiefEngineerToolBelt
 
+
+- type: entity
+  parent: BaseClothingBeltEngineering
+  id: ClothingBeltChiefEngineerSOL
+  name: solar legion chief engineer's toolbelt
+  description: Holds tools, looks snazzy. Designed for use by chief engineers all across the Solar Legion.
+  components:
+    - type: Sprite
+      sprite: Clothing/Belt/al_ce.rsi
+    - type: Clothing
+      sprite: Clothing/Belt/al_ce.rsi
+    - type: Storage
+      grid:
+        - 0,0,9,1
+        - 
 - type: entity
   parent: ClothingBeltStorageBase
   id: ClothingBeltJanitor

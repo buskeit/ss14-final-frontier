@@ -1559,6 +1559,28 @@
     sprite: Clothing/Uniforms/Jumpsuit/al_execformal.rsi
 
 - type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband]
+  id: ClothingUniformJumpsuitLeagueOfficial
+  name: Aurelian League Official's Jumpsuit
+  description: A durable and regal red jumpsuit. The added padding on the back acts provides additional comfort.
+  components:
+    - type: Sprite
+      sprite: Clothing/Uniforms/Jumpsuit/al_official.rsi
+    - type: Clothing
+      sprite: Clothing/Uniforms/Jumpsuit/al_official.rsi
+
+- type: entity
+  parent: [ClothingUniformBase, BaseCommandContraband]
+  id: ClothingUniformJumpsuitLeagueOfficialFormal
+  name: Aurelian League Official's Formal Jumpsuit
+  description: A truly regal piece of formal attire only worn by the Secretary General of the Aurelian League.
+  components:
+    - type: Sprite
+      sprite: Clothing/Uniforms/Jumpsuit/al_officialformal.rsi
+    - type: Clothing
+      sprite: Clothing/Uniforms/Jumpsuit/al_officialformal.rsi
+
+- type: entity
   parent: [ClothingUniformBase, BaseCommandContraband, ClothingUniformFoldableBase]
   id: ClothingUniformJumpsuitHoSAltSOL
   name: Aurelian League Chief of Police's Jumpsuit

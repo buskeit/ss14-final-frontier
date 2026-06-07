@@ -2,58 +2,350 @@
 # Edit these prototypes to change the CrimeAssist checklist without touching C#.
 # Existing hardcoded entries with the same name are overridden at prototype load.
 
+
+
 - type: spaceLawCrime
-  id: FraudForgery
-  name: Fraud/Forgery
-  category: Minor
-  brigTime: 5
-  fine: 400
+  id: AnimalCruelty
+  name: Animal Cruelty
+  category: Infraction
+  brigTime: 0
+  fine: 800
   order: 10
-
+  
 - type: spaceLawCrime
-  id: Manslaughter
-  name: Manslaughter
-  category: Major
-  brigTime: 10
+  id: PossessionMinorContraband 
+  name: Possession of Minor Contraband 
+  category: Infraction
+  brigTime: 0
   fine: 800
+  order: 20
+  
+- type: spaceLawCrime
+  id: PettyTheft
+  name: Petty Theft
+  category: Infraction
+  brigTime: 0
+  fine: 400
+  order: 30
+  
+  - type: spaceLawCrime
+  id: Tresspass
+  name: Tresspass
+  category: Infraction
+  brigTime: 0
+  fine: 400
+  order: 40 
+  
+  - type: spaceLawCrime
+  id: DisorderlyConduct
+  name: Disorderly Conduct
+  category: Infraction
+  brigTime: 0
+  fine: 400
+  order: 50
+  
+  - type: spaceLawCrime
+  id: FailureToComply
+  name: Failure To Comply
+  category: Misconduct
+  brigTime: 0
+  fine: 800
+  order: 60  
+  
+  - type: spaceLawCrime
+  id: PossessionofMajorContraband
+  name: Possession of Major Contraband
+  category: Misconduct
+  brigTime: 0
+  fine: 800
+  order: 70
+  
+  - type: spaceLawCrime
+  id: DamagetoProperty
+  name: Damage to Property
+  category: Misconduct
+  brigTime: 0
+  fine: 800
+  order: 80
+  
+  - type: spaceLawCrime
+  id: RecklessEndagenrment
+  name: Reckless Endangerment
+  category: Misconduct
+  brigTime: 0
+  fine: 800
+  order: 90
+  
+  - type: spaceLawCrime
+  id: BreachofArrest
+  name: Breach of Arrest
+  category: Misdemeanors
+  brigTime: 43800
+  fine: 1200
   order: 100
-
-- type: spaceLawCrime
-  id: Sabotage
-  name: Sabotage
-  category: Major
-  brigTime: 10
-  fine: 1000
-  order: 110
-
-- type: spaceLawCrime
-  id: RiotIncitement
-  name: Riot/Incitement
-  category: Major
-  brigTime: 8
-  fine: 800
+  
+  - type: spaceLawCrime
+  id: SecureTresspass
+  name: Secure Tresspass
+  category: Misdemeanors
+  brigTime: 43800
+  fine: 1200
   order: 120
-
-- type: spaceLawCrime
-  id: PossessionRestrictedGear
-  name: Possession of Restricted Gear
-  category: Major
-  brigTime: 10
-  fine: 1000
+  
+  - type: spaceLawCrime
+  id: GrandTheft
+  name: Grand Theft
+  category: Misdemeanors
+  brigTime: 43800
+  fine: 1200
   order: 130
-
-- type: spaceLawCrime
-  id: AttemptedMurder
-  name: Attempted Murder
-  category: Major
-  brigTime: 12
+  
+  - type: spaceLawCrime
+  id: Assault
+  name: Assault
+  category: Misdemeanors
+  brigTime: 43800
   fine: 1200
   order: 140
-
-- type: spaceLawCrime
-  id: Conspiracy
-  name: Conspiracy
-  category: Major
-  brigTime: 8
-  fine: 800
+  
+  - type: spaceLawCrime
+  id: PossessionofDangerousContraband
+  name: Possession of Dangerous Contraband
+  category: Misdemeanors
+  brigTime: 43800
+  fine: 1200
   order: 150
+  
+  - type: spaceLawCrime
+  id: Rioting
+  name: Rioting
+  category: Misdemeanors
+  brigTime: 43800
+  fine: 1200
+  order: 160
+  
+  - type: spaceLawCrime
+  id: ObstructionofJustice
+  name: Obstruction of Justice
+  category: Misdemeanors
+  brigTime: 43800
+  fine: 1200
+  order: 170
+  
+  - type: spaceLawCrime
+  id: UnlawfulDistributionofContraband
+  name: Unlawful Distribution of Contraband
+  category: Misdemeanors
+  brigTime: 43800
+  fine: 1200
+  order: 180
+  
+  - type: spaceLawCrime
+  id: NegligentManslaughter
+  name: Negligent Manslaughter
+  category: Misdemeanors
+  brigTime: 43800
+  fine: 1200
+  order: 190
+  
+  - type: spaceLawCrime
+  id: Rioting
+  name: Rioting
+  category: Misdemeanors
+  brigTime: 43800
+  fine: 1200
+  order: 
+  
+  - type: spaceLawCrime
+  id: AggravatedAssault
+  name: Aggravated Assault
+  category: Felonies
+  brigTime: 4262800
+  fine: 2500
+  order: 200
+  
+  - type: spaceLawCrime
+  id: Kidnapping
+  name: Kidnapping
+  category: Felonies
+  brigTime: 4262800
+  fine: 2500
+  order: 210
+  
+  - type: spaceLawCrime
+  id: ArmedRobbery
+  name: Armed Robbery
+  category: Felonies
+  brigTime: 4262800
+  fine: 2500
+  order: 220
+  
+   - type: spaceLawCrime
+  id: Sabotage
+  name: Sabotage
+  category: Felonies
+  brigTime: 4262800
+  fine: 2500
+  order: 230
+  
+  - type: spaceLawCrime
+  id: AttemptedMurder
+  name: Attempted Murder
+  category: Felonies
+  brigTime: 4262800
+  fine: 2500
+  order: 240
+  
+  - type: spaceLawCrime
+  id: UnlawfulUseofExplosives
+  name: Unlawful Use of Explosives
+  category: Felonies
+  brigTime: 4262800
+  fine: 2500
+  order: 250 
+  
+  - type: spaceLawCrime
+  id: WeaponsTrafficking
+  name: Weapons Trafficking
+  category: Felonies
+  brigTime: 4262800
+  fine: 2500
+  order: 260 
+  
+  - type: spaceLawCrime
+  id: HostileIncursion
+  name: Hostile Incursion
+  category: Felonies
+  brigTime: 4262800
+  fine: 2500
+  order: 270
+  
+  - type: spaceLawCrime
+  id: MajorObstructionofJustice
+  name: Major Obstruction of Justice
+  category: Felonies
+  brigTime: 4262800
+  fine: 2500
+  order: 280
+  
+  - type: spaceLawCrime
+  id: Terrorism
+  name: Terrorism
+  category: Grand Felony 
+  brigTime: 525601
+  fine: 5000
+  order: 290
+  
+  - type: spaceLawCrime
+  id: MassSabotage
+  name: Mass Sabotage
+  category: Grand Felony 
+  brigTime: 525601
+  fine: 5000
+  order: 300
+  
+  - type: spaceLawCrime
+  id: HostageTaking
+  name: Hostage Taking
+  category: Grand Felony 
+  brigTime: 525601
+  fine: 5000
+  order: 310
+  
+  - type: spaceLawCrime
+  id: MassPoisoning
+  name: Mass Poisoning
+  category: Grand Felony 
+  brigTime: 525601
+  fine: 5000
+  order: 320
+  
+  - type: spaceLawCrime
+  id: MajorWeaponsOffense
+  name: Major Weapons Offense
+  category: Grand Felony 
+  brigTime: 525601
+  fine: 5000
+  order: 330
+  
+  - type: spaceLawCrime
+  id: AttemptedMassMurder
+  name: Attempted Mass Murder
+  category: Grand Felony 
+  brigTime: 525601
+  fine: 5000
+  order: 340
+  
+  - type: spaceLawCrime
+  id: Mutiny 
+  name: Mutiny 
+  category: Grand Felony 
+  brigTime: 525601
+  fine: 5000
+  order: 350
+  
+  - type: spaceLawCrime
+  id: AidingMajorCriminalActivity
+  name: Aiding Major Criminal Activity
+  category: Grand Felony 
+  brigTime: 525601
+  fine: 5000
+  order: 360
+  
+  - type: spaceLawCrime
+  id: CatastrophicNegligence
+  name: Catastrophic Negligence
+  category: Grand Felony 
+  brigTime: 525601
+  fine: 5000
+  order: 370
+  
+  - type: spaceLawCrime
+  id: Murder
+  name: Murder
+  category: Capital Crime
+  brigTime: 0
+  fine: 10000
+  order: 380
+  
+  - type: spaceLawCrime
+  id: MassMurder
+  name: Mass Murder
+  category: Capital Crime
+  brigTime: 0
+  fine: 10000
+  order: 390
+  
+  - type: spaceLawCrime
+  id: Treason
+  name: Treason
+  category: Capital Crime
+  brigTime: 0
+  fine: 10000
+  order: 400
+  
+  - type: spaceLawCrime
+  id: CatastrophicSabotage
+  name: Catastrophic Sabotage
+  category: Capital Crime
+  brigTime: 0
+  fine: 10000
+  order: 410
+  
+  - type: spaceLawCrime
+  id: CrimesAgainstHumanity
+  name: Crimes Against Humanity
+  category: Capital Crime
+  brigTime: 0
+  fine: 10000
+  order: 420
+  
+  - type: spaceLawCrime
+  id: BiologicalorChemicalWarfare
+  name: Biological Or Chemical Warfare
+  category: Capital Crime
+  brigTime: 0
+  fine: 10000
+  order: 430
+  
+  

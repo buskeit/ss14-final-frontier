@@ -1,13 +1,11 @@
 - type: job
   id: Passenger
-  name: job-name-passenger
-  description: job-description-passenger
-  playTimeTracker: JobPassenger
+  name: job-name-civilian
+  description: job-description-civilian
+  playTimeTracker: JobCivilian
   startingGear: PassengerGear
-  icon: "JobIconPassenger"
+  icon: "JobIconCivilian"
   supervisors: job-supervisors-everyone
-  access:
-    - Maintenance
   special:
     - !type:AddImplantSpecial
       implants: [JobNetworkImplant]
@@ -15,7 +13,7 @@
 - type: startingGear
   id: PassengerGear
   equipment:
-    id: PassengerPDA
+    id: CivilianPDA
     ears: ClothingHeadsetGrey
   storage:
     back:

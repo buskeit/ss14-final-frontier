@@ -4,7 +4,7 @@
   # PDAs
   # Civlian
     ClearPDA: 5
-    PassengerPDA: 5
+    CivilianPDA: 5
   # Heads / Command (Captain PDA not included for obvious reasons)
     ExecutiveOfficerPDA: 5
     HoPPDA: 5

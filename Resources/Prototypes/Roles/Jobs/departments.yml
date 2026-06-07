@@ -27,6 +27,7 @@
   - Mime
   - Musician
   - Passenger
+  - Civilian
   - Reporter
   - Visitor
   - ServiceWorker
@@ -56,6 +57,7 @@
   color: "#334E6D"
   roles:
   - Captain
+  - ExecutiveOfficer
   - ChiefEngineer
   - ChiefMedicalOfficer
   - HeadOfPersonnel

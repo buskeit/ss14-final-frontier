@@ -3,8 +3,8 @@
 - type: entity
   parent: [ClothingBeltBase, ClothingSlotBase, BaseCommandContraband]
   id: ClothingBeltSheath
-  name: sabre sheath
-  description: An ornate sheath designed to hold an officer's blade.
+  name: Sabre Sheath
+  description: An ornate sheath designed to hold a senior officer's blade.
   components:
   - type: Sprite
     sprite: Clothing/Belt/sheath.rsi
@@ -32,6 +32,38 @@
           - CaptainSabre
   - type: Appearance
 
+- type: entity
+  parent: [ClothingBeltBase, ClothingSlotBase, BaseCommandContraband]
+  id: ClothingBeltSheathSpatha
+  name: Secretary General's Spatha Sheath
+  description: An ornate sheath designed to hold the secretary general's spatha. An extremely rare sight.
+  components:
+    - type: Sprite
+      sprite: Clothing/Belt/al_sheath.rsi
+      state: sheath
+    - type: Clothing
+      sprite: _Persistence14/Clothing/Belt/al_sheath.rsi
+    - type: Item
+      size: Ginormous
+    - type: ItemSlots
+      slots:
+        item:
+          name: ExecutiveSpatha
+          insertVerbText: sheath-insert-verb
+          ejectVerbText: sheath-eject-verb
+          insertSound: /Audio/Items/sheath.ogg
+          ejectSound: /Audio/Items/unsheath.ogg
+          whitelist:
+            tags:
+              - ExecutiveSpatha
+    - type: ItemMapper
+      mapLayers:
+        sheath-spatha:
+          whitelist:
+            tags:
+              - ExecutiveSpatha
+    - type: Appearance
+      
 - type: entity
   parent: ClothingBeltStorageBase
   id: ClothingBeltQuiver

@@ -55,7 +55,7 @@
 - type: roleLoadout
   id: JobPassenger
   groups:
-  - GroupTankHarness
+#  - GroupTankHarness
   - PassengerJumpsuit
   - CommonBackpack
   - PassengerNeck
@@ -64,8 +64,8 @@
   - PassengerOuterClothing
   - PassengerShoes
 #  - Glasses
-  - Survival
-  - Trinkets
+#  - Survival
+#  - Trinkets
 #  - PassengerJobTrinkets
 #  - GroupSpeciesBreathTool
   - BasicWallet
