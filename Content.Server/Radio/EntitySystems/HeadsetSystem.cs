@@ -136,34 +136,26 @@ public sealed class HeadsetSystem : SharedHeadsetSystem
 
     private void OnSpeak(EntityUid uid, WearingHeadsetComponent component, EntitySpokeEvent args)
     {
-        if (args.Channel != null)
-        {
-            if (TryComp<HeadsetComponent>(component.Headset, out var headsetComp) && headsetComp != null)
-            {
-                if (!args.Channel.Encrypted && headsetComp.TransmitTo == 0)
-                {
-                    _radio.SendRadioMessage(uid, args.Message, args.Channel, component.Headset);
-                    args.Channel = null; // prevent duplicate messages from other listeners.
-                    return;
-                }
-                else
-                {
-                    if (headsetComp.TransmitTo == 0) return;
-                    var faction = _station.GetStationByID(headsetComp.TransmitTo);
-                    if (faction != null)
-                    {
-                        if (HasChannelAccess(args.Source, faction.Value, args.Channel))
-                        {
-                            _radio.SendRadioMessage(uid, args.Message, args.Channel, component.Headset);
-                            args.Channel = null; // prevent duplicate messages from other listeners.
-                            return;
-                        }
-                    }
+        if (args.Channel == null)
+            return;
 
-                }
+        if (!TryComp<HeadsetComponent>(component.Headset, out var headsetComp) || headsetComp == null)
+            return;
 
-            }
-        }
+        // Common is an unencrypted/global channel. Do not let worn headsets use it as general chat;
+        // intercoms still handle their own radio transmission path and remain able to use Common.
+        if (headsetComp.TransmitTo == 0)
+            return;
+
+        var faction = _station.GetStationByID(headsetComp.TransmitTo);
+        if (faction == null)
+            return;
+
+        if (!HasChannelAccess(args.Source, faction.Value, args.Channel))
+            return;
+
+        _radio.SendRadioMessage(uid, args.Message, args.Channel, component.Headset);
+        args.Channel = null; // prevent duplicate messages from other listeners.
     }
 
     protected override void OnGotEquipped(EntityUid uid, HeadsetComponent component, GotEquippedEvent args)
