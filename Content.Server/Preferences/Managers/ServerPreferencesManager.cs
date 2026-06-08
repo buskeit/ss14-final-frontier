@@ -502,9 +502,7 @@ namespace Content.Server.Preferences.Managers
                 var prefsData = new PlayerPrefData
                 {
                     PrefsLoaded = true,
-                    Prefs = new PlayerPreferences(
-                        new[] { new KeyValuePair<int, HumanoidCharacterProfile>() },
-                        0, Color.Transparent, [])
+                    Prefs = CreateInitialPreferences(Color.Transparent, [])
                 };
 
                 _cachedPlayerPrefs[session.UserId] = prefsData;
@@ -520,7 +518,12 @@ namespace Content.Server.Preferences.Managers
                 async Task LoadPrefs()
                 {
                     var prefs = await GetOrCreatePreferencesAsync(session.UserId, cancel);
-                    prefsData.Prefs = ConvertPreferences(prefs);
+                    prefsData.Prefs = CreateInitialPreferences(
+                        Color.FromHex(prefs.AdminOOCColor),
+                        ConvertConstructionFavorites(prefs));
+
+                    if (prefs.Profiles.Count > 0)
+                        prefsData.Prefs = ConvertPreferences(prefs);
                 }
             }
         }
@@ -609,10 +612,41 @@ namespace Content.Server.Preferences.Managers
             {
                 var speciesToBlacklist =
                     new HashSet<string>(_cfg.GetCVar(CCVars.ICNewAccountSpeciesBlacklist).Split(","));
-                return await _db.InitPrefsAsync(userId, HumanoidCharacterProfile.Random(speciesToBlacklist), cancel);
+                var defaultProfile = _cfg.GetCVar(CCVars.UsePersistence)
+                    ? new HumanoidCharacterProfile()
+                    : HumanoidCharacterProfile.Random(speciesToBlacklist);
+                return await _db.InitPrefsAsync(userId, defaultProfile, cancel);
             }
 
             return prefs;
+        }
+
+        private PlayerPreferences CreateInitialPreferences(
+            Color adminOocColor,
+            List<ProtoId<ConstructionPrototype>> constructionFavorites)
+        {
+            if (_cfg.GetCVar(CCVars.UsePersistence))
+                return new PlayerPreferences([], 0, adminOocColor, constructionFavorites);
+
+            var speciesToBlacklist =
+                new HashSet<string>(_cfg.GetCVar(CCVars.ICNewAccountSpeciesBlacklist).Split(","));
+
+            return new PlayerPreferences(
+                [new KeyValuePair<int, HumanoidCharacterProfile>(0, HumanoidCharacterProfile.Random(speciesToBlacklist))],
+                0,
+                adminOocColor,
+                constructionFavorites);
+        }
+
+        private static List<ProtoId<ConstructionPrototype>> ConvertConstructionFavorites(Preference prefs)
+        {
+            var favorites = new List<ProtoId<ConstructionPrototype>>(prefs.ConstructionFavorites.Count);
+            foreach (var favorite in prefs.ConstructionFavorites)
+            {
+                favorites.Add(new ProtoId<ConstructionPrototype>(favorite));
+            }
+
+            return favorites;
         }
 
         private PlayerPreferences SanitizePreferences(ICommonSession session, PlayerPreferences prefs, IDependencyCollection collection)

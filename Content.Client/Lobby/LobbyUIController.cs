@@ -36,6 +36,7 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
     private CharacterSetupGui? _characterSetup;
     private HumanoidProfileEditor? _profileEditor;
     private CharacterSetupGuiSavePanel? _savePanel;
+    private bool _persistentForcedSetupActive;
 
     private ClientGameTicker Ticker => EntityManager.System<ClientGameTicker>();
 
@@ -145,6 +146,7 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
         PreviewPanel?.SetLoaded(false);
         _profileEditor?.Dispose();
         _characterSetup?.Dispose();
+        _persistentForcedSetupActive = false;
 
         _characterSetup = null;
         _profileEditor = null;
@@ -157,7 +159,7 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
     {
         RefreshLobbyPreview();
         var (characterGui, profileEditor) = EnsureGui();
-        characterGui.SetSingleSlotMode(false);
+        characterGui.SetSingleSlotMode(_persistentForcedSetupActive);
         characterGui.ReloadCharacterPickers();
         profileEditor.SetProfile(
             _preferencesManager.Preferences?.SelectedCharacter,
@@ -205,6 +207,7 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
         if (selected == null || _playerManager.LocalSession == null)
             return;
 
+        _persistentForcedSetupActive = false;
         _preferencesManager.FinalizeCharacter(EditedProfile, EditedSlot.Value);
         if (!Ticker.PersistentMode)
             CloseProfileEditor();
@@ -218,6 +221,7 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
         if (selected == null || _playerManager.LocalSession == null)
             return;
 
+        _persistentForcedSetupActive = false;
         _preferencesManager.JoinAsCharacter(selected.Value);
         if (!Ticker.PersistentMode)
             CloseProfileEditor();
@@ -230,6 +234,7 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
             return;
 
         var (characterGui, profileEditor) = EnsureGui();
+        _persistentForcedSetupActive = true;
         characterGui.SetSingleSlotMode(true);
         characterGui.ReloadCharacterPickers();
         profileEditor.SetProfile(new HumanoidCharacterProfile(), 0);

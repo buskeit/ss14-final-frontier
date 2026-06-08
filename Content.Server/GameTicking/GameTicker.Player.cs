@@ -295,9 +295,17 @@ namespace Content.Server.GameTicking
 
         private void JoinPersistentPlayer(ICommonSession session)
         {
-            if (GetPlayerProfile(session) != null)
+            if (GetPlayerProfile(session) is { } profile)
             {
-                MakeJoinGamePersistentLoad(session);
+                var data = session.ContentData();
+                if (data == null)
+                    return;
+
+                var saveFilePath = PersistentCharacterSavePath.ForPlayer(data.UserId);
+                if (_resourceManager.UserData.Exists(saveFilePath.ToRootedPath()))
+                    MakeJoinGamePersistentLoad(session);
+                else
+                    MakeJoinGamePersistent(session);
                 return;
             }
 
