@@ -57,7 +57,6 @@ namespace Content.Server.GameTicking
         [Dependency] private readonly IEntityManager _ent = default!;
         [Dependency] private readonly BankSystem _bankSystem = default!;
         [Dependency] private readonly CrewMetaRecordsSystem _crewMetaRecords = default!;
-        [Dependency] private readonly StationSystem _stationSystem = default!;
         public static readonly EntProtoId ObserverPrototypeName = "MobObserver";
         public static readonly EntProtoId AdminObserverPrototypeName = "AdminObserver";
 
@@ -199,9 +198,12 @@ namespace Content.Server.GameTicking
             if (character == null)
                 return;
 
-            EntityUid? station;
-            station = _stationSystem.GetStationByID(1);
-            if (station == null) return;
+            var stations = GetSpawnableStations();
+            _robustRandom.Shuffle(stations);
+            if (stations.Count == 0)
+                return;
+
+            var station = stations[0];
 
             PlayerJoinGame(player);
 
@@ -219,24 +221,25 @@ namespace Content.Server.GameTicking
             _bankSystem.EnsureAccount(character.Name, 50);
             if (_crewMetaRecords.MetaRecords != null)
                 _crewMetaRecords.MetaRecords.CreateRecord(character!.Name, out _);
-            var mobMaybe = _stationSpawning.SpawnPlayerCharacterOnStation(station.Value, jobId, character);
+            var mobMaybe = _stationSpawning.SpawnPlayerCharacterOnStation(station, jobId, character);
             DebugTools.AssertNotNull(mobMaybe);
             var mob = mobMaybe!.Value;
 
 
 
             _mind.TransferTo(newMind, mob);
+            _playerManager.SetAttachedEntity(player, mob, true);
 
             _roles.MindAddJobRole(newMind, silent: silent, jobPrototype: jobId);
             var jobName = _jobs.MindTryGetJobName(newMind);
             _admin.UpdatePlayerList(player);
 
-            _stationJobs.TryAssignJob(station.Value, jobPrototype, player.UserId);
+            _stationJobs.TryAssignJob(station, jobPrototype, player.UserId);
 
 
             _adminLogger.Add(LogType.LateJoin,
                 LogImpact.Medium,
-                $"Player {player.Name} late joined as {character.Name:characterName} on station {Name(station.Value):stationName} with {ToPrettyString(mob):entity} as a {jobName:jobName}.");
+                $"Player {player.Name} late joined as {character.Name:characterName} on station {Name(station):stationName} with {ToPrettyString(mob):entity} as a {jobName:jobName}.");
 
 
             if (!silent && TryComp(station, out MetaDataComponent? metaData))
@@ -256,7 +259,7 @@ namespace Content.Server.GameTicking
                 lateJoin,
                 silent,
                 PlayersJoinedRoundNormally,
-                station.Value,
+                station,
                 character);
             RaiseLocalEvent(mob, aev, true);
             var saveFilePath = PersistentCharacterSavePath.ForPlayer(data!.UserId);
@@ -265,7 +268,7 @@ namespace Content.Server.GameTicking
                 EntityUid mobSure = (EntityUid)mobMaybe;
                 _loader.TrySaveGeneric(mobSure, saveFilePath, out var category, PersistentCharacterSaveOptions);
             }
-            _chatSystem.DispatchStationAnnouncement(station.Value,
+            _chatSystem.DispatchStationAnnouncement(station,
             $"{MetaData(mob).EntityName} has arrived into the Threshold.",
             "Arrival",
             playDefaultSound: false,
