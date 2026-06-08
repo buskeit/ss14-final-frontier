@@ -291,11 +291,28 @@ namespace Content.Server.GameTicking
             return HumanoidCharacterProfile.Random();
         }
 
+        private HumanoidCharacterProfile? GetPersistentSelectedProfile(ICommonSession p)
+        {
+            var selected = _prefsManager.GetPreferences(p.UserId).SelectedCharacter;
+            if (selected == null)
+                return null;
+
+            if (IsUnfinalizedPersistentProfile(selected))
+                return null;
+
+            return selected;
+        }
+
+        private static bool IsUnfinalizedPersistentProfile(HumanoidCharacterProfile profile)
+        {
+            return profile.MemberwiseEquals(new HumanoidCharacterProfile());
+        }
+
         private bool PersistentJoinEnabled => _cfg.GetCVar(CCVars.UsePersistence);
 
         private void JoinPersistentPlayer(ICommonSession session)
         {
-            if (GetPlayerProfile(session) is { } profile)
+            if (GetPersistentSelectedProfile(session) is { } profile)
             {
                 var data = session.ContentData();
                 if (data == null)
@@ -304,25 +321,12 @@ namespace Content.Server.GameTicking
                 var saveFilePath = PersistentCharacterSavePath.ForPlayer(data.UserId);
                 if (_resourceManager.UserData.Exists(saveFilePath.ToRootedPath()))
                     MakeJoinGamePersistentLoad(session);
-                else if (IsUnfinalizedPersistentProfile(profile))
-                    PlayerJoinLobby(session, forceCharacterSetup: true);
                 else
                     MakeJoinGamePersistent(session);
                 return;
             }
 
             PlayerJoinLobby(session, forceCharacterSetup: true);
-        }
-
-        private static bool IsUnfinalizedPersistentProfile(HumanoidCharacterProfile profile)
-        {
-            var defaultProfile = new HumanoidCharacterProfile();
-            return profile.Name == defaultProfile.Name &&
-                   profile.Species == defaultProfile.Species &&
-                   profile.Age == defaultProfile.Age &&
-                   profile.Sex == defaultProfile.Sex &&
-                   profile.Gender == defaultProfile.Gender &&
-                   profile.FlavorText == defaultProfile.FlavorText;
         }
 
         public void PlayerJoinGame(ICommonSession session, bool silent = false)
