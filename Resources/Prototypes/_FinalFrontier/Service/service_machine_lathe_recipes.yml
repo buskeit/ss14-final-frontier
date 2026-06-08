@@ -1,0 +1,9 @@
+- type: latheRecipe
+  parent: [ BaseCircuitboardRecipe, BaseServiceMachineRecipeCategory ]
+  id: MixingMachineCircuitboard
+  result: MixingMachineCircuitboard
+
+- type: latheRecipe
+  parent: [ BaseCircuitboardRecipe, BaseServiceMachineRecipeCategory ]
+  id: ButcheringMachineCircuitboard
+  result: ButcheringMachineCircuitboard
