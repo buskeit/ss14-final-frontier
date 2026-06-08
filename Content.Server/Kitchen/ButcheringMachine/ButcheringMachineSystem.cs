@@ -5,15 +5,12 @@ using Content.Shared.Inventory;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Nutrition.Components;
-using Content.Shared.Popups;
-using Robust.Shared.Physics.Components;
 
 namespace Content.Server.Kitchen.ButcheringMachine;
 
 public sealed class ButcheringMachineSystem : EntitySystem
 {
     [Dependency] private readonly MobStateSystem _mobState = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly InventorySystem _inventory = default!;
 
@@ -70,6 +67,5 @@ public sealed class ButcheringMachineSystem : EntitySystem
         }
 
         QueueDel(target);
-        _popup.PopupEntity(Loc.GetString("generic-success"), machine.Owner);
     }
 }
