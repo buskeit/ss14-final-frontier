@@ -1,6 +1,10 @@
 name: Validate
 
 on:
+  push:
+    branches:
+    - upstream-weather-qol
+    - service-machines-port
   pull_request:
   workflow_dispatch:
 
