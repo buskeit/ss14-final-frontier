@@ -304,12 +304,25 @@ namespace Content.Server.GameTicking
                 var saveFilePath = PersistentCharacterSavePath.ForPlayer(data.UserId);
                 if (_resourceManager.UserData.Exists(saveFilePath.ToRootedPath()))
                     MakeJoinGamePersistentLoad(session);
+                else if (IsUnfinalizedPersistentProfile(profile))
+                    PlayerJoinLobby(session, forceCharacterSetup: true);
                 else
                     MakeJoinGamePersistent(session);
                 return;
             }
 
             PlayerJoinLobby(session, forceCharacterSetup: true);
+        }
+
+        private static bool IsUnfinalizedPersistentProfile(HumanoidCharacterProfile profile)
+        {
+            var defaultProfile = new HumanoidCharacterProfile();
+            return profile.Name == defaultProfile.Name &&
+                   profile.Species == defaultProfile.Species &&
+                   profile.Age == defaultProfile.Age &&
+                   profile.Sex == defaultProfile.Sex &&
+                   profile.Gender == defaultProfile.Gender &&
+                   profile.FlavorText == defaultProfile.FlavorText;
         }
 
         public void PlayerJoinGame(ICommonSession session, bool silent = false)
