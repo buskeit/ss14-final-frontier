@@ -25,6 +25,24 @@ namespace Content.Server.GameTicking
             _playerManager.PlayerStatusChanged += PlayerStatusChanged;
         }
 
+        private ContentPlayerData EnsureContentData(ICommonSession session, EntityUid? mindId = null)
+        {
+            if (session.Data.ContentDataUncast is ContentPlayerData data)
+            {
+                if (mindId != null)
+                    data.Mind = mindId;
+
+                return data;
+            }
+
+            data = new ContentPlayerData(session.UserId, session.Name)
+            {
+                Mind = mindId
+            };
+            session.Data.ContentDataUncast = data;
+            return data;
+        }
+
         public bool TryRejoin(ICommonSession session)
         {
             EntityUid? mindId = null;
@@ -95,12 +113,7 @@ namespace Content.Server.GameTicking
             }
             if (session.GetMind() != mindId && body != null && body != EntityUid.Invalid)
             {
-                if (session.Data.ContentDataUncast == null)
-                {
-                    var data = new ContentPlayerData(session.UserId, args.Session.Name);
-                    data.Mind = mindId;
-                    session.Data.ContentDataUncast = data;
-                }
+                EnsureContentData(session, mindId);
                 //   _mind.SetUserId((EntityUid)mindId!, session.UserId, mind);
                 var newMind = _mind.CreateMind(session.UserId, mind!.CharacterName);
                 _mind.SetUserId(newMind, session.UserId);
@@ -117,12 +130,7 @@ namespace Content.Server.GameTicking
                         AddPlayerToDb(args.Session.UserId.UserId);
 
                         // Always make sure the client has player data.
-                        if (session.Data.ContentDataUncast == null)
-                        {
-                            var data = new ContentPlayerData(session.UserId, args.Session.Name);
-                            data.Mind = mindId;
-                            session.Data.ContentDataUncast = data;
-                        }
+                        EnsureContentData(session, mindId);
 
                         // Make the player actually join the game.
                         // timer time must be > tick length
@@ -154,6 +162,7 @@ namespace Content.Server.GameTicking
 
                 case SessionStatus.InGame:
                     {
+                        EnsureContentData(session, mindId);
                         _userDb.ClientConnected(session);
 
                         if (mind == null)
@@ -320,9 +329,7 @@ namespace Content.Server.GameTicking
         {
             if (GetPersistentSelectedProfile(session) is { } profile)
             {
-                var data = session.ContentData();
-                if (data == null)
-                    return;
+                var data = EnsureContentData(session);
 
                 var saveFilePath = PersistentCharacterSavePath.ForPlayer(data.UserId);
                 if (_resourceManager.UserData.Exists(saveFilePath.ToRootedPath()))
