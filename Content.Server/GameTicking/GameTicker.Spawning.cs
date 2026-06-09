@@ -192,87 +192,34 @@ namespace Content.Server.GameTicking
             // Can't spawn players with a dummy ticker!
             if (DummyTicker)
                 return;
-            var silent = true;
-            var lateJoin = true;
-            HumanoidCharacterProfile? character = GetPlayerProfile(player);
+
+            var character = GetPlayerProfile(player);
             if (character == null)
+            {
+                PlayerJoinLobby(player, forceCharacterSetup: true);
                 return;
+            }
 
             var stations = GetSpawnableStations();
-            _robustRandom.Shuffle(stations);
             if (stations.Count == 0)
+            {
+                _sawmill.Warning("Could not persistently spawn {Player}: no spawnable stations are available.", player.Name);
+                PlayerJoinLobby(player);
+                return;
+            }
+
+            _robustRandom.Shuffle(stations);
+            SpawnPlayer(player, character, stations[0], null, true, true);
+
+            if (player.AttachedEntity is not { } mob)
                 return;
 
-            var station = stations[0];
-
-            PlayerJoinGame(player);
-
             var data = player.ContentData();
+            if (data == null)
+                return;
 
-            DebugTools.AssertNotNull(data);
-            var jobId = "Passenger";
-            var newMind = _mind.CreateMind(data!.UserId, character!.Name);
-            _mind.SetUserId(newMind, data.UserId);
-
-            var jobPrototype = _prototypeManager.Index<JobPrototype>(jobId);
-
-            _playTimeTrackings.PlayerRolesChanged(player);
-
-            _bankSystem.EnsureAccount(character.Name, 50);
-            if (_crewMetaRecords.MetaRecords != null)
-                _crewMetaRecords.MetaRecords.CreateRecord(character!.Name, out _);
-            var mobMaybe = _stationSpawning.SpawnPlayerCharacterOnStation(station, jobId, character);
-            DebugTools.AssertNotNull(mobMaybe);
-            var mob = mobMaybe!.Value;
-
-
-
-            _mind.TransferTo(newMind, mob);
-            _playerManager.SetAttachedEntity(player, mob, true);
-
-            _roles.MindAddJobRole(newMind, silent: silent, jobPrototype: jobId);
-            var jobName = _jobs.MindTryGetJobName(newMind);
-            _admin.UpdatePlayerList(player);
-
-            _stationJobs.TryAssignJob(station, jobPrototype, player.UserId);
-
-
-            _adminLogger.Add(LogType.LateJoin,
-                LogImpact.Medium,
-                $"Player {player.Name} late joined as {character.Name:characterName} on station {Name(station):stationName} with {ToPrettyString(mob):entity} as a {jobName:jobName}.");
-
-
-            if (!silent && TryComp(station, out MetaDataComponent? metaData))
-            {
-                _chatManager.DispatchServerMessage(player,
-                    Loc.GetString("job-greet-station-name", ("stationName", metaData.EntityName)));
-            }
-
-
-
-
-            // We raise this event directed to the mob, but also broadcast it so game rules can do something now.
-            PlayersJoinedRoundNormally++;
-            var aev = new PlayerSpawnCompleteEvent(mob,
-                player,
-                jobId,
-                lateJoin,
-                silent,
-                PlayersJoinedRoundNormally,
-                station,
-                character);
-            RaiseLocalEvent(mob, aev, true);
-            var saveFilePath = PersistentCharacterSavePath.ForPlayer(data!.UserId);
-            if (mobMaybe != null)
-            {
-                EntityUid mobSure = (EntityUid)mobMaybe;
-                _loader.TrySaveGeneric(mobSure, saveFilePath, out var category, PersistentCharacterSaveOptions);
-            }
-            _chatSystem.DispatchStationAnnouncement(station,
-            $"{MetaData(mob).EntityName} has arrived into the Threshold.",
-            "Arrival",
-            playDefaultSound: false,
-            colorOverride: Color.Gold);
+            var saveFilePath = PersistentCharacterSavePath.ForPlayer(data.UserId);
+            _loader.TrySaveGeneric(mob, saveFilePath, out _, PersistentCharacterSaveOptions);
         }
 
         private void SpawnPlayerPersistentLoad(ICommonSession player)
@@ -280,11 +227,16 @@ namespace Content.Server.GameTicking
             // Can't spawn players with a dummy ticker!
             if (DummyTicker)
                 return;
-            if (TryRejoin(player)) return;
-            var silent = true;
-            var lateJoin = true;
-            HumanoidCharacterProfile? character = GetPlayerProfile(player);
-            if (character == null) return;
+
+            if (TryRejoin(player))
+                return;
+
+            var character = GetPlayerProfile(player);
+            if (character == null)
+            {
+                PlayerJoinLobby(player, forceCharacterSetup: true);
+                return;
+            }
 
             var data = player.ContentData();
             DebugTools.AssertNotNull(data);
@@ -308,127 +260,50 @@ namespace Content.Server.GameTicking
                 return;
             }
 
-            EntityUid station;
             var stations = GetSpawnableStations();
             _robustRandom.Shuffle(stations);
-            if (stations.Count == 0)
-                station = EntityUid.Invalid;
-            else
-                station = stations[0];
+            var station = stations.Count > 0 ? stations[0] : EntityUid.Invalid;
 
-            PlayerJoinGame(player);
+            PlayerJoinGame(player, true);
             var jobId = "Passenger";
-
-
             var jobPrototype = _prototypeManager.Index<JobPrototype>(jobId);
 
             _playTimeTrackings.PlayerRolesChanged(player);
-            _bankSystem.EnsureAccount(character!.Name, 50);
+            _bankSystem.EnsureAccount(character.Name, 50);
             if (_crewMetaRecords.MetaRecords != null)
-                _crewMetaRecords.MetaRecords.CreateRecord(character!.Name, out _);
+                _crewMetaRecords.MetaRecords.CreateRecord(character.Name, out _);
 
             var mob = mobMaybe.Value.Owner;
 
-            if (_ent.TryGetComponent<MindContainerComponent>(mob, out var container))
-            {
-                if (container != null)
-                {
-                    _mind.WipeMind(mob);
-                }
-            }
-            var newMind = _mind.CreateMind(data!.UserId, character.Name);
+            if (_ent.TryGetComponent<MindContainerComponent>(mob, out _))
+                _mind.WipeMind(mob);
+
+            var newMind = _mind.CreateMind(data.UserId, character.Name);
             _mind.SetUserId(newMind, data.UserId);
             _mind.TransferTo(newMind, mob);
             _playerManager.SetAttachedEntity(player, mob, true);
 
+            _roles.MindAddJobRole(newMind, silent: true, jobPrototype: jobId);
+            var jobName = _jobs.MindTryGetJobName(newMind);
+            _admin.UpdatePlayerList(player);
+
+            if (station != EntityUid.Invalid)
+                _stationJobs.TryAssignJob(station, jobPrototype, player.UserId);
+
             _adminLogger.Add(LogType.LateJoin,
                 LogImpact.Medium,
-                $"Player {player.Name} late joined as {character.Name:characterName}. Loaded char");
+                $"Player {player.Name} rejoined persistent character {character.Name:characterName} on station {Name(station):stationName} with {ToPrettyString(mob):entity} as a {jobName:jobName}.");
 
-
-
-            var possibleContainers = FindContSpawn();
-            if (possibleContainers.Count > 0)
-            {
-                _robustRandom.Shuffle(possibleContainers);
-                foreach (var (uid, spawnPoint, manager, xform) in possibleContainers)
-                {
-                    if (!_container.TryGetContainer(uid, spawnPoint.ContainerId, out var container2, manager))
-                        continue;
-
-                    if (!_container.Insert(mob, container2, containerXform: xform))
-                        continue;
-
-                    var ev = new ContainerSpawnEvent(mob);
-                    RaiseLocalEvent(uid, ref ev);
-
-                }
-            }
-
-            else
-            {
-                var points = EntityQueryEnumerator<SpawnPointComponent, TransformComponent>();
-                var possiblePositions = new List<EntityCoordinates>();
-                while (points.MoveNext(out var uid, out var spawnPoint, out var xform))
-                {
-                    if (spawnPoint.SpawnType != SpawnPointType.LateJoin)
-                        continue;
-
-                    possiblePositions.Add(xform.Coordinates);
-                }
-
-                if (possiblePositions.Count <= 0)
-                    return;
-
-                var spawnLoc = _robustRandom.Pick(possiblePositions);
-
-                _transform.SetCoordinates(mob, spawnLoc);
-            }
-
-
-
-
-
-
-
-            if (!silent && TryComp(station, out MetaDataComponent? metaData))
-            {
-                _chatManager.DispatchServerMessage(player,
-                    Loc.GetString("job-greet-station-name", ("stationName", metaData.EntityName)));
-            }
-
-
-
-
-            // We raise this event directed to the mob, but also broadcast it so game rules can do something now.
             PlayersJoinedRoundNormally++;
             var aev = new PlayerSpawnCompleteEvent(mob,
                 player,
                 jobId,
-                lateJoin,
-                silent,
+                true,
+                true,
                 PlayersJoinedRoundNormally,
                 station,
                 character);
             RaiseLocalEvent(mob, aev, true);
-        }
-
-
-
-
-
-        private List<Entity<ContainerSpawnPointComponent, ContainerManagerComponent, TransformComponent>> FindContSpawn()
-        {
-            var query = EntityQueryEnumerator<ContainerSpawnPointComponent, ContainerManagerComponent, TransformComponent>();
-            var possibleContainers = new List<Entity<ContainerSpawnPointComponent, ContainerManagerComponent, TransformComponent>>();
-
-            while (query.MoveNext(out var uid, out var spawnPoint, out var container, out var xform))
-            {
-                if (spawnPoint.SpawnType != SpawnPointType.LateJoin) continue;
-                possibleContainers.Add((uid, spawnPoint, container, xform));
-
-            }
-            return possibleContainers;
         }
 
 
