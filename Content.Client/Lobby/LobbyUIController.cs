@@ -199,12 +199,7 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
     {
         DebugTools.Assert(EditedProfile != null);
 
-        if (EditedProfile == null || EditedSlot == null)
-            return;
-
-        var selected = _preferencesManager.Preferences?.SelectedCharacterIndex;
-
-        if (selected == null || _playerManager.LocalSession == null)
+        if (EditedProfile == null || EditedSlot == null || _playerManager.LocalSession == null)
             return;
 
         _persistentForcedSetupActive = false;
@@ -238,6 +233,7 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
         characterGui.SetSingleSlotMode(true);
         characterGui.ReloadCharacterPickers();
         profileEditor.SetProfile(new HumanoidCharacterProfile(), 0);
+        profileEditor.ForceCreateMode();
         Ticker.ConsumeForcedCharacterSetup();
         lobby.SwitchState(LobbyGui.LobbyGuiState.CharacterSetup);
     }
