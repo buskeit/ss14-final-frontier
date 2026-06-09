@@ -3,7 +3,10 @@ using Robust.Shared.Serialization;
 
 namespace Content.Shared.StationRecords;
 
-[RegisterComponent, NetworkedComponent]
+// This key is authoritative server-side data. Keeping it off the client prevents
+// access prediction from treating an unresolved station record as a hard denial
+// before the server confirms that the ID is valid.
+[RegisterComponent]
 public sealed partial class StationRecordKeyStorageComponent : Component
 {
     /// <summary>
