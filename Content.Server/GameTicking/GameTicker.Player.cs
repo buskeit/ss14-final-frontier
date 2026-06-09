@@ -305,7 +305,13 @@ namespace Content.Server.GameTicking
 
         private static bool IsUnfinalizedPersistentProfile(HumanoidCharacterProfile profile)
         {
-            return profile.MemberwiseEquals(new HumanoidCharacterProfile());
+            var defaultProfile = new HumanoidCharacterProfile();
+            return profile.Name == defaultProfile.Name &&
+                   profile.Species == defaultProfile.Species &&
+                   profile.Age == defaultProfile.Age &&
+                   profile.Sex == defaultProfile.Sex &&
+                   profile.Gender == defaultProfile.Gender &&
+                   profile.FlavorText == defaultProfile.FlavorText;
         }
 
         private bool PersistentJoinEnabled => _cfg.GetCVar(CCVars.UsePersistence);
