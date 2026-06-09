@@ -1,5 +1,6 @@
 name: Service machines validate
 
+# Refresh validation against the latest testing base.
 on:
   pull_request:
   workflow_dispatch:
