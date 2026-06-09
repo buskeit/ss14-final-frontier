@@ -202,10 +202,18 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
         if (EditedProfile == null || EditedSlot == null || _playerManager.LocalSession == null)
             return;
 
+        var slot = EditedSlot.Value;
+
         _persistentForcedSetupActive = false;
-        _preferencesManager.FinalizeCharacter(EditedProfile, EditedSlot.Value);
-        if (!Ticker.PersistentMode)
-            CloseProfileEditor();
+        _preferencesManager.FinalizeCharacter(EditedProfile, slot);
+
+        if (Ticker.PersistentMode)
+        {
+            _preferencesManager.JoinAsCharacter(slot);
+            return;
+        }
+
+        CloseProfileEditor();
         //   _consoleHost.ExecuteCommand($"joingamepersistent false");
     }
 
