@@ -144,7 +144,7 @@ public sealed class HeadsetSystem : SharedHeadsetSystem
 
         // Common is an unencrypted/global channel. Do not let worn headsets use it as general chat;
         // intercoms still handle their own radio transmission path and remain able to use Common.
-        if (headsetComp.TransmitTo == 0)
+        if (args.Channel.ID == "Common" || headsetComp.TransmitTo == 0)
             return;
 
         var faction = _station.GetStationByID(headsetComp.TransmitTo);
