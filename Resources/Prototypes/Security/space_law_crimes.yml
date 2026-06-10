@@ -2,6 +2,8 @@
 # Edit these prototypes to change the CrimeAssist checklist without touching C#.
 # Existing hardcoded entries with the same name are overridden at prototype load.
 
+
+
 - type: spaceLawCrime
   id: AnimalCruelty
   name: Animal Cruelty
@@ -147,6 +149,14 @@
   order: 190
   
 - type: spaceLawCrime
+  id: Rioting
+  name: Rioting
+  category: Misdemeanors
+  brigTime: 43800
+  fine: 1200
+  order: 195
+  
+  - type: spaceLawCrime
   id: AggravatedAssault
   name: Aggravated Assault
   category: Felonies
@@ -337,4 +347,3 @@
   brigTime: 0
   fine: 10000
   order: 430
-  
