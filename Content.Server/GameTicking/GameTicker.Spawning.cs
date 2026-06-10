@@ -507,6 +507,7 @@ namespace Content.Server.GameTicking
             jobPrototype = _prototypeManager.Index<JobPrototype>(jobId);
 
             _playTimeTrackings.PlayerRolesChanged(player);
+            _bankSystem.EnsureAccount(character.Name, 50);
 
             var mobMaybe = _stationSpawning.SpawnPlayerCharacterOnStation(station, jobId, character);
             DebugTools.AssertNotNull(mobMaybe);
