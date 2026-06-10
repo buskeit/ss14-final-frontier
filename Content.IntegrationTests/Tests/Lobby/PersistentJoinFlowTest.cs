@@ -11,6 +11,7 @@ using Content.Shared.GameTicking;
 using Content.Shared.Humanoid;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
+using Content.Shared.Preferences;
 using Robust.Client.State;
 using Robust.Server.Player;
 using Robust.Shared.ContentPack;
