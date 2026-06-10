@@ -9,3 +9,6 @@ server_config.toml
 *.pdb
 *.deps.json
 *.runtimeconfig.json
+
+# Local IDE metadata
+.idea/

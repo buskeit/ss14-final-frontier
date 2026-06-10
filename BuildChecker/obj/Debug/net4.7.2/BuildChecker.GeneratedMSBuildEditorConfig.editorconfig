@@ -1,8 +1,0 @@
-is_global = true
-build_property.RootNamespace = BuildChecker
-build_property.ProjectDir = /home/bbuske/ss14-final-frontier/BuildChecker/
-build_property.EnableComHosting = 
-build_property.EnableGeneratedComInterfaceComImportInterop = 
-build_property.CsWinRTUseWindowsUIXamlProjections = false
-build_property.EffectiveAnalysisLevelStyle = 
-build_property.EnableCodeStyleSeverity = 
