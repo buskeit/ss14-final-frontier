@@ -331,8 +331,18 @@ namespace Content.Server.PDA
 
         private int? GetPdaBalance(PdaComponent pda, IdCardComponent? id)
         {
-            if (pda.PdaOwner is { } owner && _bank.TryGetBalance(owner, out var ownerBalance))
-                return ownerBalance;
+            if (pda.PdaOwner is { } owner)
+            {
+                if (Exists(owner) && !TerminatingOrDeleted(owner))
+                {
+                    if (_bank.TryGetBalance(owner, out var ownerBalance))
+                        return ownerBalance;
+                }
+                else
+                {
+                    pda.PdaOwner = null;
+                }
+            }
 
             var accounts = _bank.GetMoneyAccountsComponent();
             if (accounts == null)

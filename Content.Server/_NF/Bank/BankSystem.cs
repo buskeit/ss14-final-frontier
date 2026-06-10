@@ -175,6 +175,11 @@ public sealed partial class BankSystem : SharedBankSystem
     public bool TryGetBalance(EntityUid ent, out int balance)
     {
         balance = 0;
+        if (!Exists(ent) || TerminatingOrDeleted(ent))
+        {
+            return false;
+        }
+
         var component = GetMoneyAccountsComponent();
         if (component == null)
         {

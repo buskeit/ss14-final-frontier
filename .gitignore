@@ -12,3 +12,6 @@ server_config.toml
 
 # Local IDE metadata
 .idea/
+
+# Local AI tooling state
+.ai/
