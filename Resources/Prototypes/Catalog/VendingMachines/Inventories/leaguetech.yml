@@ -22,6 +22,7 @@
     HoSIDCard: 2
     RDIDCard: 2
     QuartermasterIDCard: 2
+    ForemanIDCard: 2
   # Others 
     VisitorIDCard: 5
   # Door Remotes

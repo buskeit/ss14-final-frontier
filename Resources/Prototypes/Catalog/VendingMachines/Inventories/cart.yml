@@ -63,6 +63,7 @@
     HoSIDCard: 2
     RDIDCard: 2
     QuartermasterIDCard: 2
+    ForemanIDCard: 2
   # Senior Officers
     SeniorEngineerIDCard: 5
     SeniorPhysicianIDCard: 5
