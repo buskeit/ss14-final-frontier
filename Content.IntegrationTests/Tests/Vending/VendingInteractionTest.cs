@@ -412,7 +412,7 @@ public sealed class VendingInteractionTest : InteractionTest
         await Server.WaitPost(() =>
         {
             var uiSystem = SEntMan.System<UserInterfaceSystem>();
-            Assert.That(uiSystem.TryGetUiState<VendingMachineUpdateState>((SEntMan.GetEntity(Target), null), VendingMachineUiKey.Key, out var state), Is.True);
+            Assert.That(uiSystem.TryGetUiState<VendingMachineUpdateState>((STarget!.Value, null), VendingMachineUiKey.Key, out var state), Is.True);
             Assert.That(state, Is.Not.Null);
             Assert.That(state!.RequiresCash, Is.True);
             Assert.That(state.Balance, Is.EqualTo(10));
