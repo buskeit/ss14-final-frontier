@@ -15,6 +15,9 @@
     QuartermasterPDASOL: 3
   # ID Cards
   # Heads / Command
+    LeagueSecGenIDCard: 2
+    LeageIDCard: 2
+    CaptainIDCard: 2
     ExecutiveOfficerIDCard: 2
     HoPIDCard: 2
     CEIDCard: 2
