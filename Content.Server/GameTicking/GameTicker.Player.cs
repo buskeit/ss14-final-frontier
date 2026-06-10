@@ -291,11 +291,11 @@ namespace Content.Server.GameTicking
             if (preferences.SelectedCharacter is { } selected)
                 return selected;
 
-            foreach (var character in preferences.Characters.Values)
-                return character;
-
             if (PersistentJoinEnabled)
                 return null;
+
+            foreach (var character in preferences.Characters.Values)
+                return character;
 
             return HumanoidCharacterProfile.Random();
         }
@@ -327,15 +327,9 @@ namespace Content.Server.GameTicking
 
         private void JoinPersistentPlayer(ICommonSession session)
         {
-            if (GetPersistentSelectedProfile(session) is { } profile)
+            if (GetPersistentSelectedProfile(session) != null)
             {
-                var data = EnsureContentData(session);
-
-                var saveFilePath = PersistentCharacterSavePath.ForPlayer(data.UserId);
-                if (_resourceManager.UserData.Exists(saveFilePath.ToRootedPath()))
-                    MakeJoinGamePersistentLoad(session);
-                else
-                    MakeJoinGamePersistent(session);
+                MakeJoinGamePersistent(session);
                 return;
             }
 
@@ -367,7 +361,9 @@ namespace Content.Server.GameTicking
             if (session == null) return;
             var persistentMode = PersistentJoinEnabled;
             _playerGameStatuses[session.UserId] = persistentMode
-                ? PlayerGameStatus.ReadyToPlay
+                ? forceCharacterSetup
+                    ? PlayerGameStatus.NotReadyToPlay
+                    : PlayerGameStatus.ReadyToPlay
                 : LobbyEnabled
                     ? PlayerGameStatus.NotReadyToPlay
                     : PlayerGameStatus.ReadyToPlay;

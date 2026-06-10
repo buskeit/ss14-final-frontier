@@ -15,6 +15,8 @@ using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Prototypes;
 using Content.Shared.Mind;
 using Content.Shared.Mind.Components;
+using Content.Shared.Mobs.Components;
+using Content.Shared.Mobs.Systems;
 using Content.Shared.Players;
 using Content.Shared.Preferences;
 using Content.Shared.Random;
@@ -57,6 +59,7 @@ namespace Content.Server.GameTicking
         [Dependency] private readonly IEntityManager _ent = default!;
         [Dependency] private readonly BankSystem _bankSystem = default!;
         [Dependency] private readonly CrewMetaRecordsSystem _crewMetaRecords = default!;
+        [Dependency] private readonly MobStateSystem _mobState = default!;
         public static readonly EntProtoId ObserverPrototypeName = "MobObserver";
         public static readonly EntProtoId AdminObserverPrototypeName = "AdminObserver";
 
@@ -193,12 +196,20 @@ namespace Content.Server.GameTicking
             if (DummyTicker)
                 return;
 
-            var character = GetPlayerProfile(player);
+            if (TryRejoin(player))
+                return;
+
+            var character = GetPersistentSelectedProfile(player);
             if (character == null)
             {
                 PlayerJoinLobby(player, forceCharacterSetup: true);
                 return;
             }
+
+            var data = player.ContentData();
+            DebugTools.AssertNotNull(data);
+            if (data != null && TryAttachPersistentBody(player, character, data.UserId))
+                return;
 
             var stations = GetSpawnableStations();
             if (stations.Count == 0)
@@ -214,7 +225,6 @@ namespace Content.Server.GameTicking
             if (player.AttachedEntity is not { } mob)
                 return;
 
-            var data = player.ContentData();
             if (data == null)
                 return;
 
@@ -224,86 +234,145 @@ namespace Content.Server.GameTicking
 
         private void SpawnPlayerPersistentLoad(ICommonSession player)
         {
-            // Can't spawn players with a dummy ticker!
-            if (DummyTicker)
-                return;
+            SpawnPlayerPersistent(player);
+        }
 
-            if (TryRejoin(player))
-                return;
+        private bool TryAttachPersistentBody(ICommonSession player, HumanoidCharacterProfile character, NetUserId userId)
+        {
+            var saveFilePath = PersistentCharacterSavePath.ForPlayer(userId);
+            var rootedPath = saveFilePath.ToRootedPath();
+            if (!_resourceManager.UserData.Exists(rootedPath))
+                return false;
 
-            var character = GetPlayerProfile(player);
-            if (character == null)
-            {
-                PlayerJoinLobby(player, forceCharacterSetup: true);
-                return;
-            }
-
-            var data = player.ContentData();
-            DebugTools.AssertNotNull(data);
-            if (data == null)
-                return;
-
-            var saveFilePath = PersistentCharacterSavePath.ForPlayer(data.UserId);
-            if (!_resourceManager.UserData.Exists(saveFilePath.ToRootedPath()))
-            {
-                SpawnPlayerPersistent(player);
-                return;
-            }
-
-            if (!_loader.TryLoadEntity(saveFilePath, out var mobMaybe, PersistentCharacterLoadOptions))
+            if (!_loader.TryLoadEntity(saveFilePath, out var mobMaybe, PersistentCharacterLoadOptions) || mobMaybe == null)
             {
                 _sawmill.Warning(
-                    "No persistent character save found for {Player} at {Path}; creating a new persistent character.",
+                    "Persistent character load failed for {Player} at {Path}; falling back to a fresh station spawn.",
                     player.Name,
                     saveFilePath);
-                SpawnPlayerPersistent(player);
-                return;
+                return false;
             }
 
-            var stations = GetSpawnableStations();
-            _robustRandom.Shuffle(stations);
-            var station = stations.Count > 0 ? stations[0] : EntityUid.Invalid;
-
-            PlayerJoinGame(player, true);
-            var jobId = "Passenger";
-            var jobPrototype = _prototypeManager.Index<JobPrototype>(jobId);
-
-            _playTimeTrackings.PlayerRolesChanged(player);
-            _bankSystem.EnsureAccount(character.Name, 50);
-            if (_crewMetaRecords.MetaRecords != null)
-                _crewMetaRecords.MetaRecords.CreateRecord(character.Name, out _);
-
             var mob = mobMaybe.Value.Owner;
+            if (!TryValidatePersistentBody(mob, out var reason))
+            {
+                _sawmill.Warning(
+                    "Persistent character load for {Player} produced unsafe entity {Entity}: {Reason}. Falling back to a fresh station spawn.",
+                    player.Name,
+                    ToPrettyString(mob),
+                    reason);
+                return false;
+            }
 
-            if (_ent.TryGetComponent<MindContainerComponent>(mob, out _))
-                _mind.WipeMind(mob);
+            try
+            {
+                var station = EntityUid.Invalid;
+                PlayerJoinGame(player, true);
 
-            var newMind = _mind.CreateMind(data.UserId, character.Name);
-            _mind.SetUserId(newMind, data.UserId);
-            _mind.TransferTo(newMind, mob);
-            _playerManager.SetAttachedEntity(player, mob, true);
+                const string jobId = "Passenger";
+                var jobPrototype = _prototypeManager.Index<JobPrototype>(jobId);
 
-            _roles.MindAddJobRole(newMind, silent: true, jobPrototype: jobId);
-            var jobName = _jobs.MindTryGetJobName(newMind);
-            _admin.UpdatePlayerList(player);
+                _playTimeTrackings.PlayerRolesChanged(player);
+                _bankSystem.EnsureAccount(character.Name, 50);
+                if (_crewMetaRecords.MetaRecords != null)
+                    _crewMetaRecords.MetaRecords.CreateRecord(character.Name, out _);
 
-            if (station != EntityUid.Invalid)
-                _stationJobs.TryAssignJob(station, jobPrototype, player.UserId);
+                if (_ent.TryGetComponent<MindContainerComponent>(mob, out _))
+                    _mind.WipeMind(mob);
 
-            _adminLogger.Add(LogType.LateJoin,
-                LogImpact.Medium,
-                $"Player {player.Name} rejoined persistent character {character.Name:characterName} on station {Name(station):stationName} with {ToPrettyString(mob):entity} as a {jobName:jobName}.");
+                var newMind = _mind.CreateMind(userId, character.Name);
+                _mind.SetUserId(newMind, userId);
+                _mind.TransferTo(newMind, mob);
 
-            PlayersJoinedRoundNormally++;
-            var aev = new PlayerSpawnCompleteEvent(mob,
-                player,
-                jobId,
-                true,
-                true,
-                PlayersJoinedRoundNormally,
-                station,
-                character);
-            RaiseLocalEvent(mob, aev, true);
+                if (!_playerManager.SetAttachedEntity(player, mob, true))
+                {
+                    _sawmill.Warning(
+                        "Persistent character load for {Player} could not attach to {Entity}; falling back to a fresh station spawn.",
+                        player.Name,
+                        ToPrettyString(mob));
+                    return false;
+                }
+
+                _roles.MindAddJobRole(newMind, silent: true, jobPrototype: jobId);
+                var jobName = _jobs.MindTryGetJobName(newMind);
+                _admin.UpdatePlayerList(player);
+
+                if (station != EntityUid.Invalid)
+                    _stationJobs.TryAssignJob(station, jobPrototype, player.UserId);
+
+                _adminLogger.Add(LogType.LateJoin,
+                    LogImpact.Medium,
+                    $"Player {player.Name} rejoined persistent character {character.Name:characterName} on station {Name(station):stationName} with {ToPrettyString(mob):entity} as a {jobName:jobName}.");
+
+                PlayersJoinedRoundNormally++;
+                var aev = new PlayerSpawnCompleteEvent(mob,
+                    player,
+                    jobId,
+                    true,
+                    true,
+                    PlayersJoinedRoundNormally,
+                    station,
+                    character);
+                RaiseLocalEvent(mob, aev, true);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _sawmill.Warning(
+                    "Persistent character load for {Player} failed to attach safely: {Message}. Falling back to a fresh station spawn.",
+                    player.Name,
+                    ex.Message);
+                return false;
+            }
+        }
+
+        private bool TryValidatePersistentBody(EntityUid mob, out string reason)
+        {
+            reason = string.Empty;
+
+            if (!mob.IsValid() || TerminatingOrDeleted(mob))
+            {
+                reason = "entity does not exist or is deleting";
+                return false;
+            }
+
+            if (!_ent.TryGetComponent<TransformComponent>(mob, out var transform))
+            {
+                reason = "entity has no transform";
+                return false;
+            }
+
+            if (transform.MapUid == null || TerminatingOrDeleted(transform.MapUid.Value))
+            {
+                reason = "entity is not on a valid map";
+                return false;
+            }
+
+            if (transform.GridUid == null || TerminatingOrDeleted(transform.GridUid.Value))
+            {
+                reason = "entity is not on a valid grid";
+                return false;
+            }
+
+            if (TryComp<ActorComponent>(mob, out _))
+            {
+                reason = "entity is already attached to another session";
+                return false;
+            }
+
+            if (!TryComp<MobStateComponent>(mob, out var mobState))
+            {
+                reason = "entity has no mob state";
+                return false;
+            }
+
+            if (!_mobState.IsAlive(mob, mobState) || _mobState.IsCritical(mob, mobState))
+            {
+                reason = "entity is dead or critical";
+                return false;
+            }
+
+            return true;
         }
 
 

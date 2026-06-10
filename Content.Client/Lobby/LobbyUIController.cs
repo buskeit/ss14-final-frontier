@@ -208,10 +208,7 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
         _preferencesManager.FinalizeCharacter(EditedProfile, slot);
 
         if (Ticker.PersistentMode)
-        {
-            _preferencesManager.JoinAsCharacter(slot);
             return;
-        }
 
         CloseProfileEditor();
         //   _consoleHost.ExecuteCommand($"joingamepersistent false");

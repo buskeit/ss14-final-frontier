@@ -1,3 +1,4 @@
+using System.IO;
 using System.Linq;
 using System.Threading;
 using Content.Client.Gameplay;
@@ -6,13 +7,18 @@ using Content.Server.Database;
 using Content.Server.GameTicking;
 using Content.Server.Preferences.Managers;
 using Content.Shared.CCVar;
-using Content.Shared.Preferences;
-using Robust.Shared.Enums;
-using Robust.Shared.GameObjects;
+using Content.Shared.GameTicking;
+using Content.Shared.Humanoid;
+using Content.Shared.Mobs.Components;
+using Content.Shared.Mobs.Systems;
 using Robust.Client.State;
 using Robust.Server.Player;
+using Robust.Shared.ContentPack;
+using Robust.Shared.Enums;
+using Robust.Shared.GameObjects;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
+using Robust.UnitTesting;
 
 namespace Content.IntegrationTests.Tests.Lobby;
 
@@ -20,7 +26,7 @@ namespace Content.IntegrationTests.Tests.Lobby;
 public sealed class PersistentJoinFlowTest
 {
     [Test]
-    public async Task NoCharacterForcesSetupAndFinalizeJoins()
+    public async Task NoCharacterForcesSetupAndFinalizeJoinsSafely()
     {
         await using var pair = await PoolManager.GetServerClient(new PoolSettings { InLobby = true, Dirty = true });
         var server = pair.Server;
@@ -71,6 +77,7 @@ public sealed class PersistentJoinFlowTest
         {
             var player = serverPlayers.Sessions.Single();
             Assert.That(player.AttachedEntity, Is.Null);
+            Assert.That(gameTicker.PlayerGameStatuses[player.UserId], Is.EqualTo(PlayerGameStatus.NotReadyToPlay));
         });
 
         await client.WaitPost(() => clientPrefManager.FinalizeCharacter(HumanoidCharacterProfile.Random(), 0));
@@ -81,14 +88,19 @@ public sealed class PersistentJoinFlowTest
             Assert.That(client.Resolve<IStateManager>().CurrentState, Is.TypeOf<GameplayState>());
         });
 
-        await PoolManager.WaitUntil(server, () => serverPlayers.Sessions.Single().AttachedEntity != null, maxTicks: 60);
-        Assert.That(serverPrefManager.GetPreferences(user).Characters.ContainsKey(0), Is.True);
+        await server.WaitAssertion(() =>
+        {
+            var prefs = serverPrefManager.GetPreferences(user);
+            Assert.That(prefs.Characters.ContainsKey(0), Is.True);
+            Assert.That(prefs.SelectedCharacter, Is.Not.Null);
+        });
 
+        await AssertAttachedEntitySafe(server, serverPlayers.Sessions.Single());
         await pair.CleanReturnAsync();
     }
 
     [Test]
-    public async Task ExistingCharacterBypassesLobbyAndReconnectsSameBody()
+    public async Task ExistingCharacterReconnectsIntoSafeBody()
     {
         await using var pair = await PoolManager.GetServerClient(new PoolSettings { InLobby = true, Dirty = true });
         var server = pair.Server;
@@ -121,8 +133,6 @@ public sealed class PersistentJoinFlowTest
         await DisconnectReconnect(pair);
         await pair.RunTicksSync(10);
 
-        EntityUid body = default;
-
         await server.WaitAssertion(() =>
         {
             var prefs = serverPrefManager.GetPreferences(user);
@@ -130,18 +140,42 @@ public sealed class PersistentJoinFlowTest
             Assert.That(prefs.SelectedCharacter, Is.Not.Null);
         });
 
-        await server.WaitAssertion(() =>
-        {
-            var player = serverPlayers.Sessions.Single();
-            Assert.That(player.AttachedEntity, Is.Not.Null);
-            body = player.AttachedEntity!.Value;
-        });
-
         await client.WaitAssertion(() =>
         {
             Assert.That(client.Resolve<IStateManager>().CurrentState, Is.TypeOf<GameplayState>());
         });
 
+        await AssertAttachedEntitySafe(server, serverPlayers.Sessions.Single());
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task InvalidSavedBodyFallsBackToSafeStationSpawn()
+    {
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings { InLobby = true, Dirty = true });
+        var server = pair.Server;
+        var client = pair.Client;
+        var user = pair.Client.User!.Value;
+        var clientPrefManager = client.Resolve<IClientPreferencesManager>();
+        var serverPlayers = server.ResolveDependency<IPlayerManager>();
+        var gameTicker = server.System<GameTicker>();
+        var resourceManager = server.ResolveDependency<IResourceManager>();
+
+        await client.WaitPost(() => clientPrefManager.FinalizeCharacter(HumanoidCharacterProfile.Random(), 0));
+        await pair.RunTicksSync(10);
+        await server.WaitAssertion(() => Assert.That(serverPlayers.Sessions.Single().AttachedEntity, Is.Not.Null));
+
+        await server.WaitPost(() => server.CfgMan.SetCVar(CCVars.UsePersistence, true));
+        await server.WaitPost(() =>
+        {
+            var savePath = PersistentCharacterSavePath.ForPlayer(user).ToRootedPath();
+            using var stream = resourceManager.UserData.Open(savePath, FileMode.Create);
+            using var writer = new StreamWriter(stream);
+            writer.WriteLine("not: valid: yaml: [");
+        });
+
+        await server.WaitPost(() => gameTicker.RestartRound());
+        await pair.RunTicksSync(10);
         await DisconnectReconnect(pair);
         await pair.RunTicksSync(10);
 
@@ -150,13 +184,59 @@ public sealed class PersistentJoinFlowTest
             Assert.That(client.Resolve<IStateManager>().CurrentState, Is.TypeOf<GameplayState>());
         });
 
-        await server.WaitAssertion(() =>
+        await AssertAttachedEntitySafe(server, serverPlayers.Sessions.Single());
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task NonPersistentLobbyBehaviourIsUnchanged()
+    {
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings { InLobby = true, Dirty = true });
+        var client = pair.Client;
+        var server = pair.Server;
+        var user = pair.Client.User!.Value;
+        var db = server.Resolve<IServerDbManager>();
+
+        await PoolManager.WaitUntil(server, async () =>
         {
-            var player = serverPlayers.Sessions.Single();
-            Assert.That(player.AttachedEntity, Is.EqualTo(body));
+            var prefs = await db.GetPlayerPreferencesAsync(user, CancellationToken.None);
+            return prefs is { Profiles.Count: 0 };
+        }, maxTicks: 60);
+
+        await client.WaitAssertion(() =>
+        {
+            var lobby = client.Resolve<IStateManager>().CurrentState as LobbyState;
+            Assert.That(lobby, Is.Not.Null);
+            Assert.That(lobby!.Lobby, Is.Not.Null);
+            Assert.That(lobby.Lobby!.ReadyButton.Visible, Is.True);
+            Assert.That(lobby.Lobby.ObserveButton.Visible, Is.True);
+            Assert.That(lobby.Lobby.CharacterPreview.CharacterSetupButton.Visible, Is.True);
+            Assert.That(lobby.Lobby.CharacterSetupState.Visible, Is.False);
         });
 
         await pair.CleanReturnAsync();
+    }
+
+    private static async Task AssertAttachedEntitySafe(RobustIntegrationTest.ServerIntegrationInstance server, ICommonSession player)
+    {
+        await server.WaitAssertion(() =>
+        {
+            Assert.That(player.AttachedEntity, Is.Not.Null);
+
+            var entMan = server.EntMan;
+            var mobStateSystem = entMan.System<MobStateSystem>();
+            var attached = player.AttachedEntity!.Value;
+            var xform = entMan.GetComponent<TransformComponent>(attached);
+
+            Assert.That(entMan.EntityExists(attached), Is.True);
+            Assert.That(entMan.TryGetComponent<MobStateComponent>(attached, out var mobState), Is.True);
+            Assert.That(mobStateSystem.IsAlive(attached, mobState), Is.True);
+            Assert.That(mobStateSystem.IsCritical(attached, mobState), Is.False);
+            Assert.That(xform.MapUid, Is.Not.Null);
+            Assert.That(xform.GridUid, Is.Not.Null);
+            Assert.That(entMan.EntityExists(xform.MapUid!.Value), Is.True);
+            Assert.That(entMan.EntityExists(xform.GridUid!.Value), Is.True);
+        });
     }
 
     private static async Task DisconnectReconnect(Pair.TestPair pair)

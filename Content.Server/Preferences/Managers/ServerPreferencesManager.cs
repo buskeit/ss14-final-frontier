@@ -317,7 +317,6 @@ namespace Content.Server.Preferences.Managers
 
         public async Task JoinAsCharacter(int slot, NetUserId userId, ICommonSession session)
         {
-
             GameTicker? gameTicker = _entityManager.System<GameTicker>();
             if (!_cachedPlayerPrefs.TryGetValue(userId, out var prefsData) || !prefsData.PrefsLoaded)
             {
@@ -344,7 +343,7 @@ namespace Content.Server.Preferences.Managers
                 await _db.SaveSelectedCharacterIndexAsync(userId, slot);
 
             if (_cfg.GetCVar(CCVars.UsePersistence))
-                gameTicker.MakeJoinGamePersistentLoad(session);
+                gameTicker.MakeJoinGamePersistent(session);
             else
                 gameTicker.MakeJoinGame(session, EntityUid.Invalid);
         }
@@ -373,15 +372,21 @@ namespace Content.Server.Preferences.Managers
                 return;
             }
             var curPrefs = prefsData.Prefs!;
+            profile.EnsureValid(session, _dependencies);
             var arr = new Dictionary<int, HumanoidCharacterProfile>(curPrefs.Characters);
             arr.Remove(slot);
             arr.Add(slot, profile);
             prefsData.Prefs = new PlayerPreferences(arr, slot, curPrefs.AdminOOCColor, curPrefs.ConstructionFavorites);
             FinishLoad(session);
             await _db.SaveCharacterSlotAsync(userId, profile, slot);
+            if (ShouldStorePrefs(session.Channel.AuthType))
+                await _db.SaveSelectedCharacterIndexAsync(userId, slot);
 
             if (_cfg.GetCVar(CCVars.UsePersistence))
-                metaRecords.JoinFirstTime(session);
+            {
+                GameTicker? gameTicker = _entityManager.System<GameTicker>();
+                gameTicker?.MakeJoinGamePersistent(session);
+            }
         }
 
         public async void DeleteCharacter(int slot, NetUserId userId, ICommonSession session)
