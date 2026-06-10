@@ -1,7 +1,7 @@
 - type: entity
   parent: ClothingScarfBase
   id: ClothingNeckScarfStripedRed
-  name: striped red scarf
+  name: Striped Red Scarf
   description: A stylish striped red scarf. The perfect winter accessory for those with a keen fashion sense, and those who just can't handle a cold breeze on their necks.
   components:
   - type: Sprite
@@ -12,7 +12,7 @@
 - type: entity
   parent: ClothingScarfBase
   id: ClothingNeckScarfStripedBlue
-  name: striped blue scarf
+  name: Striped Blue Scarf
   description: A stylish striped blue scarf. The perfect winter accessory for those with a keen fashion sense, and those who just can't handle a cold breeze on their necks.
   components:
   - type: Sprite
@@ -23,7 +23,7 @@
 - type: entity
   parent: ClothingScarfBase
   id: ClothingNeckScarfStripedGreen
-  name: striped green scarf
+  name: Striped Green Scarf
   description: A stylish striped green scarf. The perfect winter accessory for those with a keen fashion sense, and those who just can't handle a cold breeze on their necks.
   components:
   - type: Sprite
@@ -34,7 +34,7 @@
 - type: entity
   parent: ClothingScarfBase
   id: ClothingNeckScarfStripedBlack
-  name: striped black scarf
+  name: Striped Black Scarf
   description: A stylish striped black scarf. The perfect winter accessory for those with a keen fashion sense, and those who just can't handle a cold breeze on their necks.
   components:
     - type: Sprite
@@ -45,7 +45,7 @@
 - type: entity
   parent: ClothingScarfBase
   id: ClothingNeckScarfStripedBrown
-  name: striped brown scarf
+  name: Striped Brown Scarf
   description: A stylish striped brown scarf. The perfect winter accessory for those with a keen fashion sense, and those who just can't handle a cold breeze on their necks.
   components:
     - type: Sprite
@@ -56,7 +56,7 @@
 - type: entity
   parent: ClothingScarfBase
   id: ClothingNeckScarfStripedLightBlue
-  name: striped light blue scarf
+  name: Striped Light Blue Scarf
   description: A stylish striped light blue scarf. The perfect winter accessory for those with a keen fashion sense, and those who just can't handle a cold breeze on their necks.
   components:
     - type: Sprite
@@ -67,7 +67,7 @@
 - type: entity
   parent: ClothingScarfBase
   id: ClothingNeckScarfStripedOrange
-  name: striped orange scarf
+  name: Striped Orange Scarf
   description: A stylish striped orange scarf. The perfect winter accessory for those with a keen fashion sense, and those who just can't handle a cold breeze on their necks.
   components:
     - type: Sprite
@@ -78,7 +78,7 @@
 - type: entity
   parent: ClothingScarfBase
   id: ClothingNeckScarfStripedPurple
-  name: striped purple scarf
+  name: Striped Purple Scarf
   description: A stylish striped purple scarf. The perfect winter accessory for those with a keen fashion sense, and those who just can't handle a cold breeze on their necks.
   components:
     - type: Sprite
@@ -89,7 +89,7 @@
 - type: entity
   parent: [ ClothingScarfBase, BaseSyndicateContraband ]
   id: ClothingNeckScarfStripedSyndieGreen
-  name: striped syndicate green scarf
+  name: Striped Syndicate Green Scarf
   description: A stylish striped syndicate green scarf. The perfect winter accessory for those with a keen fashion sense, and those who are in the mood to steal something.
   components:
     - type: Sprite
@@ -100,7 +100,7 @@
 - type: entity
   parent: [ ClothingScarfBase, BaseSyndicateContraband ]
   id: ClothingNeckScarfStripedSyndieRed
-  name: striped syndicate red scarf
+  name: Striped Syndicate Red Scarf
   description: A stylish striped syndicate red scarf. The perfect winter accessory for those with a keen fashion sense, and those who are in the mood to steal something.
   components:
     - type: Sprite
@@ -111,7 +111,7 @@
 - type: entity
   parent: [ ClothingScarfBase, BaseCentcommContraband ]
   id: ClothingNeckScarfStripedCentcom
-  name: striped CentComm scarf
+  name: Striped CentComm Scarf
   description: A stylish striped centcomm colored scarf. The perfect winter accessory for those with a keen fashion sense, and those who need to do paperwork in the cold.
   components:
     - type: Sprite
@@ -133,7 +133,7 @@
 - type: entity
   parent: ClothingScarfBase
   id: ClothingNeckScarfStripedZebra
-  name: zebra scarf
+  name: Zebra Scarf
   description: A striped scarf, a mandatory accessory for artists.
   components:
   - type: Sprite
@@ -145,7 +145,7 @@
 - type: entity
   parent: ClothingScarfBase
   id: ClothingNeckScarfStripedAce
-  name: striped asexual scarf
+  name: Striped Asexual Scarf
   description: A stylish striped asexual scarf. The perfect winter accessory for those with a keen fashion sense, and those who just can't handle a cold breeze on their necks.
   components:
   - type: Sprite
@@ -156,7 +156,7 @@
 - type: entity
   parent: ClothingScarfBase
   id: ClothingNeckScarfStripedAro
-  name: striped aromantic scarf
+  name: Striped Aromantic Scarf
   description: A stylish striped aromantic scarf. The perfect winter accessory for those with a keen fashion sense, and those who just can't handle a cold breeze on their necks.
   components:
   - type: Sprite
@@ -167,7 +167,7 @@
 - type: entity
   parent: ClothingScarfBase
   id: ClothingNeckScarfStripedAroace
-  name: striped aroace scarf
+  name: Striped Aroace Scarf
   description: A stylish striped aroace scarf. The perfect winter accessory for those with a keen fashion sense, and those who just can't handle a cold breeze on their necks.
   components:
   - type: Sprite
@@ -178,7 +178,7 @@
 - type: entity
   parent: ClothingScarfBase
   id: ClothingNeckScarfStripedBiSexual
-  name: striped bisexual scarf
+  name: Striped Bisexual Scarf
   description: A stylish striped bisexual scarf. The perfect winter accessory for those with a keen fashion sense, and those who just can't handle a cold breeze on their necks.
   components:
   - type: Sprite
@@ -189,7 +189,7 @@
 - type: entity
   parent: ClothingScarfBase
   id: ClothingNeckScarfStripedGay
-  name: striped gay scarf
+  name: Striped Gay Scarf
   description: A stylish striped gay scarf. The perfect winter accessory for those with a keen fashion sense, and those who just can't handle a cold breeze on their necks.
   components:
   - type: Sprite
@@ -200,7 +200,7 @@
 - type: entity
   parent: ClothingScarfBase
   id: ClothingNeckScarfStripedInter
-  name: striped intersex scarf
+  name: Striped Intersex Scarf
   description: A stylish striped intersex scarf. The perfect winter accessory for those with a keen fashion sense, and those who just can't handle a cold breeze on their necks.
   components:
   - type: Sprite
@@ -211,7 +211,7 @@
 - type: entity
   parent: ClothingScarfBase
   id: ClothingNeckScarfStripedLesbian
-  name: striped lesbian scarf
+  name: Striped Lesbian Scarf
   description: A stylish striped lesbian scarf. The perfect winter accessory for those with a keen fashion sense, and those who just can't handle a cold breeze on their necks.
   components:
   - type: Sprite
@@ -222,7 +222,7 @@
 - type: entity
   parent: ClothingScarfBase
   id: ClothingNeckScarfStripedPan
-  name: striped pan scarf
+  name: Striped Pan Scarf
   description: A stylish striped pan scarf. The perfect winter accessory for those with a keen fashion sense, and those who just can't handle a cold breeze on their necks.
   components:
   - type: Sprite
@@ -233,7 +233,7 @@
 - type: entity
   parent: ClothingScarfBase
   id: ClothingNeckScarfStripedNonBinary
-  name: striped non-binary scarf
+  name: Striped Non-Binary Scarf
   description: A stylish striped non-binary scarf. The perfect winter accessory for those with a keen fashion sense, and those who just can't handle a cold breeze on their necks.
   components:
   - type: Sprite
@@ -244,7 +244,7 @@
 - type: entity
   parent: ClothingScarfBase
   id: ClothingNeckScarfStripedRainbow
-  name: rainbow scarf
+  name: Rainbow Scarf
   description: A stylish rainbow scarf. The perfect winter accessory for those with a keen fashion sense, and those who just can't handle a cold breeze on their necks.
   components:
   - type: Sprite
@@ -255,7 +255,7 @@
 - type: entity
   parent: ClothingScarfBase
   id: ClothingNeckScarfStripedTrans
-  name: striped trans scarf
+  name: Striped Trans Scarf
   description: A stylish striped trans scarf. The perfect winter accessory for those with a keen fashion sense, and those who just can't handle a cold breeze on their necks.
   components:
   - type: Sprite
@@ -266,7 +266,7 @@
 - type: entity
   parent: ClothingScarfBase
   id: ClothingNeckScarfStripedLesbianLong
-  name: long bacon
+  name: Long Bacon
   description: Long bacon! Perfect for sharing with your girlfriend!
   components:
   - type: Sprite
