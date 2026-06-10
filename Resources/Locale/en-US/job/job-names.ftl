@@ -50,8 +50,8 @@ job-name-technical-assistant = Technical Assistant
 job-name-visitor = Visitor
 job-name-warden = Warden
 job-name-executive-officer = Executive Officer
-job-name-league-official = Aurelian League Official
-job-name-league-secretary-general = Aurelian League Secretary General
+job-name-league-official = League Official
+job-name-league-secretary-general = Secretary General
 job-name-civilian = Civilian
 
 # unused jobs
