@@ -1,4 +1,3 @@
-using System.IO;
 using System.Linq;
 using System.Threading;
 using Content.Client.Gameplay;
@@ -9,13 +8,14 @@ using Content.Server.Preferences.Managers;
 using Content.Shared.CCVar;
 using Content.Shared.GameTicking;
 using Content.Shared.Humanoid;
+using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Preferences;
 using Robust.Client.State;
 using Robust.Server.Player;
-using Robust.Shared.ContentPack;
 using Robust.Shared.Enums;
+using Robust.Shared.EntitySerialization.Systems;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
@@ -160,19 +160,31 @@ public sealed class PersistentJoinFlowTest
         var clientPrefManager = client.Resolve<IClientPreferencesManager>();
         var serverPlayers = server.ResolveDependency<IPlayerManager>();
         var gameTicker = server.System<GameTicker>();
-        var resourceManager = server.ResolveDependency<IResourceManager>();
 
         await client.WaitPost(() => clientPrefManager.FinalizeCharacter(HumanoidCharacterProfile.Random(), 0));
         await pair.RunTicksSync(10);
-        await server.WaitAssertion(() => Assert.That(serverPlayers.Sessions.Single().AttachedEntity, Is.Not.Null));
 
         await server.WaitPost(() => server.CfgMan.SetCVar(CCVars.UsePersistence, true));
         await server.WaitPost(() =>
         {
-            var savePath = PersistentCharacterSavePath.ForPlayer(user).ToRootedPath();
-            using var stream = resourceManager.UserData.Open(savePath, FileMode.Create);
-            using var writer = new StreamWriter(stream);
-            writer.WriteLine("not: valid: yaml: [");
+            gameTicker.RestartRound();
+        });
+        await pair.RunTicksSync(10);
+        await DisconnectReconnect(pair);
+        await pair.RunTicksSync(10);
+
+        await AssertAttachedEntitySafe(server, serverPlayers.Sessions.Single());
+
+        await server.WaitPost(() =>
+        {
+            var attached = serverPlayers.Sessions.Single().AttachedEntity!.Value;
+            var entMan = server.EntMan;
+            var mobStateSystem = entMan.System<MobStateSystem>();
+            var mapLoader = entMan.System<MapLoaderSystem>();
+            var mobState = entMan.GetComponent<MobStateComponent>(attached);
+
+            mobStateSystem.ChangeMobState(attached, MobState.Dead, mobState);
+            Assert.That(mapLoader.TrySaveGeneric(attached, PersistentCharacterSavePath.ForPlayer(user), out _), Is.True);
         });
 
         await server.WaitPost(() => gameTicker.RestartRound());

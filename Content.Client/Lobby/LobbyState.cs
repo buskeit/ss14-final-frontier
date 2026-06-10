@@ -196,6 +196,10 @@ namespace Content.Client.Lobby
                 return;
             }
 
+            Lobby!.ReadyButton.Visible = true;
+            Lobby.ObserveButton.Visible = true;
+            Lobby.CharacterPreview.CharacterSetupButton.Visible = true;
+
             if (_gameTicker.IsGameStarted)
             {
                 Lobby!.ReadyButton.Text = Loc.GetString("lobby-state-ready-button-join-state");

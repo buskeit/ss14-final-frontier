@@ -60,6 +60,7 @@ namespace Content.Server.GameTicking
         [Dependency] private readonly SharedAudioSystem _audio = default!;
         [Dependency] private readonly StationJobsSystem _stationJobs = default!;
         [Dependency] private readonly StationSpawningSystem _stationSpawning = default!;
+        [Dependency] private readonly StationSystem _station = default!;
         [Dependency] private readonly SharedTransformSystem _transform = default!;
         [Dependency] private readonly UserDbDataManager _userDb = default!;
         [Dependency] private readonly MetaDataSystem _metaData = default!;

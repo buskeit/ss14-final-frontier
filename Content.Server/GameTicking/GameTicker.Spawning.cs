@@ -254,28 +254,21 @@ namespace Content.Server.GameTicking
             }
 
             var mob = mobMaybe.Value.Owner;
-            if (!TryValidatePersistentBody(mob, out var reason))
+            if (!TryValidatePersistentBody(mob, out var station, out var reason))
             {
                 _sawmill.Warning(
                     "Persistent character load for {Player} produced unsafe entity {Entity}: {Reason}. Falling back to a fresh station spawn.",
                     player.Name,
                     ToPrettyString(mob),
                     reason);
+                CleanupRejectedPersistentBody(player, mob);
                 return false;
             }
 
             try
             {
-                var station = EntityUid.Invalid;
-                PlayerJoinGame(player, true);
-
                 const string jobId = "Passenger";
                 var jobPrototype = _prototypeManager.Index<JobPrototype>(jobId);
-
-                _playTimeTrackings.PlayerRolesChanged(player);
-                _bankSystem.EnsureAccount(character.Name, 50);
-                if (_crewMetaRecords.MetaRecords != null)
-                    _crewMetaRecords.MetaRecords.CreateRecord(character.Name, out _);
 
                 if (_ent.TryGetComponent<MindContainerComponent>(mob, out _))
                     _mind.WipeMind(mob);
@@ -284,21 +277,26 @@ namespace Content.Server.GameTicking
                 _mind.SetUserId(newMind, userId);
                 _mind.TransferTo(newMind, mob);
 
-                if (!_playerManager.SetAttachedEntity(player, mob, true))
+                if (player.AttachedEntity != mob)
                 {
                     _sawmill.Warning(
                         "Persistent character load for {Player} could not attach to {Entity}; falling back to a fresh station spawn.",
                         player.Name,
                         ToPrettyString(mob));
+                    CleanupRejectedPersistentBody(player, mob);
                     return false;
                 }
 
                 _roles.MindAddJobRole(newMind, silent: true, jobPrototype: jobId);
                 var jobName = _jobs.MindTryGetJobName(newMind);
-                _admin.UpdatePlayerList(player);
+                PlayerJoinGame(player, true);
+                _playTimeTrackings.PlayerRolesChanged(player);
+                _bankSystem.EnsureAccount(character.Name, 50);
+                if (_crewMetaRecords.MetaRecords != null)
+                    _crewMetaRecords.MetaRecords.CreateRecord(character.Name, out _);
 
-                if (station != EntityUid.Invalid)
-                    _stationJobs.TryAssignJob(station, jobPrototype, player.UserId);
+                _admin.UpdatePlayerList(player);
+                _stationJobs.TryAssignJob(station, jobPrototype, player.UserId);
 
                 _adminLogger.Add(LogType.LateJoin,
                     LogImpact.Medium,
@@ -322,12 +320,14 @@ namespace Content.Server.GameTicking
                     "Persistent character load for {Player} failed to attach safely: {Message}. Falling back to a fresh station spawn.",
                     player.Name,
                     ex.Message);
+                CleanupRejectedPersistentBody(player, mob);
                 return false;
             }
         }
 
-        private bool TryValidatePersistentBody(EntityUid mob, out string reason)
+        private bool TryValidatePersistentBody(EntityUid mob, out EntityUid station, out string reason)
         {
+            station = EntityUid.Invalid;
             reason = string.Empty;
 
             if (!mob.IsValid() || TerminatingOrDeleted(mob))
@@ -342,15 +342,33 @@ namespace Content.Server.GameTicking
                 return false;
             }
 
-            if (transform.MapUid == null || TerminatingOrDeleted(transform.MapUid.Value))
+            if (transform.MapUid is not { } mapUid ||
+                mapUid == EntityUid.Invalid ||
+                TerminatingOrDeleted(mapUid))
             {
                 reason = "entity is not on a valid map";
                 return false;
             }
 
-            if (transform.GridUid == null || TerminatingOrDeleted(transform.GridUid.Value))
+            if (transform.GridUid is not { } gridUid ||
+                gridUid == EntityUid.Invalid ||
+                TerminatingOrDeleted(gridUid))
             {
                 reason = "entity is not on a valid grid";
+                return false;
+            }
+
+            var owningStation = _station.GetOwningStation(mob, transform);
+            if (owningStation == null || TerminatingOrDeleted(owningStation.Value))
+            {
+                reason = "entity is not on a valid station";
+                return false;
+            }
+
+            if (!HasComp<StationJobsComponent>(owningStation.Value) ||
+                !HasComp<StationSpawningComponent>(owningStation.Value))
+            {
+                reason = "entity is not on a spawnable station";
                 return false;
             }
 
@@ -372,7 +390,22 @@ namespace Content.Server.GameTicking
                 return false;
             }
 
+            station = owningStation.Value;
             return true;
+        }
+
+        private void CleanupRejectedPersistentBody(ICommonSession player, EntityUid mob)
+        {
+            if (!mob.IsValid() || TerminatingOrDeleted(mob))
+                return;
+
+            if (player.AttachedEntity == mob)
+                _playerManager.SetAttachedEntity(player, null, true);
+
+            if (_ent.TryGetComponent<MindContainerComponent>(mob, out _))
+                _mind.WipeMind(mob);
+
+            _ent.QueueDeleteEntity(mob);
         }
 
 
