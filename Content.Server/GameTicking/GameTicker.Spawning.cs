@@ -192,14 +192,18 @@ namespace Content.Server.GameTicking
 
         private void SpawnPlayerPersistent(ICommonSession player)
         {
+            _sawmill.Debug("SpawnPlayerPersistent called for player {PlayerName}. DummyTicker: {DummyTicker}", player.Name, DummyTicker);
             // Can't spawn players with a dummy ticker!
             if (DummyTicker)
                 return;
 
-            if (TryRejoin(player))
+            var rejoined = TryRejoin(player);
+            _sawmill.Debug("TryRejoin result for player {PlayerName}: {Rejoined}", player.Name, rejoined);
+            if (rejoined)
                 return;
 
             var character = GetPersistentSelectedProfile(player);
+            _sawmill.Debug("GetPersistentSelectedProfile result for player {PlayerName}: {CharacterExists}", player.Name, character != null);
             if (character == null)
             {
                 PlayerJoinLobby(player, forceCharacterSetup: true);
@@ -209,21 +213,62 @@ namespace Content.Server.GameTicking
             var data = player.ContentData();
             DebugTools.AssertNotNull(data);
             if (data != null && TryAttachPersistentBody(player, character, data.UserId))
-                return;
-
-            var stations = GetSpawnableStations();
-            if (stations.Count == 0)
             {
-                _sawmill.Warning("Could not persistently spawn {Player}: no spawnable stations are available.", player.Name);
-                PlayerJoinLobby(player);
+                _sawmill.Debug("Saved-body load success for {PlayerName}", player.Name);
                 return;
             }
 
-            _robustRandom.Shuffle(stations);
-            SpawnPlayer(player, character, stations[0], null, true, true);
+            _sawmill.Debug("Fresh-spawn fallback chosen for {PlayerName}", player.Name);
+
+            var stations = GetSpawnableStations();
+            _sawmill.Debug("Spawnable station count: {Count}", stations.Count);
+
+            if (stations.Count == 0)
+            {
+                var mapName = "Unknown";
+                var mapUidStr = "None";
+                if (_map.TryGetMap(DefaultMap, out var mapUid))
+                {
+                    mapUidStr = mapUid.Value.ToString();
+                    if (TryComp(mapUid.Value, out MetaDataComponent? mapMeta))
+                    {
+                        mapName = mapMeta.EntityName;
+                    }
+                }
+
+                var stationsDetail = new List<string>();
+                var debugQuery = EntityQueryEnumerator<StationJobsComponent>();
+                var debugStationCount = 0;
+                while (debugQuery.MoveNext(out var stationUid, out var stationJobs))
+                {
+                    debugStationCount++;
+                    var hasSpawning = HasComp<StationSpawningComponent>(stationUid);
+                    var meta = MetaData(stationUid);
+                    stationsDetail.Add($"Station {stationUid} ('{meta.EntityName}'): HasJobs={stationJobs != null}, HasSpawning={hasSpawning}, TerminatingOrDeleted={TerminatingOrDeleted(stationUid)}");
+                }
+
+                _sawmill.Warning("Could not persistently spawn {Player}: no spawnable stations are available. MapName: {MapName}, MapId: {MapId}, StationCount: {StationCount}, StationsDetail: [{StationsDetail}]. Falling back to fresh spawn on EntityUid.Invalid.",
+                    player.Name,
+                    mapName,
+                    mapUidStr,
+                    debugStationCount,
+                    string.Join("; ", stationsDetail));
+
+                SpawnPlayer(player, character, EntityUid.Invalid, null, true, true);
+            }
+            else
+            {
+                _robustRandom.Shuffle(stations);
+                var selectedStation = stations[0];
+                _sawmill.Debug("Selected station for {PlayerName}: {Station}", player.Name, Name(selectedStation));
+                SpawnPlayer(player, character, selectedStation, null, true, true);
+            }
 
             if (player.AttachedEntity is not { } mob)
+            {
+                _sawmill.Error("Fresh spawn fallback failed to attach entity for player {PlayerName}; spawn is not possible.", player.Name);
                 return;
+            }
 
             if (data == null)
                 return;
@@ -312,6 +357,7 @@ namespace Content.Server.GameTicking
                     station,
                     character);
                 RaiseLocalEvent(mob, aev, true);
+                _sawmill.Debug("Saved-body load success for {PlayerName}", player.Name);
                 return true;
             }
             catch (Exception ex)
@@ -495,6 +541,13 @@ namespace Content.Server.GameTicking
                 character.JobPriorities,
                 true,
                 restrictedRoles);
+
+            if (jobId is null && PersistentJoinEnabled)
+            {
+                jobId = "Passenger";
+                _sawmill.Warning("No jobs were available for persistent player {Player}; falling back to 'Passenger' job.", player.Name);
+            }
+
             // If no job available, stay in lobby, or if no lobby spawn as observer
             if (jobId is null)
             {
@@ -513,7 +566,7 @@ namespace Content.Server.GameTicking
 
             DoSpawn(player, character, station, jobId, silent, out var mob, out var jobPrototype, out var jobName);
 
-            if (lateJoin && !silent)
+            if (lateJoin && !silent && station != EntityUid.Invalid)
             {
                 if (jobPrototype.JoinNotifyCrew)
                 {
@@ -545,27 +598,29 @@ namespace Content.Server.GameTicking
 
             _stationJobs.TryAssignJob(station, jobPrototype, player.UserId);
 
+            var stationName = station == EntityUid.Invalid ? "Unknown Station" : Name(station);
             if (lateJoin)
             {
                 _adminLogger.Add(LogType.LateJoin,
                     LogImpact.Medium,
-                    $"Player {player.Name} late joined as {character.Name:characterName} on station {Name(station):stationName} with {ToPrettyString(mob):entity} as a {jobName:jobName}.");
+                    $"Player {player.Name} late joined as {character.Name:characterName} on station {stationName:stationName} with {ToPrettyString(mob):entity} as a {jobName:jobName}.");
             }
             else
             {
                 _adminLogger.Add(LogType.RoundStartJoin,
                     LogImpact.Medium,
-                    $"Player {player.Name} joined as {character.Name:characterName} on station {Name(station):stationName} with {ToPrettyString(mob):entity} as a {jobName:jobName}.");
+                    $"Player {player.Name} joined as {character.Name:characterName} on station {stationName:stationName} with {ToPrettyString(mob):entity} as a {jobName:jobName}.");
             }
 
             // Make sure they're aware of extended access.
-            if (Comp<StationJobsComponent>(station).ExtendedAccess
+            if (station != EntityUid.Invalid
+                && Comp<StationJobsComponent>(station).ExtendedAccess
                 && (jobPrototype.ExtendedAccess.Count > 0 || jobPrototype.ExtendedAccessGroups.Count > 0))
             {
                 _chatManager.DispatchServerMessage(player, Loc.GetString("job-greet-crew-shortages"));
             }
 
-            if (!silent && TryComp(station, out MetaDataComponent? metaData))
+            if (!silent && station != EntityUid.Invalid && TryComp(station, out MetaDataComponent? metaData))
             {
                 _chatManager.DispatchServerMessage(player,
                     Loc.GetString("job-greet-station-name", ("stationName", metaData.EntityName)));
@@ -653,10 +708,9 @@ namespace Content.Server.GameTicking
 
         public void MakeJoinGamePersistent(ICommonSession player)
         {
-            if (!_playerGameStatuses.ContainsKey(player.UserId))
-                return;
-
-            if (!_userDb.IsLoadComplete(player))
+            var isLoadComplete = _userDb.IsLoadComplete(player);
+            _sawmill.Debug("MakeJoinGamePersistent called for player {PlayerName}. IsLoadComplete: {IsLoadComplete}", player.Name, isLoadComplete);
+            if (!isLoadComplete)
                 return;
 
             SpawnPlayerPersistent(player);
@@ -664,10 +718,9 @@ namespace Content.Server.GameTicking
 
         public void MakeJoinGamePersistentLoad(ICommonSession player)
         {
-            if (!_playerGameStatuses.ContainsKey(player.UserId))
-                return;
-
-            if (!_userDb.IsLoadComplete(player))
+            var isLoadComplete = _userDb.IsLoadComplete(player);
+            _sawmill.Debug("MakeJoinGamePersistentLoad called for player {PlayerName}. IsLoadComplete: {IsLoadComplete}", player.Name, isLoadComplete);
+            if (!isLoadComplete)
                 return;
 
             SpawnPlayerPersistentLoad(player);

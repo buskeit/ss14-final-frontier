@@ -104,6 +104,9 @@ public sealed class WorldControllerSystem : EntitySystem
     /// <inheritdoc />
     public override void Update(float frameTime)
     {
+        if (!_configurationManager.GetCVar(CCVars.WorldgenEnabled))
+            return;
+
         CheckChunksToLoad();
         UpdateLoadedChunks();
     }
@@ -199,7 +202,8 @@ public sealed class WorldControllerSystem : EntitySystem
 
                 if (ent is null || ent.Value == EntityUid.Invalid || !Exists(ent.Value) || TerminatingOrDeleted(ent.Value))
                 {
-                    _sawmill.Warning($"Skipping invalid world chunk entity for chunk {chunk} on map {ToPrettyString(map)}.");
+                    _sawmill.Warning($"Skipping invalid world chunk entity for chunk {chunk} on map {ToPrettyString(map)}. Cleaning from index.");
+                    controller.Chunks.Remove(chunk);
                     continue;
                 }
 

@@ -59,6 +59,9 @@ public sealed class StationSpawningSystem : SharedStationSpawningSystem
     /// </remarks>
     public EntityUid? SpawnPlayerCharacterOnStation(EntityUid? station, ProtoId<JobPrototype>? job, HumanoidCharacterProfile? profile, StationSpawningComponent? stationSpawning = null)
     {
+        if (station == EntityUid.Invalid)
+            station = null;
+
         if (station != null && !Resolve(station.Value, ref stationSpawning))
             throw new ArgumentException("Tried to use a non-station entity as a station!", nameof(station));
 

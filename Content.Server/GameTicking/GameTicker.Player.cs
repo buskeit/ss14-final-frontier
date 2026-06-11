@@ -127,6 +127,7 @@ namespace Content.Server.GameTicking
             {
                 case SessionStatus.Connected:
                     {
+                        _sawmill.Debug("Session connected: {SessionName} ({SessionId})", session.Name, session.UserId);
                         AddPlayerToDb(args.Session.UserId.UserId);
 
                         // Always make sure the client has player data.
@@ -162,6 +163,7 @@ namespace Content.Server.GameTicking
 
                 case SessionStatus.InGame:
                     {
+                        _sawmill.Debug("Session accepted (InGame): {SessionName} ({SessionId})", session.Name, session.UserId);
                         EnsureContentData(session, mindId);
                         _userDb.ClientConnected(session);
 
@@ -273,6 +275,7 @@ namespace Content.Server.GameTicking
                     return;
                 }
 
+                _sawmill.Debug("Database/preferences loaded for session {SessionName}", session.Name);
                 JoinPersistentPlayer(session);
             }
 
@@ -289,7 +292,11 @@ namespace Content.Server.GameTicking
         {
             var preferences = _prefsManager.GetPreferences(p.UserId);
             if (preferences.SelectedCharacter is { } selected)
+            {
+                if (PersistentJoinEnabled && IsUnfinalizedPersistentProfile(selected))
+                    return null;
                 return selected;
+            }
 
             if (PersistentJoinEnabled)
                 return null;
@@ -327,8 +334,13 @@ namespace Content.Server.GameTicking
 
         private void JoinPersistentPlayer(ICommonSession session)
         {
-            if (GetPlayerProfile(session) is { } profile)
+            _sawmill.Debug("JoinPersistentPlayer called for session: {SessionName}. Persistent mode enabled: {Enabled}", session.Name, PersistentJoinEnabled);
+            var prefs = _prefsManager.GetPreferences(session.UserId);
+            _sawmill.Debug("Session {SessionName} selected character index: {Index}", session.Name, prefs.SelectedCharacterIndex);
+
+            if (GetPersistentSelectedProfile(session) is { } profile)
             {
+                _sawmill.Debug("Persistent selected/finalised profile found for {SessionName}", session.Name);
                 var data = session.ContentData();
                 if (data == null)
                 {
@@ -338,15 +350,23 @@ namespace Content.Server.GameTicking
                 }
 
                 var saveFilePath = PersistentCharacterSavePath.ForPlayer(data.UserId);
+                _sawmill.Debug("Saved-body path chosen for {SessionName}: {Path}", session.Name, saveFilePath);
 
                 if (_resourceManager.UserData.Exists(saveFilePath.ToRootedPath()))
+                {
+                    _sawmill.Debug("Saved body file exists; invoking persistent load path.");
                     MakeJoinGamePersistentLoad(session);
+                }
                 else
+                {
+                    _sawmill.Debug("No saved body file exists; invoking fresh spawn path.");
                     MakeJoinGamePersistent(session);
+                }
 
                 return;
             }
 
+            _sawmill.Debug("Persistent selected/finalised profile missing/unfinalised for {SessionName}", session.Name);
             PlayerJoinLobby(session, forceCharacterSetup: true);
         }
 
@@ -367,6 +387,7 @@ namespace Content.Server.GameTicking
                 }
             }
 
+            _sawmill.Debug("Final join-game event sent to {SessionName}", session.Name);
             RaiseNetworkEvent(new TickerJoinGameEvent(), session.Channel);
         }
 
@@ -374,6 +395,11 @@ namespace Content.Server.GameTicking
         {
             if (session == null) return;
             var persistentMode = PersistentJoinEnabled;
+
+            if (forceCharacterSetup)
+            {
+                _sawmill.Debug("Force character setup sent to {SessionName}", session.Name);
+            }
 
             _playerGameStatuses[session.UserId] = forceCharacterSetup
                 ? PlayerGameStatus.NotReadyToPlay

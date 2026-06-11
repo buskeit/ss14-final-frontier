@@ -247,6 +247,7 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
         profileEditor.SetProfile(new HumanoidCharacterProfile(), 0);
         profileEditor.ForceCreateMode();
         lobby.SwitchState(LobbyGui.LobbyGuiState.CharacterSetup);
+        Ticker.ConsumeForcedCharacterSetup();
     }
 
 

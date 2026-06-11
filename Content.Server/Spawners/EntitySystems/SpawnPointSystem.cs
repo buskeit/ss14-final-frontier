@@ -2,7 +2,9 @@ using Content.Server.GameTicking;
 using Content.Server.Spawners.Components;
 using Content.Server.Station.Systems;
 using Robust.Shared.Map;
+using Robust.Shared.Map.Components;
 using Robust.Shared.Random;
+using System.Numerics;
 
 namespace Content.Server.Spawners.EntitySystems;
 
@@ -12,6 +14,7 @@ public sealed class SpawnPointSystem : EntitySystem
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly StationSystem _stationSystem = default!;
     [Dependency] private readonly StationSpawningSystem _stationSpawning = default!;
+    [Dependency] private readonly IMapManager _mapManager = default!;
 
     public override void Initialize()
     {
@@ -58,8 +61,20 @@ public sealed class SpawnPointSystem : EntitySystem
             }
             else
             {
-                Log.Error($"No spawn points were available!\nRunLevel: {_gameTicker.RunLevel} Station: {ToPrettyString(args.Station)} Job: {args.Job}");
-                return;
+                Log.Error($"No spawn points were available! Using map fallback.\nRunLevel: {_gameTicker.RunLevel} Station: {ToPrettyString(args.Station)} Job: {args.Job}");
+                EntityCoordinates? fallbackCoords = null;
+                var mapEnt = _mapManager.GetMapEntityId(_gameTicker.DefaultMap);
+                var query = AllEntityQuery<MapGridComponent, TransformComponent>();
+                while (query.MoveNext(out var gridUid, out _, out var xformGrid))
+                {
+                    if (xformGrid.MapUid == mapEnt)
+                    {
+                        fallbackCoords = xformGrid.Coordinates;
+                        break;
+                    }
+                }
+                fallbackCoords ??= new EntityCoordinates(mapEnt, Vector2.Zero);
+                possiblePositions.Add(fallbackCoords.Value);
             }
         }
 

@@ -251,6 +251,7 @@ namespace Content.Server.Preferences.Managers
             // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 
             var session = _playerManager.GetSessionById(userId);
+            _sawmill.Debug("Join-as-character received from {SessionName} for slot {Slot}", session.Name, message.Slot);
             await JoinAsCharacter(message.Slot, userId, session);
 
 
@@ -266,6 +267,7 @@ namespace Content.Server.Preferences.Managers
             else
             {
                 var session = _playerManager.GetSessionById(userId);
+                _sawmill.Debug("Character finalise received from {SessionName} for slot {Slot}", session.Name, message.Slot);
                 await FinalizeCharacter(message.Profile, message.Slot, userId, session);
             }
 
