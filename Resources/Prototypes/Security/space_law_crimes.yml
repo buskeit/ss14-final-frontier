@@ -117,20 +117,12 @@
   order: 150
   
 - type: spaceLawCrime
-  id: Rioting
-  name: Rioting
-  category: Misdemeanors
-  brigTime: 43800
-  fine: 1200
-  order: 160
-  
-- type: spaceLawCrime
   id: ObstructionofJustice
   name: Obstruction of Justice
   category: Misdemeanors
   brigTime: 43800
   fine: 1200
-  order: 170
+  order: 160
   
 - type: spaceLawCrime
   id: UnlawfulDistributionofContraband
@@ -138,7 +130,7 @@
   category: Misdemeanors
   brigTime: 43800
   fine: 1200
-  order: 180
+  order: 170
   
 - type: spaceLawCrime
   id: NegligentManslaughter
@@ -146,7 +138,7 @@
   category: Misdemeanors
   brigTime: 43800
   fine: 1200
-  order: 190
+  order: 180
   
 - type: spaceLawCrime
   id: Rioting
@@ -154,7 +146,7 @@
   category: Misdemeanors
   brigTime: 43800
   fine: 1200
-  order: 195
+  order: 190
   
 - type: spaceLawCrime
   id: AggravatedAssault
