@@ -8,7 +8,7 @@ using Content.Shared.Preferences;
 using Content.Shared.Preferences.Loadouts;
 using Content.Shared.Roles;
 using Content.Shared.Traits;
-using Content.Client.GameTicking.Managers;
+using Robust.Client.Console;
 using Robust.Client.Player;
 using Robust.Client.ResourceManagement;
 using Robust.Client.State;
@@ -35,9 +35,6 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
     private CharacterSetupGui? _characterSetup;
     private HumanoidProfileEditor? _profileEditor;
     private CharacterSetupGuiSavePanel? _savePanel;
-    private bool _persistentForcedSetupActive;
-
-    private ClientGameTicker Ticker => EntityManager.System<ClientGameTicker>();
 
     /// <summary>
     /// This is the characher preview panel in the chat. This should only update if their character updates.
@@ -130,14 +127,12 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
             return;
 
         ReloadCharacterSetup();
-        HandlePersistentLobbyEntry();
     }
 
     public void OnStateEntered(LobbyState state)
     {
         PreviewPanel?.SetLoaded(_preferencesManager.ServerDataLoaded);
         ReloadCharacterSetup();
-        HandlePersistentLobbyEntry();
     }
 
     public void OnStateExited(LobbyState state)
@@ -145,7 +140,6 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
         PreviewPanel?.SetLoaded(false);
         _profileEditor?.Dispose();
         _characterSetup?.Dispose();
-        _persistentForcedSetupActive = false;
 
         _characterSetup = null;
         _profileEditor = null;
@@ -158,7 +152,6 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
     {
         RefreshLobbyPreview();
         var (characterGui, profileEditor) = EnsureGui();
-        characterGui.SetSingleSlotMode(_persistentForcedSetupActive);
         characterGui.ReloadCharacterPickers();
         profileEditor.SetProfile(
             _preferencesManager.Preferences?.SelectedCharacter,
@@ -198,23 +191,17 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
     {
         DebugTools.Assert(EditedProfile != null);
 
-        if (EditedProfile == null || EditedSlot == null || _playerManager.LocalSession == null)
+        if (EditedProfile == null || EditedSlot == null)
             return;
 
-        var slot = EditedSlot.Value;
+        var selected = _preferencesManager.Preferences?.SelectedCharacterIndex;
 
-        _persistentForcedSetupActive = false;
-        _preferencesManager.FinalizeCharacter(EditedProfile, slot);
-
-        if (Ticker.PersistentMode)
-        {
-            Ticker.ConsumeForcedCharacterSetup();
-            _preferencesManager.JoinAsCharacter(slot);
-            CloseProfileEditor();
+        if (selected == null || _playerManager.LocalSession == null)
             return;
-        }
 
+        _preferencesManager.FinalizeCharacter(EditedProfile, EditedSlot.Value);
         CloseProfileEditor();
+        //   _consoleHost.ExecuteCommand($"joingamepersistent false");
     }
 
     private void JoinProfile()
@@ -224,33 +211,9 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
         if (selected == null || _playerManager.LocalSession == null)
             return;
 
-        _persistentForcedSetupActive = false;
         _preferencesManager.JoinAsCharacter(selected.Value);
-        if (Ticker.PersistentMode)
-        {
-            Ticker.ConsumeForcedCharacterSetup();
-            CloseProfileEditor();
-            return;
-        }
-
         CloseProfileEditor();
-    }
-
-    private void HandlePersistentLobbyEntry()
-    {
-        if (!Ticker.PersistentMode || !Ticker.ForceCharacterSetup || _stateManager.CurrentState is not LobbyState lobby)
-            return;
-
-        if (!_preferencesManager.ServerDataLoaded)
-            return;
-
-        var (characterGui, profileEditor) = EnsureGui();
-        _persistentForcedSetupActive = true;
-        characterGui.SetSingleSlotMode(true);
-        characterGui.ReloadCharacterPickers();
-        profileEditor.SetProfile(new HumanoidCharacterProfile(), 0);
-        profileEditor.ForceCreateMode();
-        lobby.SwitchState(LobbyGui.LobbyGuiState.CharacterSetup);
+        //   _consoleHost.ExecuteCommand($"joingamepersistent false");
     }
 
 

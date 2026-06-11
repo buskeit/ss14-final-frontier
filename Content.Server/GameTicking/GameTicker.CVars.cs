@@ -48,7 +48,7 @@ namespace Content.Server.GameTicking
                 }
             }, true);
             Subs.CVar(_cfg, CCVars.GameDummyTicker, value => DummyTicker = value, true);
-            Subs.CVar(_cfg, CCVars.GameLobbyDuration, value => LobbyDuration = TimeSpan.FromSeconds(value), true);
+            Subs.CVar(_cfg, CCVars.GameLobbyDuration, value => LobbyDuration = TimeSpan.FromSeconds(System.Math.Min(value, 5)), true);
             Subs.CVar(_cfg, CCVars.GameDisallowLateJoins,
                 value => { DisallowLateJoin = value; UpdateLateJoinStatus(); }, true);
             Subs.CVar(_cfg, CCVars.AdminLogsServerName, value =>
