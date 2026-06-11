@@ -1,6 +1,7 @@
 release/
 Resources/ConfigPresets/
 server_config.toml
+bin/
 
 # Local build artifacts
 **/bin/

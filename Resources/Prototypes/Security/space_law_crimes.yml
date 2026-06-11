@@ -156,7 +156,7 @@
   fine: 1200
   order: 195
   
-  - type: spaceLawCrime
+- type: spaceLawCrime
   id: AggravatedAssault
   name: Aggravated Assault
   category: Felonies
