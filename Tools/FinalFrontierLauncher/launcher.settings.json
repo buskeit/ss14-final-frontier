@@ -1,0 +1,23 @@
+{
+  "branding": {
+    "productName": "The Final Frontier Launcher",
+    "shortName": "Final Frontier",
+    "windowTitle": "The Final Frontier",
+    "description": "Official launcher for The Final Frontier SS14 server.",
+    "supportUrl": "https://thefinalfrontier.miraheze.org/wiki/Main_Page",
+    "discordUrl": "https://discord.gg/finalfrontier"
+  },
+  "server": {
+    "name": "The Final Frontier Testing",
+    "address": "localhost",
+    "port": 1212,
+    "statusEndpoint": "http://localhost:1212/status",
+    "infoEndpoint": "http://localhost:1212/info"
+  },
+  "diagnostics": {
+    "logDirectoryName": "FinalFrontierLauncher",
+    "logStatusChecks": true,
+    "logLaunchArguments": true,
+    "logProcessExitCode": true
+  }
+}
