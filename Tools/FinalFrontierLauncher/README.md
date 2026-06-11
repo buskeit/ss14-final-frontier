@@ -34,6 +34,12 @@ To print the active config:
 dotnet run --project FinalFrontierLauncher.csproj -- --print-config
 ```
 
+## Branch usage
+
+Use `feature/custom-launcher-flow-diagnostics` for launcher development and diagnostics.
+Use `testing` for normal server and gameplay changes.
+Use `master` only for release-ready production changes.
+
 ## Next steps
 
 - Replace the placeholder local server address with the real Final Frontier testing endpoint.
