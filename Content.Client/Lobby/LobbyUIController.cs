@@ -31,6 +31,7 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly IResourceCache _resourceCache = default!;
     [Dependency] private readonly IStateManager _stateManager = default!;
+    [Dependency] private readonly IClientConsoleHost _consoleHost = default!;
     [Dependency] private readonly JobRequirementsManager _requirements = default!;
     [Dependency] private readonly MarkingManager _markings = default!;
     private CharacterSetupGui? _characterSetup;
@@ -208,10 +209,14 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
         _preferencesManager.FinalizeCharacter(EditedProfile, slot);
 
         if (Ticker.PersistentMode)
+        {
+            Ticker.ConsumeForcedCharacterSetup();
+            CloseProfileEditor();
+            _consoleHost.ExecuteCommand("joingamepersistent false");
             return;
+        }
 
         CloseProfileEditor();
-        //   _consoleHost.ExecuteCommand($"joingamepersistent false");
     }
 
     private void JoinProfile()
@@ -223,14 +228,23 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
 
         _persistentForcedSetupActive = false;
         _preferencesManager.JoinAsCharacter(selected.Value);
-        if (!Ticker.PersistentMode)
+        if (Ticker.PersistentMode)
+        {
+            Ticker.ConsumeForcedCharacterSetup();
             CloseProfileEditor();
-        //   _consoleHost.ExecuteCommand($"joingamepersistent false");
+            _consoleHost.ExecuteCommand("joingamepersistent false");
+            return;
+        }
+
+        CloseProfileEditor();
     }
 
     private void HandlePersistentLobbyEntry()
     {
         if (!Ticker.PersistentMode || !Ticker.ForceCharacterSetup || _stateManager.CurrentState is not LobbyState lobby)
+            return;
+
+        if (!_preferencesManager.ServerDataLoaded)
             return;
 
         var (characterGui, profileEditor) = EnsureGui();
@@ -239,7 +253,6 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
         characterGui.ReloadCharacterPickers();
         profileEditor.SetProfile(new HumanoidCharacterProfile(), 0);
         profileEditor.ForceCreateMode();
-        Ticker.ConsumeForcedCharacterSetup();
         lobby.SwitchState(LobbyGui.LobbyGuiState.CharacterSetup);
     }
 
