@@ -28,7 +28,7 @@ internal sealed class CommandLineArgs
         var headless = false;
         var selfContained = false;
         var connect = false;
-        var connectAddress = "localhost";
+        var connectAddress = "127.0.0.1";
         string? ss14Address = null;
         var launcher = false;
         string? username = null;

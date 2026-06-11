@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using System.Threading;
 using System.Diagnostics;
@@ -142,6 +142,10 @@ namespace Lidgren.Network
 				{
 					m_socket.DualMode = true;
 				}
+			}
+			else if (m_configuration.LocalAddress.AddressFamily == AddressFamily.InterNetworkV6)
+			{
+				m_socket.DualMode = false;
 			}
 
 			var ep = (EndPoint)new NetEndPoint(m_configuration.LocalAddress, reBind ? m_listenPort : m_configuration.Port);

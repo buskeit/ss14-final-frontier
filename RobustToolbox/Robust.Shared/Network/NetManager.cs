@@ -375,6 +375,30 @@ namespace Robust.Shared.Network
             var binds = _config.GetCVar(CVars.NetBindTo).Split(',');
             var dualStack = _config.GetCVar(CVars.NetDualStack);
 
+            var hasIpv4 = false;
+            foreach (var bindAddress in binds)
+            {
+                if (IPAddress.TryParse(bindAddress.Trim(), out var address))
+                {
+                    if (address.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        hasIpv4 = true;
+                    }
+                }
+            }
+
+            if (dualStack && hasIpv4)
+            {
+                _logger.Warning("IPv6 Dual Stack is enabled, but explicit IPv4 bind addresses are also present. Disabling Dual Stack on IPv6 sockets to prevent routing conflicts.");
+                dualStack = false;
+            }
+
+            var statusConnectAddress = _config.GetCVar(CVars.StatusConnectAddress);
+            if (string.IsNullOrEmpty(statusConnectAddress))
+            {
+                statusConnectAddress = string.Join(",", binds);
+            }
+
             var foundIpv6 = false;
 
             var upnp = _config.GetCVar(CVars.NetUPnP);
@@ -388,6 +412,7 @@ namespace Robust.Shared.Network
                 var config = _getBaseNetPeerConfig();
                 config.LocalAddress = address;
                 config.Port = Port;
+                config.AdvertisedConnectAddress = statusConnectAddress;
                 // Disabled for now since we aren't doing anything with the connection approval stuff.
                 // config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
 

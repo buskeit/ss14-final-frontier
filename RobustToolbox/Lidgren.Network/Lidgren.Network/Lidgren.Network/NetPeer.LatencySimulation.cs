@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 2010 Michael Lidgren
+/* Copyright (c) 2010 Michael Lidgren
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 and associated documentation files (the "Software"), to deal in the Software without
@@ -149,12 +149,12 @@ namespace Lidgren.Network
 			var dualStack = m_configuration.DualStack && m_configuration.LocalAddress.AddressFamily == AddressFamily.InterNetworkV6;
 			connectionReset = false;
 			IPAddress? ba = default(IPAddress);
+			NetEndPoint realTarget = target;
 
 			NetException.Assert(m_socket != null);
 
 			try
 			{
-				var realTarget = target;
 				ba = NetUtility.GetCachedBroadcastAddress();
 
 				// TODO: refactor this check outta here
@@ -192,7 +192,7 @@ namespace Lidgren.Network
 				if (sx.SocketErrorCode == SocketError.WouldBlock)
 				{
 					// send buffer full?
-					LogWarning("Socket threw exception; would block - send buffer full? Increase in NetPeerConfiguration");
+					LogWarning($"Socket threw exception; would block - send buffer full? Increase in NetPeerConfiguration. {GetSendDiagnostics(realTarget, sx)}");
 					return false;
 				}
 				if (sx.SocketErrorCode == SocketError.ConnectionReset)
@@ -201,11 +201,11 @@ namespace Lidgren.Network
 					connectionReset = true;
 					return false;
 				}
-				LogError($"Failed to send packet: {sx}");
+				LogError($"Failed to send packet: {sx.Message}. {GetSendDiagnostics(realTarget, sx)}");
 			}
 			catch (Exception ex)
 			{
-				LogError($"Failed to send packet: {ex}");
+				LogError($"Failed to send packet: {ex.Message}. {GetSendDiagnostics(realTarget, ex)}");
 			}
 			finally
 			{
@@ -243,16 +243,16 @@ namespace Lidgren.Network
 				if (sx.SocketErrorCode == SocketError.WouldBlock)
 				{
 					// send buffer full?
-					LogWarning("Socket threw exception; would block - send buffer full? Increase in NetPeerConfiguration");
+					LogWarning($"Socket threw exception; would block - send buffer full? Increase in NetPeerConfiguration. {GetSendDiagnostics(target, sx)}");
 					return true;
 				}
 				if (sx.SocketErrorCode == SocketError.ConnectionReset)
 					return true;
-				LogError($"Failed to send packet: ({sx.SocketErrorCode}) {sx}");
+				LogError($"Failed to send packet: ({sx.SocketErrorCode}) {sx.Message}. {GetSendDiagnostics(target, sx)}");
 			}
 			catch (Exception ex)
 			{
-				LogError($"Failed to send packet: {ex}");
+				LogError($"Failed to send packet: {ex.Message}. {GetSendDiagnostics(target, ex)}");
 			}
 			finally
 			{
@@ -260,6 +260,30 @@ namespace Lidgren.Network
 					m_socket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.DontFragment, false);
 			}
 			return true;
+		}
+
+		private string GetSendDiagnostics(EndPoint? target, Exception? ex = null)
+		{
+			string localEpStr = "Unknown";
+			string socketFamily = "Unknown";
+			try
+			{
+				if (m_socket != null)
+				{
+					localEpStr = m_socket.LocalEndPoint?.ToString() ?? "Null";
+					socketFamily = m_socket.AddressFamily.ToString();
+				}
+			}
+			catch { }
+
+			var bindAddr = m_configuration.LocalAddress?.ToString() ?? "Null";
+			var advAddr = m_configuration.AdvertisedConnectAddress;
+			var direction = m_configuration.AcceptIncomingConnections ? "Server-to-Client" : "Client-to-Server";
+
+			return $"[Send Diagnostics] local endpoint: {localEpStr}, remote endpoint: {target?.ToString() ?? "Null"}, " +
+			       $"socket address family: {socketFamily}, server configured bind address: {bindAddr}, " +
+			       $"advertised/connect address: {advAddr}, direction: {direction}" + 
+			       (ex != null ? $", error: {ex.Message} (Code: {(ex as SocketException)?.SocketErrorCode})" : "");
 		}
 
 		// CoreCLR can set DontFragment on Windows and Linux, as far as I've tested.

@@ -78,7 +78,7 @@ namespace Robust.Shared.Network
 
             _logger.Debug("First attempt IP address is {0}, second attempt {1}", first, second);
 
-            var result = await CCHappyEyeballs(port, first, second, mainCancelToken);
+            var result = await CCHappyEyeballs(host, port, first, second, mainCancelToken);
 
             if (result == null)
             {
@@ -288,7 +288,7 @@ namespace Robust.Shared.Network
         }
 
         private async Task<(NetPeerData winningPeer, NetConnection winningConnection)?>
-            CCHappyEyeballs(int port, IPAddress first, IPAddress? second, CancellationToken mainCancelToken)
+            CCHappyEyeballs(string host, int port, IPAddress first, IPAddress? second, CancellationToken mainCancelToken)
         {
             // Try to establish a connection with an IP address and wait for it to either connect or fail
             // Returns a disposable wrapper around the peer/connection because ParallelTask
@@ -298,6 +298,8 @@ namespace Robust.Shared.Network
                 config.LocalAddress = address.AddressFamily == AddressFamily.InterNetworkV6
                     ? IPAddress.IPv6Any
                     : IPAddress.Any;
+
+                config.AdvertisedConnectAddress = $"{host}:{port}";
 
                 var peer = new NetPeer(config);
                 peer.Start();

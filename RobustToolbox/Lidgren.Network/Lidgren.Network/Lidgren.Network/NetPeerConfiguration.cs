@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 2010 Michael Lidgren
+/* Copyright (c) 2010 Michael Lidgren
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 and associated documentation files (the "Software"), to deal in the Software without
@@ -391,6 +391,11 @@ namespace Lidgren.Network
                 m_dualStack = value;
             }
         }
+
+        /// <summary>
+        /// Gets or sets the advertised/connect address (used for logging diagnostics).
+        /// </summary>
+        public string AdvertisedConnectAddress { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the local broadcast address to use when broadcasting

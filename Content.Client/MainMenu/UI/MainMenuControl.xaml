@@ -1,4 +1,4 @@
-﻿<Control xmlns="https://spacestation14.io"
+<Control xmlns="https://spacestation14.io"
          xmlns:pllax="clr-namespace:Content.Client.Parallax"
          xmlns:clog="clr-namespace:Content.Client.Changelog">
     <pllax:ParallaxControl
@@ -26,7 +26,7 @@
             <Label Text="{Loc 'main-menu-address-label'}"/>
             <LineEdit Name="AddressBox"
                       Access="Public"
-                      Text="localhost"
+                      Text="127.0.0.1"
                       PlaceHolder="server address:port"
                       HorizontalExpand="True" />
         </GridContainer>
