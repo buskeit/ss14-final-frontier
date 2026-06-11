@@ -329,10 +329,12 @@ namespace Content.Server.GameTicking
         {
             if (GetPersistentSelectedProfile(session) != null)
             {
+                Log.Info($"Persistent join allowed for {session}: finalized selected character found.");
                 MakeJoinGamePersistent(session);
                 return;
             }
 
+            Log.Info($"Persistent join blocked for {session}: no finalized selected character; forcing character setup.");
             PlayerJoinLobby(session, forceCharacterSetup: true);
         }
 
@@ -361,9 +363,7 @@ namespace Content.Server.GameTicking
             if (session == null) return;
             var persistentMode = PersistentJoinEnabled;
             _playerGameStatuses[session.UserId] = persistentMode
-                ? forceCharacterSetup
-                    ? PlayerGameStatus.NotReadyToPlay
-                    : PlayerGameStatus.ReadyToPlay
+                ? PlayerGameStatus.ReadyToPlay
                 : LobbyEnabled
                     ? PlayerGameStatus.NotReadyToPlay
                     : PlayerGameStatus.ReadyToPlay;
