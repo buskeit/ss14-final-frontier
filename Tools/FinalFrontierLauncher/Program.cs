@@ -10,7 +10,8 @@ internal static class Program
 
     public static async Task<int> Main(string[] args)
     {
-        var settings = await LauncherSettings.LoadAsync(SettingsFileName);
+        var settingsPath = Path.Combine(AppContext.BaseDirectory, SettingsFileName);
+        var settings = await LauncherSettings.LoadAsync(settingsPath);
         using var logger = LauncherLogger.Create(settings.Diagnostics.LogDirectoryName);
 
         logger.Info($"Starting {settings.Branding.ProductName}");

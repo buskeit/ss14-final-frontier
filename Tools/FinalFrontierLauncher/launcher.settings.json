@@ -8,7 +8,7 @@
     "discordUrl": "https://discord.gg/finalfrontier"
   },
   "server": {
-    "name": "The Final Frontier Testing",
+    "name": "The Final Frontier Local",
     "address": "localhost",
     "port": 1212,
     "statusEndpoint": "http://localhost:1212/status",

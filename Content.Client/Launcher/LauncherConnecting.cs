@@ -62,11 +62,10 @@ namespace Content.Client.Launcher
             _sawmill = _logManager.GetSawmill("launcher-flow");
             _control = new LauncherConnectingGui(this, _random, _prototypeManager, _cfg, _clipboard);
 
-            var endpoint = _gameController.LaunchState.ConnectEndpoint;
             _sawmill.Info(
                 $"Launcher client flow started: fork={_cfg.GetCVar(CVars.BuildForkId)}, " +
                 $"version={_cfg.GetCVar(CVars.BuildVersion)}, engine={_cfg.GetCVar(CVars.BuildEngineVersion)}, " +
-                $"target={(endpoint == null ? "missing" : $"{endpoint.Host}:{endpoint.Port}")}, " +
+                $"targetConfigured={!string.IsNullOrWhiteSpace(_gameController.LaunchState.ConnectAddress)}, " +
                 $"ss14AddressConfigured={!string.IsNullOrWhiteSpace(_gameController.LaunchState.Ss14Address)}.");
 
             _userInterfaceManager.StateRoot.AddChild(_control);
