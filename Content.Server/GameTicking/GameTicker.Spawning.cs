@@ -273,6 +273,8 @@ namespace Content.Server.GameTicking
             if (data == null)
                 return;
 
+            UpdatePersistentLocationComponent(mob);
+
             var saveFilePath = PersistentCharacterSavePath.ForPlayer(data.UserId);
             _loader.TrySaveGeneric(mob, saveFilePath, out _, PersistentCharacterSaveOptions);
         }
@@ -299,13 +301,102 @@ namespace Content.Server.GameTicking
             }
 
             var mob = mobMaybe.Value.Owner;
+
+            // Reposition / repair body onto the restored map/grid if possible
+            if (_ent.TryGetComponent<PersistentLocationComponent>(mob, out var locComp) && !string.IsNullOrEmpty(locComp.GridName))
+            {
+                EntityUid? targetGrid = null;
+                var gridQuery = _ent.EntityQueryEnumerator<MapGridComponent, MetaDataComponent>();
+                while (gridQuery.MoveNext(out var gUid, out _, out var meta))
+                {
+                    if (meta.EntityName == locComp.GridName)
+                    {
+                        targetGrid = gUid;
+                        break;
+                    }
+                }
+
+                if (targetGrid != null)
+                {
+                    _transform.SetParent(mob, targetGrid.Value);
+                    _transform.SetLocalPosition(mob, locComp.LocalPosition);
+                    _sawmill.Info("Restored persistent body {Entity} for player {Player} to saved grid {GridName} at {Position}",
+                        ToPrettyString(mob), player.Name, locComp.GridName, locComp.LocalPosition);
+                }
+                else
+                {
+                    _sawmill.Warning("Could not find grid named {GridName} to restore persistent body {Entity} for player {Player}.",
+                        locComp.GridName, ToPrettyString(mob), player.Name);
+                }
+            }
+
+            // Fallback for missing/invalid grid (legacy or deleted grids)
+            if (_ent.TryGetComponent<TransformComponent>(mob, out var xform))
+            {
+                if (xform.GridUid == null || xform.GridUid == EntityUid.Invalid || TerminatingOrDeleted(xform.GridUid.Value) ||
+                    xform.MapUid == null || xform.MapUid == EntityUid.Invalid || TerminatingOrDeleted(xform.MapUid.Value))
+                {
+                    var activeGrids = _mapManager.GetAllMapGrids(DefaultMap).ToList();
+                    if (activeGrids.Any())
+                    {
+                        var fallbackGrid = activeGrids[0].Owner;
+                        _transform.SetParent(mob, fallbackGrid);
+                        _transform.SetLocalPosition(mob, Vector2.Zero);
+                        _sawmill.Info("Repositioned persistent body {Entity} for player {Player} onto fallback grid {Grid} because saved grid was missing or invalid.",
+                            ToPrettyString(mob), player.Name, fallbackGrid);
+                    }
+                }
+            }
+
             if (!TryValidatePersistentBody(mob, out var station, out var reason))
             {
+                // Detailed diagnostics for validation failure
+                string mapName = "Unknown";
+                EntityUid mapEnt = EntityUid.Invalid;
+                if (_map.TryGetMap(DefaultMap, out var mapUid))
+                {
+                    mapEnt = mapUid.Value;
+                    if (TryComp<MetaDataComponent>(mapEnt, out var mapMeta))
+                        mapName = mapMeta.EntityName;
+                }
+
+                EntityUid savedMapUid = EntityUid.Invalid;
+                EntityUid savedGridUid = EntityUid.Invalid;
+                bool savedMapExists = false;
+                bool savedGridExists = false;
+                if (_ent.TryGetComponent<TransformComponent>(mob, out var trans))
+                {
+                    if (trans.MapUid != null)
+                    {
+                        savedMapUid = trans.MapUid.Value;
+                        savedMapExists = savedMapUid.IsValid() && !TerminatingOrDeleted(savedMapUid);
+                    }
+                    if (trans.GridUid != null)
+                    {
+                        savedGridUid = trans.GridUid.Value;
+                        savedGridExists = savedGridUid.IsValid() && !TerminatingOrDeleted(savedGridUid);
+                    }
+                }
+
+                var currentWorldExists = _resourceManager.UserData.Exists(new ResPath("/current"));
+
                 _sawmill.Warning(
-                    "Persistent character load for {Player} produced unsafe entity {Entity}: {Reason}. Falling back to a fresh station spawn.",
+                    "Persistent character load for {Player} failed validation. " +
+                    "Reason: {Reason}. " +
+                    "Saved Body Path: {Path}. " +
+                    "Loaded Map ID/Name: {MapId} ('{MapName}' / {MapEnt}). " +
+                    "Transform Map UID: {SavedMapUid} (exists={SavedMapExists}). " +
+                    "Transform Grid UID: {SavedGridUid} (exists={SavedGridExists}). " +
+                    "Is 'current' world save present: {CurrentWorldExists}. " +
+                    "Fallback to fresh spawn will be chosen.",
                     player.Name,
-                    ToPrettyString(mob),
-                    reason);
+                    reason,
+                    saveFilePath,
+                    DefaultMap, mapName, mapEnt,
+                    savedMapUid, savedMapExists,
+                    savedGridUid, savedGridExists,
+                    currentWorldExists);
+
                 CleanupRejectedPersistentBody(player, mob);
                 return false;
             }
@@ -848,6 +939,23 @@ namespace Content.Server.GameTicking
             // This should be an error, if it didn't cause tests to start erroring when they delete a player.
             _sawmill.Warning("Found no observer spawn points!");
             return EntityCoordinates.Invalid;
+        }
+
+        public void UpdatePersistentLocationComponent(EntityUid mob)
+        {
+            if (!_ent.TryGetComponent<TransformComponent>(mob, out var transform))
+                return;
+
+            var gridUid = transform.GridUid;
+            string? gridName = null;
+            if (gridUid != null && _ent.TryGetComponent<MetaDataComponent>(gridUid.Value, out var meta))
+            {
+                gridName = meta.EntityName;
+            }
+
+            var locComp = _ent.EnsureComponent<PersistentLocationComponent>(mob);
+            locComp.GridName = gridName;
+            locComp.LocalPosition = transform.LocalPosition;
         }
 
         #endregion

@@ -230,6 +230,59 @@ public sealed class PersistentJoinFlowTest
         await pair.CleanReturnAsync();
     }
 
+    [Test]
+    public async Task PersistentBodyMapRestoreSuccessAfterReload()
+    {
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings { InLobby = true, Dirty = true });
+        var server = pair.Server;
+        var client = pair.Client;
+        var user = pair.Client.User!.Value;
+        var clientPrefManager = client.Resolve<IClientPreferencesManager>();
+        var serverPlayers = server.ResolveDependency<IPlayerManager>();
+        var gameTicker = server.System<GameTicker>();
+
+        await client.WaitPost(() => clientPrefManager.FinalizeCharacter(HumanoidCharacterProfile.Random(), 0));
+        await pair.RunTicksSync(10);
+
+        await server.WaitPost(() => server.CfgMan.SetCVar(CCVars.UsePersistence, true));
+        await server.WaitPost(() => gameTicker.RestartRound());
+        await pair.RunTicksSync(10);
+        await DisconnectReconnect(pair);
+        await pair.RunTicksSync(10);
+
+        // Verify player has spawned and is alive
+        await AssertAttachedEntitySafe(server, serverPlayers.Sessions.Single());
+
+        // Save the map and the player body (which will write PersistentLocationComponent)
+        await server.WaitPost(() =>
+        {
+            var attached = serverPlayers.Sessions.Single().AttachedEntity!.Value;
+            var mapLoader = server.EntMan.System<MapLoaderSystem>();
+            
+            // Trigger saving the character
+            gameTicker.UpdatePersistentLocationComponent(attached);
+            Assert.That(mapLoader.TrySaveGeneric(attached, PersistentCharacterSavePath.ForPlayer(user), out _), Is.True);
+        });
+
+        // Simulate server restart / round restart that reloads the map
+        await server.WaitPost(() => gameTicker.RestartRound());
+        await pair.RunTicksSync(10);
+        
+        // Reconnect player
+        await DisconnectReconnect(pair);
+        await pair.RunTicksSync(10);
+
+        // Verify player is attached to the restored body on the valid map
+        await AssertAttachedEntitySafe(server, serverPlayers.Sessions.Single());
+        
+        await client.WaitAssertion(() =>
+        {
+            Assert.That(client.Resolve<IStateManager>().CurrentState, Is.TypeOf<GameplayState>());
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
     private static async Task AssertAttachedEntitySafe(RobustIntegrationTest.ServerIntegrationInstance server, ICommonSession player)
     {
         await server.WaitAssertion(() =>

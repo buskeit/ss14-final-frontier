@@ -1,5 +1,6 @@
 using Content.Shared.Administration;
 using Content.Shared.CCVar;
+using Content.Server.GameTicking;
 using Robust.Shared.Configuration;
 using Robust.Shared.Console;
 using Robust.Shared.EntitySerialization.Systems;
@@ -38,6 +39,9 @@ public sealed class PersistenceSaveCharCommand : LocalizedEntityCommands
             shell.WriteError(Loc.GetString("cmd-persistencesave-no-path", ("cvar", nameof(CCVars.GameMap))));
             return;
         }
+
+        var ticker = IoCManager.Resolve<IEntitySystemManager>().GetEntitySystem<GameTicker>();
+        ticker.UpdatePersistentLocationComponent(entId);
 
         bool save_stat = _mapLoader.TrySaveGeneric(entId, new ResPath(saveFilePath), out var category);
         shell.WriteLine(Loc.GetString("Did the map save? ") + $"{save_stat}");
