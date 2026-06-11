@@ -34,8 +34,6 @@ namespace Content.Client.GameTicking.Managers
         [ViewVariables] public string? ServerInfoBlob { get; private set; }
         [ViewVariables] public TimeSpan StartTime { get; private set; }
         [ViewVariables] public new bool Paused { get; private set; }
-        [ViewVariables] public bool PersistentMode { get; private set; }
-        [ViewVariables] public bool ForceCharacterSetup { get; private set; }
 
         public override IReadOnlyList<(TimeSpan, string)> AllPreviousGameRules => new List<(TimeSpan, string)>();
 
@@ -46,11 +44,6 @@ namespace Content.Client.GameTicking.Managers
         public event Action? LobbyStatusUpdated;
         public event Action? LobbyLateJoinStatusUpdated;
         public event Action<IReadOnlyDictionary<NetEntity, Dictionary<ProtoId<JobPrototype>, int?>>>? LobbyJobsAvailableUpdated;
-
-        public void ConsumeForcedCharacterSetup()
-        {
-            ForceCharacterSetup = false;
-        }
 
         public override void Initialize()
         {
@@ -118,8 +111,6 @@ namespace Content.Client.GameTicking.Managers
 
         private void JoinLobby(TickerJoinLobbyEvent message)
         {
-            PersistentMode = message.PersistentMode;
-            ForceCharacterSetup = message.ForceCharacterSetup;
             _stateManager.RequestStateChange<LobbyState>();
         }
 
@@ -149,7 +140,6 @@ namespace Content.Client.GameTicking.Managers
 
         private void JoinGame(TickerJoinGameEvent message)
         {
-            ForceCharacterSetup = false;
             _stateManager.RequestStateChange<GameplayState>();
         }
 

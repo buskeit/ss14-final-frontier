@@ -63,14 +63,6 @@ namespace Content.Shared.GameTicking
     [Serializable, NetSerializable]
     public sealed class TickerJoinLobbyEvent : EntityEventArgs
     {
-        public bool PersistentMode { get; }
-        public bool ForceCharacterSetup { get; }
-
-        public TickerJoinLobbyEvent(bool persistentMode = false, bool forceCharacterSetup = false)
-        {
-            PersistentMode = persistentMode;
-            ForceCharacterSetup = forceCharacterSetup;
-        }
     }
 
     [Serializable, NetSerializable]
