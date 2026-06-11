@@ -194,14 +194,26 @@ namespace Content.Server.GameTicking
         {
             // Can't spawn players with a dummy ticker!
             if (DummyTicker)
+            {
+                _launcherFlowSawmill.Warning(
+                    $"Persistent spawn rejected: userId={player.UserId}, reason=dummy-ticker.");
                 return;
+            }
 
             if (TryRejoin(player))
+            {
+                _launcherFlowSawmill.Info(
+                    $"Persistent spawn succeeded: userId={player.UserId}, source=active-round-rejoin, " +
+                    $"attachedEntity={player.AttachedEntity != null}.");
                 return;
+            }
 
             var character = GetPersistentSelectedProfile(player);
             if (character == null)
             {
+                _launcherFlowSawmill.Warning(
+                    $"Persistent spawn stopped: userId={player.UserId}, reason=selected-character-missing-or-unfinalized; " +
+                    "routing=character-setup.");
                 PlayerJoinLobby(player, forceCharacterSetup: true);
                 return;
             }
@@ -209,11 +221,18 @@ namespace Content.Server.GameTicking
             var data = player.ContentData();
             DebugTools.AssertNotNull(data);
             if (data != null && TryAttachPersistentBody(player, character, data.UserId))
+            {
+                _launcherFlowSawmill.Info(
+                    $"Persistent spawn succeeded: userId={player.UserId}, source=saved-body, " +
+                    $"attachedEntity={player.AttachedEntity != null}.");
                 return;
+            }
 
             var stations = GetSpawnableStations();
             if (stations.Count == 0)
             {
+                _launcherFlowSawmill.Error(
+                    $"Persistent spawn failed: userId={player.UserId}, reason=no-spawnable-stations, routing=lobby.");
                 _sawmill.Warning("Could not persistently spawn {Player}: no spawnable stations are available.", player.Name);
                 PlayerJoinLobby(player);
                 return;
@@ -223,7 +242,15 @@ namespace Content.Server.GameTicking
             SpawnPlayer(player, character, stations[0], null, true, true);
 
             if (player.AttachedEntity is not { } mob)
+            {
+                _launcherFlowSawmill.Error(
+                    $"Persistent spawn failed: userId={player.UserId}, source=fresh-station-spawn, " +
+                    "reason=no-attached-entity.");
                 return;
+            }
+
+            _launcherFlowSawmill.Info(
+                $"Persistent spawn succeeded: userId={player.UserId}, source=fresh-station-spawn, attachedEntity=true.");
 
             if (data == null)
                 return;
@@ -654,11 +681,21 @@ namespace Content.Server.GameTicking
         public void MakeJoinGamePersistent(ICommonSession player)
         {
             if (!_playerGameStatuses.ContainsKey(player.UserId))
+            {
+                _launcherFlowSawmill.Warning(
+                    $"Persistent join request rejected: userId={player.UserId}, reason=missing-player-status.");
                 return;
+            }
 
             if (!_userDb.IsLoadComplete(player))
+            {
+                _launcherFlowSawmill.Warning(
+                    $"Persistent join request rejected: userId={player.UserId}, reason=profile-load-incomplete.");
                 return;
+            }
 
+            _launcherFlowSawmill.Info(
+                $"Persistent join request accepted: userId={player.UserId}; starting spawn resolution.");
             SpawnPlayerPersistent(player);
         }
 

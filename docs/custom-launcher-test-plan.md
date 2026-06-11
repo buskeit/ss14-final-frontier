@@ -41,14 +41,19 @@ Avoid logging secrets, tokens, IP addresses unless already part of normal server
 
 ## Testing checklist
 
-- Fresh launcher install connects to the testing server.
-- Cached launcher install reconnects without using stale content.
-- Server offline produces a clear launcher error.
-- Missing or bad build metadata produces a clear launcher error.
-- New account with no characters reaches character creation.
-- Existing account with a character spawns normally.
-- Character creation save failures are visible in logs.
-- Disconnects during character setup are visible in logs.
+Use the `launcher-flow` sawmill in the client and server logs. The launcher scaffold writes its own timestamped log under the configured local application data directory.
+
+- [ ] Start the launcher with the testing server online. Confirm the launcher log records accepted `engine`, `fork`, and `version` metadata before starting the client.
+- [ ] Confirm the launched client receives `--launcher`, `--connect-address`, and `--ss14-address`, enters launcher mode, and logs connection states through `Connected`.
+- [ ] Stop the testing server and confirm the launcher records the failed endpoint and skips client launch.
+- [ ] Return an `/info` response with a missing `build`, `engine_version`, `fork_id`, or `version`. Confirm the launcher rejects it with a specific metadata error.
+- [ ] Connect an account with an existing finalized character. Confirm the server logs `route=spawn`, then a `Persistent spawn succeeded` source and the client receives the gameplay transition.
+- [ ] Connect an account with no characters. Confirm the server logs `route=character-setup` with `reason=no-characters`, the client logs the setup open request, and then logs `Character setup UI opened successfully`.
+- [ ] Force the setup UI container or lobby state to be unavailable in a local debug build. Confirm the client logs `Character setup UI failed to open` with the failed condition.
+- [ ] Create a character successfully. Confirm the client logs one save request, the server logs the save attempt and success, and the server then logs the persistent spawn request and gameplay join.
+- [ ] Submit an invalid slot, null profile, duplicate active character name, or simulate a database exception. Confirm the server logs `Character creation save rejected` or `Character creation save failed` with a reason and no secret data.
+- [ ] Disconnect after reaching forced setup but before a successful spawn. Confirm the server logs `Disconnected before character setup completed` for the session identifier.
+- [ ] Repeat with persistence disabled. Confirm `lobbyBypass=false` and normal lobby controls/flow remain unchanged.
 
 ## Enforcement
 

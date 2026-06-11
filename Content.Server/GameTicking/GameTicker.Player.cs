@@ -8,8 +8,11 @@ using Content.Shared.Players;
 using Content.Shared.Preferences;
 using JetBrains.Annotations;
 using Robust.Server.Player;
+using Robust.Shared;
 using Robust.Shared.Audio;
+using Robust.Shared.Configuration;
 using Robust.Shared.Enums;
+using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
@@ -20,6 +23,8 @@ namespace Content.Server.GameTicking
     public sealed partial class GameTicker
     {
         [Dependency] private readonly IPlayerManager _playerManager = default!;
+        private readonly HashSet<NetUserId> _pendingCharacterSetup = new();
+
         private void InitializePlayer()
         {
             _playerManager.PlayerStatusChanged += PlayerStatusChanged;
@@ -127,6 +132,13 @@ namespace Content.Server.GameTicking
             {
                 case SessionStatus.Connected:
                     {
+                        _launcherFlowSawmill.Info(
+                            $"Connection accepted: userId={session.UserId}, authType={session.AuthType}, " +
+                            $"lobbyBypass={PersistentJoinEnabled}, lobbyEnabled={LobbyEnabled}, " +
+                            $"serverFork={_cfg.GetCVar(CVars.BuildForkId)}, " +
+                            $"serverVersion={_cfg.GetCVar(CVars.BuildVersion)}, " +
+                            $"serverEngine={_cfg.GetCVar(CVars.BuildEngineVersion)}.");
+
                         AddPlayerToDb(args.Session.UserId.UserId);
 
                         // Always make sure the client has player data.
@@ -168,11 +180,23 @@ namespace Content.Server.GameTicking
                         if (mind == null)
                         {
                             if (PersistentJoinEnabled)
+                            {
+                                _launcherFlowSawmill.Info(
+                                    $"Waiting for profile load before persistent routing: userId={session.UserId}.");
                                 PersistentJoinWaitDb();
+                            }
                             else if (LobbyEnabled)
+                            {
+                                _launcherFlowSawmill.Info(
+                                    $"Routing player to standard lobby: userId={session.UserId}, reason=lobby-enabled, lobbyBypass=false.");
                                 PlayerJoinLobby(session);
+                            }
                             else
+                            {
+                                _launcherFlowSawmill.Info(
+                                    $"Routing player to direct spawn: userId={session.UserId}, reason=lobby-disabled, lobbyBypass=false.");
                                 SpawnWaitDb();
+                            }
 
                             _adminLogger.Add(LogType.Connection, LogImpact.Low, $"User {args.Session:Player} attached to {(args.Session.AttachedEntity != null ? ToPrettyString(args.Session.AttachedEntity) : "nothing"):entity} connected to the game.");
                             break;
@@ -211,6 +235,19 @@ namespace Content.Server.GameTicking
 
                 case SessionStatus.Disconnected:
                     {
+                        if (_pendingCharacterSetup.Remove(session.UserId))
+                        {
+                            _launcherFlowSawmill.Warning(
+                                $"Disconnected before character setup completed: userId={session.UserId}, " +
+                                $"oldStatus={args.OldStatus}, attachedEntity={session.AttachedEntity != null}.");
+                        }
+                        else
+                        {
+                            _launcherFlowSawmill.Info(
+                                $"Session disconnected: userId={session.UserId}, oldStatus={args.OldStatus}, " +
+                                $"attachedEntity={session.AttachedEntity != null}.");
+                        }
+
                         _chatManager.SendAdminAnnouncement(Loc.GetString("player-leave-message", ("name", args.Session.Name)));
                         if (mindId != null)
                         {
@@ -269,10 +306,14 @@ namespace Content.Server.GameTicking
                 }
                 catch (OperationCanceledException)
                 {
-                    Log.Debug($"Database load cancelled while waiting to persistently spawn {session}");
+                    _launcherFlowSawmill.Warning(
+                        $"Profile load cancelled before persistent routing completed: userId={session.UserId}, " +
+                        $"sessionStatus={session.Status}.");
                     return;
                 }
 
+                _launcherFlowSawmill.Info(
+                    $"Profile load completed; evaluating persistent route: userId={session.UserId}.");
                 JoinPersistentPlayer(session);
             }
 
@@ -327,19 +368,40 @@ namespace Content.Server.GameTicking
 
         private void JoinPersistentPlayer(ICommonSession session)
         {
-            if (GetPersistentSelectedProfile(session) != null)
+            var preferences = _prefsManager.GetPreferences(session.UserId);
+            var selected = preferences.SelectedCharacter;
+            var finalized = selected != null && !IsUnfinalizedPersistentProfile(selected);
+
+            if (finalized)
             {
-                Log.Info($"Persistent join allowed for {session}: finalized selected character found.");
+                _launcherFlowSawmill.Info(
+                    $"Persistent route selected: userId={session.UserId}, route=spawn, " +
+                    $"reason=finalized-selected-character, characterCount={preferences.Characters.Count}, " +
+                    $"selectedSlot={preferences.SelectedCharacterIndex}, lobbyBypass=true.");
                 MakeJoinGamePersistent(session);
                 return;
             }
 
-            Log.Info($"Persistent join blocked for {session}: no finalized selected character; forcing character setup.");
+            var reason = preferences.Characters.Count == 0
+                ? "no-characters"
+                : selected == null
+                    ? "selected-character-missing"
+                    : "selected-character-unfinalized";
+
+            _launcherFlowSawmill.Info(
+                $"Persistent route selected: userId={session.UserId}, route=character-setup, " +
+                $"reason={reason}, characterCount={preferences.Characters.Count}, " +
+                $"selectedSlot={preferences.SelectedCharacterIndex}, lobbyBypass=true.");
             PlayerJoinLobby(session, forceCharacterSetup: true);
         }
 
         public void PlayerJoinGame(ICommonSession session, bool silent = false)
         {
+            var completedSetup = _pendingCharacterSetup.Remove(session.UserId);
+            _launcherFlowSawmill.Info(
+                $"Gameplay join event requested: userId={session.UserId}, " +
+                $"characterSetupCompleted={completedSetup}, attachedEntity={session.AttachedEntity != null}.");
+
             if (!silent)
                 _chatManager.DispatchServerMessage(session, Loc.GetString("game-ticker-player-join-game-message"));
 
@@ -362,14 +424,23 @@ namespace Content.Server.GameTicking
         {
             if (session == null) return;
             var persistentMode = PersistentJoinEnabled;
+            if (forceCharacterSetup)
+                _pendingCharacterSetup.Add(session.UserId);
+
             _playerGameStatuses[session.UserId] = persistentMode
-                ? PlayerGameStatus.ReadyToPlay
+                ? forceCharacterSetup
+                    ? PlayerGameStatus.NotReadyToPlay
+                    : PlayerGameStatus.ReadyToPlay
                 : LobbyEnabled
                     ? PlayerGameStatus.NotReadyToPlay
                     : PlayerGameStatus.ReadyToPlay;
             _db.AddRoundPlayers(RoundId, session.UserId);
 
             var client = session.Channel;
+            _launcherFlowSawmill.Info(
+                $"Lobby transition requested: userId={session.UserId}, persistentMode={persistentMode}, " +
+                $"lobbyBypass={persistentMode}, forceCharacterSetup={forceCharacterSetup}, " +
+                $"playerStatus={_playerGameStatuses[session.UserId]}.");
             RaiseNetworkEvent(new TickerJoinLobbyEvent(persistentMode, forceCharacterSetup), client);
             RaiseNetworkEvent(GetStatusMsg(session), client);
             RaiseNetworkEvent(GetInfoMsg(), client);

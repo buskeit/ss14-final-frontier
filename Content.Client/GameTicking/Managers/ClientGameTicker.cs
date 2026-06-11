@@ -21,7 +21,10 @@ namespace Content.Client.GameTicking.Managers
         [Dependency] private readonly IStateManager _stateManager = default!;
         [Dependency] private readonly IClientAdminManager _admin = default!;
         [Dependency] private readonly IClyde _clyde = default!;
+        [Dependency] private readonly ILogManager _logManager = default!;
         [Dependency] private readonly IUserInterfaceManager _userInterfaceManager = default!;
+
+        private ISawmill _launcherFlowSawmill = default!;
 
         private Dictionary<NetEntity, Dictionary<ProtoId<JobPrototype>, int?>> _jobsAvailable = new();
         private Dictionary<NetEntity, string> _stationNames = new();
@@ -49,12 +52,14 @@ namespace Content.Client.GameTicking.Managers
 
         public void ConsumeForcedCharacterSetup()
         {
+            _launcherFlowSawmill.Info("Forced character setup flag consumed by the client.");
             ForceCharacterSetup = false;
         }
 
         public override void Initialize()
         {
             base.Initialize();
+            _launcherFlowSawmill = _logManager.GetSawmill("launcher-flow");
 
             SubscribeNetworkEvent<TickerJoinLobbyEvent>(JoinLobby);
             SubscribeNetworkEvent<TickerJoinGameEvent>(JoinGame);
@@ -120,6 +125,9 @@ namespace Content.Client.GameTicking.Managers
         {
             PersistentMode = message.PersistentMode;
             ForceCharacterSetup = message.ForceCharacterSetup;
+            _launcherFlowSawmill.Info(
+                $"Lobby transition received: persistentMode={PersistentMode}, " +
+                $"lobbyBypass={PersistentMode}, forceCharacterSetup={ForceCharacterSetup}; requesting lobby state.");
             _stateManager.RequestStateChange<LobbyState>();
         }
 
@@ -150,6 +158,7 @@ namespace Content.Client.GameTicking.Managers
         private void JoinGame(TickerJoinGameEvent message)
         {
             ForceCharacterSetup = false;
+            _launcherFlowSawmill.Info("Gameplay transition received; requesting gameplay state.");
             _stateManager.RequestStateChange<GameplayState>();
         }
 

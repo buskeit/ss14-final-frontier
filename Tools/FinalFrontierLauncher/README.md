@@ -17,8 +17,11 @@ The scaffold uses Final Frontier-facing product strings from `launcher.settings.
 1. Loads `launcher.settings.json`.
 2. Logs the selected Final Frontier server target.
 3. Queries the configured status and info endpoints.
-4. Writes launcher logs to the user's local app data folder.
-5. Optionally launches a local client executable when `FINAL_FRONTIER_CLIENT_PATH` is set.
+4. Validates and logs the server engine, fork, and version metadata.
+5. Writes launcher logs to the user's local app data folder.
+6. Optionally launches a local client executable in launcher mode when `FINAL_FRONTIER_CLIENT_PATH` is set.
+
+The client is started with `--launcher`, `--connect-address`, and `--ss14-address` so the RobustToolbox launcher connection state is used rather than the normal main menu path.
 
 ## Running locally
 

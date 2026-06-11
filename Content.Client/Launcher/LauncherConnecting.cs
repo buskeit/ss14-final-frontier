@@ -1,5 +1,6 @@
 using Robust.Client;
 using Robust.Client.UserInterface;
+using Robust.Shared;
 using Robust.Shared.Configuration;
 using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
@@ -58,9 +59,15 @@ namespace Content.Client.Launcher
 
         protected override void Startup()
         {
+            _sawmill = _logManager.GetSawmill("launcher-flow");
             _control = new LauncherConnectingGui(this, _random, _prototypeManager, _cfg, _clipboard);
 
-            _sawmill = _logManager.GetSawmill("launcher-ui");
+            var endpoint = _gameController.LaunchState.ConnectEndpoint;
+            _sawmill.Info(
+                $"Launcher client flow started: fork={_cfg.GetCVar(CVars.BuildForkId)}, " +
+                $"version={_cfg.GetCVar(CVars.BuildVersion)}, engine={_cfg.GetCVar(CVars.BuildEngineVersion)}, " +
+                $"target={(endpoint == null ? "missing" : $"{endpoint.Host}:{endpoint.Port}")}, " +
+                $"ss14AddressConfigured={!string.IsNullOrWhiteSpace(_gameController.LaunchState.Ss14Address)}.");
 
             _userInterfaceManager.StateRoot.AddChild(_control);
 
@@ -80,6 +87,10 @@ namespace Content.Client.Launcher
 
         private void OnConnectFailed(object? _, NetConnectFailArgs args)
         {
+            _sawmill.Warning(
+                $"Launcher connection failed: state={_clientNetManager.ClientConnectState}, " +
+                $"redialRequested={args.RedialFlag}, reason={args.Reason}");
+
             if (args.RedialFlag)
             {
                 // We've just *attempted* to connect and we've been told we need to redial, so do it.
@@ -93,6 +104,7 @@ namespace Content.Client.Launcher
 
         private void OnConnectStateChanged(ClientConnectionState state)
         {
+            _sawmill.Info($"Launcher connection state changed: state={state}.");
             ConnectionStateChanged?.Invoke(state);
         }
 
@@ -100,9 +112,13 @@ namespace Content.Client.Launcher
         {
             if (_gameController.LaunchState.ConnectEndpoint != null)
             {
+                _sawmill.Info("Retrying launcher connection with the configured endpoint.");
                 _baseClient.ConnectToServer(_gameController.LaunchState.ConnectEndpoint);
                 CurrentPage = Page.Connecting;
+                return;
             }
+
+            _sawmill.Warning("Launcher connection retry rejected: no configured endpoint.");
         }
 
         public bool Redial()
@@ -111,6 +127,7 @@ namespace Content.Client.Launcher
             {
                 if (_gameController.LaunchState.Ss14Address != null)
                 {
+                    _sawmill.Info("Launcher redial requested using the configured SS14 address.");
                     _gameController.Redial(_gameController.LaunchState.Ss14Address);
                     return true;
                 }
@@ -133,6 +150,9 @@ namespace Content.Client.Launcher
 
         public void SetDisconnected()
         {
+            _sawmill.Warning(
+                $"Launcher client disconnected: state={_clientNetManager.ClientConnectState}, " +
+                $"reason={LastDisconnectReason ?? "not-provided"}.");
             CurrentPage = Page.Disconnected;
         }
 

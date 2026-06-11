@@ -49,6 +49,7 @@ namespace Content.Server.Preferences.Managers
         private readonly Dictionary<NetUserId, PlayerPrefData> _cachedPlayerPrefs = new();
 
         private ISawmill _sawmill = default!;
+        private ISawmill _launcherFlowSawmill = default!;
 
         private int MaxCharacterSlots => _cfg.GetCVar(CCVars.GameMaxCharacterSlots);
 
@@ -63,6 +64,7 @@ namespace Content.Server.Preferences.Managers
             _netManager.RegisterNetMessage<MsgDeleteCharacter>(HandleDeleteCharacterMessage);
             _netManager.RegisterNetMessage<MsgUpdateConstructionFavorites>(HandleUpdateConstructionFavoritesMessage);
             _sawmill = _log.GetSawmill("prefs");
+            _launcherFlowSawmill = _log.GetSawmill("launcher-flow");
         }
 
         private static TValue? TryDeserialize<TValue>(JsonDocument document) where TValue : class
@@ -247,29 +249,51 @@ namespace Content.Server.Preferences.Managers
         private async void HandleJoinAsCharacterMessage(MsgJoinAsCharacter message)
         {
             var userId = message.MsgChannel.UserId;
+            _launcherFlowSawmill.Info(
+                $"Character join request received: userId={userId}, slot={message.Slot}, " +
+                $"persistentMode={_cfg.GetCVar(CCVars.UsePersistence)}.");
 
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-
-            var session = _playerManager.GetSessionById(userId);
-            await JoinAsCharacter(message.Slot, userId, session);
-
-
-
+            try
+            {
+                var session = _playerManager.GetSessionById(userId);
+                await JoinAsCharacter(message.Slot, userId, session);
+            }
+            catch (Exception ex)
+            {
+                _launcherFlowSawmill.Error(
+                    $"Character join request failed: userId={userId}, slot={message.Slot}, " +
+                    $"exception={ex.GetType().Name}, message={ex.Message}");
+            }
         }
+
         private async void HandleFinalizeCharacterMessage(MsgFinalizeCharacter message)
         {
             var userId = message.MsgChannel.UserId;
+            _launcherFlowSawmill.Info(
+                $"Character creation save attempt received: userId={userId}, slot={message.Slot}, " +
+                $"persistentMode={_cfg.GetCVar(CCVars.UsePersistence)}.");
 
             // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
             if (message.Profile == null)
-                _sawmill.Error($"User {userId} sent a {nameof(MsgUpdateCharacter)} with a null profile in slot {message.Slot}.");
+            {
+                _sawmill.Error($"User {userId} sent a {nameof(MsgFinalizeCharacter)} with a null profile in slot {message.Slot}.");
+                _launcherFlowSawmill.Warning(
+                    $"Character creation save rejected: userId={userId}, slot={message.Slot}, reason=null-profile.");
+            }
             else
             {
-                var session = _playerManager.GetSessionById(userId);
-                await FinalizeCharacter(message.Profile, message.Slot, userId, session);
+                try
+                {
+                    var session = _playerManager.GetSessionById(userId);
+                    await FinalizeCharacter(message.Profile, message.Slot, userId, session);
+                }
+                catch (Exception ex)
+                {
+                    _launcherFlowSawmill.Error(
+                        $"Character creation save failed: userId={userId}, slot={message.Slot}, " +
+                        $"exception={ex.GetType().Name}, message={ex.Message}");
+                }
             }
-
-
         }
 
         public async Task SetProfile(NetUserId userId, int slot, HumanoidCharacterProfile profile)
@@ -321,17 +345,27 @@ namespace Content.Server.Preferences.Managers
             if (!_cachedPlayerPrefs.TryGetValue(userId, out var prefsData) || !prefsData.PrefsLoaded)
             {
                 _sawmill.Warning($"User {userId} tried to modify preferences before they loaded.");
+                _launcherFlowSawmill.Warning(
+                    $"Character join request rejected: userId={userId}, slot={slot}, reason=preferences-not-loaded.");
                 return;
             }
 
             if (slot < 0 || slot >= MaxCharacterSlots)
             {
+                _launcherFlowSawmill.Warning(
+                    $"Character join request rejected: userId={userId}, slot={slot}, reason=invalid-slot, " +
+                    $"maxSlots={MaxCharacterSlots}.");
                 return;
             }
 
             var curPrefs = prefsData.Prefs!;
             if (!curPrefs.Characters.TryGetValue(slot, out _))
+            {
+                _launcherFlowSawmill.Warning(
+                    $"Character join request rejected: userId={userId}, slot={slot}, reason=slot-empty, " +
+                    $"characterCount={curPrefs.Characters.Count}.");
                 return;
+            }
 
             prefsData.Prefs = new PlayerPreferences(
                 curPrefs.Characters,
@@ -342,6 +376,9 @@ namespace Content.Server.Preferences.Managers
             if (ShouldStorePrefs(session.Channel.AuthType))
                 await _db.SaveSelectedCharacterIndexAsync(userId, slot);
 
+            _launcherFlowSawmill.Info(
+                $"Character join request accepted: userId={userId}, slot={slot}, " +
+                $"persistentMode={_cfg.GetCVar(CCVars.UsePersistence)}.");
             if (_cfg.GetCVar(CCVars.UsePersistence))
                 gameTicker.MakeJoinGamePersistent(session);
             else
@@ -354,23 +391,33 @@ namespace Content.Server.Preferences.Managers
             CrewMetaRecordsSystem? metaRecords = _entityManager.System<CrewMetaRecordsSystem>();
             if (metaRecords == null)
             {
+                _launcherFlowSawmill.Error(
+                    $"Character creation save rejected: userId={userId}, slot={slot}, reason=crew-record-system-unavailable.");
                 return;
             }
             if (!_cachedPlayerPrefs.TryGetValue(userId, out var prefsData) || !prefsData.PrefsLoaded)
             {
                 _sawmill.Warning($"User {userId} tried to modify preferences before they loaded.");
+                _launcherFlowSawmill.Warning(
+                    $"Character creation save rejected: userId={userId}, slot={slot}, reason=preferences-not-loaded.");
                 return;
             }
 
             if (slot < 0 || slot >= MaxCharacterSlots)
             {
+                _launcherFlowSawmill.Warning(
+                    $"Character creation save rejected: userId={userId}, slot={slot}, reason=invalid-slot, " +
+                    $"maxSlots={MaxCharacterSlots}.");
                 return;
             }
 
             if (metaRecords.CharacterNameExists(profile.Name))
             {
+                _launcherFlowSawmill.Warning(
+                    $"Character creation save rejected: userId={userId}, slot={slot}, reason=character-name-already-active.");
                 return;
             }
+
             var curPrefs = prefsData.Prefs!;
             profile.EnsureValid(session, _dependencies);
             var arr = new Dictionary<int, HumanoidCharacterProfile>(curPrefs.Characters);
@@ -382,9 +429,15 @@ namespace Content.Server.Preferences.Managers
             if (ShouldStorePrefs(session.Channel.AuthType))
                 await _db.SaveSelectedCharacterIndexAsync(userId, slot);
 
+            _launcherFlowSawmill.Info(
+                $"Character creation save succeeded: userId={userId}, slot={slot}, " +
+                $"characterCount={arr.Count}, persistentMode={_cfg.GetCVar(CCVars.UsePersistence)}.");
+
             if (_cfg.GetCVar(CCVars.UsePersistence))
             {
                 GameTicker? gameTicker = _entityManager.System<GameTicker>();
+                _launcherFlowSawmill.Info(
+                    $"Character creation completed; requesting persistent spawn: userId={userId}, slot={slot}.");
                 gameTicker?.MakeJoinGamePersistent(session);
             }
         }
@@ -542,7 +595,14 @@ namespace Content.Server.Preferences.Managers
             DebugTools.Assert(prefsData.Prefs != null);
             prefsData.Prefs = SanitizePreferences(session, prefsData.Prefs, _dependencies);
 
+            var initialLoad = !prefsData.PrefsLoaded;
             prefsData.PrefsLoaded = true;
+
+            _launcherFlowSawmill.Info(
+                $"Character preferences ready: userId={session.UserId}, initialLoad={initialLoad}, " +
+                $"characterCount={prefsData.Prefs.Characters.Count}, " +
+                $"selectedSlot={prefsData.Prefs.SelectedCharacterIndex}, " +
+                $"selectedCharacterPresent={prefsData.Prefs.SelectedCharacter != null}.");
 
             var msg = new MsgPreferencesAndSettings();
             msg.Preferences = prefsData.Prefs;

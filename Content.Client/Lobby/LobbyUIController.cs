@@ -36,6 +36,7 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
     private HumanoidProfileEditor? _profileEditor;
     private CharacterSetupGuiSavePanel? _savePanel;
     private bool _persistentForcedSetupActive;
+    private ISawmill _launcherFlowSawmill = default!;
 
     private ClientGameTicker Ticker => EntityManager.System<ClientGameTicker>();
 
@@ -54,6 +55,7 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
     public override void Initialize()
     {
         base.Initialize();
+        _launcherFlowSawmill = LogManager.GetSawmill("launcher-flow");
         _prototypeManager.PrototypesReloaded += OnProtoReload;
         _preferencesManager.OnServerDataLoaded += PreferencesDataLoaded;
         _requirements.Updated += OnRequirementsUpdated;
@@ -124,6 +126,17 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
 
     private void PreferencesDataLoaded()
     {
+        var preferences = _preferencesManager.Preferences;
+        if (preferences == null)
+        {
+            _launcherFlowSawmill.Error("Client character preferences load event had no preference data.");
+            return;
+        }
+
+        _launcherFlowSawmill.Info(
+            $"Client character preferences received: characterCount={preferences.Characters.Count}, " +
+            $"selectedSlot={preferences.SelectedCharacterIndex}, " +
+            $"selectedCharacterPresent={preferences.SelectedCharacter != null}.");
         PreviewPanel?.SetLoaded(true);
 
         if (_stateManager.CurrentState is not LobbyState)
@@ -199,17 +212,26 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
         DebugTools.Assert(EditedProfile != null);
 
         if (EditedProfile == null || EditedSlot == null || _playerManager.LocalSession == null)
+        {
+            _launcherFlowSawmill.Error(
+                $"Character creation save request not sent: profilePresent={EditedProfile != null}, " +
+                $"slotPresent={EditedSlot != null}, localSessionPresent={_playerManager.LocalSession != null}.");
             return;
+        }
 
         var slot = EditedSlot.Value;
 
+        _launcherFlowSawmill.Info(
+            $"Character creation save requested: slot={slot}, persistentMode={Ticker.PersistentMode}, " +
+            $"forcedSetup={Ticker.ForceCharacterSetup}.");
         _persistentForcedSetupActive = false;
         _preferencesManager.FinalizeCharacter(EditedProfile, slot);
 
         if (Ticker.PersistentMode)
         {
             Ticker.ConsumeForcedCharacterSetup();
-            _preferencesManager.JoinAsCharacter(slot);
+            _launcherFlowSawmill.Info(
+                $"Character creation save request sent: slot={slot}; waiting for the server to persist and spawn the character.");
             CloseProfileEditor();
             return;
         }
@@ -222,9 +244,16 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
         var selected = _preferencesManager.Preferences?.SelectedCharacterIndex;
 
         if (selected == null || _playerManager.LocalSession == null)
+        {
+            _launcherFlowSawmill.Warning(
+                $"Character join request not sent: selectedSlotPresent={selected != null}, " +
+                $"localSessionPresent={_playerManager.LocalSession != null}.");
             return;
+        }
 
         _persistentForcedSetupActive = false;
+        _launcherFlowSawmill.Info(
+            $"Existing character join requested: slot={selected.Value}, persistentMode={Ticker.PersistentMode}.");
         _preferencesManager.JoinAsCharacter(selected.Value);
         if (Ticker.PersistentMode)
         {
@@ -238,11 +267,26 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
 
     private void HandlePersistentLobbyEntry()
     {
-        if (!Ticker.PersistentMode || !Ticker.ForceCharacterSetup || _stateManager.CurrentState is not LobbyState lobby)
+        if (!Ticker.PersistentMode || !Ticker.ForceCharacterSetup)
             return;
 
-        if (!_preferencesManager.ServerDataLoaded)
+        _launcherFlowSawmill.Info(
+            $"Character setup UI open requested: preferencesLoaded={_preferencesManager.ServerDataLoaded}, " +
+            $"currentState={_stateManager.CurrentState.GetType().Name}.");
+
+        if (_stateManager.CurrentState is not LobbyState lobby)
+        {
+            _launcherFlowSawmill.Error(
+                $"Character setup UI failed to open: reason=not-in-lobby-state, " +
+                $"currentState={_stateManager.CurrentState.GetType().Name}.");
             return;
+        }
+
+        if (!_preferencesManager.ServerDataLoaded)
+        {
+            _launcherFlowSawmill.Info("Character setup UI open deferred: reason=preferences-not-loaded.");
+            return;
+        }
 
         var (characterGui, profileEditor) = EnsureGui();
         _persistentForcedSetupActive = true;
@@ -251,6 +295,17 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
         profileEditor.SetProfile(new HumanoidCharacterProfile(), 0);
         profileEditor.ForceCreateMode();
         lobby.SwitchState(LobbyGui.LobbyGuiState.CharacterSetup);
+
+        var setupContainer = lobby.Lobby?.CharacterSetupState;
+        if (setupContainer == null || !setupContainer.Visible || characterGui.Parent != setupContainer)
+        {
+            _launcherFlowSawmill.Error(
+                $"Character setup UI failed to open: containerPresent={setupContainer != null}, " +
+                $"containerVisible={setupContainer?.Visible ?? false}, guiAttached={characterGui.Parent == setupContainer}.");
+            return;
+        }
+
+        _launcherFlowSawmill.Info("Character setup UI opened successfully: slot=0, mode=forced-create.");
     }
 
 

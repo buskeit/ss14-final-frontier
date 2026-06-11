@@ -73,6 +73,7 @@ namespace Content.Server.GameTicking
         [ViewVariables] public MapId DefaultMap { get; private set; }
 
         private ISawmill _sawmill = default!;
+        private ISawmill _launcherFlowSawmill = default!;
 
         private bool _randomizeCharacters;
 
@@ -84,6 +85,7 @@ namespace Content.Server.GameTicking
             DebugTools.Assert(!_postInitialized);
 
             _sawmill = _logManager.GetSawmill("ticker");
+            _launcherFlowSawmill = _logManager.GetSawmill("launcher-flow");
             _sawmillReplays = _logManager.GetSawmill("ticker.replays");
 
             Subs.CVar(_cfg, CCVars.ICRandomCharacters, e => _randomizeCharacters = e, true);
