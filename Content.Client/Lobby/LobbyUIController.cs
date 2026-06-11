@@ -198,19 +198,21 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
     {
         DebugTools.Assert(EditedProfile != null);
 
-        if (EditedProfile == null || EditedSlot == null || _playerManager.LocalSession == null)
+        if (EditedProfile == null || EditedSlot == null)
+            return;
+
+        var selected = _preferencesManager.Preferences?.SelectedCharacterIndex;
+
+        if (selected == null || _playerManager.LocalSession == null)
             return;
 
         var slot = EditedSlot.Value;
 
-        _persistentForcedSetupActive = false;
         _preferencesManager.FinalizeCharacter(EditedProfile, slot);
 
         if (Ticker.PersistentMode)
         {
-            Ticker.ConsumeForcedCharacterSetup();
             _preferencesManager.JoinAsCharacter(slot);
-            CloseProfileEditor();
             return;
         }
 
@@ -224,16 +226,10 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
         if (selected == null || _playerManager.LocalSession == null)
             return;
 
-        _persistentForcedSetupActive = false;
         _preferencesManager.JoinAsCharacter(selected.Value);
-        if (Ticker.PersistentMode)
-        {
-            Ticker.ConsumeForcedCharacterSetup();
-            CloseProfileEditor();
-            return;
-        }
 
-        CloseProfileEditor();
+        if (!Ticker.PersistentMode)
+            CloseProfileEditor();
     }
 
     private void HandlePersistentLobbyEntry()

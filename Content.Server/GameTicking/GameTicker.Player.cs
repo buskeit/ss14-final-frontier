@@ -327,14 +327,26 @@ namespace Content.Server.GameTicking
 
         private void JoinPersistentPlayer(ICommonSession session)
         {
-            if (GetPersistentSelectedProfile(session) != null)
+            if (GetPlayerProfile(session) is { } profile)
             {
-                Log.Info($"Persistent join allowed for {session}: finalized selected character found.");
-                MakeJoinGamePersistent(session);
+                var data = session.ContentData();
+                if (data == null)
+                {
+                    _sawmill.Warning("Could not persistently join {Player}: missing content data.", session.Name);
+                    PlayerJoinLobby(session, forceCharacterSetup: true);
+                    return;
+                }
+
+                var saveFilePath = PersistentCharacterSavePath.ForPlayer(data.UserId);
+
+                if (_resourceManager.UserData.Exists(saveFilePath.ToRootedPath()))
+                    MakeJoinGamePersistentLoad(session);
+                else
+                    MakeJoinGamePersistent(session);
+
                 return;
             }
 
-            Log.Info($"Persistent join blocked for {session}: no finalized selected character; forcing character setup.");
             PlayerJoinLobby(session, forceCharacterSetup: true);
         }
 
