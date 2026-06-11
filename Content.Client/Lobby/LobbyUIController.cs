@@ -9,7 +9,6 @@ using Content.Shared.Preferences.Loadouts;
 using Content.Shared.Roles;
 using Content.Shared.Traits;
 using Content.Client.GameTicking.Managers;
-using Robust.Client.Console;
 using Robust.Client.Player;
 using Robust.Client.ResourceManagement;
 using Robust.Client.State;
@@ -31,7 +30,6 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly IResourceCache _resourceCache = default!;
     [Dependency] private readonly IStateManager _stateManager = default!;
-    [Dependency] private readonly IClientConsoleHost _consoleHost = default!;
     [Dependency] private readonly JobRequirementsManager _requirements = default!;
     [Dependency] private readonly MarkingManager _markings = default!;
     private CharacterSetupGui? _characterSetup;
@@ -211,8 +209,8 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
         if (Ticker.PersistentMode)
         {
             Ticker.ConsumeForcedCharacterSetup();
+            _preferencesManager.JoinAsCharacter(slot);
             CloseProfileEditor();
-            _consoleHost.ExecuteCommand("joingamepersistent false");
             return;
         }
 
@@ -232,7 +230,6 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
         {
             Ticker.ConsumeForcedCharacterSetup();
             CloseProfileEditor();
-            _consoleHost.ExecuteCommand("joingamepersistent false");
             return;
         }
 
