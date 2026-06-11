@@ -196,7 +196,14 @@ public sealed class WorldControllerSystem : EntitySystem
             {
                 var ent = GetOrCreateChunk(chunk, map, controller); // Ensure everything loads.
                 LoadedChunkComponent? c = null;
-                if (ent is not null && !loadedQuery.TryGetComponent(ent.Value, out c))
+
+                if (ent is null || ent.Value == EntityUid.Invalid || !Exists(ent.Value) || TerminatingOrDeleted(ent.Value))
+                {
+                    _sawmill.Warning($"Skipping invalid world chunk entity for chunk {chunk} on map {ToPrettyString(map)}.");
+                    continue;
+                }
+
+                if (!loadedQuery.TryGetComponent(ent.Value, out c))
                 {
                     c = AddComp<LoadedChunkComponent>(ent.Value);
 

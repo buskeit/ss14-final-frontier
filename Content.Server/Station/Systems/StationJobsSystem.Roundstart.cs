@@ -54,12 +54,12 @@ public sealed partial class StationJobsSystem
     /// </remarks>
     public Dictionary<NetUserId, (ProtoId<JobPrototype>?, EntityUid)> AssignJobs(Dictionary<NetUserId, HumanoidCharacterProfile> profiles, IReadOnlyList<EntityUid> stations, bool useRoundStartJobs = true)
     {
+        if (profiles.Count == 0)
+            return new();
+
         DebugTools.Assert(stations.Count > 0);
 
         InitializeRoundStart();
-
-        if (profiles.Count == 0)
-            return new();
 
         // We need to modify this collection later, so make a copy of it.
         profiles = profiles.ShallowClone();

@@ -73,6 +73,7 @@ namespace Content.Client.Lobby
             Lobby.ReadyButton.OnToggled += OnReadyToggled;
             Lobby.ReadyButton.Visible = false;
             Lobby.ObserveButton.Visible = false;
+            Lobby.CharacterPreview.CharacterSetupButton.Visible = !_gameTicker.PersistentMode;
             _gameTicker.InfoBlobUpdated += UpdateLobbyUi;
             _gameTicker.LobbyStatusUpdated += LobbyStatusUpdated;
             _gameTicker.LobbyLateJoinStatusUpdated += LobbyLateJoinStatusUpdated;
@@ -125,6 +126,12 @@ namespace Content.Client.Lobby
 
         public override void FrameUpdate(FrameEventArgs e)
         {
+            if (_gameTicker.PersistentMode)
+            {
+                Lobby!.StartTime.Text = string.Empty;
+                return;
+            }
+
             if (_gameTicker.IsGameStarted)
             {
                 Lobby!.StartTime.Text = string.Empty;
@@ -177,6 +184,22 @@ namespace Content.Client.Lobby
 
         private void UpdateLobbyUi()
         {
+            if (_gameTicker.PersistentMode)
+            {
+                Lobby!.StartTime.Text = string.Empty;
+                Lobby.ReadyButton.Visible = false;
+                Lobby.ObserveButton.Visible = false;
+                Lobby.CharacterPreview.CharacterSetupButton.Visible = false;
+                Lobby.PlaytimeComment.Visible = false;
+                if (_gameTicker.ServerInfoBlob != null)
+                    Lobby.ServerInfo.SetInfoBlob(_gameTicker.ServerInfoBlob);
+                return;
+            }
+
+            Lobby!.ReadyButton.Visible = true;
+            Lobby.ObserveButton.Visible = true;
+            Lobby.CharacterPreview.CharacterSetupButton.Visible = true;
+
             if (_gameTicker.IsGameStarted)
             {
                 Lobby!.ReadyButton.Text = Loc.GetString("lobby-state-ready-button-join-state");
