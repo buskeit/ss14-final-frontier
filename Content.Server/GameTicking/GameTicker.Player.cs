@@ -362,11 +362,15 @@ namespace Content.Server.GameTicking
         {
             if (session == null) return;
             var persistentMode = PersistentJoinEnabled;
-            _playerGameStatuses[session.UserId] = persistentMode
-                ? PlayerGameStatus.ReadyToPlay
-                : LobbyEnabled
-                    ? PlayerGameStatus.NotReadyToPlay
-                    : PlayerGameStatus.ReadyToPlay;
+
+            _playerGameStatuses[session.UserId] = forceCharacterSetup
+                ? PlayerGameStatus.NotReadyToPlay
+                : persistentMode
+                    ? PlayerGameStatus.ReadyToPlay
+                    : LobbyEnabled
+                        ? PlayerGameStatus.NotReadyToPlay
+                        : PlayerGameStatus.ReadyToPlay;
+
             _db.AddRoundPlayers(RoundId, session.UserId);
 
             var client = session.Channel;
