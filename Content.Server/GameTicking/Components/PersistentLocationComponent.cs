@@ -1,4 +1,6 @@
+using Content.Shared.Administration;
 using Robust.Shared.GameObjects;
+using Robust.Shared.Network;
 using Robust.Shared.Serialization.Manager.Attributes;
 using System.Numerics;
 
@@ -12,4 +14,7 @@ public sealed partial class PersistentLocationComponent : Component
 
     [DataField("localPosition")]
     public Vector2 LocalPosition;
+
+    [DataField("userId")]
+    public NetUserId? UserId;
 }

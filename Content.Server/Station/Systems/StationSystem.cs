@@ -767,6 +767,91 @@ public sealed partial class StationSystem : SharedStationSystem
 
         _sawmill.Info("Starting station-grid ownership repair pass...");
 
+        _sawmill.Info("Station grid ownership before repair:");
+        foreach (var stationData in EntityQuery<StationDataComponent>(includePaused: true))
+        {
+            var gridList = string.Join(", ", stationData.Grids.Select(g => g.ToString()));
+            _sawmill.Info($"- Station {stationData.Owner} (UID {stationData.UID}, Name '{Name(stationData.Owner)}'): grids=[{gridList}]");
+        }
+
+        // Repair missing station-grid links for maps with exactly one station
+        foreach (var mapComp in EntityQuery<MapComponent>(includePaused: true))
+        {
+            var mapUid = mapComp.Owner;
+            if (!mapUid.IsValid() || TerminatingOrDeleted(mapUid))
+                continue;
+
+            var mapId = mapComp.MapId;
+            if (mapId == MapId.Nullspace)
+                continue;
+
+            // Find all station entities on this map
+            var stationsOnMap = new List<(EntityUid Station, StationDataComponent Data)>();
+            foreach (var stationData in EntityQuery<StationDataComponent>(includePaused: true))
+            {
+                if (TryComp<TransformComponent>(stationData.Owner, out var sx) && sx.MapID == mapId)
+                {
+                    stationsOnMap.Add((stationData.Owner, stationData));
+                }
+            }
+
+            // Find all grids with BecomesStationComponent on this map
+            var mainStationGrids = new List<EntityUid>();
+            foreach (var (becomes, gridComp, xform) in EntityQuery<BecomesStationComponent, MapGridComponent, TransformComponent>(includePaused: true))
+            {
+                if (xform.MapID == mapId)
+                {
+                    mainStationGrids.Add(gridComp.Owner);
+                }
+            }
+
+            if (stationsOnMap.Count == 1)
+            {
+                var station = stationsOnMap[0].Station;
+                var stationData = stationsOnMap[0].Data;
+                if (stationData.Grids.Count == 0)
+                {
+                    EntityUid? likelyMainGrid = null;
+                    if (mainStationGrids.Count == 1)
+                    {
+                        likelyMainGrid = mainStationGrids[0];
+                    }
+                    else
+                    {
+                        // Get all grids on this map
+                        var mapGrids = _mapManager.GetAllMapGrids(mapId).Select(g => g.Owner).ToList();
+                        if (mapGrids.Count == 1)
+                        {
+                            likelyMainGrid = mapGrids[0];
+                        }
+                        else if (mapGrids.Count > 1)
+                        {
+                            var stationName = Name(station);
+                            foreach (var grid in mapGrids)
+                            {
+                                if (Name(grid).Contains(stationName, StringComparison.OrdinalIgnoreCase) || 
+                                    stationName.Contains(Name(grid), StringComparison.OrdinalIgnoreCase))
+                                {
+                                    likelyMainGrid = grid;
+                                    break;
+                                }
+                            }
+                            if (likelyMainGrid == null)
+                            {
+                                likelyMainGrid = mapGrids[0];
+                            }
+                        }
+                    }
+
+                    if (likelyMainGrid != null)
+                    {
+                        _sawmill.Warning($"Station {station} has no grids. Associating likely main grid {likelyMainGrid.Value} ('{Name(likelyMainGrid.Value)}') with station.");
+                        AddGridToStation(station, likelyMainGrid.Value);
+                    }
+                }
+            }
+        }
+
         EntityUid? GetStationByIDIncludingPaused(int uid)
         {
             foreach (var stationData in EntityQuery<StationDataComponent>(includePaused: true))

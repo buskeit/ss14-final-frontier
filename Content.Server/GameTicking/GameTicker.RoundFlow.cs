@@ -38,7 +38,7 @@ namespace Content.Server.GameTicking
 {
     public sealed partial class GameTicker
     {
-        private static readonly SerializationOptions PersistentMapSaveOptions = SerializationOptions.Default with
+        public static readonly SerializationOptions PersistentMapSaveOptions = SerializationOptions.Default with
         {
             MissingEntityBehaviour = MissingEntityBehaviour.Ignore
         };
@@ -189,6 +189,15 @@ namespace Content.Server.GameTicking
                         $"AUTOSAVE WARNING: map {DefaultMap} has 0 grids before save. Save may be empty.");
                 }
 
+                // Update persistent location components for all player bodies before saving
+                foreach (var session in _playerManager.Sessions)
+                {
+                    if (session.AttachedEntity is { } body && body.IsValid())
+                    {
+                        UpdatePersistentLocationComponent(body, session.UserId);
+                    }
+                }
+
                 // Diagnostics before save
                 var mapName = TryComp<MetaDataComponent>(mapUid.Value, out var mapMeta) ? mapMeta.EntityName : "Unknown";
                 _sawmill.Info($"Autosave diagnostics: Map ID={DefaultMap}, Name='{mapName}', Entity={mapUid.Value} is being saved to '{path}'.");
@@ -276,7 +285,7 @@ namespace Content.Server.GameTicking
 
         private const int MaxLegacyAutosaveIndex = 10000;
 
-        private ResPath GetLatestAutosavePath()
+        public ResPath GetLatestAutosavePath()
         {
             var latestPath = new ResPath("current");
             var latestIndex = _resourceManager.UserData.Exists(latestPath.ToRootedPath()) ? 0 : -1;
