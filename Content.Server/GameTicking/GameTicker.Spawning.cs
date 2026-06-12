@@ -436,15 +436,18 @@ namespace Content.Server.GameTicking
                 _admin.UpdatePlayerList(player);
 
                 var hasStation = station.IsValid() && !TerminatingOrDeleted(station);
+                _sawmill.Info($"Persistent body attach complete for {player.Name}: final owning station result={station}, stationless fallback used={!hasStation}");
                 if (hasStation)
                 {
-                    _stationJobs.TryAssignJob(station, jobPrototype, player.UserId);
+                    var jobAssigned = _stationJobs.TryAssignJob(station, jobPrototype, player.UserId);
+                    _sawmill.Info($"Persistent body job assignment ran: station={station}, job={jobId}, result={jobAssigned}");
                     _adminLogger.Add(LogType.LateJoin,
                         LogImpact.Medium,
                         $"Player {player.Name} rejoined persistent character {character.Name:characterName} on station {Name(station):stationName} with {ToPrettyString(mob):entity} as a {jobName:jobName}.");
                 }
                 else
                 {
+                    _sawmill.Info("Persistent body job assignment skipped: using stationless fallback (no owning station)");
                     _sawmill.Warning(
                         "Safe persistent body {Entity} attached for {Player} without an owning spawnable station; station job assignment was skipped.",
                         ToPrettyString(mob),
@@ -529,7 +532,9 @@ namespace Content.Server.GameTicking
                 return false;
             }
 
+            _sawmill.Info($"Persistent body attach check: Body {mob} transform is on Map={mapUid}, Grid={gridUid}");
             var owningStation = _station.GetOwningStation(mob, transform);
+            _sawmill.Info($"Persistent body attach check: GetOwningStation returned {owningStation}");
             if (owningStation == null || TerminatingOrDeleted(owningStation.Value))
             {
                 station = EntityUid.Invalid;

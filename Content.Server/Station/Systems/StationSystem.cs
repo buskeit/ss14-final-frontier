@@ -44,6 +44,7 @@ public sealed partial class StationSystem : SharedStationSystem
     [Dependency] private readonly CrewMetaRecordsSystem _metaRecords = default!;
     [Dependency] private readonly MapSystem _mapSystem = default!;
     [Dependency] private readonly CrewManifestSystem _crewManifest = default!;
+    [Dependency] private readonly IMapManager _mapManager = default!;
 
     private ISawmill _sawmill = default!;
 
@@ -538,6 +539,29 @@ public sealed partial class StationSystem : SharedStationSystem
         var station = EntityManager.SpawnEntity(stationConfig.StationPrototype, MapCoordinates.Nullspace, stationConfig.StationComponentOverrides);
         DebugTools.Assert(HasComp<StationDataComponent>(station), "Stations should have StationData in their prototype.");
 
+        // Try to parent the station to the map of the grids so that standard Map serialization saves the station.
+        EntityUid? mapUid = null;
+        if (gridIds != null)
+        {
+            foreach (var grid in gridIds)
+            {
+                if (TryComp<TransformComponent>(grid, out var xform) && xform.MapUid is { } mUid && mUid.IsValid() && !TerminatingOrDeleted(mUid))
+                {
+                    mapUid = mUid;
+                    break;
+                }
+            }
+        }
+        if (mapUid != null)
+        {
+            _transform.SetParent(station, mapUid.Value);
+            _sawmill.Info($"Parented station entity {station} to map entity {mapUid.Value}");
+        }
+        else
+        {
+            _sawmill.Warning($"Could not determine map entity for station {station}; spawning in Nullspace.");
+        }
+
         var data = Comp<StationDataComponent>(station);
         if (name is not null && data.StationName is null)
             RenameStation(station, name, false);
@@ -572,6 +596,18 @@ public sealed partial class StationSystem : SharedStationSystem
             throw new ArgumentException("Tried to initialize a station on a non-grid entity!", nameof(mapGrid));
         if (!Resolve(station, ref stationData))
             throw new ArgumentException("Tried to use a non-station entity as a station!", nameof(station));
+
+        // If station is currently in Nullspace, parent it to the grid's Map entity so it gets saved.
+        if (TryComp<TransformComponent>(station, out var stationXform) &&
+            TryComp<TransformComponent>(mapGrid, out var gridXform) &&
+            gridXform.MapUid is { } mapUid && mapUid.IsValid() && !TerminatingOrDeleted(mapUid))
+        {
+            if (stationXform.ParentUid == EntityUid.Invalid || stationXform.MapID == MapId.Nullspace)
+            {
+                _transform.SetParent(station, mapUid);
+                _sawmill.Info($"Reparented station entity {station} to map entity {mapUid} on adding grid {mapGrid}");
+            }
+        }
 
         if (!string.IsNullOrEmpty(name))
             _metaData.SetEntityName(mapGrid, name);
@@ -680,6 +716,183 @@ public sealed partial class StationSystem : SharedStationSystem
             throw new ArgumentException("Tried to use a non-station entity as a station!", nameof(station));
 
         QueueDel(station);
+    }
+
+    public EntityUid RecreateStation(MapId mapId, int stationUid, string? stationName = null)
+    {
+        _sawmill.Info($"Recreating station with UID {stationUid} on map {mapId}");
+
+        var stationProto = "StandardPersistStation";
+        var station = EntityManager.SpawnEntity(stationProto, MapCoordinates.Nullspace);
+        _sawmill.Info($"Spawned new station entity {station}");
+
+        if (_mapSystem.TryGetMap(mapId, out var mapUid))
+        {
+            _transform.SetParent(station, mapUid.Value);
+            _sawmill.Info($"Parented recreated station entity {station} to map entity {mapUid.Value}");
+        }
+
+        var data = EnsureComp<StationDataComponent>(station);
+        data.UID = stationUid;
+        if (stationName != null)
+        {
+            data.StationName = stationName;
+            _metaData.SetEntityName(station, stationName);
+        }
+        else
+        {
+            data.StationName = "Restored Station";
+            _metaData.SetEntityName(station, "Restored Station");
+        }
+
+        EnsureComp<StationJobsComponent>(station);
+        EnsureComp<StationSpawningComponent>(station);
+
+        _metaRecords.EnsureMetaRecordsAction((metaRecords) =>
+        {
+            metaRecords.Stations.TryAdd(stationUid, station);
+        });
+
+        var ev = new StationInitializedEvent(station);
+        RaiseLocalEvent(station, ev);
+
+        return station;
+    }
+
+    public void PostCurrentLoadRepair(out bool repairAttempted, out bool repairSucceeded, out bool stationRecreated)
+    {
+        repairAttempted = false;
+        repairSucceeded = false;
+        stationRecreated = false;
+
+        _sawmill.Info("Starting station-grid ownership repair pass...");
+
+        EntityUid? GetStationByIDIncludingPaused(int uid)
+        {
+            foreach (var stationData in EntityQuery<StationDataComponent>(includePaused: true))
+            {
+                if (stationData.UID == uid)
+                    return stationData.Owner;
+            }
+            return null;
+        }
+
+        var gridsToRepair = new List<(EntityUid Grid, StationMemberComponent Member, TransformComponent Xform)>();
+        foreach (var (gridComp, member, xform) in EntityQuery<MapGridComponent, StationMemberComponent, TransformComponent>(includePaused: true))
+        {
+            gridsToRepair.Add((gridComp.Owner, member, xform));
+        }
+
+        if (gridsToRepair.Count == 0)
+        {
+            _sawmill.Info("No grids with StationMemberComponent found to repair.");
+            foreach (var mapComp in EntityQuery<MapComponent>(includePaused: true))
+            {
+                var mapUid = mapComp.Owner;
+                if (!mapUid.IsValid() || TerminatingOrDeleted(mapUid))
+                    continue;
+
+                var mapId = mapComp.MapId;
+                if (mapId == MapId.Nullspace)
+                    continue;
+
+                var activeGrids = _mapManager.GetAllMapGrids(mapId).Select(g => g.Owner).ToList();
+                var stationsOnMap = new List<EntityUid>();
+                foreach (var stationData in EntityQuery<StationDataComponent>(includePaused: true))
+                {
+                    if (TryComp<TransformComponent>(stationData.Owner, out var sx) && sx.MapID == mapId)
+                    {
+                        stationsOnMap.Add(stationData.Owner);
+                    }
+                }
+
+                _sawmill.Info($"Post-load fallback check: Map entity {mapUid} has MapId {mapId}, activeGrids={activeGrids.Count}, stationsOnMap={stationsOnMap.Count}");
+
+                if (activeGrids.Count > 0 && stationsOnMap.Count == 0)
+                {
+                    _sawmill.Warning($"Map {mapId} has {activeGrids.Count} grids but 0 station entities! Creating repair station...");
+                    var stationUid = 1;
+                    var station = RecreateStation(mapId, stationUid, "Restored Station");
+                    stationRecreated = true;
+                    repairAttempted = true;
+
+                    foreach (var grid in activeGrids)
+                    {
+                        AddGridToStation(station, grid);
+                    }
+                    repairSucceeded = true;
+                    return;
+                }
+            }
+            return;
+        }
+
+        repairAttempted = true;
+        var stations = new List<EntityUid>();
+        foreach (var stationData in EntityQuery<StationDataComponent>(includePaused: true))
+        {
+            stations.Add(stationData.Owner);
+        }
+        _sawmill.Info($"Found {stations.Count} station entities and {gridsToRepair.Count} grids to check.");
+
+        var missingStationUIDs = new Dictionary<int, List<(EntityUid Grid, string? GridName)>>();
+        foreach (var (gridUid, member, _) in gridsToRepair)
+        {
+            if (member.StationUID != null)
+            {
+                var station = GetStationByIDIncludingPaused(member.StationUID.Value);
+                if (station == null || TerminatingOrDeleted(station.Value))
+                {
+                    if (!missingStationUIDs.ContainsKey(member.StationUID.Value))
+                        missingStationUIDs[member.StationUID.Value] = new List<(EntityUid Grid, string? GridName)>();
+                    missingStationUIDs[member.StationUID.Value].Add((gridUid, Name(gridUid)));
+                }
+            }
+        }
+
+        foreach (var pair in missingStationUIDs)
+        {
+            var missingUID = pair.Key;
+            var referencingGrids = pair.Value;
+            var firstGrid = referencingGrids[0];
+            
+            if (TryComp<TransformComponent>(firstGrid.Grid, out var xform))
+            {
+                var mapId = xform.MapID;
+                var name = firstGrid.GridName ?? "Restored Station";
+                _sawmill.Warning($"Station entity with UID {missingUID} is missing. Recreating on map {mapId}...");
+                var station = RecreateStation(mapId, missingUID, name);
+                stationRecreated = true;
+            }
+        }
+
+        var allSucceeded = true;
+        foreach (var (gridUid, member, xform) in gridsToRepair)
+        {
+            if (member.StationUID != null)
+            {
+                var station = GetStationByIDIncludingPaused(member.StationUID.Value);
+                if (station != null)
+                {
+                    member.Station = station.Value;
+                    
+                    if (TryComp<StationDataComponent>(station.Value, out var stationData))
+                    {
+                        stationData.Grids.Add(gridUid);
+                        Dirty(station.Value, stationData);
+                    }
+                    Dirty(gridUid, member);
+                    _sawmill.Info($"Successfully linked grid {gridUid} to station {station.Value} (UID {member.StationUID.Value})");
+                }
+                else
+                {
+                    allSucceeded = false;
+                    _sawmill.Error($"Could not link grid {gridUid} because station UID {member.StationUID.Value} could not be resolved even after recreation attempt!");
+                }
+            }
+        }
+
+        repairSucceeded = allSucceeded;
     }
 }
 

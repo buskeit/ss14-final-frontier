@@ -1,4 +1,6 @@
 using Content.Server.Announcements;
+using Content.Server.Station.Components;
+using Content.Shared.Station.Components;
 using Content.Server.Discord;
 using Content.Server.GameTicking.Events;
 using Content.Server.Maps;
@@ -187,10 +189,33 @@ namespace Content.Server.GameTicking
                         $"AUTOSAVE WARNING: map {DefaultMap} has 0 grids before save. Save may be empty.");
                 }
 
+                // Diagnostics before save
+                var mapName = TryComp<MetaDataComponent>(mapUid.Value, out var mapMeta) ? mapMeta.EntityName : "Unknown";
+                _sawmill.Info($"Autosave diagnostics: Map ID={DefaultMap}, Name='{mapName}', Entity={mapUid.Value} is being saved to '{path}'.");
+
+                var stationsBefore = _station.GetStations();
+                _sawmill.Info($"Autosave diagnostics: Station count before save: {stationsBefore.Count}");
+                foreach (var stationEnt in stationsBefore)
+                {
+                    var hasJobs = HasComp<StationJobsComponent>(stationEnt);
+                    var hasSpawning = HasComp<StationSpawningComponent>(stationEnt);
+                    var stationName = Name(stationEnt);
+                    var gridList = string.Empty;
+                    if (TryComp<StationDataComponent>(stationEnt, out var stationData))
+                    {
+                        gridList = string.Join(", ", stationData.Grids.Select(g => g.ToString()));
+                    }
+                    _sawmill.Info($"- Station {stationEnt} ('{stationName}'): hasJobs={hasJobs}, hasSpawning={hasSpawning}, grids=[{gridList}]");
+                }
+
                 var start = _gameTiming.CurTime;
                 var saveStat = _loader.TrySaveMap(DefaultMap, path, PersistentMapSaveOptions);
                 var end = _gameTiming.CurTime;
                 var finalTime = end - start;
+
+                // Diagnostics after save
+                var stationsAfter = _station.GetStations();
+                _sawmill.Info($"Autosave diagnostics: Station count after save: {stationsAfter.Count}");
 
                 if (!saveStat)
                 {
@@ -309,6 +334,7 @@ namespace Content.Server.GameTicking
             var path = GetLatestAutosavePath();
             if (_resourceManager.UserData.Exists(path.ToRootedPath()))
             {
+                _sawmill.Info($"Loading 'current' world save map: '{path}'");
                 var start = _gameTiming.CurTime;
                 bool save_stat = _loader.TryLoadMap(path, out var entity, out var grids, PersistentMapLoadOptions);
                 if (entity.HasValue)
@@ -321,7 +347,46 @@ namespace Content.Server.GameTicking
                 _adminLogger.Add(LogType.EventRan, LogImpact.Extreme, $"MAP LOAD STATUS: {save_stat} TIME TAKEN: {finaltime.TotalSeconds}");
                 _sawmill.Info("MAP LOAD STATUS: {Status} SOURCE: '{Path}' TIME TAKEN: {Seconds:F2}s",
                     save_stat, path, finaltime.TotalSeconds);
-                if (save_stat) return;
+                if (save_stat)
+                {
+                    _sawmill.Info("Map load succeeded. Running post-load repair and diagnostics...");
+
+                    // 1. Log loaded map information
+                    if (entity.HasValue)
+                    {
+                        var mapEnt = entity.Value.Owner;
+                        var mapMeta = CompOrNull<MetaDataComponent>(mapEnt);
+                        _sawmill.Info($"Loaded Map: ID={DefaultMap}, Entity={mapEnt}, Name='{mapMeta?.EntityName ?? "Unknown"}'");
+                    }
+
+                    // 2. Log loaded grid information
+                    if (grids != null)
+                    {
+                        _sawmill.Info($"Loaded Grids ({grids.Count}): {string.Join(", ", grids.Select(g => g.ToString()))}");
+                    }
+
+                    // 3. Run Station-Grid Ownership Repair
+                    _station.PostCurrentLoadRepair(out var repairAttempted, out var repairSucceeded, out var stationRecreated);
+
+                    // 4. Log station status after repair
+                    var stations = _station.GetStations();
+                    _sawmill.Info($"Post-load diagnostics: Station count after load: {stations.Count}");
+                    foreach (var station in stations)
+                    {
+                        var hasJobs = HasComp<StationJobsComponent>(station);
+                        var hasSpawning = HasComp<StationSpawningComponent>(station);
+                        var stationName = Name(station);
+                        var gridList = string.Empty;
+                        if (TryComp<StationDataComponent>(station, out var stationData))
+                        {
+                            gridList = string.Join(", ", stationData.Grids.Select(g => g.ToString()));
+                        }
+                        _sawmill.Info($"- Station {station} ('{stationName}'): hasJobs={hasJobs}, hasSpawning={hasSpawning}, grids=[{gridList}], factionDataPresent={TryComp<StationDataComponent>(station, out _)}");
+                    }
+
+                    _sawmill.Info($"Repair diagnostics: repairAttempted={repairAttempted}, repairSucceeded={repairSucceeded}, stationRecreated={stationRecreated}");
+                    return;
+                }
 
             }
 

@@ -327,6 +327,8 @@ public sealed class WorldControllerSystem : EntitySystem
             return;
         }
 
+        _xformSys.SetParent(chunk, map);
+
         ref var chunks = ref controller.Chunks;
 
         chunks[coords] = chunk; // Add this entity to chunk index.
