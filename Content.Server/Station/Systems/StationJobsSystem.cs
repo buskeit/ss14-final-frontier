@@ -92,6 +92,17 @@ public sealed partial class StationJobsSystem : EntitySystem
         return TryAssignJob(station, job.ID, netUserId, stationJobs);
     }
 
+    public bool IsPlayerAssignedJob(
+        EntityUid station,
+        NetUserId netUserId,
+        ProtoId<JobPrototype> job,
+        StationJobsComponent? stationJobs = null)
+    {
+        return Resolve(station, ref stationJobs, false) &&
+               stationJobs.PlayerJobs.TryGetValue(netUserId, out var jobs) &&
+               jobs.Contains(job);
+    }
+
     /// <summary>
     /// Attempts to assign the given job once. (essentially, it decrements the slot if possible).
     /// </summary>

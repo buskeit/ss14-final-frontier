@@ -9,6 +9,7 @@ using Content.Server.Worldgen.Components.Debris;
 using Content.Shared.CrewAssignments.Components;
 using Content.Shared.CrewRecords.Components;
 using Content.Shared.GridControl.Components;
+using Content.Shared.Maps;
 using Content.Shared.Station;
 using Content.Shared.Station.Components;
 using JetBrains.Annotations;
@@ -366,10 +367,32 @@ public sealed partial class StationSystem : SharedStationSystem
 
     private void OnPostGameMapLoad(PostGameMapLoad ev)
     {
+        InitializeStationsForLoadedMap(ev.GameMap, ev.Grids, ev.StationName, true);
+        RepairStationGridOwnership(logDiagnostics: false, candidateGrids: ev.Grids);
+    }
+
+    public bool RestoreStationsAfterPersistenceLoad(
+        GameMapPrototype gameMap,
+        IReadOnlyList<EntityUid> grids,
+        string? stationName = null)
+    {
+        _sawmill.Info("Restoring station controllers for persisted map {Map} from {GridCount} loaded grids.",
+            gameMap.ID,
+            grids.Count);
+        InitializeStationsForLoadedMap(gameMap, grids, stationName, false);
+        return RepairStationGridOwnership(logDiagnostics: true, candidateGrids: grids);
+    }
+
+    private void InitializeStationsForLoadedMap(
+        GameMapPrototype gameMap,
+        IReadOnlyList<EntityUid> grids,
+        string? stationName,
+        bool raisePostInit)
+    {
         var dict = new Dictionary<string, List<EntityUid>>();
 
         // Iterate over all BecomesStation
-        foreach (var grid in ev.Grids)
+        foreach (var grid in grids)
         {
             // We still setup the grid
             if (TryComp<BecomesStationComponent>(grid, out var becomesStation))
@@ -380,23 +403,280 @@ public sealed partial class StationSystem : SharedStationSystem
         {
             // Oh jeez, no stations got loaded.
             // We'll yell about it, but the thing this used to do with creating a dummy is kinda pointless now.
-            _sawmill.Error($"There were no station grids for {ev.GameMap.ID}!");
+            _sawmill.Error($"There were no station grids for {gameMap.ID}!");
         }
 
         foreach (var (id, gridIds) in dict)
         {
             StationConfig stationConfig;
 
-            if (ev.GameMap.Stations.ContainsKey(id))
-                stationConfig = ev.GameMap.Stations[id];
+            if (gameMap.Stations.ContainsKey(id))
+                stationConfig = gameMap.Stations[id];
             else
             {
-                _sawmill.Error($"The station {id} in map {ev.GameMap.ID} does not have an associated station config!");
+                _sawmill.Error($"The station {id} in map {gameMap.ID} does not have an associated station config!");
                 continue;
             }
 
-            InitializeNewStation(stationConfig, gridIds, ev.StationName);
+            var existingStation = FindExistingStationForGrids(gridIds);
+            if (existingStation is { } station)
+            {
+                foreach (var grid in gridIds)
+                {
+                    if (GetOwningStation(grid) != station)
+                        AddGridToStation(station, grid);
+                }
+
+                continue;
+            }
+
+            var stableStationId = GetPersistedStationId(gridIds);
+            var restoredStationName = stationName;
+            if (!raisePostInit && restoredStationName == null && gridIds.Count > 0)
+                restoredStationName = Name(gridIds[0]);
+
+            InitializeNewStationInternal(
+                stationConfig,
+                gridIds,
+                restoredStationName,
+                null,
+                raisePostInit,
+                stableStationId);
         }
+    }
+
+    private int? GetPersistedStationId(IEnumerable<EntityUid> grids)
+    {
+        int? stableStationId = null;
+
+        foreach (var grid in grids)
+        {
+            if (!TryComp<StationMemberComponent>(grid, out var member) || member.StationUID is not { } candidate)
+                continue;
+
+            if (stableStationId == null)
+            {
+                stableStationId = candidate;
+                continue;
+            }
+
+            if (stableStationId != candidate)
+            {
+                _sawmill.Warning(
+                    "Loaded main station grids have conflicting stable station IDs {FirstStationId} and {SecondStationId}; a new station ID will be assigned.",
+                    stableStationId,
+                    candidate);
+                return null;
+            }
+        }
+
+        return stableStationId;
+    }
+
+    private EntityUid? FindExistingStationForGrids(IEnumerable<EntityUid> grids)
+    {
+        var candidates = new HashSet<EntityUid>();
+        foreach (var grid in grids)
+        {
+            if (TryComp<StationMemberComponent>(grid, out var member))
+            {
+                if (member.Station.IsValid() && HasComp<StationDataComponent>(member.Station))
+                    candidates.Add(member.Station);
+
+                if (member.StationUID is { } stationId && GetStationByID(stationId) is { } stableStation)
+                    candidates.Add(stableStation);
+            }
+
+            var stationQuery = EntityQueryEnumerator<StationDataComponent>();
+            while (stationQuery.MoveNext(out var station, out var stationData))
+            {
+                if (stationData.Grids.Contains(grid))
+                    candidates.Add(station);
+            }
+        }
+
+        return candidates.Count == 1 ? candidates.First() : null;
+    }
+
+    /// <summary>
+    /// Reconciles both sides of station/grid ownership after map deserialization.
+    /// </summary>
+    public bool RepairStationGridOwnership(
+        EntityUid? focusGrid = null,
+        bool logDiagnostics = true,
+        IReadOnlyCollection<EntityUid>? candidateGrids = null)
+    {
+        var changed = false;
+        var stations = new List<(EntityUid Uid, StationDataComponent Data)>();
+        var stationsByStableId = new Dictionary<int, EntityUid>();
+        var ambiguousStableIds = new HashSet<int>();
+        var stationQuery = EntityQueryEnumerator<StationDataComponent>();
+
+        while (stationQuery.MoveNext(out var station, out var stationData))
+        {
+            stations.Add((station, stationData));
+            if (stationData.UID != 0 &&
+                !ambiguousStableIds.Contains(stationData.UID) &&
+                !stationsByStableId.TryAdd(stationData.UID, station))
+            {
+                var firstStation = stationsByStableId[stationData.UID];
+                stationsByStableId.Remove(stationData.UID);
+                ambiguousStableIds.Add(stationData.UID);
+                _sawmill.Warning(
+                    "Station ownership repair found duplicate stable station ID {StationId} on {FirstStation} and {SecondStation}.",
+                    stationData.UID,
+                    firstStation,
+                    station);
+            }
+
+            if (logDiagnostics)
+            {
+                _sawmill.Info(
+                    "Station ownership before repair: station={Station} name={StationName} hasJobs={HasJobs} hasSpawning={HasSpawning} grids=[{Grids}].",
+                    station,
+                    Name(station),
+                    HasComp<StationJobsComponent>(station),
+                    HasComp<StationSpawningComponent>(station),
+                    string.Join(", ", stationData.Grids));
+            }
+        }
+
+        var grids = new HashSet<EntityUid>();
+        if (candidateGrids != null)
+        {
+            foreach (var grid in candidateGrids)
+            {
+                if (grid.IsValid() && !TerminatingOrDeleted(grid) && HasComp<MapGridComponent>(grid))
+                    grids.Add(grid);
+            }
+        }
+        else if (focusGrid is { } focused &&
+                 focused.IsValid() &&
+                 !TerminatingOrDeleted(focused) &&
+                 HasComp<MapGridComponent>(focused))
+        {
+            grids.Add(focused);
+        }
+        else
+        {
+            var gridQuery = EntityQueryEnumerator<MapGridComponent>();
+            while (gridQuery.MoveNext(out var grid, out _))
+            {
+                if (!TerminatingOrDeleted(grid))
+                    grids.Add(grid);
+            }
+        }
+
+        if (logDiagnostics)
+        {
+            foreach (var grid in grids)
+            {
+                var memberDescription = TryComp<StationMemberComponent>(grid, out var member)
+                    ? $"station={member.Station}, stableStationId={member.StationUID?.ToString() ?? "none"}"
+                    : "no station member";
+                _sawmill.Info(
+                    "Active loaded grid before station repair: grid={Grid} name={GridName} {MemberDescription}.",
+                    grid,
+                    Name(grid),
+                    memberDescription);
+            }
+        }
+
+        foreach (var (station, stationData) in stations)
+        {
+            var stationChanged = false;
+            foreach (var grid in stationData.Grids.ToArray())
+            {
+                if (!grid.IsValid() || TerminatingOrDeleted(grid) || !HasComp<MapGridComponent>(grid))
+                {
+                    stationData.Grids.Remove(grid);
+                    stationChanged = true;
+                    continue;
+                }
+
+                if ((candidateGrids != null || focusGrid != null) && !grids.Contains(grid))
+                    continue;
+
+                if (TryComp<StationMemberComponent>(grid, out var member) &&
+                    member.Station.IsValid() &&
+                    member.Station != station &&
+                    HasComp<StationDataComponent>(member.Station))
+                {
+                    stationData.Grids.Remove(grid);
+                    stationChanged = true;
+                    continue;
+                }
+
+                if (GetOwningStation(grid) != station)
+                {
+                    AddGridToStation(station, grid);
+                    stationChanged = true;
+                }
+            }
+
+            if (stationChanged)
+            {
+                Dirty(station, stationData);
+                changed = true;
+            }
+        }
+
+        // Stable station IDs survive map serialization even though station entity UIDs do not.
+        foreach (var grid in grids)
+        {
+            if (!TryComp<StationMemberComponent>(grid, out var member))
+                continue;
+
+            EntityUid? station = null;
+            if (member.Station.IsValid() && HasComp<StationDataComponent>(member.Station))
+                station = member.Station;
+            else if (member.StationUID is { } stationId &&
+                     !ambiguousStableIds.Contains(stationId) &&
+                     stationsByStableId.TryGetValue(stationId, out var stableStation))
+                station = stableStation;
+
+            if (station == null)
+                continue;
+
+            var stationData = Comp<StationDataComponent>(station.Value);
+            if (member.Station != station || member.StationUID != stationData.UID || !stationData.Grids.Contains(grid))
+            {
+                AddGridToStation(station.Value, grid);
+                changed = true;
+            }
+        }
+
+        var spawnableStations = stations
+            .Where(x => HasComp<StationJobsComponent>(x.Uid) && HasComp<StationSpawningComponent>(x.Uid))
+            .Select(x => x.Uid)
+            .ToList();
+        var mainStationGrids = grids.Where(HasComp<BecomesStationComponent>).ToList();
+
+        if (spawnableStations.Count == 1 &&
+            mainStationGrids.Count == 1 &&
+            GetOwningStation(mainStationGrids[0]) == null)
+        {
+            AddGridToStation(spawnableStations[0], mainStationGrids[0]);
+            changed = true;
+            _sawmill.Warning(
+                "Station ownership repair associated the sole main station grid {Grid} with the sole spawnable station {Station}.",
+                mainStationGrids[0],
+                spawnableStations[0]);
+        }
+
+        if (focusGrid is { } targetGrid && logDiagnostics)
+        {
+            var owner = GetOwningStation(targetGrid);
+            var inStationList = stations.Any(x => x.Data.Grids.Contains(targetGrid));
+            _sawmill.Info(
+                "Station ownership repair result for grid {Grid}: changed={Changed} inStationGridList={InStationGridList} owningStation={OwningStation}.",
+                targetGrid,
+                changed,
+                inStationList,
+                owner?.ToString() ?? "none");
+        }
+
+        return changed;
     }
 
     private void OnRoundEnd(GameRunLevelChangedEvent eventArgs)
@@ -532,13 +812,59 @@ public sealed partial class StationSystem : SharedStationSystem
     /// <param name="name">Optional override for the station name.</param>
     /// <remarks>This is for ease of use, manually spawning the entity works just fine.</remarks>
     /// <returns>The initialized station.</returns>
-    public EntityUid InitializeNewStation(StationConfig stationConfig, IEnumerable<EntityUid>? gridIds, string? name = null, string? owner = null)
+    public EntityUid InitializeNewStation(
+        StationConfig stationConfig,
+        IEnumerable<EntityUid>? gridIds,
+        string? name = null,
+        string? owner = null)
+    {
+        return InitializeNewStationInternal(stationConfig, gridIds, name, owner, true, null);
+    }
+
+    private EntityUid InitializeNewStationInternal(
+        StationConfig stationConfig,
+        IEnumerable<EntityUid>? gridIds,
+        string? name,
+        string? owner,
+        bool raisePostInit,
+        int? stableStationId)
     {
         // Use overrides for setup.
         var station = EntityManager.SpawnEntity(stationConfig.StationPrototype, MapCoordinates.Nullspace, stationConfig.StationComponentOverrides);
         DebugTools.Assert(HasComp<StationDataComponent>(station), "Stations should have StationData in their prototype.");
 
         var data = Comp<StationDataComponent>(station);
+        if (stableStationId is { } persistedId && persistedId > 0 && data.UID != persistedId)
+        {
+            var conflictingStation = GetStationByID(persistedId);
+            if (conflictingStation is null || conflictingStation == station)
+            {
+                var generatedId = data.UID;
+                data.UID = persistedId;
+                Dirty(station, data);
+                _metaRecords.EnsureMetaRecordsAction(metaRecords =>
+                {
+                    if (metaRecords.Stations.TryGetValue(generatedId, out var registered) && registered == station)
+                        metaRecords.Stations.Remove(generatedId);
+
+                    metaRecords.Stations[persistedId] = station;
+                });
+                _sawmill.Info(
+                    "Restored stable station ID {StationId} on station {Station} (replacing generated ID {GeneratedId}).",
+                    persistedId,
+                    station,
+                    generatedId);
+            }
+            else
+            {
+                _sawmill.Warning(
+                    "Could not restore stable station ID {StationId} on station {Station}; it is already used by station {ConflictingStation}.",
+                    persistedId,
+                    station,
+                    conflictingStation);
+            }
+        }
+
         if (name is not null && data.StationName is null)
             RenameStation(station, name, false);
         if (owner is not null)
@@ -551,8 +877,11 @@ public sealed partial class StationSystem : SharedStationSystem
             AddGridToStation(station, grid, null, data, name);
         }
 
-        var ev = new StationPostInitEvent((station, data));
-        RaiseLocalEvent(station, ref ev, true);
+        if (raisePostInit)
+        {
+            var ev = new StationPostInitEvent((station, data));
+            RaiseLocalEvent(station, ref ev, true);
+        }
 
         return station;
     }

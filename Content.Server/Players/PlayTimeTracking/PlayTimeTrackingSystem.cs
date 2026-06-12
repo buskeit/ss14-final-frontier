@@ -338,5 +338,6 @@ public sealed class PlayTimeTrackingSystem : EntitySystem
     public void PlayerRolesChanged(ICommonSession player)
     {
         _tracking.QueueRefreshTrackers(player);
+        _tracking.QueueSendTimers(player);
     }
 }

@@ -321,7 +321,36 @@ namespace Content.Server.GameTicking
                 _adminLogger.Add(LogType.EventRan, LogImpact.Extreme, $"MAP LOAD STATUS: {save_stat} TIME TAKEN: {finaltime.TotalSeconds}");
                 _sawmill.Info("MAP LOAD STATUS: {Status} SOURCE: '{Path}' TIME TAKEN: {Seconds:F2}s",
                     save_stat, path, finaltime.TotalSeconds);
-                if (save_stat) return;
+                if (save_stat)
+                {
+                    var mapName = entity.HasValue && TryComp<MetaDataComponent>(entity.Value.Owner, out var mapMeta)
+                        ? mapMeta.EntityName
+                        : "Unknown";
+                    var loadedGrids = grids?.Select(x => x.Owner).ToList() ?? new List<EntityUid>();
+                    _sawmill.Info(
+                        "Current world save loaded: source={Path} mapId={MapId} mapName={MapName} grids={GridCount}.",
+                        path,
+                        DefaultMap,
+                        mapName,
+                        loadedGrids.Count);
+
+                    if (_gameMapManager.GetSelectedMap() is { } selectedMap)
+                    {
+                        var repaired = _station.RestoreStationsAfterPersistenceLoad(selectedMap, loadedGrids);
+                        _sawmill.Info(
+                            "Station ownership restoration after current world load completed: mapPrototype={MapPrototype} changed={Changed}.",
+                            selectedMap.ID,
+                            repaired);
+                    }
+                    else
+                    {
+                        _sawmill.Warning(
+                            "Current world save loaded for map {MapId}, but no selected map prototype was available to recreate station controllers.",
+                            DefaultMap);
+                    }
+
+                    return;
+                }
 
             }
 

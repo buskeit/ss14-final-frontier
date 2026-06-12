@@ -23,6 +23,7 @@ using Content.Shared.Random;
 using Content.Shared.Random.Helpers;
 using Content.Shared.Roles;
 using Content.Shared.Roles.Jobs;
+using Content.Shared.Station.Components;
 using Robust.Shared.ContentPack;
 using Robust.Shared.Containers;
 using Robust.Shared.EntitySerialization;
@@ -275,7 +276,7 @@ namespace Content.Server.GameTicking
             if (data == null)
                 return;
 
-            UpdatePersistentLocationComponent(mob);
+            UpdatePersistentLocationComponent(mob, data.UserId);
 
             var saveFilePath = PersistentCharacterSavePath.ForPlayer(data.UserId);
             _loader.TrySaveGeneric(mob, saveFilePath, out _, PersistentCharacterSaveOptions);
@@ -293,7 +294,17 @@ namespace Content.Server.GameTicking
             if (!_resourceManager.UserData.Exists(rootedPath))
                 return false;
 
-            if (!_loader.TryLoadEntity(saveFilePath, out var mobMaybe, PersistentCharacterLoadOptions) || mobMaybe == null)
+            var loadedFromCharacterSave = false;
+            EntityUid mob;
+            if (TryFindRestoredPersistentBody(userId, out var restoredBody))
+            {
+                mob = restoredBody;
+                _sawmill.Info(
+                    "Using persistent body {Entity} for {Player} that was already restored with the current world save.",
+                    ToPrettyString(mob),
+                    player.Name);
+            }
+            else if (!_loader.TryLoadEntity(saveFilePath, out var mobMaybe, PersistentCharacterLoadOptions) || mobMaybe == null)
             {
                 _sawmill.Warning(
                     "Persistent character load failed for {Player} at {Path}; fresh-spawn fallback is required.",
@@ -301,8 +312,23 @@ namespace Content.Server.GameTicking
                     saveFilePath);
                 return false;
             }
+            else
+            {
+                mob = mobMaybe.Value.Owner;
+                loadedFromCharacterSave = true;
 
-            var mob = mobMaybe.Value.Owner;
+                if (TryFindLegacyRestoredPersistentBody(mob, character, out var legacyBody))
+                {
+                    _ent.QueueDeleteEntity(mob);
+                    mob = legacyBody;
+                    loadedFromCharacterSave = false;
+                    UpdatePersistentLocationComponent(mob, userId);
+                    _sawmill.Info(
+                        "Matched legacy persistent body {Entity} for {Player} by character and saved location; the duplicate deserialized body was discarded.",
+                        ToPrettyString(mob),
+                        player.Name);
+                }
+            }
 
             // Reposition / repair body onto the restored map/grid if possible
             if (_ent.TryGetComponent<PersistentLocationComponent>(mob, out var locComp) && !string.IsNullOrEmpty(locComp.GridName))
@@ -399,7 +425,7 @@ namespace Content.Server.GameTicking
                     savedGridUid, savedGridExists,
                     currentWorldExists);
 
-                CleanupRejectedPersistentBody(player, mob);
+                CleanupRejectedPersistentBody(player, mob, loadedFromCharacterSave);
                 return false;
             }
 
@@ -421,7 +447,7 @@ namespace Content.Server.GameTicking
                         "Persistent body attachment failed for {Player}: {Entity} was not attached after mind transfer; fresh-spawn fallback is required.",
                         player.Name,
                         ToPrettyString(mob));
-                    CleanupRejectedPersistentBody(player, mob);
+                    CleanupRejectedPersistentBody(player, mob, loadedFromCharacterSave);
                     return false;
                 }
 
@@ -429,6 +455,10 @@ namespace Content.Server.GameTicking
                 var jobName = _jobs.MindTryGetJobName(newMind);
                 PlayerJoinGame(player, true);
                 _playTimeTrackings.PlayerRolesChanged(player);
+                _sawmill.Info(
+                    "Playtime role tracking update queued after persistent role restore for {Player} as {Job}.",
+                    player.Name,
+                    jobId);
                 _bankSystem.EnsureAccount(character.Name, 50);
                 if (_crewMetaRecords.MetaRecords != null)
                     _crewMetaRecords.MetaRecords.CreateRecord(character.Name, out _);
@@ -438,7 +468,13 @@ namespace Content.Server.GameTicking
                 var hasStation = station.IsValid() && !TerminatingOrDeleted(station);
                 if (hasStation)
                 {
-                    _stationJobs.TryAssignJob(station, jobPrototype, player.UserId);
+                    var assignedJob = _stationJobs.TryAssignJob(station, jobPrototype, player.UserId);
+                    _sawmill.Info(
+                        "Persistent station job assignment completed for {Player}: station={Station} job={Job} assigned={Assigned}.",
+                        player.Name,
+                        station,
+                        jobId,
+                        assignedJob);
                     _adminLogger.Add(LogType.LateJoin,
                         LogImpact.Medium,
                         $"Player {player.Name} rejoined persistent character {character.Name:characterName} on station {Name(station):stationName} with {ToPrettyString(mob):entity} as a {jobName:jobName}.");
@@ -446,7 +482,7 @@ namespace Content.Server.GameTicking
                 else
                 {
                     _sawmill.Warning(
-                        "Safe persistent body {Entity} attached for {Player} without an owning spawnable station; station job assignment was skipped.",
+                        "Safe persistent body {Entity} attached for {Player} without an owning spawnable station; stationless fallback was used and station job assignment was skipped.",
                         ToPrettyString(mob),
                         player.Name);
                     _adminLogger.Add(LogType.LateJoin,
@@ -464,6 +500,11 @@ namespace Content.Server.GameTicking
                     station,
                     character);
                 RaiseLocalEvent(mob, aev, true);
+                _sawmill.Info(
+                    "PlayerSpawnCompleteEvent raised after persistent attach for {Player}: station={Station} validStation={ValidStation}.",
+                    player.Name,
+                    station,
+                    hasStation);
                 _sawmill.Debug("Saved-body load success for {PlayerName}", player.Name);
                 return true;
             }
@@ -473,9 +514,84 @@ namespace Content.Server.GameTicking
                     "Persistent body attachment failed for {Player}: {Message}. Fresh-spawn fallback is required.",
                     player.Name,
                     ex.Message);
-                CleanupRejectedPersistentBody(player, mob);
+                CleanupRejectedPersistentBody(player, mob, loadedFromCharacterSave);
                 return false;
             }
+        }
+
+        private bool TryFindRestoredPersistentBody(NetUserId userId, out EntityUid body)
+        {
+            body = EntityUid.Invalid;
+            var matches = 0;
+            var query = EntityQueryEnumerator<PersistentLocationComponent>();
+
+            while (query.MoveNext(out var candidate, out var location))
+            {
+                if (location.PlayerUserId != userId || TerminatingOrDeleted(candidate) || HasComp<ActorComponent>(candidate))
+                    continue;
+
+                body = candidate;
+                matches++;
+            }
+
+            if (matches > 1)
+            {
+                _sawmill.Warning(
+                    "Found {Count} restored persistent bodies for user {UserId}; reusing {Entity} instead of creating another body.",
+                    matches,
+                    userId,
+                    ToPrettyString(body));
+            }
+
+            return matches > 0;
+        }
+
+        private bool TryFindLegacyRestoredPersistentBody(
+            EntityUid loadedBody,
+            HumanoidCharacterProfile character,
+            out EntityUid body)
+        {
+            body = EntityUid.Invalid;
+            if (!TryComp<PersistentLocationComponent>(loadedBody, out var savedLocation) ||
+                string.IsNullOrEmpty(savedLocation.GridName))
+            {
+                return false;
+            }
+
+            var matches = 0;
+            var query = EntityQueryEnumerator<MobStateComponent, MetaDataComponent, TransformComponent>();
+            while (query.MoveNext(out var candidate, out var mobState, out var metadata, out var transform))
+            {
+                if (candidate == loadedBody ||
+                    metadata.EntityName != character.Name ||
+                    HasComp<ActorComponent>(candidate) ||
+                    TerminatingOrDeleted(candidate) ||
+                    !_mobState.IsAlive(candidate, mobState) ||
+                    _mobState.IsCritical(candidate, mobState) ||
+                    transform.GridUid is not { } grid ||
+                    !TryComp<MetaDataComponent>(grid, out var gridMetadata) ||
+                    gridMetadata.EntityName != savedLocation.GridName ||
+                    Vector2.DistanceSquared(transform.LocalPosition, savedLocation.LocalPosition) > 0.25f)
+                {
+                    continue;
+                }
+
+                body = candidate;
+                matches++;
+            }
+
+            if (matches > 1)
+            {
+                _sawmill.Warning(
+                    "Found {Count} legacy persistent body candidates for character {Character} at grid {GridName}; loading the saved body instead.",
+                    matches,
+                    character.Name,
+                    savedLocation.GridName);
+                body = EntityUid.Invalid;
+                return false;
+            }
+
+            return matches == 1;
         }
 
         private bool TryValidatePersistentBody(EntityUid mob, out EntityUid station, out string reason)
@@ -529,12 +645,44 @@ namespace Content.Server.GameTicking
                 return false;
             }
 
+            var bodyGridInStationList = false;
+            var stationQuery = EntityQueryEnumerator<StationDataComponent>();
+            while (stationQuery.MoveNext(out _, out var stationData))
+            {
+                if (stationData.Grids.Contains(gridUid))
+                {
+                    bodyGridInStationList = true;
+                    break;
+                }
+            }
+
+            _sawmill.Info(
+                "Persistent body station lookup starting: entity={Entity} map={Map} grid={Grid} gridInStationList={GridInStationList}.",
+                ToPrettyString(mob),
+                mapUid,
+                gridUid,
+                bodyGridInStationList);
+
             var owningStation = _station.GetOwningStation(mob, transform);
+            if (owningStation == null || TerminatingOrDeleted(owningStation.Value))
+            {
+                _sawmill.Warning(
+                    "Persistent body station ownership was missing for grid {Grid}; attempting station/grid ownership repair.",
+                    gridUid);
+                var repaired = _station.RepairStationGridOwnership(gridUid, logDiagnostics: true);
+                owningStation = _station.GetOwningStation(mob, transform);
+                _sawmill.Info(
+                    "Persistent body station ownership repair completed for grid {Grid}: changed={Changed} finalOwningStation={OwningStation}.",
+                    gridUid,
+                    repaired,
+                    owningStation?.ToString() ?? "none");
+            }
+
             if (owningStation == null || TerminatingOrDeleted(owningStation.Value))
             {
                 station = EntityUid.Invalid;
                 _sawmill.Warning(
-                    "Persistent body {Entity} is on valid map {Map} and grid {Grid}, but station ownership could not be resolved; continuing attachment without an owning station.",
+                    "Persistent body {Entity} is on valid map {Map} and grid {Grid}, but station ownership could not be resolved after repair; continuing attachment with stationless fallback.",
                     ToPrettyString(mob),
                     mapUid,
                     gridUid);
@@ -555,10 +703,16 @@ namespace Content.Server.GameTicking
             }
 
             station = owningStation.Value;
+            _sawmill.Info(
+                "Persistent body station ownership resolved: entity={Entity} grid={Grid} station={Station} name={StationName}.",
+                ToPrettyString(mob),
+                gridUid,
+                station,
+                Name(station));
             return true;
         }
 
-        private void CleanupRejectedPersistentBody(ICommonSession player, EntityUid mob)
+        private void CleanupRejectedPersistentBody(ICommonSession player, EntityUid mob, bool deleteBody)
         {
             if (!mob.IsValid() || TerminatingOrDeleted(mob))
                 return;
@@ -569,7 +723,8 @@ namespace Content.Server.GameTicking
             if (_ent.TryGetComponent<MindContainerComponent>(mob, out _))
                 _mind.WipeMind(mob);
 
-            _ent.QueueDeleteEntity(mob);
+            if (deleteBody)
+                _ent.QueueDeleteEntity(mob);
         }
 
 
@@ -781,7 +936,6 @@ namespace Content.Server.GameTicking
 
             jobPrototype = _prototypeManager.Index<JobPrototype>(jobId);
 
-            _playTimeTrackings.PlayerRolesChanged(player);
             _bankSystem.EnsureAccount(character.Name, 50);
 
             var mobMaybe = _stationSpawning.SpawnPlayerCharacterOnStation(station, jobId, character);
@@ -791,6 +945,7 @@ namespace Content.Server.GameTicking
             _mind.TransferTo(newMind, mob);
 
             _roles.MindAddJobRole(newMind, silent: silent, jobPrototype: jobId);
+            _playTimeTrackings.PlayerRolesChanged(player);
             jobName = _jobs.MindTryGetJobName(newMind);
             _admin.UpdatePlayerList(player);
         }
@@ -968,7 +1123,7 @@ namespace Content.Server.GameTicking
             return EntityCoordinates.Invalid;
         }
 
-        public void UpdatePersistentLocationComponent(EntityUid mob)
+        public void UpdatePersistentLocationComponent(EntityUid mob, NetUserId? playerUserId = null)
         {
             if (!_ent.TryGetComponent<TransformComponent>(mob, out var transform))
                 return;
@@ -983,6 +1138,10 @@ namespace Content.Server.GameTicking
             var locComp = _ent.EnsureComponent<PersistentLocationComponent>(mob);
             locComp.GridName = gridName;
             locComp.LocalPosition = transform.LocalPosition;
+            if (playerUserId != null)
+                locComp.PlayerUserId = playerUserId;
+            else if (_ent.TryGetComponent<ActorComponent>(mob, out var actor))
+                locComp.PlayerUserId = actor.PlayerSession.UserId;
         }
 
         #endregion

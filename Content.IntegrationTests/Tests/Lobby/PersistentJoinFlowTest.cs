@@ -2,23 +2,33 @@ using System.Linq;
 using System.Threading;
 using Content.Client.Gameplay;
 using Content.Client.Lobby;
+using Content.Server.Administration.Systems;
 using Content.Server.Database;
 using Content.Server.GameTicking;
+using Content.Server.Mind;
+using Content.Server.Players.PlayTimeTracking;
 using Content.Server.Preferences.Managers;
+using Content.Server.Station.Components;
+using Content.Server.Station.Systems;
 using Content.Shared.CCVar;
 using Content.Shared.GameTicking;
 using Content.Shared.Humanoid;
+using Content.Shared.Maps;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
+using Content.Shared.Players;
 using Content.Shared.Preferences;
+using Content.Shared.Station.Components;
 using Robust.Client.State;
 using Robust.Server.Player;
 using Robust.Shared.Enums;
 using Robust.Shared.EntitySerialization.Systems;
 using Robust.Shared.GameObjects;
+using Robust.Shared.Map;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
+using Robust.Shared.Prototypes;
 using Robust.UnitTesting;
 
 namespace Content.IntegrationTests.Tests.Lobby;
@@ -101,6 +111,138 @@ public sealed class PersistentJoinFlowTest
     }
 
     [Test]
+    public async Task PersistedStationControllerRestoresMainGridOwnership()
+    {
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings { Dirty = true });
+        var server = pair.Server;
+        var entMan = server.EntMan;
+        var mapManager = server.ResolveDependency<IMapManager>();
+        var mapSystem = server.System<SharedMapSystem>();
+        var stationSystem = server.System<StationSystem>();
+        var prototypeManager = server.ResolveDependency<IPrototypeManager>();
+        var box = prototypeManager.Index<GameMapPrototype>("Box");
+        EntityUid grid = EntityUid.Invalid;
+
+        await server.WaitPost(() =>
+        {
+            mapSystem.CreateMap(out var mapId);
+            grid = mapManager.CreateGridEntity(mapId);
+            SetBecomesStationId(entMan.AddComponent<BecomesStationComponent>(grid), "Boxstation");
+            var member = entMan.AddComponent<StationMemberComponent>(grid);
+            member.StationUID = 424242;
+            member.Station = EntityUid.Invalid;
+
+            stationSystem.RestoreStationsAfterPersistenceLoad(box, new[] { grid }, "Persisted Box Station");
+        });
+
+        await server.WaitAssertion(() =>
+        {
+            var station = stationSystem.GetOwningStation(grid);
+            Assert.That(station, Is.Not.Null);
+            Assert.That(entMan.HasComponent<StationJobsComponent>(station!.Value), Is.True);
+            Assert.That(entMan.HasComponent<StationSpawningComponent>(station.Value), Is.True);
+
+            var stationData = entMan.GetComponent<StationDataComponent>(station.Value);
+            Assert.That(stationData.UID, Is.EqualTo(424242));
+            Assert.That(stationData.Grids, Does.Contain(grid));
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task StalePersistedStationGridReferenceIsRepaired()
+    {
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings { Dirty = true });
+        var server = pair.Server;
+        var entMan = server.EntMan;
+        var mapManager = server.ResolveDependency<IMapManager>();
+        var mapSystem = server.System<SharedMapSystem>();
+        var stationSystem = server.System<StationSystem>();
+        var prototypeManager = server.ResolveDependency<IPrototypeManager>();
+        var box = prototypeManager.Index<GameMapPrototype>("Box");
+        EntityUid grid = EntityUid.Invalid;
+        EntityUid station = EntityUid.Invalid;
+        var repaired = false;
+
+        await server.WaitPost(() =>
+        {
+            mapSystem.CreateMap(out var mapId);
+            grid = mapManager.CreateGridEntity(mapId);
+            SetBecomesStationId(entMan.AddComponent<BecomesStationComponent>(grid), "Boxstation");
+            var member = entMan.AddComponent<StationMemberComponent>(grid);
+            member.StationUID = 424243;
+            member.Station = EntityUid.Invalid;
+
+            stationSystem.RestoreStationsAfterPersistenceLoad(box, new[] { grid }, "Persisted Box Station");
+            station = stationSystem.GetOwningStation(grid)!.Value;
+
+            var stationData = entMan.GetComponent<StationDataComponent>(station);
+            stationData.Grids.Remove(grid);
+            member.Station = EntityUid.Invalid;
+            repaired = stationSystem.RepairStationGridOwnership(grid, logDiagnostics: false);
+        });
+
+        await server.WaitAssertion(() =>
+        {
+            Assert.That(repaired, Is.True);
+            Assert.That(stationSystem.GetOwningStation(grid), Is.EqualTo(station));
+            Assert.That(entMan.GetComponent<StationDataComponent>(station).Grids, Does.Contain(grid));
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task GenuineNonStationGridUsesStationlessPersistentFallback()
+    {
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings { InLobby = true, Dirty = true });
+        var server = pair.Server;
+        var client = pair.Client;
+        var user = pair.Client.User!.Value;
+        var clientPrefManager = client.Resolve<IClientPreferencesManager>();
+        var serverPlayers = server.ResolveDependency<IPlayerManager>();
+        var gameTicker = server.System<GameTicker>();
+        EntityUid body = EntityUid.Invalid;
+        EntityUid nonStationGrid = EntityUid.Invalid;
+
+        await client.WaitPost(() => clientPrefManager.FinalizeCharacter(HumanoidCharacterProfile.Random(), 0));
+        await pair.RunTicksSync(10);
+        await server.WaitPost(() => server.CfgMan.SetCVar(CCVars.UsePersistence, true));
+        await server.WaitPost(() => gameTicker.RestartRound());
+        await pair.RunTicksSync(10);
+        await DisconnectReconnect(pair);
+        await pair.RunTicksSync(10);
+
+        await server.WaitPost(() =>
+        {
+            body = serverPlayers.Sessions.Single().AttachedEntity!.Value;
+            server.System<SharedMapSystem>().CreateMap(out var mapId);
+            nonStationGrid = server.ResolveDependency<IMapManager>().CreateGridEntity(mapId);
+            server.System<SharedTransformSystem>().SetParent(body, nonStationGrid);
+            gameTicker.UpdatePersistentLocationComponent(body, user);
+        });
+
+        await DisconnectReconnect(pair);
+        await pair.RunTicksSync(10);
+
+        await server.WaitAssertion(() =>
+        {
+            var player = serverPlayers.Sessions.Single();
+            Assert.That(player.AttachedEntity, Is.EqualTo(body));
+            Assert.That(server.System<StationSystem>().GetOwningStation(body), Is.Null);
+
+            var info = server.System<AdminSystem>().GetCachedPlayerInfo(user);
+            Assert.That(info, Is.Not.Null);
+            Assert.That(info!.StartingJob, Is.EqualTo("Passenger"));
+            Assert.That(info.RoleProto?.Id, Is.EqualTo("Neutral"));
+            Assert.That(info.OverallPlaytime, Is.Not.Null);
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
     public async Task ExistingCharacterReconnectsIntoSafeBody()
     {
         await using var pair = await PoolManager.GetServerClient(new PoolSettings { InLobby = true, Dirty = true });
@@ -147,6 +289,19 @@ public sealed class PersistentJoinFlowTest
         });
 
         await AssertAttachedEntitySafe(server, serverPlayers.Sessions.Single());
+
+        var firstPersistentBody = serverPlayers.Sessions.Single().AttachedEntity!.Value;
+        await server.WaitPost(() =>
+        {
+            var player = serverPlayers.Sessions.Single();
+            server.EntMan.GetComponent<PersistentLocationComponent>(firstPersistentBody).PlayerUserId = null;
+            serverPlayers.SetAttachedEntity(player, null, true);
+            server.System<MindSystem>().WipeMind(firstPersistentBody);
+            gameTicker.MakeJoinGamePersistent(player);
+        });
+        await pair.RunTicksSync(10);
+
+        await AssertPersistentReattachState(server, serverPlayers.Sessions.Single(), firstPersistentBody);
         await pair.CleanReturnAsync();
     }
 
@@ -305,6 +460,40 @@ public sealed class PersistentJoinFlowTest
         });
     }
 
+    private static async Task AssertPersistentReattachState(
+        RobustIntegrationTest.ServerIntegrationInstance server,
+        ICommonSession player,
+        EntityUid expectedBody)
+    {
+        await server.WaitAssertion(() =>
+        {
+            Assert.That(player.AttachedEntity, Is.EqualTo(expectedBody), "Persistent reconnect created or attached a duplicate body.");
+
+            var entMan = server.EntMan;
+            var stationSystem = server.System<StationSystem>();
+            var station = stationSystem.GetOwningStation(expectedBody);
+            Assert.That(station, Is.Not.Null);
+
+            var stationJobs = server.System<StationJobsSystem>();
+            Assert.That(stationJobs.IsPlayerAssignedJob(station!.Value, player.UserId, "Passenger"), Is.True);
+
+            var adminInfo = server.System<AdminSystem>().GetCachedPlayerInfo(player.UserId);
+            Assert.That(adminInfo, Is.Not.Null);
+            Assert.That(adminInfo!.CharacterName, Is.Not.Empty);
+            Assert.That(adminInfo.StartingJob, Is.EqualTo("Passenger"));
+            Assert.That(adminInfo.RoleProto?.Id, Is.EqualTo("Neutral"));
+            Assert.That(adminInfo.OverallPlaytime, Is.Not.Null);
+
+            var mind = player.ContentData()?.Mind;
+            Assert.That(mind, Is.Not.Null);
+            Assert.That(server.System<PlayTimeTrackingSystem>().GetTimedRoles(mind!.Value), Is.Not.Empty);
+
+            var persistentBodies = entMan.EntityQuery<PersistentLocationComponent>()
+                .Count(location => location.PlayerUserId == player.UserId);
+            Assert.That(persistentBodies, Is.EqualTo(1));
+        });
+    }
+
     private static async Task DisconnectReconnect(Pair.TestPair pair)
     {
         var clientNetManager = pair.Client.ResolveDependency<IClientNetManager>();
@@ -331,5 +520,10 @@ public sealed class PersistentJoinFlowTest
             Assert.That(serverPlayerManager.Sessions.Single().UserId, Is.EqualTo(userId));
             Assert.That(serverPlayerManager.Sessions.Single().Status, Is.EqualTo(SessionStatus.InGame));
         });
+    }
+
+    private static void SetBecomesStationId(BecomesStationComponent component, string id)
+    {
+        typeof(BecomesStationComponent).GetField("Id")!.SetValue(component, id);
     }
 }
