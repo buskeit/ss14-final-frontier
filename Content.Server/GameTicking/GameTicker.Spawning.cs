@@ -218,7 +218,9 @@ namespace Content.Server.GameTicking
                 return;
             }
 
-            _sawmill.Debug("Fresh-spawn fallback chosen for {PlayerName}", player.Name);
+            _sawmill.Warning(
+                "Fresh-spawn fallback chosen for {PlayerName}; no safe persistent body was attached.",
+                player.Name);
 
             var stations = GetSpawnableStations();
             _sawmill.Debug("Spawnable station count: {Count}", stations.Count);
@@ -294,7 +296,7 @@ namespace Content.Server.GameTicking
             if (!_loader.TryLoadEntity(saveFilePath, out var mobMaybe, PersistentCharacterLoadOptions) || mobMaybe == null)
             {
                 _sawmill.Warning(
-                    "Persistent character load failed for {Player} at {Path}; falling back to a fresh station spawn.",
+                    "Persistent character load failed for {Player} at {Path}; fresh-spawn fallback is required.",
                     player.Name,
                     saveFilePath);
                 return false;
@@ -381,14 +383,14 @@ namespace Content.Server.GameTicking
                 var currentWorldExists = _resourceManager.UserData.Exists(new ResPath("/current"));
 
                 _sawmill.Warning(
-                    "Persistent character load for {Player} failed validation. " +
+                    "Persistent character hard body validation failure for {Player}. " +
                     "Reason: {Reason}. " +
                     "Saved Body Path: {Path}. " +
                     "Loaded Map ID/Name: {MapId} ('{MapName}' / {MapEnt}). " +
                     "Transform Map UID: {SavedMapUid} (exists={SavedMapExists}). " +
                     "Transform Grid UID: {SavedGridUid} (exists={SavedGridExists}). " +
                     "Is 'current' world save present: {CurrentWorldExists}. " +
-                    "Fallback to fresh spawn will be chosen.",
+                    "Fresh-spawn fallback is required.",
                     player.Name,
                     reason,
                     saveFilePath,
@@ -416,7 +418,7 @@ namespace Content.Server.GameTicking
                 if (player.AttachedEntity != mob)
                 {
                     _sawmill.Warning(
-                        "Persistent character load for {Player} could not attach to {Entity}; falling back to a fresh station spawn.",
+                        "Persistent body attachment failed for {Player}: {Entity} was not attached after mind transfer; fresh-spawn fallback is required.",
                         player.Name,
                         ToPrettyString(mob));
                     CleanupRejectedPersistentBody(player, mob);
@@ -432,11 +434,25 @@ namespace Content.Server.GameTicking
                     _crewMetaRecords.MetaRecords.CreateRecord(character.Name, out _);
 
                 _admin.UpdatePlayerList(player);
-                _stationJobs.TryAssignJob(station, jobPrototype, player.UserId);
 
-                _adminLogger.Add(LogType.LateJoin,
-                    LogImpact.Medium,
-                    $"Player {player.Name} rejoined persistent character {character.Name:characterName} on station {Name(station):stationName} with {ToPrettyString(mob):entity} as a {jobName:jobName}.");
+                var hasStation = station.IsValid() && !TerminatingOrDeleted(station);
+                if (hasStation)
+                {
+                    _stationJobs.TryAssignJob(station, jobPrototype, player.UserId);
+                    _adminLogger.Add(LogType.LateJoin,
+                        LogImpact.Medium,
+                        $"Player {player.Name} rejoined persistent character {character.Name:characterName} on station {Name(station):stationName} with {ToPrettyString(mob):entity} as a {jobName:jobName}.");
+                }
+                else
+                {
+                    _sawmill.Warning(
+                        "Safe persistent body {Entity} attached for {Player} without an owning spawnable station; station job assignment was skipped.",
+                        ToPrettyString(mob),
+                        player.Name);
+                    _adminLogger.Add(LogType.LateJoin,
+                        LogImpact.Medium,
+                        $"Player {player.Name} rejoined persistent character {character.Name:characterName} without an owning station with {ToPrettyString(mob):entity} as a {jobName:jobName}.");
+                }
 
                 PlayersJoinedRoundNormally++;
                 var aev = new PlayerSpawnCompleteEvent(mob,
@@ -454,7 +470,7 @@ namespace Content.Server.GameTicking
             catch (Exception ex)
             {
                 _sawmill.Warning(
-                    "Persistent character load for {Player} failed to attach safely: {Message}. Falling back to a fresh station spawn.",
+                    "Persistent body attachment failed for {Player}: {Message}. Fresh-spawn fallback is required.",
                     player.Name,
                     ex.Message);
                 CleanupRejectedPersistentBody(player, mob);
@@ -495,20 +511,6 @@ namespace Content.Server.GameTicking
                 return false;
             }
 
-            var owningStation = _station.GetOwningStation(mob, transform);
-            if (owningStation == null || TerminatingOrDeleted(owningStation.Value))
-            {
-                reason = "entity is not on a valid station";
-                return false;
-            }
-
-            if (!HasComp<StationJobsComponent>(owningStation.Value) ||
-                !HasComp<StationSpawningComponent>(owningStation.Value))
-            {
-                reason = "entity is not on a spawnable station";
-                return false;
-            }
-
             if (TryComp<ActorComponent>(mob, out _))
             {
                 reason = "entity is already attached to another session";
@@ -525,6 +527,31 @@ namespace Content.Server.GameTicking
             {
                 reason = "entity is dead or critical";
                 return false;
+            }
+
+            var owningStation = _station.GetOwningStation(mob, transform);
+            if (owningStation == null || TerminatingOrDeleted(owningStation.Value))
+            {
+                station = EntityUid.Invalid;
+                _sawmill.Warning(
+                    "Persistent body {Entity} is on valid map {Map} and grid {Grid}, but station ownership could not be resolved; continuing attachment without an owning station.",
+                    ToPrettyString(mob),
+                    mapUid,
+                    gridUid);
+                return true;
+            }
+
+            if (!HasComp<StationJobsComponent>(owningStation.Value) ||
+                !HasComp<StationSpawningComponent>(owningStation.Value))
+            {
+                station = EntityUid.Invalid;
+                _sawmill.Warning(
+                    "Persistent body {Entity} is on valid map {Map} and grid {Grid}, but owning station {Station} is not spawnable; continuing attachment without an owning station.",
+                    ToPrettyString(mob),
+                    mapUid,
+                    gridUid,
+                    owningStation.Value);
+                return true;
             }
 
             station = owningStation.Value;
