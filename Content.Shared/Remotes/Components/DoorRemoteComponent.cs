@@ -33,6 +33,8 @@ public sealed partial class DoorRemoteComponent : Component
 
     /// <summary>
     /// Whether this remote links to and controls one specific door instead of acting on clicked doors.
+    /// Linkable remotes are configured through device linking and intentionally only use their configured modes;
+    /// the standard linkable prototype exposes open/close, not bolt control.
     /// </summary>
     [DataField, AutoNetworkedField]
     public bool Linkable;

@@ -58,6 +58,9 @@
     - mode: OpenClose
       tooltip: *TextOpenClose
       icon: *IconOpenClose
+  - type: DeviceLinkSource
+    ports:
+    - Pressed
 
 - type: entity
   parent: DoorRemoteDefault

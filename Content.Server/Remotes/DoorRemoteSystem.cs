@@ -1,6 +1,8 @@
 using Content.Shared.Access.Components;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Database;
+using Content.Shared.DeviceLinking;
+using Content.Shared.DeviceLinking.Events;
 using Content.Shared.Doors.Components;
 using Content.Shared.Doors.Systems;
 using Content.Shared.Examine;
@@ -17,9 +19,13 @@ namespace Content.Server.Remotes;
 
 public sealed class DoorRemoteSystem : SharedDoorRemoteSystem
 {
+    private const string LinkSourcePort = "Pressed";
+    private const string LinkSinkPort = "Toggle";
+
     [Dependency] private readonly ExamineSystemShared _examine = default!;
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
     [Dependency] private readonly SharedDoorSystem _doorSystem = default!;
+    [Dependency] private readonly SharedDeviceLinkSystem _deviceLink = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedPowerReceiverSystem _powerReceiver = default!;
     [Dependency] private readonly TagSystem _tagSystem = default!;
@@ -29,6 +35,8 @@ public sealed class DoorRemoteSystem : SharedDoorRemoteSystem
         base.Initialize();
 
         SubscribeLocalEvent<DoorRemoteComponent, UseInHandEvent>(OnUseInHand, before: [typeof(ActivatableUISystem)]);
+        SubscribeLocalEvent<DoorRemoteComponent, LinkAttemptEvent>(OnLinkAttempt);
+        SubscribeLocalEvent<DoorRemoteComponent, NewLinkEvent>(OnNewLink);
     }
 
     protected override void OnBeforeInteract(Entity<DoorRemoteComponent> remote, ref BeforeRangedInteractEvent args)
@@ -44,49 +52,94 @@ public sealed class DoorRemoteSystem : SharedDoorRemoteSystem
 
         args.Handled = true;
 
-        if (args.Target is not { } target || !TryComp<DoorComponent>(target, out var door))
+        if (args.Target is not { } target ||
+            !TryComp<DoorComponent>(target, out _) ||
+            remote.Comp.RequireTagWhitelist && !_tagSystem.HasTag(target, remote.Comp.TargetTag))
         {
             Popup(args.User, "door-remote-link-invalid-target");
             return;
         }
 
-        if (!args.CanReach)
+        Popup(args.User, "door-remote-link-requires-multitool");
+    }
+
+    private void OnLinkAttempt(Entity<DoorRemoteComponent> remote, ref LinkAttemptEvent args)
+    {
+        if (!remote.Comp.Linkable ||
+            args.Source != remote.Owner ||
+            args.SourcePort != LinkSourcePort ||
+            args.SinkPort != LinkSinkPort)
         {
-            Popup(args.User, "door-remote-link-out-of-range");
+            args.Cancel();
             return;
         }
 
-        if (remote.Comp.RequireTagWhitelist && !_tagSystem.HasTag(target, remote.Comp.TargetTag))
+        if (!TryComp<DoorComponent>(args.Sink, out var door) ||
+            remote.Comp.RequireTagWhitelist && !_tagSystem.HasTag(args.Sink, remote.Comp.TargetTag))
         {
-            Popup(args.User, "door-remote-link-invalid-target");
+            if (args.User is { } user)
+                Popup(user, "door-remote-link-invalid-target");
+            args.Cancel();
             return;
         }
 
-        TryComp<AccessReaderComponent>(target, out var access);
-        if (!_doorSystem.HasAccess(target, args.User, door, access))
+        if (args.User is not { } actor)
         {
-            Popup(args.User, "door-remote-link-denied");
+            args.Cancel();
             return;
         }
 
-        var link = EnsureComp<DoorRemoteLinkComponent>(target);
+        TryComp<AccessReaderComponent>(args.Sink, out var access);
+        if (!_doorSystem.HasAccess(args.Sink, actor, door, access))
+        {
+            Popup(actor, "door-remote-link-denied");
+            args.Cancel();
+        }
+    }
+
+    private void OnNewLink(Entity<DoorRemoteComponent> remote, ref NewLinkEvent args)
+    {
+        if (!remote.Comp.Linkable ||
+            args.Source != remote.Owner ||
+            args.SourcePort != LinkSourcePort ||
+            args.SinkPort != LinkSinkPort)
+            return;
+
+        if (TryComp<DeviceLinkSourceComponent>(remote, out var source))
+        {
+            foreach (var oldTarget in _deviceLink.GetLinkedSinks((remote.Owner, source), LinkSourcePort))
+            {
+                if (oldTarget != args.Sink)
+                    _deviceLink.RemoveSinkFromSource(remote.Owner, oldTarget, source);
+            }
+        }
+
+        var link = EnsureComp<DoorRemoteLinkComponent>(args.Sink);
+        var alreadyLinked = !string.IsNullOrWhiteSpace(remote.Comp.LinkId) &&
+                            string.Equals(remote.Comp.LinkId, link.LinkId, StringComparison.Ordinal);
         if (string.IsNullOrWhiteSpace(link.LinkId))
         {
             link.LinkId = Guid.NewGuid().ToString("N");
-            Dirty(target, link);
+            Dirty(args.Sink, link);
         }
 
         remote.Comp.LinkId = link.LinkId;
         Dirty(remote);
 
-        _popup.PopupEntity(
-            Loc.GetString("door-remote-link-success", ("door", target)),
-            remote,
-            args.User);
-        _adminLogger.Add(
-            LogType.Action,
-            LogImpact.Medium,
-            $"{ToPrettyString(args.User):player} linked {ToPrettyString(remote):remote} to {ToPrettyString(target):door}");
+        if (args.User is { } actor)
+        {
+            _popup.PopupEntity(
+                Loc.GetString(alreadyLinked
+                    ? "door-remote-link-already-linked"
+                    : "door-remote-link-success", ("door", args.Sink)),
+                remote,
+                actor);
+
+            _adminLogger.Add(
+                LogType.Action,
+                LogImpact.Medium,
+                $"{ToPrettyString(actor):player} linked {ToPrettyString(remote):remote} to {ToPrettyString(args.Sink):door}");
+        }
     }
 
     private void OnUseInHand(Entity<DoorRemoteComponent> remote, ref UseInHandEvent args)
@@ -102,7 +155,7 @@ public sealed class DoorRemoteSystem : SharedDoorRemoteSystem
             return;
         }
 
-        if (!TryFindLinkedDoor(remote.Comp.LinkId, out var target, out var door))
+        if (!TryFindLinkedDoor(remote, out var target, out var door))
         {
             Popup(args.User, "door-remote-link-unavailable");
             return;
@@ -133,10 +186,32 @@ public sealed class DoorRemoteSystem : SharedDoorRemoteSystem
         }
     }
 
-    private bool TryFindLinkedDoor(string linkId, out EntityUid target, out DoorComponent door)
+    private bool TryFindLinkedDoor(Entity<DoorRemoteComponent> remote, out EntityUid target, out DoorComponent door)
     {
         target = default;
         door = default!;
+
+        if (TryComp<DeviceLinkSourceComponent>(remote, out var source))
+        {
+            var linked = _deviceLink.GetLinkedSinks((remote.Owner, source), LinkSourcePort);
+            if (linked.Count == 1)
+            {
+                foreach (var linkedTarget in linked)
+                {
+                    if (!TryComp<DoorComponent>(linkedTarget, out var linkedDoor))
+                        break;
+
+                    target = linkedTarget;
+                    door = linkedDoor;
+                    return true;
+                }
+            }
+        }
+
+        var linkId = remote.Comp.LinkId;
+        if (string.IsNullOrWhiteSpace(linkId))
+            return false;
+
         var found = false;
         var query = EntityQueryEnumerator<DoorRemoteLinkComponent, DoorComponent>();
 
