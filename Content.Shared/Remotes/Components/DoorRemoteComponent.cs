@@ -32,6 +32,18 @@ public sealed partial class DoorRemoteComponent : Component
     public bool IncludeUserAccess;
 
     /// <summary>
+    /// Whether this remote links to and controls one specific door instead of acting on clicked doors.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public bool Linkable;
+
+    /// <summary>
+    /// Persistent identifier shared with the linked door.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public string LinkId = string.Empty;
+
+    /// <summary>
     /// If false, allows the remote to bypass line of sight and interaction range.
     /// </summary>
     [DataField, AutoNetworkedField]
@@ -58,6 +70,16 @@ public sealed partial class DoorRemoteComponent : Component
     /// client-side system basically controls behaviour of StatusControl updates using this field.
     /// </remarks>
     public bool IsStatusControlUpdateRequired;
+}
+
+/// <summary>
+/// Stores the persistent identifier used by linkable door remotes.
+/// </summary>
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState(true)]
+public sealed partial class DoorRemoteLinkComponent : Component
+{
+    [DataField, AutoNetworkedField]
+    public string LinkId = string.Empty;
 }
 
 /// <summary>

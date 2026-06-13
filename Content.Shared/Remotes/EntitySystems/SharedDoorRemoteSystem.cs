@@ -42,8 +42,11 @@ public abstract class SharedDoorRemoteSystem : EntitySystem
         Dirty(ent);
     }
 
-    private void OnBeforeInteract(Entity<DoorRemoteComponent> entity, ref BeforeRangedInteractEvent args)
+    protected virtual void OnBeforeInteract(Entity<DoorRemoteComponent> entity, ref BeforeRangedInteractEvent args)
     {
+        if (entity.Comp.Linkable)
+            return;
+
         if (!Timing.IsFirstTimePredicted)
             return;
 

@@ -40,6 +40,27 @@
 
 - type: entity
   parent: DoorRemoteDefault
+  id: DoorRemoteLinkable
+  name: Linkable Door Remote
+  description: A door remote that can be securely linked to one specific door.
+  components:
+  - type: Sprite
+    layers:
+    - state: door_remotebase
+    - state: door_remotelightscolour
+      color: "#00e5d4"
+    - state: door_remotescreencolour
+      color: "#007f76"
+  - type: DoorRemote
+    linkable: true
+    includeUserAccess: false
+    options:
+    - mode: OpenClose
+      tooltip: *TextOpenClose
+      icon: *IconOpenClose
+
+- type: entity
+  parent: DoorRemoteDefault
   id: DoorRemoteCanEletrifyDoors
   abstract: true
   components:

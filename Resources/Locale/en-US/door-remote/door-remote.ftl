@@ -13,4 +13,10 @@ door-remote-switch-state-toggle-bolts = You switch the remote to toggle bolts
 door-remote-switch-state-toggle-emergency-access = You switch the remote to toggle emergency access
 door-remote-no-power = The door is not powered
 door-remote-denied = Access denied
+door-remote-link-success = The remote is now linked to {$door}.
+door-remote-link-invalid-target = The remote can only be linked to a compatible door.
+door-remote-link-denied = You do not have access to link this door.
+door-remote-link-unlinked = The remote is not linked to a door.
+door-remote-link-unavailable = The linked door no longer exists or the link is invalid.
+door-remote-link-out-of-range = The door is out of range or obstructed.
 
