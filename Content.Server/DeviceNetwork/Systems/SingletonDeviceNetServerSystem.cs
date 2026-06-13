@@ -1,5 +1,6 @@
 using Content.Server.DeviceNetwork.Components;
 using Content.Server.Medical.CrewMonitoring;
+using Content.Server.Power.EntitySystems;
 using Content.Server.Station.Systems;
 using Content.Shared.DeviceNetwork.Components;
 using Content.Shared.Power;
@@ -16,10 +17,73 @@ public sealed class SingletonDeviceNetServerSystem : EntitySystem
     [Dependency] private readonly DeviceNetworkSystem _deviceNetworkSystem = default!;
     [Dependency] private readonly StationSystem _stationSystem = default!;
 
+    private float _reconnectDelay = 1.0f;
+    private float _reconnectTimer = 0f;
+
     public override void Initialize()
     {
         base.Initialize();
+        SubscribeLocalEvent<SingletonDeviceNetServerComponent, MapInitEvent>(OnMapInit);
+        SubscribeLocalEvent<SingletonDeviceNetServerComponent, ComponentStartup>(OnStartup);
         SubscribeLocalEvent<SingletonDeviceNetServerComponent, PowerChangedEvent>(OnPowerChanged);
+    }
+
+    public override void Update(float frameTime)
+    {
+        base.Update(frameTime);
+
+        _reconnectTimer += frameTime;
+        if (_reconnectTimer < _reconnectDelay)
+            return;
+        _reconnectTimer = 0f;
+
+        var query = EntityQueryEnumerator<SingletonDeviceNetServerComponent, DeviceNetworkComponent>();
+        while (query.MoveNext(out var uid, out var server, out var device))
+        {
+            if (!server.Available || !server.Active)
+                continue;
+
+            // Avoid relying only on PowerChangedEvent
+            var isPowered = this.IsPowered(uid, EntityManager);
+            if (server.Available != isPowered)
+            {
+                server.Available = isPowered;
+                if (!isPowered)
+                {
+                    DisconnectServer(uid, server, device);
+                    continue;
+                }
+            }
+
+            if (!_deviceNetworkSystem.IsDeviceConnected(uid, device))
+            {
+                _deviceNetworkSystem.ConnectDevice(uid, device);
+            }
+        }
+    }
+
+    private void OnMapInit(EntityUid uid, SingletonDeviceNetServerComponent component, MapInitEvent args)
+    {
+        EnsureConnected(uid, component);
+    }
+
+    private void OnStartup(EntityUid uid, SingletonDeviceNetServerComponent component, ComponentStartup args)
+    {
+        EnsureConnected(uid, component);
+    }
+
+    private void EnsureConnected(EntityUid uid, SingletonDeviceNetServerComponent component)
+    {
+        if (!component.Available || !component.Active)
+            return;
+
+        if (!TryComp<DeviceNetworkComponent>(uid, out var device))
+            return;
+
+        if (!_deviceNetworkSystem.IsDeviceConnected(uid, device))
+        {
+            _deviceNetworkSystem.ConnectDevice(uid, device);
+        }
     }
 
     /// <summary>
@@ -27,7 +91,34 @@ public sealed class SingletonDeviceNetServerSystem : EntitySystem
     /// </summary>
     public bool IsActiveServer(EntityUid serverId, SingletonDeviceNetServerComponent? serverComponent = default)
     {
-        return Resolve(serverId, ref serverComponent) && serverComponent.Active;
+        if (!Resolve(serverId, ref serverComponent))
+            return false;
+
+        if (!serverComponent.Active)
+            return false;
+
+        // Ensure it is connected to the device network if active and available
+        if (serverComponent.Available && TryComp<DeviceNetworkComponent>(serverId, out var device))
+        {
+            // Avoid relying only on PowerChangedEvent
+            var isPowered = this.IsPowered(serverId, EntityManager);
+            if (serverComponent.Available != isPowered)
+            {
+                serverComponent.Available = isPowered;
+                if (!isPowered)
+                {
+                    DisconnectServer(serverId, serverComponent, device);
+                    return false;
+                }
+            }
+
+            if (!_deviceNetworkSystem.IsDeviceConnected(serverId, device))
+            {
+                _deviceNetworkSystem.ConnectDevice(serverId, device);
+            }
+        }
+
+        return serverComponent.Active;
     }
 
     /// <summary>
@@ -55,9 +146,19 @@ public sealed class SingletonDeviceNetServerSystem : EntitySystem
             if (!_stationSystem.GetOwningStation(uid)?.Equals(stationId) ?? true)
                 continue;
 
+            // Avoid relying only on PowerChangedEvent
+            var isPowered = this.IsPowered(uid, EntityManager);
+            if (server.Available != isPowered)
+            {
+                server.Available = isPowered;
+                if (!isPowered && server.Active)
+                {
+                    DisconnectServer(uid, server, device);
+                }
+            }
+
             if (!server.Available)
             {
-                DisconnectServer(uid, server, device);
                 continue;
             }
 
@@ -65,6 +166,12 @@ public sealed class SingletonDeviceNetServerSystem : EntitySystem
 
             if (!server.Active || string.IsNullOrEmpty(device.Address))
                 continue;
+
+            // Verify the active server is actually connected in DeviceNetworkSystem
+            if (!_deviceNetworkSystem.IsDeviceConnected(uid, device))
+            {
+                _deviceNetworkSystem.ConnectDevice(uid, device);
+            }
 
             address = device.Address;
             return true;
