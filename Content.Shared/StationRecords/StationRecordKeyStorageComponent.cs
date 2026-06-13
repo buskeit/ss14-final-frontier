@@ -12,6 +12,7 @@ public sealed partial class StationRecordKeyStorageComponent : Component
     /// <summary>
     ///     The key stored in this component.
     /// </summary>
+    [DataField]
     [ViewVariables]
     public StationRecordKey? Key;
 }

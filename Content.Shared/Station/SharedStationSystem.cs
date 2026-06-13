@@ -371,13 +371,10 @@ public abstract partial class SharedStationSystem : EntitySystem
 
     public EntityUid? GetStationByID(int uid)
     {
-        var stations = GetStations();
-        foreach (var station in stations)
+        var query = AllEntityQuery<StationDataComponent>();
+        while (query.MoveNext(out var station, out var stationData))
         {
-            if (TryComp<StationDataComponent>(station, out var stationData))
-            {
-                if (stationData.UID == uid) return station;
-            }
+            if (stationData.UID == uid) return station;
         }
         return null;
     }
