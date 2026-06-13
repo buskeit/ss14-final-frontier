@@ -23,4 +23,7 @@ public sealed partial class SpaceLawCrimePrototype : IPrototype
 
     [DataField]
     public int Order;
+
+    [DataField]
+    public bool Permanent;
 }

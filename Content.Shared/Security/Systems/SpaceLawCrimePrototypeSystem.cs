@@ -37,7 +37,8 @@ public sealed class SpaceLawCrimePrototypeSystem : EntitySystem
 
         foreach (var crime in crimes)
         {
-            var entry = new SpaceLawCrime(crime.Name, crime.BrigTime, crime.Fine, crime.Category);
+            var brigTime = crime.Permanent ? -1 : crime.BrigTime;
+            var entry = new SpaceLawCrime(crime.Name, brigTime, crime.Fine, crime.Category);
             var existingIndex = SpaceLaw.Crimes.FindIndex(existing => existing.Name == crime.Name);
 
             if (existingIndex >= 0)

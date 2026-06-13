@@ -296,7 +296,7 @@
   id: Murder
   name: Murder
   category: Capital Crime
-  brigTime: 0
+  permanent: true
   fine: 10000
   order: 380
   
@@ -304,7 +304,7 @@
   id: MassMurder
   name: Mass Murder
   category: Capital Crime
-  brigTime: 0
+  permanent: true
   fine: 10000
   order: 390
   
@@ -312,7 +312,7 @@
   id: Treason
   name: Treason
   category: Capital Crime
-  brigTime: 0
+  permanent: true
   fine: 10000
   order: 400
   
@@ -320,7 +320,7 @@
   id: CatastrophicSabotage
   name: Catastrophic Sabotage
   category: Capital Crime
-  brigTime: 0
+  permanent: true
   fine: 10000
   order: 410
   
@@ -328,7 +328,7 @@
   id: CrimesAgainstHumanity
   name: Crimes Against Humanity
   category: Capital Crime
-  brigTime: 0
+  permanent: true
   fine: 10000
   order: 420
   
@@ -336,6 +336,6 @@
   id: BiologicalorChemicalWarfare
   name: Biological Or Chemical Warfare
   category: Capital Crime
-  brigTime: 0
+  permanent: true
   fine: 10000
   order: 430

@@ -56,3 +56,80 @@ public static class SpaceLaw
         new SpaceLawCrime("Terrorism", 15, 3000, "Capital")
     };
 }
+
+public static class CrimeAssistFormatter
+{
+    public static string FormatSentence(int minutes)
+    {
+        if (minutes <= -1)
+            return "Permanent";
+
+        return FormatDuration(TimeSpan.FromMinutes(minutes));
+    }
+
+    public static string FormatDuration(TimeSpan duration)
+    {
+        if (duration.Ticks < 0)
+            return "Permanent";
+
+        double totalSeconds = duration.TotalSeconds;
+        if (totalSeconds == 0)
+            return "0m";
+
+        // If under 2 minutes (120 seconds), show minutes and seconds
+        if (totalSeconds < 120)
+        {
+            int mins = (int) (totalSeconds / 60);
+            int secs = (int) (totalSeconds % 60);
+
+            if (mins > 0 && secs > 0)
+                return $"{mins}m {secs}s";
+            if (mins > 0)
+                return $"{mins}m";
+            return $"{secs}s";
+        }
+
+        // Otherwise, convert using approximate calendar-style conversion:
+        // 1y = 365d, 1mo = 30d, 1d = 24h, 1h = 60m
+        long totalMinutes = (long) Math.Round(totalSeconds / 60.0);
+        if (totalMinutes == 0)
+            return "0m";
+
+        long minutesInHour = 60;
+        long minutesInDay = 24 * minutesInHour;
+        long minutesInMonth = 30 * minutesInDay;
+        long minutesInYear = 365 * minutesInDay;
+
+        long years = totalMinutes / minutesInYear;
+        totalMinutes %= minutesInYear;
+
+        long months = totalMinutes / minutesInMonth;
+        totalMinutes %= minutesInMonth;
+
+        long days = totalMinutes / minutesInDay;
+        totalMinutes %= minutesInDay;
+
+        long hours = totalMinutes / minutesInHour;
+        long minsRemaining = totalMinutes % minutesInHour;
+
+        List<string> parts = new();
+
+        if (years > 0)
+            parts.Add($"{years}y");
+        if (months > 0)
+            parts.Add($"{months}mo");
+        if (days > 0)
+            parts.Add($"{days}d");
+        if (hours > 0)
+            parts.Add($"{hours}h");
+        if (minsRemaining > 0)
+            parts.Add($"{minsRemaining}m");
+
+        if (parts.Count >= 2)
+            return $"{parts[0]} {parts[1]}";
+        if (parts.Count == 1)
+            return parts[0];
+
+        return "0m";
+    }
+}

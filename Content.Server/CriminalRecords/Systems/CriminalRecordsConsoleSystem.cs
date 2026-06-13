@@ -432,19 +432,31 @@ public sealed class CriminalRecordsConsoleSystem : SharedCriminalRecordsConsoleS
         if (selectedCrimes.Count == 0)
             return;
 
-        int totalBrig = selectedCrimes.Sum(c => c.BrigTime);
+        int totalBrig = 0;
+        bool hasPermanent = false;
+        foreach (var crime in selectedCrimes)
+        {
+            if (crime.BrigTime < 0)
+                hasPermanent = true;
+            else
+                totalBrig += crime.BrigTime;
+        }
+        if (hasPermanent)
+            totalBrig = -1;
+
         int totalFine = selectedCrimes.Sum(c => c.Fine);
 
         // Apply to CrewRecord
         var oldStatus = record.SecurityStatus;
         var newStatus = record.SecurityStatus;
-        if (totalBrig > 0 && (record.SecurityStatus == SecurityStatus.None || record.SecurityStatus == SecurityStatus.Paroled || record.SecurityStatus == SecurityStatus.Discharged))
+        if ((totalBrig > 0 || hasPermanent) && (record.SecurityStatus == SecurityStatus.None || record.SecurityStatus == SecurityStatus.Paroled || record.SecurityStatus == SecurityStatus.Discharged))
         {
             newStatus = SecurityStatus.Wanted;
         }
 
         var crimeNamesStr = string.Join(", ", selectedCrimes.Select(c => c.Name));
-        string? reason = $"Sentenced for: {crimeNamesStr} ({totalBrig} min, {totalFine} cr)";
+        var formattedTotalBrig = CrimeAssistFormatter.FormatSentence(totalBrig);
+        string? reason = $"Sentenced for: {crimeNamesStr} ({formattedTotalBrig}, {totalFine} cr)";
 
         GetOfficer(mob.Value, out var officer);
 
@@ -452,7 +464,7 @@ public sealed class CriminalRecordsConsoleSystem : SharedCriminalRecordsConsoleS
         record.SecurityStatus = newStatus;
         record.WantedReason = reason;
 
-        var historyText = $"Space Law Sentencing: {crimeNamesStr} | Total Brig: {totalBrig} min | Total Fine: {totalFine} cr";
+        var historyText = $"Space Law Sentencing: {crimeNamesStr} | Total Brig: {formattedTotalBrig} | Total Fine: {totalFine} cr";
         record.CrimeHistory.Add(new CrimeHistory(TimeSpan.FromSeconds(DateTime.Now.Ticks / 10000000), historyText, officer));
         record.CriminalRecord = FormatCriminalRecordText(record.SecurityStatus, record.WantedReason, record.CrimeHistory);
 
@@ -475,10 +487,11 @@ public sealed class CriminalRecordsConsoleSystem : SharedCriminalRecordsConsoleS
             sb.AppendLine("Charges:");
             foreach (var crime in selectedCrimes)
             {
-                sb.AppendLine($"- {crime.Name} ({crime.BrigTime} min, {crime.Fine} cr)");
+                var formattedCrimeTime = CrimeAssistFormatter.FormatSentence(crime.BrigTime);
+                sb.AppendLine($"- {crime.Name} ({formattedCrimeTime}, {crime.Fine} cr)");
             }
             sb.AppendLine("----------------------------------------");
-            sb.AppendLine($"TOTAL BRIG TIME: {totalBrig} minutes");
+            sb.AppendLine($"TOTAL BRIG TIME: {formattedTotalBrig}");
             sb.AppendLine($"TOTAL FINES ACCRUED: {totalFine} credits");
             sb.AppendLine("========================================");
 
@@ -518,7 +531,8 @@ public sealed class CriminalRecordsConsoleSystem : SharedCriminalRecordsConsoleS
             ent.Comp.SecurityChannel,
             ent);
 
-        _adminLogger.Add(LogType.Identity, LogImpact.Low, $"{ToPrettyString(mob.Value):name} sentenced {recordName} to {totalBrig}m brig, {totalFine}cr fine for {crimeNamesStr}");
+        var logTime = totalBrig < 0 ? "Permanent" : $"{totalBrig}m";
+        _adminLogger.Add(LogType.Identity, LogImpact.Low, $"{ToPrettyString(mob.Value):name} sentenced {recordName} to {logTime} brig, {totalFine}cr fine for {crimeNamesStr}");
 
         if (_station.GetOwningStation(ent) is { } stationUid && TryComp<CrewRecordsComponent>(stationUid, out var crewRecordsComp))
         {

@@ -97,9 +97,10 @@ public sealed partial class CriminalRecordsConsoleWindow : FancyWindow
                 CrimesListContainer.AddChild(header);
             }
 
+            var formattedTime = CrimeAssistFormatter.FormatSentence(crime.BrigTime);
             var cb = new CheckBox
             {
-                Text = $"{crime.Name} ({crime.BrigTime}m, {crime.Fine}cr)",
+                Text = $"{crime.Name} ({formattedTime}, {crime.Fine}cr)",
                 Margin = new Thickness(4, 2, 0, 2)
             };
             cb.OnPressed += _ => RecalculateTotals();
@@ -274,20 +275,29 @@ public sealed partial class CriminalRecordsConsoleWindow : FancyWindow
     private void RecalculateTotals()
     {
         int totalBrig = 0;
+        bool hasPermanent = false;
         int totalFine = 0;
 
         foreach (var (crime, checkbox) in _crimeCheckboxes)
         {
             if (checkbox.Pressed)
             {
-                totalBrig += crime.BrigTime;
+                if (crime.BrigTime < 0)
+                    hasPermanent = true;
+                else
+                    totalBrig += crime.BrigTime;
+
                 totalFine += crime.Fine;
             }
         }
 
-        TotalBrigTimeLabel.Text = $"{totalBrig} minutes";
+        if (hasPermanent)
+            totalBrig = -1;
+
+        var formattedTotalBrig = CrimeAssistFormatter.FormatSentence(totalBrig);
+        TotalBrigTimeLabel.Text = formattedTotalBrig;
         TotalFinesLabel.Text = $"{totalFine} credits";
-        ApplySentencingButton.Disabled = !_access || totalBrig == 0 && totalFine == 0;
+        ApplySentencingButton.Disabled = !_access || (totalBrig == 0 && totalFine == 0);
     }
 
     private void PopulateRecordListing(Dictionary<uint, string>? listing)
