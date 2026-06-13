@@ -29,6 +29,7 @@
   # Others 
     VisitorIDCard: 5
   # Door Remotes
+    DoorRemoteLinkable: 5
     DoorRemoteCustom: 5
     DoorRemoteCommand: 5
     DoorRemoteAll: 2

@@ -105,6 +105,7 @@
     PrisonerIDCard: 5
     VisitorIDCard: 5
   # Door Remotes
+    DoorRemoteLinkable: 5
     DoorRemoteCustom: 5
     DoorRemoteCommand: 5
     DoorRemoteSecurity: 2
