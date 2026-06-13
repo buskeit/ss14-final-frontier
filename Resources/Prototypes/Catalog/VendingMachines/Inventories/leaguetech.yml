@@ -4,7 +4,6 @@
   # PDAs
   # Heads / Command (Captain PDA not included for obvious reasons)
     ExecutivePDASOL: 5
-    CentcomPDA: 5
     CaptainPDA: 5
     ExecutiveOfficerPDA: 5
     HoPPDA: 3

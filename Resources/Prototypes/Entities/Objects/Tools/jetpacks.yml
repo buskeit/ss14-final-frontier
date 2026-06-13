@@ -349,3 +349,79 @@
     weightlessAcceleration: 1.3
     weightlessFriction: 0.3
     weightlessModifier: 1
+
+#Empty Secretary General
+- type: entity
+  id: JetpackExecSOL
+  parent: [BaseJetpack, BaseGrandTheftContraband]
+  name: Aurelian League Secretary General's Jetpack
+  suffix: Empty
+  components:
+  - type: Sprite
+    sprite: Objects/Tanks/Jetpacks/al_secgen.rsi
+  - type: Clothing
+    sprite: Objects/Tanks/Jetpacks/al_secgen.rsi
+    slots:
+      - Back
+      - SuitStorage
+  - type: Item
+    sprite: Objects/Tanks/Jetpacks/al_secgen.rsi
+    size: Normal
+  - type: Tag
+    tags:
+    - HighRiskItem
+
+# Filled Secretary General
+- type: entity
+  id: JetpackExecSOLFilled
+  parent: JetpackExecSOL
+  name: Aurelian League Secretary General's Jetpack
+  suffix: Filled
+  components:
+  - type: GasTank
+    outputPressure: 42.6
+    air:
+      # 13 minutes of thrust
+      volume: 5
+      temperature: 293.15
+      moles:
+        Oxygen: 1.025689525 # oxygen
+        Nitrogen: 1.025689525 # nitrogen
+
+#Empty League Official
+- type: entity
+  id: JetpackLeagueOfficial
+  parent: [BaseJetpack, BaseGrandTheftContraband]
+  name: Aurelian League Official's Jetpack
+  suffix: Empty
+  components:
+  - type: Sprite
+    sprite: Objects/Tanks/Jetpacks/al_official.rsi
+  - type: Clothing
+    sprite: Objects/Tanks/Jetpacks/al_official.rsi
+    slots:
+      - Back
+      - SuitStorage
+  - type: Item
+    sprite: Objects/Tanks/Jetpacks/al_official.rsi
+    size: Normal
+  - type: Tag
+    tags:
+    - HighRiskItem
+
+# Filled League Official
+- type: entity
+  id: JetpackLeagueOfficialFilled
+  parent: JetpackLeagueOfficial
+  name: Aurelian League Official's Jetpack
+  suffix: Filled
+  components:
+  - type: GasTank
+    outputPressure: 42.6
+    air:
+      # 13 minutes of thrust
+      volume: 5
+      temperature: 293.15
+      moles:
+        Oxygen: 1.025689525 # oxygen
+        Nitrogen: 1.025689525 # nitrogen
