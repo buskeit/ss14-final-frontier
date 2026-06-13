@@ -9,7 +9,9 @@
             <LineEdit Name="NameEdit"/>
             <Control MinWidth="5"/>
             <RichTextLabel Name="SentenceLabel"/>
-            <LineEdit Name="SentenceEdit"/>
+            <LineEdit Name="SentenceEdit"
+                      PlaceHolder="{Loc 'genpop-locker-ui-sentence-placeholder'}"
+                      ToolTip="{Loc 'genpop-locker-ui-sentence-tooltip'}"/>
             <Control MinWidth="5"/>
             <RichTextLabel Name="CrimeLabel"/>
             <LineEdit Name="CrimeEdit"/>

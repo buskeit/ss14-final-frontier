@@ -14,7 +14,7 @@ public sealed partial class GenpopLockerMenu : FancyWindow
 {
     [Dependency] private readonly IConfigurationManager _cfgManager = default!;
 
-    public event Action<string, float, string>? OnConfigurationComplete;
+    public event Action<string, int, string>? OnConfigurationComplete;
 
     public GenpopLockerMenu(EntityUid owner, IEntityManager entMan)
     {
@@ -28,12 +28,12 @@ public sealed partial class GenpopLockerMenu : FancyWindow
         SentenceLabel.SetMarkup(Loc.GetString("genpop-locker-ui-label-sentence"));
         CrimeLabel.SetMarkup(Loc.GetString("genpop-locker-ui-label-crime"));
 
-        SentenceEdit.Text = "5";
+        SentenceEdit.Text = "1";
         CrimeEdit.Text = Loc.GetString("genpop-prisoner-id-crime-default");
 
         var maxIdJobLength = _cfgManager.GetCVar(CCVars.MaxIdJobLength);
         NameEdit.IsValid = val => !string.IsNullOrWhiteSpace(val) && val.Length <= maxIdJobLength;
-        SentenceEdit.IsValid = val => float.TryParse(val, out var f) && f >= 0;
+        SentenceEdit.IsValid = val => TryParseSentenceDays(val, out _);
         CrimeEdit.IsValid = val => !string.IsNullOrWhiteSpace(val) && val.Length <= GenpopLockerComponent.MaxCrimeLength;
 
         NameEdit.OnTextChanged += _ => OnTextEdit();
@@ -42,15 +42,20 @@ public sealed partial class GenpopLockerMenu : FancyWindow
 
         DoneButton.OnPressed += _ =>
         {
-            OnConfigurationComplete?.Invoke(NameEdit.Text, float.Parse(SentenceEdit.Text), CrimeEdit.Text);
+            if (TryParseSentenceDays(SentenceEdit.Text, out var sentenceDays))
+                OnConfigurationComplete?.Invoke(NameEdit.Text, sentenceDays, CrimeEdit.Text);
         };
     }
 
     private void OnTextEdit()
     {
         DoneButton.Disabled = string.IsNullOrWhiteSpace(NameEdit.Text) ||
-                              !float.TryParse(SentenceEdit.Text, out var sentence) ||
-                              sentence < 0 ||
+                              !TryParseSentenceDays(SentenceEdit.Text, out _) ||
                               string.IsNullOrWhiteSpace(CrimeEdit.Text);
+    }
+
+    private static bool TryParseSentenceDays(string value, out int days)
+    {
+        return GenpopLockerComponent.TryParseSentenceDays(value, out days, out _);
     }
 }

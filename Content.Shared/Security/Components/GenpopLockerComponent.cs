@@ -1,6 +1,7 @@
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
+using System.Globalization;
 
 namespace Content.Shared.Security.Components;
 
@@ -11,6 +12,27 @@ namespace Content.Shared.Security.Components;
 public sealed partial class GenpopLockerComponent : Component
 {
     public const int MaxCrimeLength = 48;
+    public const int MaxSentenceDays = 99_999;
+
+    public static bool TryParseSentenceDays(string? value, out int days, out TimeSpan duration)
+    {
+        days = 0;
+        duration = TimeSpan.Zero;
+
+        return !string.IsNullOrWhiteSpace(value) &&
+               int.TryParse(value, NumberStyles.None, CultureInfo.InvariantCulture, out days) &&
+               TryConvertSentenceDays(days, out duration);
+    }
+
+    public static bool TryConvertSentenceDays(int days, out TimeSpan duration)
+    {
+        duration = TimeSpan.Zero;
+        if (days < 0 || days > MaxSentenceDays)
+            return false;
+
+        duration = TimeSpan.FromDays(days);
+        return true;
+    }
 
     /// <summary>
     /// The <see cref="GenpopIdCardComponent"/> that this locker is currently associated with.
@@ -29,13 +51,13 @@ public sealed partial class GenpopLockerComponent : Component
 public sealed class GenpopLockerIdConfiguredMessage : BoundUserInterfaceMessage
 {
     public string Name;
-    public float Sentence;
+    public int SentenceDays;
     public string Crime;
 
-    public GenpopLockerIdConfiguredMessage(string name, float sentence, string crime)
+    public GenpopLockerIdConfiguredMessage(string name, int sentenceDays, string crime)
     {
         Name = name;
-        Sentence = sentence;
+        SentenceDays = sentenceDays;
         Crime = crime;
     }
 }

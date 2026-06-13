@@ -7,7 +7,7 @@ namespace Content.Server.Security;
 public sealed class GenpopSystem : SharedGenpopSystem
 {
     private const float GenpopIDEjectDistanceFromWall = 1f;
-    protected override void CreateId(Entity<GenpopLockerComponent> ent, string name, float sentence, string crime)
+    protected override void CreateId(Entity<GenpopLockerComponent> ent, string name, TimeSpan sentenceDuration, string crime)
     {
         // Default to prisoner locker coordinates for ID spawn
         var xform = Transform(ent);
@@ -25,12 +25,12 @@ public sealed class GenpopSystem : SharedGenpopSystem
         if (TryComp<GenpopIdCardComponent>(uid, out var id))
         {
             id.Crime = crime;
-            id.SentenceDuration = TimeSpan.FromMinutes(sentence);
+            id.SentenceDuration = sentenceDuration;
             Dirty(uid, id);
         }
-        if (sentence <= 0)
+        if (sentenceDuration == TimeSpan.Zero)
             IdCard.SetPermanent(uid, true);
-        IdCard.SetExpireTime(uid, TimeSpan.FromMinutes(sentence) + Timing.CurTime);
+        IdCard.SetExpireTime(uid, sentenceDuration + Timing.CurTime);
 
         var metaData = MetaData(ent);
         MetaDataSystem.SetEntityName(ent, Loc.GetString("genpop-locker-name-used", ("name", name)), metaData);

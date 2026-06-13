@@ -14,9 +14,9 @@ public sealed class GenpopLockerBoundUserInterface(EntityUid owner, Enum uiKey) 
 
         _menu = new(Owner, EntMan);
 
-        _menu.OnConfigurationComplete += (name, time, crime) =>
+        _menu.OnConfigurationComplete += (name, sentenceDays, crime) =>
         {
-            SendPredictedMessage(new GenpopLockerIdConfiguredMessage(name, time, crime));
+            SendPredictedMessage(new GenpopLockerIdConfiguredMessage(name, sentenceDays, crime));
             Close();
         };
 

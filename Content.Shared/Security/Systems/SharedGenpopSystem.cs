@@ -1,6 +1,7 @@
 using Content.Shared.Access.Components;
 using Content.Shared.Access.Systems;
 using Content.Shared.CCVar;
+using Content.Shared.CriminalRecords;
 using Content.Shared.Database;
 using Content.Shared.Examine;
 using Content.Shared.Lock;
@@ -46,7 +47,7 @@ public abstract class SharedGenpopSystem : EntitySystem
     {
         // validation.
         if (string.IsNullOrWhiteSpace(args.Name) || args.Name.Length > _maxIdJobLength ||
-            args.Sentence < 0 ||
+            !GenpopLockerComponent.TryConvertSentenceDays(args.SentenceDays, out var sentenceDuration) ||
             string.IsNullOrWhiteSpace(args.Crime) || args.Crime.Length > GenpopLockerComponent.MaxCrimeLength)
         {
             return;
@@ -62,7 +63,7 @@ public abstract class SharedGenpopSystem : EntitySystem
         _lock.Lock(ent.Owner, args.Actor);
         _entityStorage.CloseStorage(ent);
 
-        CreateId(ent, args.Name, args.Sentence, args.Crime);
+        CreateId(ent, args.Name, sentenceDuration, args.Crime);
     }
 
     private void OnCloseAttempt(Entity<GenpopLockerComponent> ent, ref StorageCloseAttemptEvent args)
@@ -169,11 +170,11 @@ public abstract class SharedGenpopSystem : EntitySystem
             Disabled = !hasAccess,
         });
 
-        var servedTime = 1 - (expire.ExpireTime - Timing.CurTime).TotalSeconds / genpopId.SentenceDuration.TotalSeconds;
-
-        // Can't reset it after its expired.
-        if (expire.Expired)
+        // Permanent sentences have no finite duration to reset or calculate progress against.
+        if (expire.Expired || expire.Permanent || genpopId.SentenceDuration <= TimeSpan.Zero)
             return;
+
+        var servedTime = 1 - (expire.ExpireTime - Timing.CurTime).TotalSeconds / genpopId.SentenceDuration.TotalSeconds;
 
         args.Verbs.Add(new Verb // Reset Sentence.
         {
@@ -232,15 +233,14 @@ public abstract class SharedGenpopSystem : EntitySystem
                 var served = ent.Comp.SentenceDuration - (expireIdCard.ExpireTime - Timing.CurTime);
 
                 args.PushText(Loc.GetString("genpop-prisoner-id-examine-wait",
-                    ("minutes", served.Minutes),
-                    ("seconds", served.Seconds),
-                    ("sentence", sentence.TotalMinutes),
+                    ("served", CrimeAssistFormatter.FormatDuration(served)),
+                    ("sentence", CrimeAssistFormatter.FormatDuration(sentence)),
                     ("crime", ent.Comp.Crime)));
             }
         }
     }
 
-    protected virtual void CreateId(Entity<GenpopLockerComponent> ent, string name, float sentence, string crime)
+    protected virtual void CreateId(Entity<GenpopLockerComponent> ent, string name, TimeSpan sentenceDuration, string crime)
     {
 
     }
