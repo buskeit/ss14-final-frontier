@@ -8,6 +8,7 @@ using Content.Shared.Emag.Components;
 using Content.Shared.Emag.Systems;
 using Content.Shared.Emp;
 using Content.Shared.Interaction;
+using Content.Shared.Containers.ItemSlots;
 using Content.Shared.Popups;
 using Content.Shared.Power.EntitySystems;
 using Content.Shared.UserInterface;
@@ -36,11 +37,15 @@ public abstract partial class SharedVendingMachineSystem : EntitySystem
     [Dependency] protected readonly SharedUserInterfaceSystem UISystem = default!;
     [Dependency] protected readonly IRobustRandom Randomizer = default!;
     [Dependency] private readonly EmagSystem _emag = default!;
+    [Dependency] private readonly ItemSlotsSystem _itemSlots = default!;
 
     public override void Initialize()
     {
         base.Initialize();
         SubscribeLocalEvent<VendingMachineComponent, ComponentGetState>(OnVendingGetState);
+        SubscribeLocalEvent<VendingMachineComponent, ComponentInit>(OnComponentInit);
+        SubscribeLocalEvent<VendingMachineComponent, ComponentRemove>(OnComponentRemove);
+        SubscribeLocalEvent<VendingMachineComponent, ItemSlotInsertAttemptEvent>(OnCashInsertAttempt);
         SubscribeLocalEvent<VendingMachineComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<VendingMachineComponent, GotEmaggedEvent>(OnEmagged);
         SubscribeLocalEvent<VendingMachineComponent, EmpPulseEvent>(OnEmpPulse);
@@ -54,7 +59,27 @@ public abstract partial class SharedVendingMachineSystem : EntitySystem
         Subs.BuiEvents<VendingMachineComponent>(VendingMachineUiKey.Key, subs =>
         {
             subs.Event<VendingMachineEjectMessage>(OnInventoryEjectMessage);
+            subs.Event<VendingMachineEjectCashMessage>(OnCashEjectMessage);
         });
+    }
+
+    private void OnComponentInit(EntityUid uid, VendingMachineComponent component, ComponentInit args)
+    {
+        _itemSlots.AddItemSlot(uid, VendingMachineComponent.CashSlotId, component.CashSlot);
+    }
+
+    private void OnComponentRemove(EntityUid uid, VendingMachineComponent component, ComponentRemove args)
+    {
+        _itemSlots.RemoveItemSlot(uid, component.CashSlot);
+    }
+
+    private void OnCashInsertAttempt(Entity<VendingMachineComponent> entity, ref ItemSlotInsertAttemptEvent args)
+    {
+        if (args.Slot.ID != VendingMachineComponent.CashSlotId)
+            return;
+
+        if (!entity.Comp.RequiresCash || entity.Comp.Broken || !_receiver.IsPowered(entity.Owner))
+            args.Cancelled = true;
     }
 
     private void OnVendingGetState(Entity<VendingMachineComponent> entity, ref ComponentGetState args)
@@ -146,6 +171,19 @@ public abstract partial class SharedVendingMachineSystem : EntitySystem
 
         AuthorizedVend(entity.Owner, actor, args.Type, args.ID, entity.Comp);
     }
+
+    private void OnCashEjectMessage(Entity<VendingMachineComponent> entity, ref VendingMachineEjectCashMessage args)
+    {
+        if (!_receiver.IsPowered(entity.Owner) || Deleted(entity))
+            return;
+
+        if (args.Actor is not { Valid: true } actor)
+            return;
+
+        EjectCash(entity, actor);
+    }
+
+    protected virtual void EjectCash(Entity<VendingMachineComponent> entity, EntityUid actor) { }
 
     private void OnBoundUiOpened(Entity<VendingMachineComponent> entity, ref BoundUIOpenedEvent args)
     {

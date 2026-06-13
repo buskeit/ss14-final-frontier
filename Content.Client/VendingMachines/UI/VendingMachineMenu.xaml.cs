@@ -26,6 +26,7 @@ namespace Content.Client.VendingMachines.UI
         private Dictionary<string, int> _prices = new();
         private bool _requiresCash;
         private int? _balance;
+        private int _cashSlot;
 
         /// <summary>
         /// Whether the vending machine is able to be interacted with or not.
@@ -33,6 +34,7 @@ namespace Content.Client.VendingMachines.UI
         private bool _enabled;
 
         public event Action<GUIBoundKeyEventArgs, ListData>? OnItemSelected;
+        public event Action? OnCashEject;
 
         public VendingMachineMenu()
         {
@@ -44,6 +46,7 @@ namespace Content.Client.VendingMachines.UI
             VendingContents.DataFilterCondition += DataFilterCondition;
             VendingContents.GenerateItem += GenerateButton;
             VendingContents.ItemKeyBindDown += (args, data) => OnItemSelected?.Invoke(args, data);
+            CashEjectButton.OnPressed += _ => OnCashEject?.Invoke();
         }
 
         protected override void Dispose(bool disposing)
@@ -89,12 +92,13 @@ namespace Content.Client.VendingMachines.UI
         /// Populates the list of available items on the vending machine interface
         /// and sets icons based on their prototypes
         /// </summary>
-        public void Populate(List<VendingMachineInventoryEntry> inventory, Dictionary<string, int> prices, bool requiresCash, int? balance, bool enabled)
+        public void Populate(List<VendingMachineInventoryEntry> inventory, Dictionary<string, int> prices, bool requiresCash, int? balance, int cashSlot, bool enabled)
         {
             _enabled = enabled;
             _prices = prices;
             _requiresCash = requiresCash;
             _balance = balance;
+            _cashSlot = cashSlot;
             _listItems.Clear();
             _amounts.Clear();
             UpdateBalanceDisplay();
@@ -161,12 +165,13 @@ namespace Content.Client.VendingMachines.UI
         /// <summary>
         /// Updates text entries for vending data in place without modifying the list controls.
         /// </summary>
-        public void UpdateAmounts(List<VendingMachineInventoryEntry> cachedInventory, Dictionary<string, int> prices, bool requiresCash, int? balance, bool enabled)
+        public void UpdateAmounts(List<VendingMachineInventoryEntry> cachedInventory, Dictionary<string, int> prices, bool requiresCash, int? balance, int cashSlot, bool enabled)
         {
             _enabled = enabled;
             _prices = prices;
             _requiresCash = requiresCash;
             _balance = balance;
+            _cashSlot = cashSlot;
             UpdateBalanceDisplay();
 
             foreach (var proto in _dummies.Keys)
@@ -206,7 +211,8 @@ namespace Content.Client.VendingMachines.UI
                 : Loc.GetString("comp-pda-ui-unknown");
 
             BalanceLabel.Text = $"Balance: {balanceText}";
-            CashSlotLabel.Text = $"{Loc.GetString("vending-machine-menu-cash-slot-label")} {BankSystemExtensions.ToSpesoString(0)}";
+            CashSlotLabel.Text = $"{Loc.GetString("vending-machine-menu-cash-slot-label")} {BankSystemExtensions.ToSpesoString(_cashSlot)}";
+            CashEjectButton.Disabled = !_enabled || _cashSlot <= 0;
         }
 
         private void SetSizeAfterUpdate(int longestEntryLength, int contentCount)

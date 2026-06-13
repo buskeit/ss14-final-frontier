@@ -8,7 +8,8 @@
         <PanelContainer Name="BalancePanel" Margin="4 4 4 0" Visible="False">
             <BoxContainer Orientation="Horizontal" Margin="6 4">
                 <Label Name="BalanceLabel" HorizontalExpand="True" />
-                <Label Name="CashSlotLabel" HorizontalAlignment="Right" />
+                <Label Name="CashSlotLabel" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                <Button Name="CashEjectButton" Text="{Loc 'vending-machine-menu-cash-slot-eject-button'}" Margin="6 0 0 0" />
             </BoxContainer>
         </PanelContainer>
         <LineEdit Name="SearchBar" PlaceHolder="{Loc 'vending-machine-component-search-filter'}" HorizontalExpand="True"  Margin ="4 4"/>

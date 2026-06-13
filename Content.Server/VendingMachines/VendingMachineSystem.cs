@@ -2,6 +2,7 @@ using Content.Server.Cargo.Systems;
 using Content.Server._NF.Bank;
 using Content.Server.Power.Components;
 using Content.Server.Power.EntitySystems;
+using Content.Server.Stack;
 using Content.Server.Vocalization.Systems;
 using Content.Shared.Cargo;
 using Content.Shared.Cargo.Components;
@@ -9,11 +10,14 @@ using Content.Shared.Damage.Systems;
 using Content.Shared.Emp;
 using Content.Shared.Interaction;
 using Content.Shared.Power;
+using Content.Shared.Containers.ItemSlots;
+using Content.Shared.Stacks;
 using Content.Shared.Throwing;
 using Content.Shared.VendingMachines;
 using Content.Shared.Wall;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
+using Robust.Shared.Containers;
 using System.Linq;
 using System.Numerics;
 
@@ -25,6 +29,8 @@ namespace Content.Server.VendingMachines
         [Dependency] private readonly BankSystem _bank = default!;
         [Dependency] private readonly PricingSystem _pricing = default!;
         [Dependency] private readonly ThrowingSystem _throwingSystem = default!;
+        [Dependency] private readonly ItemSlotsSystem _itemSlots = default!;
+        [Dependency] private readonly StackSystem _stack = default!;
 
         private const float WallVendEjectDistanceFromWall = 1f;
 
@@ -37,6 +43,8 @@ namespace Content.Server.VendingMachines
             SubscribeLocalEvent<VendingMachineComponent, PriceCalculationEvent>(OnVendingPrice);
             SubscribeLocalEvent<VendingMachineComponent, TryVocalizeEvent>(OnTryVocalize);
             SubscribeLocalEvent<VendingMachineComponent, InteractUsingEvent>(OnInteractUsing);
+            SubscribeLocalEvent<VendingMachineComponent, EntInsertedIntoContainerMessage>(OnCashInserted);
+            SubscribeLocalEvent<VendingMachineComponent, EntRemovedFromContainerMessage>(OnCashRemoved);
 
             SubscribeLocalEvent<VendingMachineComponent, VendingMachineSelfDispenseEvent>(OnSelfDispense);
 
@@ -54,21 +62,42 @@ namespace Content.Server.VendingMachines
                 return;
             }
 
-            var value = _pricing.GetPrice(args.Used);
-            if (!double.IsFinite(value) || value <= 0 || value > int.MaxValue)
+            if (!TryComp<StackComponent>(args.Used, out var insertedStack) ||
+                insertedStack.StackTypeId != "Credit")
                 return;
 
-            var amount = (int) value;
-            if (amount <= 0 || !_bank.TryBankDeposit(args.User, amount))
+            if (!_itemSlots.TryGetSlot(uid, VendingMachineComponent.CashSlotId, out var cashSlot))
                 return;
 
-            QueueDel(args.Used);
+            if (cashSlot.Item is { Valid: true } currentCash)
+            {
+                if (currentCash == args.Used ||
+                    !TryComp<StackComponent>(currentCash, out var currentStack) ||
+                    !_stack.TryMergeStacks((args.Used, insertedStack), (currentCash, currentStack), out var transferred) ||
+                    transferred <= 0)
+                    return;
+            }
+            else if (!_itemSlots.TryInsertFromHand(uid, cashSlot, args.User))
+            {
+                return;
+            }
+
             args.Handled = true;
             Popup.PopupEntity(
                 Loc.GetString("store-currency-inserted", ("used", args.Used), ("target", uid)),
                 uid,
                 args.User);
-            UpdateUI((uid, component), args.User);
+            UpdateAllUserInterfaces((uid, component));
+        }
+
+        private void OnCashInserted(Entity<VendingMachineComponent> entity, ref EntInsertedIntoContainerMessage args)
+        {
+            UpdateAllUserInterfaces(entity);
+        }
+
+        private void OnCashRemoved(Entity<VendingMachineComponent> entity, ref EntRemovedFromContainerMessage args)
+        {
+            UpdateAllUserInterfaces(entity);
         }
 
         private void OnVendingPrice(EntityUid uid, VendingMachineComponent component, ref PriceCalculationEvent args)
@@ -298,9 +327,30 @@ namespace Content.Server.VendingMachines
             if (actor != null && _bank.TryGetBalance(actor.Value, out var accountBalance))
                 balance = accountBalance;
 
+            var cashSlot = GetInsertedCashAmount(entity.Owner);
+
             UISystem.SetUiState(entity.Owner,
                 VendingMachineUiKey.Key,
-                new VendingMachineUpdateState(inventory, prices, entity.Comp.RequiresCash, balance));
+                new VendingMachineUpdateState(inventory, prices, entity.Comp.RequiresCash, balance, cashSlot));
+        }
+
+        private void UpdateAllUserInterfaces(Entity<VendingMachineComponent> entity)
+        {
+            foreach (var actor in UISystem.GetActors(entity.Owner, VendingMachineUiKey.Key).ToList())
+            {
+                if (actor.Valid)
+                    UpdateUI(entity.AsNullable(), actor);
+            }
+        }
+
+        protected override void EjectCash(Entity<VendingMachineComponent> entity, EntityUid actor)
+        {
+            if (!entity.Comp.RequiresCash)
+                return;
+
+            if (_itemSlots.TryGetSlot(entity.Owner, VendingMachineComponent.CashSlotId, out var cashSlot) &&
+                _itemSlots.TryEjectToHands(entity.Owner, cashSlot, actor))
+                UpdateAllUserInterfaces(entity);
         }
 
         public override void AuthorizedVend(EntityUid uid, EntityUid sender, InventoryType type, string itemId, VendingMachineComponent component)
@@ -315,8 +365,20 @@ namespace Content.Server.VendingMachines
             }
 
             var price = GetVendPrice(component, itemId);
+            var insertedCash = GetInsertedCashAmount(uid);
+            var accountBalance = _bank.TryGetBalance(sender, out var balance) ? balance : 0;
 
-            if (!_bank.TryGetBalance(sender, out var balance) || balance < price)
+            if ((long) insertedCash + accountBalance < price)
+            {
+                Popup.PopupClient(Loc.GetString("bank-insufficient-funds"), uid, sender);
+                Deny((uid, component), sender);
+                UpdateUI((uid, component), sender);
+                return;
+            }
+
+            var cashCharge = Math.Min(insertedCash, price);
+            var bankCharge = price - cashCharge;
+            if (bankCharge > 0 && !_bank.TryBankWithdraw(sender, bankCharge))
             {
                 Popup.PopupClient(Loc.GetString("bank-insufficient-funds"), uid, sender);
                 Deny((uid, component), sender);
@@ -325,15 +387,33 @@ namespace Content.Server.VendingMachines
             }
 
             if (!TryEjectVendorItem(uid, type, itemId, component.CanShoot, sender, component))
-                return;
-
-            if (!_bank.TryBankWithdraw(sender, price))
             {
-                Log.Warning($"Vending purchase withdrawal failed after vend for {ToPrettyString(sender)} on {ToPrettyString(uid)}.");
+                if (bankCharge > 0 && !_bank.TryBankDeposit(sender, bankCharge))
+                    Log.Error($"Failed to refund vending purchase withdrawal for {ToPrettyString(sender)} on {ToPrettyString(uid)}.");
                 return;
             }
 
-            UpdateUI((uid, component), sender);
+            if (cashCharge > 0 &&
+                _itemSlots.TryGetSlot(uid, VendingMachineComponent.CashSlotId, out var cashSlot) &&
+                cashSlot.Item is { Valid: true } cash &&
+                TryComp<StackComponent>(cash, out var cashStack) &&
+                !_stack.TryUse((cash, cashStack), cashCharge))
+            {
+                Log.Error($"Failed to consume vending cash for {ToPrettyString(sender)} on {ToPrettyString(uid)}.");
+            }
+
+            UpdateAllUserInterfaces((uid, component));
+        }
+
+        private int GetInsertedCashAmount(EntityUid uid)
+        {
+            if (!_itemSlots.TryGetSlot(uid, VendingMachineComponent.CashSlotId, out var cashSlot) ||
+                cashSlot.Item is not { Valid: true } cash ||
+                !TryComp<StackComponent>(cash, out var stack) ||
+                stack.StackTypeId != "Credit")
+                return 0;
+
+            return stack.Count;
         }
 
         private int GetVendPrice(VendingMachineComponent component, string itemId)

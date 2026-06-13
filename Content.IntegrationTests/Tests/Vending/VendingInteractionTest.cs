@@ -4,18 +4,26 @@ using Content.Server.GameTicking;
 using Content.Server._NF.Bank;
 using Content.Server.VendingMachines;
 using Content.Shared.Cargo.Components;
+using Content.Shared.Containers.ItemSlots;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.Damage.Systems;
 using Content.Shared.FixedPoint;
 using Content.Shared._NF.Bank.Components;
+using Content.Shared.Stacks;
 using Content.Shared.VendingMachines;
+using Robust.Shared.ContentPack;
+using Robust.Shared.EntitySerialization.Systems;
 using Robust.Shared.GameObjects;
+using Robust.Shared.Map;
+using Robust.Shared.Maths;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Utility;
 using Robust.Server.GameObjects;
 using System;
 using System.Linq;
+using System.Numerics;
 using System.Reflection;
 
 namespace Content.IntegrationTests.Tests.Vending;
@@ -306,6 +314,7 @@ public sealed class VendingInteractionTest : InteractionTest
 
         await Activate();
         Assert.That(IsUiOpen(VendingMachineUiKey.Key), "BUI failed to open.");
+        Assert.That(GetCashSlotBalance(), Is.EqualTo(0), "Opening the UI inserted unexpected cash.");
 
         await SendBui(VendingMachineUiKey.Key, new VendingMachineEjectMessage(InventoryType.Regular, PaidVendedItemProtoId));
 
@@ -322,8 +331,175 @@ public sealed class VendingInteractionTest : InteractionTest
         await SetBankBalance(0);
         await RunTicks(1);
         await InteractUsing("SpaceCash", 25);
-        Assert.That(GetBankBalance(), Is.EqualTo(25));
-        Assert.That(SEntMan.EntityQuery<CashComponent>().Any(), Is.False);
+        Assert.That(GetBankBalance(), Is.EqualTo(0), "Inserted cash was deposited into the player's account.");
+        Assert.That(GetCashSlotBalance(), Is.EqualTo(25), "Inserted cash was not retained in the vending cash slot.");
+        Assert.That(GetTotalCash(), Is.EqualTo(25), "Inserting cash duplicated or deleted money.");
+    }
+
+    [Test]
+    public async Task UnpoweredVendorDoesNotTrapInsertedCash()
+    {
+        await SpawnTarget(YamlPricedVendingMachineProtoId);
+        await SetBankBalance(0);
+        await InteractUsing("SpaceCash", 10);
+
+        Assert.That(GetCashSlotBalance(), Is.EqualTo(0), "Unpowered vending machine accepted cash into escrow.");
+        Assert.That(GetBankBalance(), Is.EqualTo(0), "Unpowered vending machine deposited cash into the account.");
+        Assert.That(GetTotalCash(), Is.EqualTo(10), "Unpowered cash insertion duplicated or deleted money.");
+    }
+
+    [TestCase("VendingMachineMedical")]
+    [TestCase("VendingMachineMedicalBase")]
+    public async Task ProductionVendorsHoldAndEjectInsertedCash(string prototype)
+    {
+        await SpawnTarget(prototype);
+        await SpawnEntity("APCBasic", SEntMan.GetCoordinates(TargetCoords));
+        await SetBankBalance(50);
+        await RunTicks(1);
+        await InteractUsing("SpaceCash", 13);
+
+        Assert.That(GetCashSlotBalance(), Is.EqualTo(13), $"{prototype} did not hold inserted cash in escrow.");
+        Assert.That(GetBankBalance(), Is.EqualTo(50), $"{prototype} incorrectly deposited escrow into the account.");
+
+        await Activate();
+        Assert.That(IsUiOpen(VendingMachineUiKey.Key), $"{prototype} BUI failed to open.");
+        await AssertCashSlotUiState(13);
+        await SendBui(VendingMachineUiKey.Key, new VendingMachineEjectCashMessage());
+
+        Assert.That(GetCashSlotBalance(), Is.EqualTo(0), $"{prototype} did not eject its escrow.");
+        Assert.That(GetTotalCash(), Is.EqualTo(13), $"{prototype} duplicated or deleted ejected cash.");
+    }
+
+    [Test]
+    public async Task PaidVendorEjectsCash()
+    {
+        await SpawnTarget(YamlPricedVendingMachineProtoId);
+        await SpawnEntity("APCBasic", SEntMan.GetCoordinates(TargetCoords));
+        await SetBankBalance(0);
+        await RunTicks(1);
+        await InteractUsing("SpaceCash", 25);
+
+        await Activate();
+        await SendBui(VendingMachineUiKey.Key, new VendingMachineEjectCashMessage());
+
+        Assert.That(GetBankBalance(), Is.EqualTo(0), "Ejected cash changed the player's account balance.");
+        Assert.That(GetCashSlotBalance(), Is.EqualTo(0), "Cash remained in the vending cash slot after ejection.");
+        Assert.That(GetTotalCash(), Is.EqualTo(25), "Ejecting cash duplicated or deleted money.");
+    }
+
+    [Test]
+    public async Task PaidVendUsesInsertedCashFirst()
+    {
+        await SpawnTarget(YamlPricedVendingMachineProtoId);
+        await SpawnEntity("APCBasic", SEntMan.GetCoordinates(TargetCoords));
+        await SetBankBalance(100);
+        await RunTicks(1);
+        await InteractUsing("SpaceCash", 10);
+
+        await Activate();
+        await SendBui(VendingMachineUiKey.Key, new VendingMachineEjectMessage(InventoryType.Regular, PaidVendedItemProtoId));
+
+        Assert.That(GetBankBalance(), Is.EqualTo(100), "Vend withdrew from the account before using inserted cash.");
+        Assert.That(GetCashSlotBalance(), Is.EqualTo(3), "Vend did not deduct the correct amount from inserted cash.");
+        Assert.That(GetTotalCash(), Is.EqualTo(3), "Purchase duplicated or deleted the remaining inserted cash.");
+        await AssertEntityLookup(("APCBasic", 1), (PaidVendedItemProtoId, 1));
+    }
+
+    [Test]
+    public async Task PaidVendUsesAccountForCashSlotRemainder()
+    {
+        await SpawnTarget(YamlPricedVendingMachineProtoId);
+        await SpawnEntity("APCBasic", SEntMan.GetCoordinates(TargetCoords));
+        await SetBankBalance(10);
+        await RunTicks(1);
+        await InteractUsing("SpaceCash", 5);
+
+        await Activate();
+        await SendBui(VendingMachineUiKey.Key, new VendingMachineEjectMessage(InventoryType.Regular, PaidVendedItemProtoId));
+
+        Assert.That(GetCashSlotBalance(), Is.EqualTo(0), "Vend did not consume all inserted cash first.");
+        Assert.That(GetBankBalance(), Is.EqualTo(8), "Vend did not withdraw only the remaining price from the account.");
+        Assert.That(GetTotalCash(), Is.EqualTo(0), "Purchase duplicated inserted cash.");
+        await AssertEntityLookup(("APCBasic", 1), (PaidVendedItemProtoId, 1));
+    }
+
+    [Test]
+    public async Task PaidVendCashSlotPersistsAcrossUiReopen()
+    {
+        await SpawnTarget(YamlPricedVendingMachineProtoId);
+        await SpawnEntity("APCBasic", SEntMan.GetCoordinates(TargetCoords));
+        await SetBankBalance(10);
+        await RunTicks(1);
+        await InteractUsing("SpaceCash", 25);
+
+        await Activate();
+        Assert.That(IsUiOpen(VendingMachineUiKey.Key), "BUI failed to open.");
+        await AssertCashSlotUiState(25);
+
+        await Activate();
+        Assert.That(IsUiOpen(VendingMachineUiKey.Key), Is.False, "BUI failed to close.");
+        await Activate();
+        Assert.That(IsUiOpen(VendingMachineUiKey.Key), "BUI failed to reopen.");
+        await AssertCashSlotUiState(25);
+        Assert.That(GetBankBalance(), Is.EqualTo(10), "Reopening the UI moved cash into the account.");
+        Assert.That(GetTotalCash(), Is.EqualTo(25), "Reopening the UI duplicated or deleted cash.");
+    }
+
+    [Test]
+    public async Task PaidVendCashSlotPersistsAcrossMapSaveLoad()
+    {
+        await SpawnTarget(YamlPricedVendingMachineProtoId);
+        await SpawnEntity("APCBasic", SEntMan.GetCoordinates(TargetCoords));
+        await SetBankBalance(10);
+        await RunTicks(1);
+        await InteractUsing("SpaceCash", 25);
+
+        var savePath = new ResPath("/Maps/Test/VendingCashSlotPersistence.yml");
+        MapId savedMap = default;
+        await Server.WaitAssertion(() =>
+        {
+            var resources = Server.ResolveDependency<IResourceManager>();
+            resources.UserData.CreateDir(savePath.Directory);
+
+            MapSystem.CreateMap(out savedMap);
+            var grid = MapMan.CreateGridEntity(savedMap);
+            MapSystem.SetTile(grid, Vector2i.Zero, new Tile(1));
+            Transform.SetCoordinates(STarget!.Value, new EntityCoordinates(grid, Vector2.Zero));
+
+            var loader = SEntMan.System<MapLoaderSystem>();
+            Assert.That(loader.TrySaveMap(savedMap, savePath), "Failed to save vending escrow test map.");
+            MapSystem.DeleteMap(savedMap);
+        });
+
+        await Server.WaitIdleAsync();
+
+        MapId loadedMap = default;
+        await Server.WaitAssertion(() =>
+        {
+            var loader = SEntMan.System<MapLoaderSystem>();
+            Assert.That(loader.TryLoadMap(savePath, out var map, out _), "Failed to reload vending escrow test map.");
+            loadedMap = map!.Value.Comp.MapId;
+        });
+
+        await Server.WaitIdleAsync();
+        await Server.WaitAssertion(() =>
+        {
+            EntityUid? loadedVendor = null;
+            var query = SEntMan.EntityQueryEnumerator<VendingMachineComponent, MetaDataComponent, TransformComponent>();
+            while (query.MoveNext(out var uid, out _, out var metadata, out var transform))
+            {
+                if (transform.MapID == loadedMap && metadata.EntityPrototype?.ID == YamlPricedVendingMachineProtoId)
+                {
+                    loadedVendor = uid;
+                    break;
+                }
+            }
+
+            Assert.That(loadedVendor, Is.Not.Null, "Reloaded map did not contain the vending machine.");
+            Assert.That(GetCashSlotBalance(loadedVendor!.Value), Is.EqualTo(25), "Reloaded vending machine lost its cash escrow.");
+            Assert.That(GetBankBalance(), Is.EqualTo(10), "Saving or loading moved escrow into the player's account.");
+            MapSystem.DeleteMap(loadedMap);
+        });
     }
 
     [Test]
@@ -355,18 +531,24 @@ public sealed class VendingInteractionTest : InteractionTest
         await SpawnEntity("APCBasic", SEntMan.GetCoordinates(TargetCoords));
         await SetBankBalance(20);
         await RunTicks(1);
+        Assert.That(GetBankBalance(), Is.EqualTo(20), "Test account did not start at the requested balance.");
+        Assert.That(GetCashSlotBalance(), Is.EqualTo(0), "New vending machine inherited stale cash slot contents.");
 
         var vendingSystem = SEntMan.System<VendingMachineSystem>();
         var vendorEnt = SEntMan.GetEntity(Target.Value);
 
         await Activate();
         Assert.That(IsUiOpen(VendingMachineUiKey.Key), "BUI failed to open.");
+        Assert.That(GetCashSlotBalance(), Is.EqualTo(0), "Opening the UI inserted unexpected cash.");
 
         await SendBui(VendingMachineUiKey.Key, new VendingMachineEjectMessage(InventoryType.Regular, PaidVendedItemProtoId));
 
         Assert.That(vendingSystem.GetAllInventory(vendorEnt).Single().Amount, Is.EqualTo(0), "Vend did not reduce stock.");
         await AssertEntityLookup(("APCBasic", 1), (PaidVendedItemProtoId, 1));
-        Assert.That(GetBankBalance(), Is.EqualTo(9), "Vend did not use the item's static price fallback.");
+        var pricing = SEntMan.System<PricingSystem>();
+        var prototype = ProtoMan.Index<EntityPrototype>(PaidVendedItemProtoId);
+        var expectedPrice = (int) Math.Ceiling(pricing.GetEstimatedPrice(prototype));
+        Assert.That(GetBankBalance(), Is.EqualTo(20 - expectedPrice), "Vend did not use the item's static price fallback.");
     }
 
     [Test]
@@ -429,6 +611,7 @@ public sealed class VendingInteractionTest : InteractionTest
             Assert.That(state, Is.Not.Null);
             Assert.That(state!.RequiresCash, Is.True);
             Assert.That(state.Balance, Is.EqualTo(10));
+            Assert.That(state.CashSlot, Is.EqualTo(0));
             Assert.That(state.Prices.TryGetValue(PaidVendedItemProtoId, out var price), Is.True);
             Assert.That(price, Is.EqualTo(7));
         });
@@ -499,5 +682,32 @@ public sealed class VendingInteractionTest : InteractionTest
         var bank = SEntMan.System<BankSystem>();
         Assert.That(bank.TryGetBalance(SPlayer, out var balance), "Player bank balance was unavailable.");
         return balance;
+    }
+
+    private int GetCashSlotBalance(EntityUid? vendor = null)
+    {
+        var slots = SEntMan.System<ItemSlotsSystem>();
+        if (!slots.TryGetSlot(vendor ?? STarget!.Value, VendingMachineComponent.CashSlotId, out var cashSlot) ||
+            cashSlot.Item is not { Valid: true } cash)
+            return 0;
+
+        return SEntMan.GetComponent<StackComponent>(cash).Count;
+    }
+
+    private int GetTotalCash()
+    {
+        return SEntMan.EntityQuery<CashComponent, StackComponent>()
+            .Sum(entry => entry.Item2.Count);
+    }
+
+    private async Task AssertCashSlotUiState(int expected)
+    {
+        await Server.WaitPost(() =>
+        {
+            var uiSystem = SEntMan.System<UserInterfaceSystem>();
+            Assert.That(uiSystem.TryGetUiState<VendingMachineUpdateState>((STarget!.Value, null), VendingMachineUiKey.Key, out var state), Is.True);
+            Assert.That(state, Is.Not.Null);
+            Assert.That(state!.CashSlot, Is.EqualTo(expected));
+        });
     }
 }

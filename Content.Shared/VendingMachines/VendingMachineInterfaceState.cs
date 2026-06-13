@@ -10,13 +10,15 @@ namespace Content.Shared.VendingMachines
         public Dictionary<string, int> Prices;
         public bool RequiresCash;
         public int? Balance;
+        public int CashSlot;
 
-        public VendingMachineUpdateState(List<VendingMachineInventoryEntry> inventory, Dictionary<string, int> prices, bool requiresCash, int? balance = null)
+        public VendingMachineUpdateState(List<VendingMachineInventoryEntry> inventory, Dictionary<string, int> prices, bool requiresCash, int? balance = null, int cashSlot = 0)
         {
             Inventory = inventory;
             Prices = prices;
             RequiresCash = requiresCash;
             Balance = balance;
+            CashSlot = cashSlot;
         }
     }
 
@@ -31,6 +33,9 @@ namespace Content.Shared.VendingMachines
             ID = id;
         }
     }
+
+    [Serializable, NetSerializable]
+    public sealed class VendingMachineEjectCashMessage : BoundUserInterfaceMessage;
 
     [Serializable, NetSerializable]
     public enum VendingMachineUiKey

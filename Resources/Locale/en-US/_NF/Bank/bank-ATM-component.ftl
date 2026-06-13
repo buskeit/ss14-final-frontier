@@ -11,6 +11,7 @@ bank-atm-reason-label = For:{" "}
 bank-atm-description-label = Description:{" "}
 
 vending-machine-menu-cash-slot-label = Cash Slot:{" "}
+vending-machine-menu-cash-slot-eject-button = Eject
 
 bank-insufficient-funds = Insufficient Funds
 bank-atm-menu-transaction-denied = Transaction Denied

@@ -1,4 +1,6 @@
 using Content.Shared.Actions;
+using Content.Shared.Containers.ItemSlots;
+using Content.Shared.Whitelist;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 using Robust.Shared.Serialization;
@@ -10,6 +12,8 @@ namespace Content.Shared.VendingMachines
     [RegisterComponent, NetworkedComponent, AutoGenerateComponentPause]
     public sealed partial class VendingMachineComponent : Component
     {
+        public const string CashSlotId = "vending-machine-cash-slot";
+
         /// <summary>
         /// PrototypeID for the vending machine's inventory, see <see cref="VendingMachineInventoryPrototype"/>
         /// </summary>
@@ -32,6 +36,20 @@ namespace Content.Shared.VendingMachines
         /// </summary>
         [DataField]
         public int DefaultPrice = 20;
+
+        /// <summary>
+        /// Cash inserted into the machine but not yet spent.
+        /// </summary>
+        [DataField]
+        public ItemSlot CashSlot = new()
+        {
+            Whitelist = new EntityWhitelist
+            {
+                Components = ["Cash"],
+            },
+            Swap = false,
+            EjectOnBreak = true,
+        };
 
         /// <summary>
         /// Used by the server to determine how long the vending machine stays in the "Deny" state.
