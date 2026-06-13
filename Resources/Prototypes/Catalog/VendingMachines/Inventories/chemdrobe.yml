@@ -2,18 +2,18 @@
   id: ChemDrobeInventory
   startingInventory:
     # Essential
-    ClothingEyesGlassesChemical: 1
+    ClothingEyesGlassesChemical: 3
     # Optional
-    ClothingHeadsetMedical: 1
-    ClothingBackpackChemistry: 1
-    ClothingBackpackSatchelChemistry: 1
-    ClothingBackpackDuffelChemistry: 1
-    ChemBag: 1
-    ClothingUniformJumpsuitChemistry: 1
-    ClothingUniformJumpskirtChemistry: 1
-    ClothingOuterCoatLabChem: 1
-    ClothingOuterWinterChem: 1
-    ClothingHandsGlovesLatex: 1
-    ClothingShoesColorWhite: 1
-  contrabandInventory:
-    ToyFigurineChemist: 1
+#    ClothingHeadsetMedical: 1
+    ClothingBackpackChemistry: 3
+    ClothingBackpackSatchelChemistry: 3
+    ClothingBackpackDuffelChemistry: 3
+    ChemBag: 3
+    ClothingUniformJumpsuitChemistry: 3
+    ClothingUniformJumpskirtChemistry: 3
+    ClothingOuterCoatLabChem: 3
+    ClothingOuterWinterChem: 3
+    ClothingHandsGlovesLatex: 10
+    ClothingShoesColorWhite: 3
+#  contrabandInventory:
+#    ToyFigurineChemist: 1

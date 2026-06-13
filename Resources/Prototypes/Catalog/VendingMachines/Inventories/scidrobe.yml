@@ -4,10 +4,10 @@
     ClothingBackpackScience: 3
     ClothingBackpackSatchelScience: 3
     ClothingBackpackDuffelScience: 3
-    ClothingUniformJumpsuitScientist: 3
-    ClothingUniformJumpskirtScientist: 3
-    ClothingUniformJumpsuitScientistFormal: 3
-    ClothingOuterCoatRnd: 3
+    ClothingUniformJumpsuitScientist: 5
+    ClothingUniformJumpskirtScientist: 5
+    ClothingUniformJumpsuitScientistFormal: 5
+    ClothingOuterCoatRnd: 5
     ClothingShoesColorWhite: 3
     ClothingNeckTieSci: 3
     ClothingHeadsetScience: 3
@@ -15,5 +15,5 @@
     ClothingOuterWinterSci: 2
     ClothingNeckScarfStripedPurple: 3
     ClothingShoesBootsWinterSci: 2
-  contrabandInventory:
-    ToyFigurineResearchDirector: 1  
+#  contrabandInventory:
+#    ToyFigurineResearchDirector: 1  

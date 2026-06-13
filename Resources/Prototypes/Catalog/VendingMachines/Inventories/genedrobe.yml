@@ -1,11 +1,11 @@
 - type: vendingMachineInventory
   id: GeneDrobeInventory
   startingInventory:
-    ClothingBackpackGenetics: 2
-    ClothingBackpackSatchelGenetics: 2
-    ClothingBackpackDuffelGenetics: 2
-    ClothingUniformJumpsuitGenetics: 2
-    ClothingUniformJumpskirtGenetics: 2
-    ClothingOuterCoatLabGene: 2
+    ClothingBackpackGenetics: 3
+    ClothingBackpackSatchelGenetics: 3
+    ClothingBackpackDuffelGenetics: 3
+    ClothingUniformJumpsuitGenetics: 5
+    ClothingUniformJumpskirtGenetics: 5
+    ClothingOuterCoatLabGene: 5
     ClothingOuterWinterGen: 2
-    ClothingShoesColorWhite: 2
+    ClothingShoesColorWhite: 3

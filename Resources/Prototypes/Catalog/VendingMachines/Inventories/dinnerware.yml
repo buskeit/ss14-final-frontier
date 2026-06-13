@@ -1,35 +1,34 @@
 - type: vendingMachineInventory
   id: DinnerwareInventory
   startingInventory:
-    ButchCleaver: 1
-    KitchenKnife: 5
-    RollingPin: 4
-    Spoon: 4
-    Fork: 4
-    PairedChopsticks: 4
+    ButchCleaver: 3
+    KitchenKnife: 3
+    RollingPin: 5
+    Spoon: 20
+    Fork: 20
+    PairedChopsticks: 20
     FoodBowlBig: 10
     FoodPlate: 10
     FoodPlateSmall: 10
-    FoodPlateTin: 5
-    FoodPlateMuffinTin: 5
-    FoodKebabSkewer: 5
-    DrinkGlass: 5
+    FoodPlateTin: 10
+    FoodPlateMuffinTin: 20
+    FoodKebabSkewer: 10
+    DrinkGlass: 10
     Beaker: 5
     LargeBeaker: 5
-    Pitcher: 2
+    Pitcher: 5
     DrinkMug: 5
-    DrinkMugBlack: 2
-    DrinkMugBlue: 2
-    DrinkMugGreen: 2
-    DrinkMugHeart: 1
-    DrinkMugMetal: 2
-    DrinkMugMoebius: 1
-    DrinkMugOne: 1
-    DrinkMugRainbow: 2
-    DrinkMugRed: 2
-    MortarAndPestle: 1
-    HandheldJuicer: 1
-  contrabandInventory:
-    CandyBowl: 1
-    BarSpoon: 2
-    DrinkShaker: 2
+    DrinkMugBlack: 5
+    DrinkMugBlue: 5
+    DrinkMugGreen: 5
+    DrinkMugHeart: 5
+    DrinkMugMetal: 5
+    DrinkMugMoebius: 5
+    DrinkMugOne: 5
+    DrinkMugRainbow: 5
+    DrinkMugRed: 5
+    MortarAndPestle: 3
+    HandheldJuicer: 3
+    CandyBowl: 3
+    BarSpoon: 5
+    DrinkShaker: 3

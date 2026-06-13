@@ -1,12 +1,12 @@
 - type: vendingMachineInventory
   id: RoboDrobeInventory
   startingInventory:
-    ClothingOuterCoatRobo: 2
-    ClothingUniformJumpsuitRoboticist: 2
-    ClothingUniformJumpskirtRoboticist: 2
-    ClothingShoesColorBlack: 2
-    ClothingHandsGlovesRobohands: 2
-    ClothingHeadHatCorpsoft: 2
-    ClothingHeadBandSkull: 2
-    ClothingHeadsetRobotics: 2
-    ClothingOuterWinterRobo: 2
+    ClothingOuterCoatRobo: 5
+    ClothingUniformJumpsuitRoboticist: 5
+    ClothingUniformJumpskirtRoboticist: 5
+    ClothingShoesColorBlack: 3
+    ClothingHandsGlovesRobohands: 5
+    ClothingHeadHatCorpsoft: 3
+    ClothingHeadBandSkull: 3
+#    ClothingHeadsetRobotics: 3
+    ClothingOuterWinterRobo: 3

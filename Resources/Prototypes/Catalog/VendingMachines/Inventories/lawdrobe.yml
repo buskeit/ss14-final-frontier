@@ -1,26 +1,25 @@
 - type: vendingMachineInventory
   id: LawDrobeInventory
   startingInventory:
-    ClothingUniformJumpsuitLawyerBlue: 1
-    ClothingUniformJumpskirtLawyerBlue: 1
-    ClothingUniformJumpsuitLawyerPurple: 1
-    ClothingUniformJumpskirtLawyerPurple: 1
-    ClothingUniformJumpsuitLawyerRed: 1
-    ClothingUniformJumpskirtLawyerRed: 1
-    ClothingUniformJumpsuitLawyerBlack: 1
-    ClothingUniformJumpskirtLawyerBlack: 1
-    ClothingUniformJumpsuitLawyerGood: 1
-    ClothingUniformJumpskirtLawyerGood: 1
-    ClothingShoesBootsLaceup: 2
-    ClothingHeadsetService: 2
-    ClothingNeckLawyerbadge: 2
-    BriefcaseBrown: 2
+    ClothingUniformJumpsuitLawyerBlue: 3
+    ClothingUniformJumpskirtLawyerBlue: 3
+    ClothingUniformJumpsuitLawyerPurple: 3
+    ClothingUniformJumpskirtLawyerPurple: 3
+    ClothingUniformJumpsuitLawyerRed: 3
+    ClothingUniformJumpskirtLawyerRed: 3
+    ClothingUniformJumpsuitLawyerBlack: 3
+    ClothingUniformJumpskirtLawyerBlack: 3
+    ClothingUniformJumpsuitLawyerGood: 3
+    ClothingUniformJumpskirtLawyerGood: 3
+#    ClothingShoesBootsLaceup: 2
+#    ClothingHeadsetService: 2
+    ClothingNeckLawyerbadge: 3
+    BriefcaseBrown: 3
     BookSpaceLaw: 3
-    LuxuryPen: 2
+    LuxuryPen: 3
     HandLabeler: 2
-  contrabandInventory:
-    ClothingOuterRobesJudge: 1
-    ClothingHeadHatPwig: 1
+    ClothingOuterRobesJudge: 3
+#    ClothingHeadHatPwig: 1
     # "Legally" obtained currency
-    SpaceCash100: 2
-    ToyFigurineLawyer: 1
+#    SpaceCash100: 2
+#    ToyFigurineLawyer: 1

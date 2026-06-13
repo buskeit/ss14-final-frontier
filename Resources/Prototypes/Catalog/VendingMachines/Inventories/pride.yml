@@ -19,27 +19,27 @@
     ClothingNeckTransPin: 3
     ClothingNeckAutismPin: 3
     ClothingNeckGoldAutismPin: 3
-    PlushieSharkBlue: 2
-    PlushieSharkPink: 2
-    PlushieSharkGrey: 2
-    ClothingNeckScarfStripedAce: 2
-    ClothingNeckScarfStripedAro: 2
-    ClothingNeckScarfStripedAroace: 2
-    ClothingNeckScarfStripedBiSexual: 2
-    ClothingNeckScarfStripedGay: 2
-    ClothingNeckScarfStripedInter: 2
-    ClothingNeckScarfStripedLesbian: 2
-    ClothingNeckScarfStripedPan: 2
-    ClothingNeckScarfStripedNonBinary: 2
-    ClothingNeckScarfStripedRainbow: 2
-    ClothingNeckScarfStripedTrans: 2
-    ClothingHeadHatXmasCrown: 2
-    BedsheetRainbow: 2
-    ClothingMultipleHeadphones: 2
-    ClothingHeadHatFlowerWreath: 2
-    ClothingUniformColorRainbow: 2
-    ClothingUnderSocksCoder: 2
-    ClothingUnderSocksBee: 2
-  contrabandInventory:
-    ClothingNeckScarfStripedLesbianLong: 2
-    ClothingUniformJumpskirtColorRainbow: 2
+    PlushieSharkBlue: 3
+    PlushieSharkPink: 3
+    PlushieSharkGrey: 3
+    ClothingNeckScarfStripedAce: 3
+    ClothingNeckScarfStripedAro: 3
+    ClothingNeckScarfStripedAroace: 3
+    ClothingNeckScarfStripedBiSexual: 3
+    ClothingNeckScarfStripedGay: 3
+    ClothingNeckScarfStripedInter: 3
+    ClothingNeckScarfStripedLesbian: 3
+    ClothingNeckScarfStripedPan: 3
+    ClothingNeckScarfStripedNonBinary: 3
+    ClothingNeckScarfStripedRainbow: 3
+    ClothingNeckScarfStripedTrans: 3
+    ClothingHeadHatXmasCrown: 3
+    BedsheetRainbow: 3
+    ClothingMultipleHeadphones: 3
+    ClothingHeadHatFlowerWreath: 3
+    ClothingUniformColorRainbow: 3
+    ClothingUnderSocksCoder: 3
+    ClothingUnderSocksBee: 3
+#  contrabandInventory:
+    ClothingNeckScarfStripedLesbianLong: 3
+    ClothingUniformJumpskirtColorRainbow: 3

@@ -4,7 +4,7 @@
     ClothingBackpackSecurity: 3
     ClothingBackpackSatchelSecurity: 3
     ClothingBackpackDuffelSecurity: 3
-    ClothingShoesBootsJack: 4
+    ClothingShoesBootsJack: 3
     ClothingShoesBootsCombat: 3
     ClothingShoesBootsWinterSec: 2
     ClothingHeadHatBeretSecurity: 3
@@ -17,30 +17,30 @@
     ClothingHeadHatSecurityTrooper: 3
     ClothingHeadBandRed: 3
     ClothingMaskNeckGaiterRed: 3
-    ClothingHandsGlovesColorBlack: 3
-    ClothingHandsGlovesFingerless: 3
-    ClothingUniformJumpsuitSec: 3
-    ClothingUniformJumpskirtSec: 3
-    ClothingUniformJumpsuitSecGrey: 3
-    ClothingUniformJumpskirtSecGrey: 3
-    ClothingUniformJumpsuitSecBlue: 3
-    ClothingUniformJumpsuitSecBlueAlt: 3
-    ClothingUniformJumpsuitSecGreyAlt: 3
-    ClothingUniformJumpsuitSecAlt: 3
-    ClothingUniformSecurityTrooper: 3
-    ClothingUniformSecurityTrooperSenior: 3
-    ClothingUniformJumpsuitSeniorOfficer: 3
-    ClothingUniformJumpskirtSeniorOfficer: 3
-    ClothingHeadsetSecurity: 3
+    ClothingHandsGlovesColorBlack: 5
+    ClothingHandsGlovesFingerless: 5
+    ClothingUniformJumpsuitSec: 5
+    ClothingUniformJumpskirtSec: 5
+    ClothingUniformJumpsuitSecGrey: 5
+    ClothingUniformJumpskirtSecGrey: 5
+    ClothingUniformJumpsuitSecBlue: 5
+    ClothingUniformJumpsuitSecBlueAlt: 5
+    ClothingUniformJumpsuitSecGreyAlt: 5
+    ClothingUniformJumpsuitSecAlt: 5
+    ClothingUniformSecurityTrooper: 5
+    ClothingUniformSecurityTrooperSenior: 5
+    ClothingUniformJumpsuitSeniorOfficer: 5
+    ClothingUniformJumpskirtSeniorOfficer: 5
+#    ClothingHeadsetSecurity: 3
     ClothingNeckScarfStripedRed: 3
-    ClothingOuterWinterSec: 2
-    ClothingOuterArmorBasicSlim: 2
-    ClothingOuterArmorBasic: 2
-    ClothingEyesBlindfold: 1
-    ClothingHeadHelmetJustice: 1
-  contrabandInventory:
-    ClothingMaskClownSecurity: 1
-    ClothingMaskMimeSecurity: 1
-    ToyFigurineSecurity: 1
-    ToyFigurineWarden: 1
-    ToyFigurineHeadOfSecurity: 1
+    ClothingOuterWinterSec: 3
+    ClothingOuterArmorBasicSlim: 3
+    ClothingOuterArmorBasic: 3
+#    ClothingEyesBlindfold: 1
+    ClothingHeadHelmetJustice: 3
+#  contrabandInventory:
+#    ClothingMaskClownSecurity: 1
+#    ClothingMaskMimeSecurity: 1
+#    ToyFigurineSecurity: 1
+#    ToyFigurineWarden: 1
+#    ToyFigurineHeadOfSecurity: 1

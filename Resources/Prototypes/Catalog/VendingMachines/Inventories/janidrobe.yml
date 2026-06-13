@@ -1,17 +1,17 @@
 - type: vendingMachineInventory
   id: JaniDrobeInventory
   startingInventory:
-    ClothingUniformJumpsuitJanitor: 2
-    ClothingUniformJumpskirtJanitor: 2
-    ClothingHandsGlovesJanitor: 2
-    ClothingShoesColorBlack: 2
-    ClothingHeadHatPurplesoft: 2
-    ClothingBeltJanitor: 2
-    ClothingHeadsetService: 2
+    ClothingUniformJumpsuitJanitor: 5
+    ClothingUniformJumpskirtJanitor: 5
+    ClothingHandsGlovesJanitor: 5
+    ClothingShoesColorBlack: 5
+    ClothingHeadHatPurplesoft: 5
+    ClothingBeltJanitor: 3
+#    ClothingHeadsetService: 2
     ClothingOuterWinterJani: 2
-    ClothingNeckScarfStripedPurple: 3
-  contrabandInventory:
-    ToyFigurineJanitor: 1
-  emaggedInventory:
+    ClothingNeckScarfStripedPurple: 2
+#  contrabandInventory:
+#    ToyFigurineJanitor: 1
+#  emaggedInventory:
     ClothingUniformJumpskirtJanimaid: 2
     ClothingUniformJumpskirtJanimaidmini: 1

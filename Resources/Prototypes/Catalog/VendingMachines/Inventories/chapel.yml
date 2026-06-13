@@ -1,33 +1,34 @@
 - type: vendingMachineInventory
   id: PietyVendInventory
   startingInventory:
-    ClothingUniformJumpsuitChaplain: 2
-    ClothingUniformJumpskirtChaplain: 2
-    ClothingUniformJumpsuitMonasticRobeDark: 1
-    ClothingUniformJumpsuitMonasticRobeLight: 1
-    ClothingNeckStoleChaplain: 1
-    ClothingOuterHoodieChaplain: 1
-    ClothingOuterHoodieBlack: 1
-    ClothingHeadHatHoodNunHood: 1
-    ClothingOuterNunRobe: 1
-    ClothingHeadHatFez: 1
-    ClothingHeadHatPlaguedoctor: 1
-    ClothingHeadHatWitch: 1
-    ClothingHeadHatWitch1: 1
-    ClothingOuterPlagueSuit: 1
-    ClothingMaskPlague: 1
-    ClothingHeadsetService: 2
-    BoxCandle: 2
-    BoxCandleSmall: 2
-    Urn: 5
-    Bible: 1
-  contrabandInventory:
-    FoodBakedBunHotX: 2
-    DrinkWineBottleFull: 1
-    ToyFigurineChaplain: 1
+    ClothingUniformJumpsuitChaplain: 3
+    ClothingUniformJumpskirtChaplain: 3
+    ClothingUniformJumpsuitMonasticRobeDark: 3
+    ClothingUniformJumpsuitMonasticRobeLight: 3
+    ClothingNeckStoleChaplain: 3
+    ClothingOuterHoodieChaplain: 3
+    ClothingOuterHoodieBlack: 3
+    ClothingHeadHatHoodNunHood: 3
+    ClothingOuterNunRobe: 3
     ClothingNeckScarfStripedBlack: 3
-  emaggedInventory:
-    ClothingOuterRobesCult: 3
-    ClothingHeadHatHoodCulthood: 3
-    ClothingShoesCult: 4
-    BedsheetCult: 4
+  #  ClothingHeadHatFez: 2
+    ClothingHeadHatPlaguedoctor: 2
+  #  ClothingHeadHatWitch: 1
+  #  ClothingHeadHatWitch1: 1
+    ClothingOuterPlagueSuit: 2
+    ClothingMaskPlague: 2
+  #  ClothingHeadsetService: 2
+    BoxCandle: 10
+    BoxCandleSmall: 10
+    Urn: 10
+    Bible: 10
+#  contrabandInventory:
+#    FoodBakedBunHotX: 2
+#    DrinkWineBottleFull: 1
+#    ToyFigurineChaplain: 1
+#    ClothingNeckScarfStripedBlack: 3
+#  emaggedInventory:
+#    ClothingOuterRobesCult: 3
+#    ClothingHeadHatHoodCulthood: 3
+#    ClothingShoesCult: 4
+#    BedsheetCult: 4

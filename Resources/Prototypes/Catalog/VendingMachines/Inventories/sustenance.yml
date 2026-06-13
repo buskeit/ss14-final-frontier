@@ -1,17 +1,16 @@
 - type: vendingMachineInventory
   id: SustenanceInventory
   startingInventory:
-    DrinkMREFlask: 3
-    FoodSnackNutribrick: 5
-    FoodSnackMREBrownie: 5
-    FoodCondimentPacketKetchup: 5
-  contrabandInventory:
-    FoodTinMRE: 3
-    FoodTinBeans: 3
-    FoodTinPeaches: 3
-    DrinkBeerCan: 6
-    KitchenKnife: 2
-  emaggedInventory:
-    ClothingMaskBreath: 3
-    EmergencyOxygenTankFilled: 3
-    DrinkNukieCan: 2
+    DrinkMREFlask: 10
+    FoodSnackNutribrick: 10
+    FoodSnackMREBrownie: 10
+    FoodCondimentPacketKetchup: 15
+    FoodTinMRE: 5
+    FoodTinBeans: 5
+    FoodTinPeaches: 5
+    DrinkBeerCan: 10
+#    KitchenKnife: 2
+#  emaggedInventory:
+#    ClothingMaskBreath: 3
+#    EmergencyOxygenTankFilled: 3
+#    DrinkNukieCan: 2

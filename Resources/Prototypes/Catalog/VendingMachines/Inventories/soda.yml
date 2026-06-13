@@ -1,16 +1,15 @@
 - type: vendingMachineInventory
   id: SodaInventory
   startingInventory:
-    DrinkColaCan: 3
-    DrinkGrapeCan: 3
-    DrinkRootBeerCan: 3
-    DrinkIcedTeaCan: 3
-    DrinkSolDryCan: 3
-    DrinkLemonLimeCan: 3
-    DrinkLemonLimeCranberryCan: 3
-    DrinkFourteenLokoCan: 3
-  contrabandInventory:
-    DrinkColaBottleFull: 2
-    DrinkChangelingStingCan: 3
-  emaggedInventory:
-    DrinkNukieCan: 3
+    DrinkColaCan: 15
+    DrinkGrapeCan: 10
+    DrinkRootBeerCan: 10
+    DrinkIcedTeaCan: 10
+    DrinkSolDryCan: 10
+    DrinkLemonLimeCan: 10
+    DrinkLemonLimeCranberryCan: 5
+    DrinkFourteenLokoCan: 5
+    DrinkColaBottleFull: 15
+#    DrinkChangelingStingCan: 3
+#  emaggedInventory:
+#    DrinkNukieCan: 3

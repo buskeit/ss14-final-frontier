@@ -1,14 +1,14 @@
 - type: vendingMachineInventory
   id: ChangInventory
   startingInventory:
-    FoodCondimentPacketSoy: 5
-    FoodSnackCookieFortune: 5
-    DrinkRamen: 3
-    DrinkHellRamen: 3
-    FoodSnackChowMein: 3
-    FoodSnackDanDanNoodles: 3
-    PairedChopsticks: 3
-  contrabandInventory:
-    FoodBakedDumplings: 2
-    FoodSoupMiso: 2
+    FoodCondimentPacketSoy: 10
+    FoodSnackCookieFortune: 10
+    DrinkRamen: 10
+    DrinkHellRamen: 10
+    FoodSnackChowMein: 10
+    FoodSnackDanDanNoodles: 10
+    PairedChopsticks: 20
+#  contrabandInventory:
+#    FoodBakedDumplings: 2
+#    FoodSoupMiso: 2
 # rice?

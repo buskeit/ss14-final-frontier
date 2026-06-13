@@ -1,16 +1,14 @@
 - type: vendingMachineInventory
   id: RobustSoftdrinksInventory
   startingInventory:
-    DrinkColaCan: 4
-    DrinkGrapeCan: 2
-    DrinkRootBeerCan: 2
-    DrinkIcedTeaCan: 2
-    DrinkSolDryCan: 2
-    DrinkLemonLimeCan: 2
-    DrinkLemonLimeCranberryCan: 2
-    DrinkFourteenLokoCan: 2
-  contrabandInventory:
-    DrinkColaBottleFull: 2
-    DrinkChangelingStingCan: 2
-  emaggedInventory:
+    DrinkColaCan: 10
+    DrinkGrapeCan: 10
+    DrinkRootBeerCan: 10
+    DrinkIcedTeaCan: 10
+    DrinkSolDryCan: 10
+    DrinkLemonLimeCan: 10
+    DrinkLemonLimeCranberryCan: 10
+    DrinkFourteenLokoCan: 10
+    DrinkColaBottleFull: 10
+#    DrinkChangelingStingCan: 2
     DrinkNukieCan: 2
