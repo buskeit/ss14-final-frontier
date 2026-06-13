@@ -17,6 +17,7 @@ using Content.Shared.Popups;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using System.Linq;
+using Content.Shared.StationRecords;
 
 namespace Content.Server.Access.Systems;
 
@@ -39,6 +40,16 @@ public sealed class IdCardSystem : SharedIdCardSystem
 
         SubscribeLocalEvent<IdCardComponent, BeingMicrowavedEvent>(OnMicrowaved);
         SubscribeLocalEvent<IdCardComponent, ComponentInit>(OnCompInit);
+    }
+
+    protected override void OnMapInit(EntityUid uid, IdCardComponent id, MapInitEvent args)
+    {
+        base.OnMapInit(uid, id, args);
+        if (id.FullName != "*Expired*" && id.FullName != null && id.FullName != "")
+        {
+            RebuildJob(uid, id);
+            UpdateEntityName(uid, id);
+        }
     }
 
     private void OnCompInit(EntityUid uid, IdCardComponent id, ComponentInit args)
@@ -211,29 +222,42 @@ public sealed class IdCardSystem : SharedIdCardSystem
         var station = _station.GetStationByID(comp.stationID.Value);
         if (station == null)
         {
-            comp.LocalizedJobTitle = "Off Duty";
+            if (string.IsNullOrEmpty(comp.LocalizedJobTitle))
+                comp.LocalizedJobTitle = "Off Duty";
             return;
         }
-        bool found = false;
 
-        if (TryComp<CrewRecordsComponent>(station, out var crewRecords))
+        if (TryComp<StationRecordKeyStorageComponent>(card, out var keyStorage) && keyStorage.Key != null)
         {
-            if (crewRecords.TryGetRecord(comp.FullName, out var crewRecord) && crewRecord != null)
+            var key = keyStorage.Key.Value;
+            if (!key.OriginStation.IsValid())
             {
-                if (TryComp<CrewAssignmentsComponent>(station, out var crewAssignments))
-                {
-                    if (crewAssignments.TryGetAssignment(crewRecord.AssignmentID, out var crewAssignment) && crewAssignment != null)
-                    {
-                        comp.LocalizedJobTitle = crewAssignment.Name;
-                        found = true;
-                    }
-                }
+                keyStorage.Key = new StationRecordKey(key.Id, station.Value);
             }
         }
-        if (!found)
+
+        if (!TryComp<CrewRecordsComponent>(station, out var crewRecords))
+        {
+            if (string.IsNullOrEmpty(comp.LocalizedJobTitle))
+                comp.LocalizedJobTitle = "Off Duty";
+            return;
+        }
+
+        if (!crewRecords.TryGetRecord(comp.FullName, out var crewRecord) || crewRecord == null)
         {
             comp.LocalizedJobTitle = "Off Duty";
             return;
         }
+
+        if (!TryComp<CrewAssignmentsComponent>(station, out var crewAssignments) ||
+            !crewAssignments.TryGetAssignment(crewRecord.AssignmentID, out var assignment) ||
+            assignment == null)
+        {
+            if (string.IsNullOrEmpty(comp.LocalizedJobTitle))
+                comp.LocalizedJobTitle = "Off Duty";
+            return;
+        }
+
+        comp.LocalizedJobTitle = assignment.Name;
     }
 }

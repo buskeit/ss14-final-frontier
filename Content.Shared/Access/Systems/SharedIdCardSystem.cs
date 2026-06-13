@@ -58,7 +58,7 @@ public abstract class SharedIdCardSystem : EntitySystem
     }
 
 
-    private void OnMapInit(EntityUid uid, IdCardComponent id, MapInitEvent args)
+    protected virtual void OnMapInit(EntityUid uid, IdCardComponent id, MapInitEvent args)
     {
         UpdateEntityName(uid, id);
     }
