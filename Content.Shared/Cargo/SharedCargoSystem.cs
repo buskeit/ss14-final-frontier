@@ -11,6 +11,7 @@ namespace Content.Shared.Cargo;
 public abstract class SharedCargoSystem : EntitySystem
 {
     [Dependency] protected readonly IGameTiming Timing = default!;
+    [Dependency] protected readonly IPrototypeManager PrototypeManager = default!;
 
     public override void Initialize()
     {
@@ -22,6 +23,19 @@ public abstract class SharedCargoSystem : EntitySystem
     private void OnMapInit(Entity<StationBankAccountComponent> ent, ref MapInitEvent args)
     {
         ent.Comp.NextIncomeTime = Timing.CurTime + ent.Comp.IncomeDelay;
+
+        foreach (var account in PrototypeManager.EnumeratePrototypes<CargoAccountPrototype>())
+        {
+            if (!ent.Comp.Accounts.ContainsKey(account.ID))
+            {
+                ent.Comp.Accounts[account.ID] = 0;
+            }
+            if (!ent.Comp.RevenueDistribution.ContainsKey(account.ID))
+            {
+                ent.Comp.RevenueDistribution[account.ID] = 0.0;
+            }
+        }
+
         Dirty(ent);
     }
 
@@ -115,6 +129,9 @@ public abstract class SharedCargoSystem : EntitySystem
         if (!accounts.ContainsKey(accountPrototypeId) && !createAccount)
             return false;
 
+        if (!accounts.ContainsKey(accountPrototypeId))
+            accounts[accountPrototypeId] = 0;
+
         accounts[accountPrototypeId] += money;
         var ev = new BankBalanceUpdatedEvent(station, station.Comp.Accounts);
         RaiseLocalEvent(station, ref ev, true);
@@ -194,6 +211,9 @@ public abstract class SharedCargoSystem : EntitySystem
         foreach (var (account, percent) in accountDistribution)
         {
             var accountBalancedAdded = (int)Math.Round(percent * balanceAdded);
+            if (!ent.Comp.Accounts.ContainsKey(account))
+                ent.Comp.Accounts[account] = 0;
+
             ent.Comp.Accounts[account] += accountBalancedAdded;
         }
 
