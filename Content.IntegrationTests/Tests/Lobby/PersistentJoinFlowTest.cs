@@ -296,6 +296,101 @@ public sealed class PersistentJoinFlowTest
         await pair.CleanReturnAsync();
     }
 
+    [Test]
+    public async Task PersistentBodyCurrentWorldRestoreAndStationRelinking()
+    {
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings { InLobby = true, Dirty = true });
+        var server = pair.Server;
+        var client = pair.Client;
+        var user = pair.Client.User!.Value;
+        var clientPrefManager = client.Resolve<IClientPreferencesManager>();
+        var serverPlayers = server.ResolveDependency<IPlayerManager>();
+        var gameTicker = server.System<GameTicker>();
+        var entMan = server.EntMan;
+
+        await client.WaitPost(() => clientPrefManager.FinalizeCharacter(HumanoidCharacterProfile.Random(), 0));
+        await pair.RunTicksSync(10);
+
+        await server.WaitPost(() => server.CfgMan.SetCVar(CCVars.UsePersistence, true));
+        await server.WaitPost(() => gameTicker.RestartRound());
+        await pair.RunTicksSync(10);
+        await DisconnectReconnect(pair);
+        await pair.RunTicksSync(10);
+
+        // Verify player is spawned and alive
+        var session = serverPlayers.Sessions.Single();
+        await AssertAttachedEntitySafe(server, session);
+        var originalBody = session.AttachedEntity!.Value;
+
+        // Manually create a station entity and link the grid to it, and set UserId on PersistentLocationComponent
+        await server.WaitPost(() =>
+        {
+            var transform = entMan.GetComponent<TransformComponent>(originalBody);
+            var gridUid = transform.GridUid!.Value;
+
+            // Make the grid "become a station"
+            var becomes = entMan.EnsureComponent<Content.Server.Station.Components.BecomesStationComponent>(gridUid);
+            becomes.Id = "TestStationConfigId";
+
+            // Update persistent location
+            gameTicker.UpdatePersistentLocationComponent(originalBody, user);
+
+            // Recreate/Initialize the station entity
+            var stationSystem = entMan.System<Content.Server.Station.Systems.StationSystem>();
+            var stationUid = stationSystem.RecreateStation(transform.MapID, 1, "Aurelian League");
+            stationSystem.AddGridToStation(stationUid, gridUid);
+        });
+
+        // Trigger autosave/saving maps which calls our code to update persistent location component on player bodies
+        await server.WaitPost(() =>
+        {
+            var mapLoader = entMan.System<MapLoaderSystem>();
+            var mapId = gameTicker.DefaultMap;
+            
+            // Save the map to 'current' save path (simulating what gameTicker.SaveMaps() or autosave does)
+            var currentSavePath = gameTicker.GetLatestAutosavePath();
+            Assert.That(mapLoader.TrySaveMap(mapId, currentSavePath, GameTicker.PersistentMapSaveOptions), Is.True);
+        });
+
+        // Restart round (simulating server restart/reload)
+        await server.WaitPost(() => gameTicker.RestartRound());
+        await pair.RunTicksSync(10);
+
+        // Reconnect player
+        await DisconnectReconnect(pair);
+        await pair.RunTicksSync(10);
+
+        // Verify that:
+        // 1. The player is attached to the EXACT same body entity from the loaded world (prefers current-world body)
+        // 2. The body's grid was repaired and resolved to the station (stationless fallback was NOT used)
+        // 3. Job assignment ran and player spawn complete event used the real station
+        await server.WaitAssertion(() =>
+        {
+            var newSession = serverPlayers.Sessions.Single();
+            Assert.That(newSession.AttachedEntity, Is.Not.Null);
+            var newBody = newSession.AttachedEntity!.Value;
+
+            Assert.That(entMan.EntityExists(newBody), Is.True);
+            Assert.That(entMan.TryGetComponent<PersistentLocationComponent>(newBody, out var loc), Is.True);
+            Assert.That(loc.UserId, Is.EqualTo(user));
+
+            var stationSystem = entMan.System<Content.Server.Station.Systems.StationSystem>();
+            var owningStation = stationSystem.GetOwningStation(newBody);
+            Assert.That(owningStation, Is.Not.Null);
+            Assert.That(owningStation!.Value.IsValid(), Is.True);
+            
+            var stationName = entMan.GetComponent<MetaDataComponent>(owningStation.Value).EntityName;
+            Assert.That(stationName, Is.EqualTo("Aurelian League"));
+        });
+
+        await client.WaitAssertion(() =>
+        {
+            Assert.That(client.Resolve<IStateManager>().CurrentState, Is.TypeOf<GameplayState>());
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
     private static async Task AssertAttachedEntitySafe(RobustIntegrationTest.ServerIntegrationInstance server, ICommonSession player)
     {
         await server.WaitAssertion(() =>

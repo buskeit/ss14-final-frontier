@@ -289,66 +289,93 @@ namespace Content.Server.GameTicking
         private bool TryAttachPersistentBody(ICommonSession player, HumanoidCharacterProfile character, NetUserId userId)
         {
             var saveFilePath = PersistentCharacterSavePath.ForPlayer(userId);
-            var rootedPath = saveFilePath.ToRootedPath();
-            if (!_resourceManager.UserData.Exists(rootedPath))
-                return false;
 
-            if (!_loader.TryLoadEntity(saveFilePath, out var mobMaybe, PersistentCharacterLoadOptions) || mobMaybe == null)
+            EntityUid? existingBody = null;
+            foreach (var (loc, xform) in EntityQuery<PersistentLocationComponent, TransformComponent>(includePaused: true))
             {
-                _sawmill.Warning(
-                    "Persistent character load failed for {Player} at {Path}; fresh-spawn fallback is required.",
-                    player.Name,
-                    saveFilePath);
-                return false;
+                if (loc.UserId == userId)
+                {
+                    existingBody = loc.Owner;
+                    _sawmill.Info($"Found existing current-world body {existingBody} for player {player.Name} with UserId {userId}");
+                    break;
+                }
             }
 
-            var mob = mobMaybe.Value.Owner;
+            EntityUid mob;
+            bool cameFromCurrentWorld = false;
 
-            // Reposition / repair body onto the restored map/grid if possible
-            if (_ent.TryGetComponent<PersistentLocationComponent>(mob, out var locComp) && !string.IsNullOrEmpty(locComp.GridName))
+            if (existingBody != null && existingBody.Value.IsValid() && !TerminatingOrDeleted(existingBody.Value))
             {
-                EntityUid? targetGrid = null;
-                var gridQuery = _ent.EntityQueryEnumerator<MapGridComponent, MetaDataComponent>();
-                while (gridQuery.MoveNext(out var gUid, out _, out var meta))
+                mob = existingBody.Value;
+                cameFromCurrentWorld = true;
+                _sawmill.Info($"Preferring existing current-world body {mob} for player {player.Name}");
+                _sawmill.Info($"Ignoring separate persistent body file for player {player.Name} because active current-world body was found.");
+            }
+            else
+            {
+                var rootedPath = saveFilePath.ToRootedPath();
+                if (!_resourceManager.UserData.Exists(rootedPath))
+                    return false;
+
+                if (!_loader.TryLoadEntity(saveFilePath, out var mobMaybe, PersistentCharacterLoadOptions) || mobMaybe == null)
                 {
-                    if (meta.EntityName == locComp.GridName)
+                    _sawmill.Warning(
+                        "Persistent character load failed for {Player} at {Path}; fresh-spawn fallback is required.",
+                        player.Name,
+                        saveFilePath);
+                    return false;
+                }
+
+                mob = mobMaybe.Value.Owner;
+
+                // Reposition / repair body onto the restored map/grid if possible
+                if (_ent.TryGetComponent<PersistentLocationComponent>(mob, out var locComp) && !string.IsNullOrEmpty(locComp.GridName))
+                {
+                    EntityUid? targetGrid = null;
+                    var gridQuery = _ent.EntityQueryEnumerator<MapGridComponent, MetaDataComponent>();
+                    while (gridQuery.MoveNext(out var gUid, out _, out var meta))
                     {
-                        targetGrid = gUid;
-                        break;
+                        if (meta.EntityName == locComp.GridName)
+                        {
+                            targetGrid = gUid;
+                            break;
+                        }
+                    }
+
+                    if (targetGrid != null)
+                    {
+                        _transform.SetParent(mob, targetGrid.Value);
+                        _transform.SetLocalPosition(mob, locComp.LocalPosition);
+                        _sawmill.Info("Restored persistent body {Entity} for player {Player} to saved grid {GridName} at {Position}",
+                            ToPrettyString(mob), player.Name, locComp.GridName, locComp.LocalPosition);
+                    }
+                    else
+                    {
+                        _sawmill.Warning("Could not find grid named {GridName} to restore persistent body {Entity} for player {Player}.",
+                            locComp.GridName, ToPrettyString(mob), player.Name);
                     }
                 }
 
-                if (targetGrid != null)
+                // Fallback for missing/invalid grid (legacy or deleted grids)
+                if (_ent.TryGetComponent<TransformComponent>(mob, out var xform))
                 {
-                    _transform.SetParent(mob, targetGrid.Value);
-                    _transform.SetLocalPosition(mob, locComp.LocalPosition);
-                    _sawmill.Info("Restored persistent body {Entity} for player {Player} to saved grid {GridName} at {Position}",
-                        ToPrettyString(mob), player.Name, locComp.GridName, locComp.LocalPosition);
-                }
-                else
-                {
-                    _sawmill.Warning("Could not find grid named {GridName} to restore persistent body {Entity} for player {Player}.",
-                        locComp.GridName, ToPrettyString(mob), player.Name);
-                }
-            }
-
-            // Fallback for missing/invalid grid (legacy or deleted grids)
-            if (_ent.TryGetComponent<TransformComponent>(mob, out var xform))
-            {
-                if (xform.GridUid == null || xform.GridUid == EntityUid.Invalid || TerminatingOrDeleted(xform.GridUid.Value) ||
-                    xform.MapUid == null || xform.MapUid == EntityUid.Invalid || TerminatingOrDeleted(xform.MapUid.Value))
-                {
-                    var activeGrids = _mapManager.GetAllMapGrids(DefaultMap).ToList();
-                    if (activeGrids.Any())
+                    if (xform.GridUid == null || xform.GridUid == EntityUid.Invalid || TerminatingOrDeleted(xform.GridUid.Value) ||
+                        xform.MapUid == null || xform.MapUid == EntityUid.Invalid || TerminatingOrDeleted(xform.MapUid.Value))
                     {
-                        var fallbackGrid = activeGrids[0].Owner;
-                        _transform.SetParent(mob, fallbackGrid);
-                        _transform.SetLocalPosition(mob, Vector2.Zero);
-                        _sawmill.Info("Repositioned persistent body {Entity} for player {Player} onto fallback grid {Grid} because saved grid was missing or invalid.",
-                            ToPrettyString(mob), player.Name, fallbackGrid);
+                        var activeGrids = _mapManager.GetAllMapGrids(DefaultMap).ToList();
+                        if (activeGrids.Any())
+                        {
+                            var fallbackGrid = activeGrids[0].Owner;
+                            _transform.SetParent(mob, fallbackGrid);
+                            _transform.SetLocalPosition(mob, Vector2.Zero);
+                            _sawmill.Info("Repositioned persistent body {Entity} for player {Player} onto fallback grid {Grid} because saved grid was missing or invalid.",
+                                ToPrettyString(mob), player.Name, fallbackGrid);
+                        }
                     }
                 }
             }
+
+            _sawmill.Info($"Persistent body source: cameFromCurrentWorld={cameFromCurrentWorld}, wasLoadedFromPlayerFile={!cameFromCurrentWorld}");
 
             if (!TryValidatePersistentBody(mob, out var station, out var reason))
             {
@@ -436,15 +463,18 @@ namespace Content.Server.GameTicking
                 _admin.UpdatePlayerList(player);
 
                 var hasStation = station.IsValid() && !TerminatingOrDeleted(station);
+                _sawmill.Info($"Persistent body attach complete for {player.Name}: final owning station result={station}, stationless fallback used={!hasStation}");
                 if (hasStation)
                 {
-                    _stationJobs.TryAssignJob(station, jobPrototype, player.UserId);
+                    var jobAssigned = _stationJobs.TryAssignJob(station, jobPrototype, player.UserId);
+                    _sawmill.Info($"Persistent body job assignment ran: station={station}, job={jobId}, result={jobAssigned}");
                     _adminLogger.Add(LogType.LateJoin,
                         LogImpact.Medium,
                         $"Player {player.Name} rejoined persistent character {character.Name:characterName} on station {Name(station):stationName} with {ToPrettyString(mob):entity} as a {jobName:jobName}.");
                 }
                 else
                 {
+                    _sawmill.Info("Persistent body job assignment skipped: using stationless fallback (no owning station)");
                     _sawmill.Warning(
                         "Safe persistent body {Entity} attached for {Player} without an owning spawnable station; station job assignment was skipped.",
                         ToPrettyString(mob),
@@ -529,7 +559,23 @@ namespace Content.Server.GameTicking
                 return false;
             }
 
+            _sawmill.Info($"Persistent body attach check: Body {mob} transform is on Map={mapUid}, Grid={gridUid}");
             var owningStation = _station.GetOwningStation(mob, transform);
+            _sawmill.Info($"Persistent body attach check: GetOwningStation returned {owningStation}");
+
+            var isOwnedByStation = owningStation != null && owningStation != EntityUid.Invalid;
+            _sawmill.Info($"Persistent body attach check: Body grid {gridUid} is owned by station {owningStation} (isOwned={isOwnedByStation})");
+
+            if (owningStation == null || TerminatingOrDeleted(owningStation.Value))
+            {
+                _sawmill.Info($"Station ownership not resolved for body {mob} on grid {gridUid}. Attempting station-grid repair...");
+                _station.PostCurrentLoadRepair(out _, out _, out _);
+
+                // Retry lookup
+                owningStation = _station.GetOwningStation(mob, transform);
+                _sawmill.Info($"Persistent body attach check: GetOwningStation retry returned {owningStation}");
+            }
+
             if (owningStation == null || TerminatingOrDeleted(owningStation.Value))
             {
                 station = EntityUid.Invalid;
@@ -968,7 +1014,7 @@ namespace Content.Server.GameTicking
             return EntityCoordinates.Invalid;
         }
 
-        public void UpdatePersistentLocationComponent(EntityUid mob)
+        public void UpdatePersistentLocationComponent(EntityUid mob, NetUserId? userId = null)
         {
             if (!_ent.TryGetComponent<TransformComponent>(mob, out var transform))
                 return;
@@ -983,6 +1029,14 @@ namespace Content.Server.GameTicking
             var locComp = _ent.EnsureComponent<PersistentLocationComponent>(mob);
             locComp.GridName = gridName;
             locComp.LocalPosition = transform.LocalPosition;
+            if (userId != null)
+            {
+                locComp.UserId = userId;
+            }
+            else if (_mind.TryGetMind(mob, out _, out var mindComp) && mindComp.UserId != null)
+            {
+                locComp.UserId = mindComp.UserId;
+            }
         }
 
         #endregion
