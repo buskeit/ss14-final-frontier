@@ -19,6 +19,7 @@ using Robust.Shared.EntitySerialization.Systems;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
+using Robust.Shared.Prototypes;
 using Robust.UnitTesting;
 
 namespace Content.IntegrationTests.Tests.Lobby;
@@ -26,6 +27,18 @@ namespace Content.IntegrationTests.Tests.Lobby;
 [TestFixture]
 public sealed class PersistentJoinFlowTest
 {
+    private static readonly EntProtoId PersistentStationPrototype = "StandardPersistStation";
+
+    [Test]
+    public async Task PersistentStationSupportsArrivals()
+    {
+        await using var pair = await PoolManager.GetServerClient();
+        var prototype = pair.Server.ProtoMan.Index<EntityPrototype>(PersistentStationPrototype);
+
+        Assert.That(prototype.Components.ContainsKey("StationArrivals"), Is.True);
+        await pair.CleanReturnAsync();
+    }
+
     [Test]
     public async Task NoCharacterForcesSetupAndFinalizeJoinsSafely()
     {

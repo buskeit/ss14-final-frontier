@@ -1,10 +1,13 @@
 using Content.Server.Cargo.Systems;
 using Content.Server._NF.Bank;
 using Content.Server.Power.Components;
+using Content.Server.Power.EntitySystems;
 using Content.Server.Vocalization.Systems;
 using Content.Shared.Cargo;
+using Content.Shared.Cargo.Components;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Emp;
+using Content.Shared.Interaction;
 using Content.Shared.Power;
 using Content.Shared.Throwing;
 using Content.Shared.VendingMachines;
@@ -33,10 +36,39 @@ namespace Content.Server.VendingMachines
             SubscribeLocalEvent<VendingMachineComponent, DamageChangedEvent>(OnDamageChanged);
             SubscribeLocalEvent<VendingMachineComponent, PriceCalculationEvent>(OnVendingPrice);
             SubscribeLocalEvent<VendingMachineComponent, TryVocalizeEvent>(OnTryVocalize);
+            SubscribeLocalEvent<VendingMachineComponent, InteractUsingEvent>(OnInteractUsing);
 
             SubscribeLocalEvent<VendingMachineComponent, VendingMachineSelfDispenseEvent>(OnSelfDispense);
 
             SubscribeLocalEvent<VendingMachineRestockComponent, PriceCalculationEvent>(OnPriceCalculation);
+        }
+
+        private void OnInteractUsing(EntityUid uid, VendingMachineComponent component, InteractUsingEvent args)
+        {
+            if (args.Handled ||
+                !component.RequiresCash ||
+                component.Broken ||
+                !this.IsPowered(uid, EntityManager) ||
+                !HasComp<CashComponent>(args.Used))
+            {
+                return;
+            }
+
+            var value = _pricing.GetPrice(args.Used);
+            if (!double.IsFinite(value) || value <= 0 || value > int.MaxValue)
+                return;
+
+            var amount = (int) value;
+            if (amount <= 0 || !_bank.TryBankDeposit(args.User, amount))
+                return;
+
+            QueueDel(args.Used);
+            args.Handled = true;
+            Popup.PopupEntity(
+                Loc.GetString("store-currency-inserted", ("used", args.Used), ("target", uid)),
+                uid,
+                args.User);
+            UpdateUI((uid, component), args.User);
         }
 
         private void OnVendingPrice(EntityUid uid, VendingMachineComponent component, ref PriceCalculationEvent args)

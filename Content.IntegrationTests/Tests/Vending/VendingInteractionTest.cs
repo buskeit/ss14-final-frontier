@@ -3,6 +3,7 @@ using Content.Server.Cargo.Systems;
 using Content.Server.GameTicking;
 using Content.Server._NF.Bank;
 using Content.Server.VendingMachines;
+using Content.Shared.Cargo.Components;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Prototypes;
@@ -311,6 +312,18 @@ public sealed class VendingInteractionTest : InteractionTest
         Assert.That(vendingSystem.GetAllInventory(vendorEnt).Single().Amount, Is.EqualTo(1), "Paid vend dispensed without funds.");
         await AssertEntityLookup(("APCBasic", 1));
         Assert.That(GetBankBalance(), Is.EqualTo(0), "Balance changed on failed vend.");
+    }
+
+    [Test]
+    public async Task PaidVendorAcceptsCash()
+    {
+        await SpawnTarget(YamlPricedVendingMachineProtoId);
+        await SpawnEntity("APCBasic", SEntMan.GetCoordinates(TargetCoords));
+        await SetBankBalance(0);
+        await RunTicks(1);
+        await InteractUsing("SpaceCash", 25);
+        Assert.That(GetBankBalance(), Is.EqualTo(25));
+        Assert.That(SEntMan.EntityQuery<CashComponent>().Any(), Is.False);
     }
 
     [Test]
