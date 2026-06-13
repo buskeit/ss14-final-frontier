@@ -518,13 +518,27 @@
 - type: entity
   parent: [ClothingOuterArmorBaseCarapace, BaseCommandContraband]
   id: ClothingOuterArmorExecutiveCarapaceSOL
-  name: League Official's Carapace
+  name: Secretary General's Carapace
+  description: An armored chestpiece that provides protection whilst still offering maximum mobility and flexibility for the Secretary General.
+  components:
+  - type: Sprite
+    sprite: Clothing/OuterClothing/Armor/al-secgen_carapace.rsi
+  - type: Clothing
+    sprite: Clothing/OuterClothing/Armor/al_secgen_carapace.rsi
+  - type: Tag
+    tags:
+    - WhitelistChameleon
+
+- type: entity
+  parent: [ClothingOuterArmorBaseCarapace, BaseCommandContraband]
+  id: ClothingOuterArmorLegueOfficialCarapace
+  name: League Officials's Carapace
   description: An armored chestpiece that provides protection whilst still offering maximum mobility and flexibility for League Officials.
   components:
   - type: Sprite
-    sprite: Clothing/OuterClothing/Armor/league-official_carapace.rsi
+    sprite: Clothing/OuterClothing/Armor/al-official_carapace.rsi
   - type: Clothing
-    sprite: Clothing/OuterClothing/Armor/league-official_carapace.rsi
+    sprite: Clothing/OuterClothing/Armor/al_official_carapace.rsi
   - type: Tag
     tags:
     - WhitelistChameleon

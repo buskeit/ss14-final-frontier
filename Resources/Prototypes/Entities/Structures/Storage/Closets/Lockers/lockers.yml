@@ -621,17 +621,17 @@
 # Custom
 ## Command
 
-# Executive Officer
+# League Secretary General
 - type: entity
-  id: LockerXO
+  id: LockerExecutiveSOL
   parent: LockerBaseSecure
-  name: Executive Officer's Locker
+  name: League Secretary General's Locker
   components:
   - type: Appearance
   - type: EntityStorageVisuals
-    stateBaseClosed: xo
-    stateDoorOpen: xo_open
-    stateDoorClosed: xo_door
+    stateBaseClosed: exec-AL
+    stateDoorOpen: exec-AL_open
+    stateDoorClosed: exec-AL_door
   - type: AccessReader
 
 # League Official
@@ -647,15 +647,84 @@
     stateDoorClosed: official-AL_door
   - type: AccessReader
 
-# League Secretary General
+# Executive Officer
 - type: entity
-  id: LockerLeagueSecretaryGeneral
+  id: LockerXO
   parent: LockerBaseSecure
-  name: League Secretary General's Locker
+  name: Executive Officer's Locker
   components:
   - type: Appearance
   - type: EntityStorageVisuals
-    stateBaseClosed: exec-AL
-    stateDoorOpen: exec-AL_open
-    stateDoorClosed: exec-AL_door
+    stateBaseClosed: xo
+    stateDoorOpen: xo_open
+    stateDoorClosed: xo_door
+  - type: AccessReader
+
+# Cargo
+- type: entity
+  id: LockerQuarterMasterSOL
+  parent: LockerBaseSecure
+  name: League Chief Logistics Officer's Locker
+  components:
+  - type: Appearance
+  - type: EntityStorageVisuals
+    stateBaseClosed: qm-AL
+    stateDoorOpen: qm-AL_open
+    stateDoorClosed: qm-AL_door
+  - type: AccessReader
+    access: [["Quartermaster"]]
+
+# CE
+- type: entity
+  id: LockerChiefEngineerSOL
+  parent: LockerBaseSecure
+  name: League Chief Engineer's Locker
+  components:
+  - type: Appearance
+  - type: EntityStorageVisuals
+    stateBaseClosed: ce-AL
+    stateDoorOpen: ce-AL_open
+    stateDoorClosed: ce-AL_door
+  - type: AccessReader
+    access: [["ChiefEngineer"]]
+
+# CMO
+- type: entity
+  id: LockerChiefMedicalOfficerSOL
+  parent: LockerBaseSecure
+  name: League Medical Director's Locker
+  components:
+  - type: Appearance
+  - type: EntityStorageVisuals
+    stateBaseClosed: cmo-AL
+    stateDoorOpen: cmo-AL_open
+    stateDoorClosed: cmo-AL_door
+  - type: AccessReader
+    access: [["ChiefMedicalOfficer"]]
+
+# HoS
+- type: entity
+  id: LockerHeadOfSecuritySOL
+  parent: LockerBaseSecure
+  name: League Chief of Police's Locker
+  components:
+  - type: Appearance
+  - type: EntityStorageVisuals
+    stateBaseClosed: hos-AL
+    stateDoorOpen: hos-AL_open
+    stateDoorClosed: hos-AL_door
+  - type: AccessReader
+    access: [["HeadOfSecurity"]]
+
+# RD
+- type: entity
+  id: LockerResearchDirectorSOL
+  parent: LockerBaseSecure
+  name: League Research Director's Locker
+  components:
+  - type: Appearance
+  - type: EntityStorageVisuals
+    stateBaseClosed: rd-AL
+    stateDoorOpen: rd-AL_open
+    stateDoorClosed: rd-AL_door
   - type: AccessReader
