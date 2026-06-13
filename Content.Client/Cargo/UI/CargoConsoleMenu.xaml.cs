@@ -1,5 +1,4 @@
 using Content.Client.Bank;
-using Content.Client.Cargo.Systems;
 using Content.Client.UserInterface.Controls;
 using Content.Shared._NF.Bank.Components;
 using Content.Shared.Cargo;
@@ -26,7 +25,7 @@ namespace Content.Client.Cargo.UI
         [Dependency] private readonly IPlayerManager _playerManager = default!;
         private readonly IEntityManager _entityManager;
         private readonly IPrototypeManager _protoManager;
-        private readonly CargoSystem _cargoSystem;
+        private readonly SharedCargoSystem _cargoSystem;
         private readonly SpriteSystem _spriteSystem;
         private readonly BankSystem _personalBank;
         private EntityUid _owner;
@@ -58,7 +57,7 @@ namespace Content.Client.Cargo.UI
             IoCManager.InjectDependencies(this);
             _entityManager = entMan;
             _protoManager = protoManager;
-            _cargoSystem = entMan.System<CargoSystem>();
+            _cargoSystem = entMan.System<SharedCargoSystem>();
             _spriteSystem = spriteSystem;
             _personalBank = entMan.System<BankSystem>();
             _owner = owner;
@@ -72,9 +71,9 @@ namespace Content.Client.Cargo.UI
             Categories.OnItemSelected += OnCategoryItemSelected;
 
 
-            if (entMan.TryGetComponent<CargoOrderConsoleComponent>(owner, out var orderConsole))
+            if (entMan.TryGetComponent<CargoOrderConsoleComponent>(owner, out var orderConsole) &&
+                _protoManager.Resolve(orderConsole.Account, out var accountProto))
             {
-                var accountProto = _protoManager.Index(orderConsole.Account);
                 AccountNameLabel.Text = Loc.GetString("cargo-console-menu-account-name-format",
                     ("color", accountProto.Color),
                     ("name", Loc.GetString(accountProto.Name)),
@@ -91,11 +90,15 @@ namespace Content.Client.Cargo.UI
 
             TransferSpinBox.IsValid = val =>
             {
-                if (!_entityManager.TryGetComponent<CargoOrderConsoleComponent>(owner, out var console) ||
-                    !_entityManager.TryGetComponent<StationBankAccountComponent>(_station, out var bank))
-                    return true;
+                if (_station is not { Valid: true } station)
+                    return false;
 
-                return val >= 0 && val <= (int)(console.TransferLimit * bank.Accounts[console.Account]);
+                if (!_entityManager.TryGetComponent<CargoOrderConsoleComponent>(owner, out var console) ||
+                    !_entityManager.TryGetComponent<StationBankAccountComponent>(station, out var bank) ||
+                    !_cargoSystem.TryGetAccount((station, bank), console.Account, out var balance))
+                    return false;
+
+                return val >= 0 && val <= (int)(console.TransferLimit * balance);
             };
 
             AccountActionButton.OnPressed += _ =>
@@ -241,7 +244,9 @@ namespace Content.Client.Cargo.UI
                 //                 var productName = productProto.Name;
                 //                 var requester = !string.IsNullOrEmpty(order.Requester) ?
                 //                     order.Requester : Loc.GetString("cargo-console-menu-order-row-alerts-requester-unknown");
-                var account = _protoManager.Index(order.Account);
+                if (!_protoManager.Resolve(order.Account, out var account))
+                    continue;
+
                 var requester = !string.IsNullOrEmpty(order.Requester) ?
                 order.Requester : Loc.GetString("cargo-console-menu-order-row-alerts-requester-unknown");
 
@@ -308,9 +313,15 @@ namespace Content.Client.Cargo.UI
 
         public void PopulateAccountActions()
         {
-            if (!_entityManager.TryGetComponent<StationBankAccountComponent>(_station, out var bank) ||
-                !_entityManager.TryGetComponent<CargoOrderConsoleComponent>(_owner, out var console))
+            if (_station is not { Valid: true } station ||
+                !_entityManager.TryGetComponent<StationBankAccountComponent>(station, out var bank) ||
+                !_entityManager.TryGetComponent<CargoOrderConsoleComponent>(_owner, out var console) ||
+                !_cargoSystem.TryGetAccount((station, bank), console.Account, out _))
+            {
+                ActionOptions.Clear();
+                AccountActionButton.Disabled = true;
                 return;
+            }
 
 
             var i = 0;
@@ -322,7 +333,9 @@ namespace Content.Client.Cargo.UI
             {
                 if (account == console.Account)
                     continue;
-                var accountProto = _protoManager.Index(account);
+                if (!_protoManager.Resolve(account, out var accountProto))
+                    continue;
+
                 ActionOptions.AddItem(Loc.GetString("cargo-console-menu-account-action-option-transfer",
                     ("code", Loc.GetString(accountProto.Code))),
                     i);
@@ -331,19 +344,20 @@ namespace Content.Client.Cargo.UI
             }
         }
 
-        public void UpdateStation(EntityUid station, bool personalMode, int tax, Dictionary<int, string> possibleTrades, int? selectedTrade, int? ownedtrade)
+        public void UpdateStation(EntityUid? station, string stationName, bool personalMode, int tax, Dictionary<int, string> possibleTrades, int? selectedTrade, int? ownedTrade)
         {
-            _station = station;
+            _station = station is { Valid: true } ? station : null;
             _PersonalMode = personalMode;
             _tax = tax;
-            if (selectedTrade == ownedtrade)
-            {
-                _ownedSelected = true;
-            }
-            else
-            {
-                _ownedSelected = false;
-            }
+
+            var validSelectedTrade = selectedTrade is > 0 && possibleTrades.ContainsKey(selectedTrade.Value)
+                ? selectedTrade
+                : null;
+            var validOwnedTrade = ownedTrade is > 0 && possibleTrades.ContainsKey(ownedTrade.Value)
+                ? ownedTrade
+                : null;
+            _ownedSelected = validSelectedTrade != null && validSelectedTrade == validOwnedTrade;
+
             TaxContainer.Visible = true;
             if (!_PersonalMode && _ownedSelected)
             {
@@ -356,11 +370,14 @@ namespace Content.Client.Cargo.UI
 
             PossibleTrades.Clear();
             PossibleTrades.AddItem("None", 0);
+            PossibleTrades.SelectId(0);
             foreach (var kv in possibleTrades)
             {
+                if (kv.Key <= 0)
+                    continue;
 
                 PossibleTrades.AddItem(kv.Value, kv.Key);
-                if (kv.Key == selectedTrade)
+                if (kv.Key == validSelectedTrade)
                 {
                     PossibleTrades.SelectId(kv.Key);
                 }
@@ -377,12 +394,12 @@ namespace Content.Client.Cargo.UI
             }
             else if (!personalMode)
             {
-                if (_entityManager.TryGetComponent<CargoOrderConsoleComponent>(_owner, out var orderConsole))
+                if (_entityManager.TryGetComponent<CargoOrderConsoleComponent>(_owner, out var orderConsole) &&
+                    _protoManager.Resolve(orderConsole.Account, out var accountProto))
                 {
-                    var accountProto = _protoManager.Index(orderConsole.Account);
                     AccountNameLabel.Text = Loc.GetString("cargo-console-menu-account-name-format",
                         ("color", accountProto.Color),
-                        ("name", _entityManager.GetComponent<MetaDataComponent>(station).EntityName),
+                        ("name", stationName),
                         ("code", "STN"));
                 }
                 AccountTypeMode.Text = "Personal";
@@ -403,21 +420,26 @@ namespace Content.Client.Cargo.UI
                 AccountActionButton.Disabled = true;
                 return;
             }
-            if (!_bankQuery.TryComp(_station, out var bankAccount) ||
+            if (_station is not { Valid: true } station ||
+                !_bankQuery.TryComp(station, out var bankAccount) ||
                 !_orderConsoleQuery.TryComp(_owner, out var orderConsole))
             {
+                PointsLabel.Text = Loc.GetString("cargo-console-menu-points-amount", ("amount", 0));
+                TransferLimitLabel.Text = Loc.GetString("cargo-console-menu-account-action-transfer-limit", ("limit", 0));
+                AccountActionButton.Disabled = true;
                 return;
             }
             if (!_PersonalMode)
             {
-                var balance = _cargoSystem.GetBalanceFromAccount((_station.Value, bankAccount), orderConsole.Account);
+                var hasAccount = _cargoSystem.TryGetAccount((station, bankAccount), orderConsole.Account, out var balance);
                 PointsLabel.Text = Loc.GetString("cargo-console-menu-points-amount", ("amount", balance));
                 TransferLimitLabel.Text = Loc.GetString("cargo-console-menu-account-action-transfer-limit",
                     ("limit", (int)(balance * orderConsole.TransferLimit)));
 
                 UnlimitedNotifier.Visible = orderConsole.TransferUnbounded;
-                AccountActionButton.Disabled = TransferSpinBox.Value <= 0 ||
-                                               TransferSpinBox.Value > bankAccount.Accounts[orderConsole.Account] * orderConsole.TransferLimit ||
+                AccountActionButton.Disabled = !hasAccount ||
+                                               TransferSpinBox.Value <= 0 ||
+                                               TransferSpinBox.Value > balance * orderConsole.TransferLimit ||
                                                _timing.CurTime < orderConsole.NextAccountActionTime;
 
             }

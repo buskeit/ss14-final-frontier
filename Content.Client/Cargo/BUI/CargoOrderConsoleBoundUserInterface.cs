@@ -138,11 +138,20 @@ namespace Content.Client.Cargo.BUI
 
             if (state is not CargoConsoleInterfaceState cState || !EntMan.TryGetComponent<CargoOrderConsoleComponent>(Owner, out var orderConsole))
                 return;
-            var station = EntMan.GetEntity(cState.Station);
+
+            EntityUid? validStation = null;
+            if (cState.Station.Valid)
+            {
+                var station = EntMan.GetEntity(cState.Station);
+                if (station.Valid && EntMan.EntityExists(station))
+                    validStation = station;
+            }
 
             OrderCapacity = cState.Capacity;
             OrderCount = cState.Count;
-            BankBalance = _cargoSystem.GetBalanceFromAccount(station, orderConsole.Account);
+            BankBalance = validStation is { } stationUid
+                ? _cargoSystem.GetBalanceFromAccount(stationUid, orderConsole.Account)
+                : 0;
 
             AccountName = cState.Name;
 
@@ -150,7 +159,7 @@ namespace Content.Client.Cargo.BUI
                 return;
             _menu.ProductCatalogue = cState.Products;
 
-            _menu?.UpdateStation(station, cState.PersonalMode, cState.Tax, cState.PossibleTrades, cState.SelectedTrade, cState.OwnedTrade);
+            _menu.UpdateStation(validStation, cState.Name, cState.PersonalMode, cState.Tax, cState.PossibleTrades, cState.SelectedTrade, cState.OwnedTrade);
             Populate(cState.Orders, cState);
         }
 
