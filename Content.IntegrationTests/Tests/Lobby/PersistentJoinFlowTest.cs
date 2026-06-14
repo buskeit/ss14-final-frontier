@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Numerics;
 using System.Threading;
 using Content.Client.Gameplay;
 using Content.Client.Lobby;
@@ -14,6 +15,7 @@ using Content.Shared.Mobs.Systems;
 using Content.Shared.Preferences;
 using Robust.Client.State;
 using Robust.Server.Player;
+using Robust.Shared.ContentPack;
 using Robust.Shared.Enums;
 using Robust.Shared.EntitySerialization.Systems;
 using Robust.Shared.GameObjects;
@@ -85,6 +87,7 @@ public sealed class PersistentJoinFlowTest
             var setup = lobby.Lobby.CharacterSetupState.Children.Single() as Content.Client.Lobby.UI.CharacterSetupGui;
             Assert.That(setup, Is.Not.Null);
             Assert.That(setup.CloseButton.Visible, Is.False);
+            Assert.That(setup.SingleSlotMode, Is.True);
         });
 
         await server.WaitAssertion(() =>
@@ -110,6 +113,81 @@ public sealed class PersistentJoinFlowTest
         });
 
         await AssertAttachedEntitySafe(server, serverPlayers.Sessions.Single());
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task DeletedOnlyCharacterForcesSetupDespiteStaleSavedBody()
+    {
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings { InLobby = true, Dirty = true });
+        var server = pair.Server;
+        var client = pair.Client;
+        var user = pair.Client.User!.Value;
+        var clientPrefManager = client.Resolve<IClientPreferencesManager>();
+        var db = server.Resolve<IServerDbManager>();
+        var serverPrefManager = server.Resolve<IServerPreferencesManager>();
+        var serverPlayers = server.ResolveDependency<IPlayerManager>();
+        var gameTicker = server.System<GameTicker>();
+
+        await client.WaitPost(() => clientPrefManager.FinalizeCharacter(HumanoidCharacterProfile.Random(), 0));
+        await pair.RunTicksSync(10);
+
+        await server.WaitPost(() => server.CfgMan.SetCVar(CCVars.UsePersistence, true));
+        await server.WaitPost(() => gameTicker.RestartRound());
+        await pair.RunTicksSync(10);
+        await DisconnectReconnect(pair);
+        await pair.RunTicksSync(10);
+
+        await AssertAttachedEntitySafe(server, serverPlayers.Sessions.Single());
+        await server.WaitAssertion(() =>
+        {
+            var savePath = PersistentCharacterSavePath.ForPlayer(user).ToRootedPath();
+            Assert.That(server.ResolveDependency<IResourceManager>().UserData.Exists(savePath), Is.True);
+
+            var session = serverPlayers.Sessions.Single();
+            serverPrefManager.DeleteCharacter(0, user, session);
+        });
+
+        await PoolManager.WaitUntil(server, async () =>
+        {
+            var prefs = await db.GetPlayerPreferencesAsync(user, CancellationToken.None);
+            return prefs is { Profiles.Count: 0 };
+        }, maxTicks: 60);
+
+        await server.WaitPost(() => gameTicker.RestartRound());
+        await pair.RunTicksSync(10);
+        await DisconnectReconnect(pair);
+        await pair.RunTicksSync(10);
+
+        await server.WaitAssertion(() =>
+        {
+            var prefs = serverPrefManager.GetPreferences(user);
+            var session = serverPlayers.Sessions.Single();
+            Assert.Multiple(() =>
+            {
+                Assert.That(prefs.Characters, Is.Empty);
+                Assert.That(prefs.SelectedCharacter, Is.Null);
+                Assert.That(session.AttachedEntity, Is.Null);
+                Assert.That(gameTicker.PlayerGameStatuses[session.UserId], Is.EqualTo(PlayerGameStatus.NotReadyToPlay));
+            });
+        });
+
+        await client.WaitAssertion(() =>
+        {
+            var lobby = client.Resolve<IStateManager>().CurrentState as LobbyState;
+            Assert.That(lobby, Is.Not.Null);
+            Assert.That(lobby!.Lobby, Is.Not.Null);
+            Assert.That(lobby.Lobby!.CharacterSetupState.Visible, Is.True);
+
+            var setup = lobby.Lobby.CharacterSetupState.Children.Single() as Content.Client.Lobby.UI.CharacterSetupGui;
+            Assert.That(setup, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(setup!.CloseButton.Visible, Is.False);
+                Assert.That(setup.SingleSlotMode, Is.True);
+            });
+        });
+
         await pair.CleanReturnAsync();
     }
 
@@ -307,6 +385,7 @@ public sealed class PersistentJoinFlowTest
         var serverPlayers = server.ResolveDependency<IPlayerManager>();
         var gameTicker = server.System<GameTicker>();
         var entMan = server.EntMan;
+        Vector2 expectedLocalPosition = default;
 
         await client.WaitPost(() => clientPrefManager.FinalizeCharacter(HumanoidCharacterProfile.Random(), 0));
         await pair.RunTicksSync(10);
@@ -322,18 +401,25 @@ public sealed class PersistentJoinFlowTest
         await AssertAttachedEntitySafe(server, session);
         var originalBody = session.AttachedEntity!.Value;
 
-        // Manually create a station entity and link the grid to it, and set UserId on PersistentLocationComponent
+        await server.WaitPost(() =>
+        {
+            var transform = entMan.GetComponent<TransformComponent>(originalBody);
+            expectedLocalPosition = transform.LocalPosition;
+        });
+
+        // Manually create a station entity, link the grid to it, and update the persisted player location.
         await server.WaitPost(() =>
         {
             var transform = entMan.GetComponent<TransformComponent>(originalBody);
             var gridUid = transform.GridUid!.Value;
-
             // Make the grid "become a station"
             var becomes = entMan.EnsureComponent<Content.Server.Station.Components.BecomesStationComponent>(gridUid);
             becomes.Id = "TestStationConfigId";
 
             // Update persistent location
             gameTicker.UpdatePersistentLocationComponent(originalBody, user);
+            Assert.That(entMan.GetComponent<PersistentLocationComponent>(originalBody).LocalPosition,
+                Is.EqualTo(expectedLocalPosition));
 
             // Recreate/Initialize the station entity
             var stationSystem = entMan.System<Content.Server.Station.Systems.StationSystem>();
@@ -341,15 +427,10 @@ public sealed class PersistentJoinFlowTest
             stationSystem.AddGridToStation(stationUid, gridUid);
         });
 
-        // Trigger autosave/saving maps which calls our code to update persistent location component on player bodies
+        // Use the production persistence save path so player locations are refreshed before serialization.
         await server.WaitPost(() =>
         {
-            var mapLoader = entMan.System<MapLoaderSystem>();
-            var mapId = gameTicker.DefaultMap;
-            
-            // Save the map to 'current' save path (simulating what gameTicker.SaveMaps() or autosave does)
-            var currentSavePath = gameTicker.GetLatestAutosavePath();
-            Assert.That(mapLoader.TrySaveMap(mapId, currentSavePath, GameTicker.PersistentMapSaveOptions), Is.True);
+            Assert.That(gameTicker.ForcePersistenceSave(out var result), Is.True, result);
         });
 
         // Restart round (simulating server restart/reload)
@@ -373,6 +454,7 @@ public sealed class PersistentJoinFlowTest
             Assert.That(entMan.EntityExists(newBody), Is.True);
             Assert.That(entMan.TryGetComponent<PersistentLocationComponent>(newBody, out var loc), Is.True);
             Assert.That(loc.UserId, Is.EqualTo(user));
+            Assert.That(entMan.GetComponent<TransformComponent>(newBody).LocalPosition, Is.EqualTo(expectedLocalPosition));
 
             var stationSystem = entMan.System<Content.Server.Station.Systems.StationSystem>();
             var owningStation = stationSystem.GetOwningStation(newBody);

@@ -418,6 +418,37 @@ namespace Content.Server.Preferences.Managers
 
 
         }
+
+        public async Task<bool> ResetCharacters(NetUserId userId, ICommonSession session)
+        {
+            if (!_cachedPlayerPrefs.TryGetValue(userId, out var prefsData) ||
+                !prefsData.PrefsLoaded ||
+                prefsData.Prefs == null)
+            {
+                _sawmill.Warning($"Tried to reset user {userId} preferences before they loaded.");
+                return false;
+            }
+
+            var curPrefs = prefsData.Prefs;
+            var slots = curPrefs.Characters.Keys.ToArray();
+            prefsData.Prefs = new PlayerPreferences(
+                new Dictionary<int, HumanoidCharacterProfile>(),
+                0,
+                curPrefs.AdminOOCColor,
+                curPrefs.ConstructionFavorites);
+
+            if (ShouldStorePrefs(session.Channel.AuthType))
+            {
+                foreach (var slot in slots)
+                    await _db.SaveCharacterSlotAsync(userId, null, slot);
+
+                await _db.SaveSelectedCharacterIndexAsync(userId, 0);
+            }
+
+            FinishLoad(session);
+            return true;
+        }
+
         private async void HandleDeleteCharacterMessage(MsgDeleteCharacter message)
         {
             var slot = message.Slot;

@@ -30,9 +30,11 @@ namespace Content.Client.Lobby.UI
 
         public event Action<int>? SelectCharacter;
         public event Action<int>? DeleteCharacter;
+        public bool SingleSlotMode { get; private set; }
 
         public void SetSingleSlotMode(bool enabled)
         {
+            SingleSlotMode = enabled;
             CharacterList.Visible = !enabled;
             CloseButton.Visible = !enabled;
         }

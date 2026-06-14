@@ -90,6 +90,13 @@ public sealed partial class CCVars
         UsePersistence = CVarDef.Create("game.usepersistence", false, CVar.ARCHIVE);
 
     /// <summary>
+    ///     Allows the admin-only persistent character reset command.
+    ///     This should only be enabled temporarily on development or testing servers.
+    /// </summary>
+    public static readonly CVarDef<bool>
+        AllowPersistentCharacterReset = CVarDef.Create("game.allow_persistent_character_reset", false, CVar.SERVERONLY);
+
+    /// <summary>
     ///     If world persistence is used, what map prototype should be initially loaded.
     ///     If the save file exists, it replaces MapPath but everything else stays the same (station name and such).
     /// </summary>

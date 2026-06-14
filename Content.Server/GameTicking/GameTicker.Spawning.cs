@@ -310,6 +310,7 @@ namespace Content.Server.GameTicking
                 cameFromCurrentWorld = true;
                 _sawmill.Info($"Preferring existing current-world body {mob} for player {player.Name}");
                 _sawmill.Info($"Ignoring separate persistent body file for player {player.Name} because active current-world body was found.");
+                RepairCurrentWorldPersistentBody(mob, player);
             }
             else
             {
@@ -506,6 +507,39 @@ namespace Content.Server.GameTicking
                 CleanupRejectedPersistentBody(player, mob);
                 return false;
             }
+        }
+
+        private void RepairCurrentWorldPersistentBody(EntityUid mob, ICommonSession player)
+        {
+            if (!_ent.TryGetComponent<PersistentLocationComponent>(mob, out var location))
+                return;
+
+            EntityUid? targetGrid = null;
+            if (!string.IsNullOrEmpty(location.GridName))
+            {
+                var gridQuery = _ent.EntityQueryEnumerator<MapGridComponent, MetaDataComponent>();
+                while (gridQuery.MoveNext(out var gridUid, out _, out var metadata))
+                {
+                    if (metadata.EntityName != location.GridName)
+                        continue;
+
+                    targetGrid = gridUid;
+                    break;
+                }
+            }
+
+            var activeGrids = _mapManager.GetAllMapGrids(DefaultMap).ToList();
+            if (targetGrid == null && activeGrids.Count == 1)
+                targetGrid = activeGrids[0].Owner;
+
+            if (targetGrid == null)
+                return;
+
+            _transform.SetParent(mob, targetGrid.Value);
+            _transform.SetLocalPosition(mob, location.LocalPosition);
+            _sawmill.Info(
+                "Restored current-world body {Entity} for player {Player} to saved grid {GridName} at {Position}",
+                ToPrettyString(mob), player.Name, location.GridName, location.LocalPosition);
         }
 
         private bool TryValidatePersistentBody(EntityUid mob, out EntityUid station, out string reason)
