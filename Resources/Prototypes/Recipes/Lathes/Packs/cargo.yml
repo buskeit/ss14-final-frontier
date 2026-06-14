@@ -15,7 +15,6 @@
   - RecyclerMachineCircuitboard
   - CargoBountyComputerCircuitboard
   - SalvageJobBoardComputerCircuitboard
-  - RadarConsoleCircuitboard
 
 ## Dynamic
 
@@ -35,3 +34,4 @@
   - OreProcessorIndustrialMachineCircuitboard
   - CargoTelepadMachineCircuitboard
   - ShuttleGunKineticCircuitboard
+  - RadarConsoleCircuitboard
